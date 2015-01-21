@@ -32,4 +32,6 @@
     <string name="text_loading">正在加载……</string>
     <string name="hint_loading_failed">加载失败，请检查网络连接！</string>
     <string name="search_no_result">没有搜索结果！</string>
+    <string name="album_result">找专辑</string>
+    <string name="voice_result">找声音</string>
 </resources>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicListActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity.OnSearchListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.AlbumListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Album;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlbumEntity;
@@ -24,7 +26,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpType;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
 import com.google.gson.Gson;
 
-public class AlbumListFragment extends BaseFragment {
+public class AlbumListFragment extends BaseFragment implements OnSearchListener{
 	public static final String QUERY_TYPE = "query_type";
 	public static final String QUERY_TYPE_ALBUM_CODE = "album_code";
 	public static final String QUERY_TYPE_ALBUM_NAME = "album_name";
@@ -48,8 +50,10 @@ public class AlbumListFragment extends BaseFragment {
 	protected void initBase() {
 		adapter = new AlbumListAdapter(getActivity());
 		Bundle bundle = getArguments();
-		queryType = bundle.getString(QUERY_TYPE);
-		extraData = bundle.getString(EXTRA_DATA);
+		if(bundle != null){
+			queryType = bundle.getString(QUERY_TYPE);
+			extraData = bundle.getString(EXTRA_DATA);
+		}
 	}
 
 	@Override
@@ -74,7 +78,7 @@ public class AlbumListFragment extends BaseFragment {
 	
 	private void getAlbumList(int page) {
 		if (checkNetwork(true)) {
-			if (!loading) {
+			if (!loading && !TextUtils.isEmpty(queryType)) {
 				loading = true;
 				if (QUERY_TYPE_ALBUM_CODE.equals(queryType)) {
 					HttpFactory.getSpecialList(getActivity(), callback,
@@ -83,6 +87,8 @@ public class AlbumListFragment extends BaseFragment {
 					HttpFactory.searchMusicBySpecial(getActivity(), callback,
 							"1", extraData, page, limitNum);
 				}
+			}else{
+				albumListLv.removeFooterView(footView);
 			}
 		} else {
 			footView.hideProgressBar();
@@ -112,8 +118,10 @@ public class AlbumListFragment extends BaseFragment {
 						if (currentPage >= totalPage) {
 							albumListLv.removeFooterView(footView);
 						}
+					}else if(currentPage == 1){
+						footView.hideProgressBar();
+						footView.setText(R.string.search_no_result);
 					}
-					
 				}
 			}
 		}
@@ -168,5 +176,23 @@ public class AlbumListFragment extends BaseFragment {
 		} catch (Exception e) {
 		}
 		return null;
+	}
+
+	@Override
+	public void onSearchTextChanged(String keyWords) {
+	}
+
+	@Override
+	public void onStartSearch(String keyWords) {
+		if(albumlist != null){
+			albumlist.clear();
+		}
+		albumListLv.removeFooterView(footView);
+		albumListLv.addFooterView(footView);
+		footView.setText(R.string.text_loading);
+		footView.showProgressBar();
+		queryType = QUERY_TYPE_ALBUM_NAME;
+		extraData = keyWords;
+		getAlbumList(currentPage);
 	}
 }

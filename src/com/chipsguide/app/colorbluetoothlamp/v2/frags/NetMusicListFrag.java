@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -13,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity.OnSearchListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.NetMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Album;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
@@ -26,7 +28,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpType;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
 import com.google.gson.Gson;
 
-public class NetMusicListFrag extends BaseFragment{
+public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 	public static final String EXTRA_QUERY_TYPE = "query_type";
 	public static final String QUERY_TYPE_BY_NAME = "query_by_name";
 	public static final String QUERY_TYPE_BY_ALBUM = "query_by_album";
@@ -58,11 +60,13 @@ public class NetMusicListFrag extends BaseFragment{
 	@Override
 	protected void initBase() {
 		Bundle bundle = getArguments();
-		queryType = bundle.getString(EXTRA_QUERY_TYPE);
-		if(QUERY_TYPE_BY_ALBUM.equals(queryType)){
-			mAlbum = (Album) bundle.getSerializable(EXTRA_DATA);
-		}else{
-			searchName = bundle.getString(EXTRA_DATA);
+		if(bundle != null){
+			queryType = bundle.getString(EXTRA_QUERY_TYPE);
+			if(QUERY_TYPE_BY_ALBUM.equals(queryType)){
+				mAlbum = (Album) bundle.getSerializable(EXTRA_DATA);
+			}else{
+				searchName = bundle.getString(EXTRA_DATA);
+			}
 		}
 		musiclist = new ArrayList<Music>();
 		adapter = new NetMusicListAdapter(getActivity());
@@ -91,13 +95,15 @@ public class NetMusicListFrag extends BaseFragment{
 	
 	private void getMusicList(int page) {
 		if (checkNetwork(true)) {
-			if(!loading){
+			if(!loading && !TextUtils.isEmpty(queryType)){
 				loading = true;
 				if(QUERY_TYPE_BY_ALBUM.equals(queryType) && mAlbum != null){
 					HttpFactory.getMusicBySpecial(getActivity(), httpCallback, mAlbum.getType(), mAlbum.getId(), page, LIMITED_NUM);
 				}else{
 					HttpFactory.searchMusicByname(getActivity(), httpCallback, "1", searchName, page, LIMITED_NUM);
 				}
+			}else{
+				musicListLv.removeFooterView(footer);
 			}
 		}else{
 			footer.hideProgressBar();
@@ -158,14 +164,7 @@ public class NetMusicListFrag extends BaseFragment{
 		SearchEntity searchEntity = parse(response, SearchEntity.class);
 		if (searchEntity != null && searchEntity.getContent() != null
 				&& searchEntity.getContent().getList() != null) {
-			if (currentPage == 1
-					&& searchEntity.getContent().getList().size() == 0) {
-				showToast(R.string.search_no_result);
-			} else {
-
-			}
 			List<Music> list = searchEntity.getContent().getList();
-
 			int totalPage = searchEntity.getContent().getCountPage();
 			currentPage = searchEntity.getContent().getPage();
 			if (list != null && list.size() > 0) {
@@ -174,6 +173,10 @@ public class NetMusicListFrag extends BaseFragment{
 				if (currentPage >= totalPage) {
 					musicListLv.removeFooterView(footer);
 				}
+			}else if(currentPage == 1){
+				showToast(R.string.search_no_result);
+				footer.hideProgressBar();
+				footer.setText(R.string.search_no_result);
 			}
 		}
 	}
@@ -221,6 +224,24 @@ public class NetMusicListFrag extends BaseFragment{
 			e.printStackTrace();
 		}
 		return t;
+	}
+
+	@Override
+	public void onSearchTextChanged(String keyWords) {
+	}
+
+	@Override
+	public void onStartSearch(String keyWords) {
+		if(musiclist != null){
+			musiclist.clear();
+		}
+		musicListLv.removeFooterView(footer);
+		musicListLv.addFooterView(footer);
+		footer.showProgressBar();
+		footer.setText(R.string.text_loading);
+		queryType = QUERY_TYPE_BY_NAME;
+		searchName = keyWords;
+		getMusicList(currentPage);
 	}
 
 }

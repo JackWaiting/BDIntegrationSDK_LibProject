@@ -71,7 +71,7 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		} else {
 			hodler = (ViewHodler) convertView.getTag();
 		}
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/ 3 - 60);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/ 3 - 40);
 		convertView.setLayoutParams(params);
 
 		hodler.iv_image.setImageResource(images[position % images.length]);

@@ -5,22 +5,25 @@ import java.util.List;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.AlbumListActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.AlbumGridViewAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Column;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.GridHeaderView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.HeaderGridView;
 
-public class CloudMusicFrag extends BaseFragment implements OnItemClickListener{
+public class CloudMusicFrag extends BaseFragment implements OnItemClickListener, OnClickListener{
 	private HeaderGridView gridView;
 	private AlbumGridViewAdapter adapter;
 	private List<Column> albumList;
 	private String[] ximalaya_names;
 	private String[] ximalaya_codes;
+	private GridHeaderView headerView;
 	
 	@Override
 	protected void initBase() {
@@ -36,7 +39,9 @@ public class CloudMusicFrag extends BaseFragment implements OnItemClickListener{
 
 	@Override
 	protected void initView() {
-		GridHeaderView headerView = new GridHeaderView(getActivity());
+		headerView = new GridHeaderView(getActivity());
+		headerView.setId(headerView.hashCode());
+		headerView.setOnClickListener(this);
 		gridView = (HeaderGridView) findViewById(R.id.headerGridView);
 		gridView.setOnItemClickListener(this);
 		gridView.setNumColumns(3);
@@ -71,6 +76,14 @@ public class CloudMusicFrag extends BaseFragment implements OnItemClickListener{
 		intent.putExtra(AlbumListActivity.EXTRA_ALBUM_CODE, ximalaya_codes[position]);
 		intent.setClass(getActivity(), AlbumListActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onClick(View v) {
+		int id = headerView.getId();
+		if(v.getId() == id){
+			startActivity(SearchActivity.class);
+		}
 	}
 	
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray" >
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/search_title_layout" />
+	
+    <RadioGroup
+        android:id="@+id/rg_top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" 
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/title_layout"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/album_result"
+            android:textColor="@color/selector_music_rg_text"
+             />
+
+        <RadioButton
+            android:id="@+id/rb_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_right"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/voice_result"
+            android:textColor="@color/selector_music_rg_text" />
+    </RadioGroup>
+    
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_below="@+id/rg_top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </android.support.v4.view.ViewPager>
+    
+</RelativeLayout>

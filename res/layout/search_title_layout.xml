@@ -5,13 +5,20 @@
     android:background="@color/color_title_bg"
     >
     
-    <TextSwitcher
-        android:id="@+id/title_tv"
+    <EditText 
+        android:id="@+id/et_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        >
-    </TextSwitcher>
+        android:background="@drawable/bg_search"
+        android:layout_toRightOf="@+id/left_btn"
+        android:layout_toLeftOf="@+id/right_btn"
+        android:drawableLeft="@drawable/ic_search"
+        android:padding="3dp"
+        android:layout_centerVertical="true"
+        android:drawablePadding="10dp"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        />
 
     <ImageView
         android:id="@+id/left_btn"
@@ -20,9 +27,10 @@
         android:layout_alignBottom="@+id/right_btn"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/right_btn"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:src="@drawable/selector_btn_nav"
+        android:onClick="onClick"
+        android:src="@drawable/selector_btn_back"
          />
 
     <ImageView
@@ -33,8 +41,9 @@
         android:layout_centerVertical="true"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
+        android:onClick="onClick"
         android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:src="@drawable/selector_btn_player"
         />
 

@@ -67,6 +67,10 @@
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicListActivity"
             android:screenOrientation="portrait"
             ></activity>
+        <activity 
+            android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         
         <service android:name="com.platomix.platomixplayerlib.core.local.PlayerService"></service>
         
