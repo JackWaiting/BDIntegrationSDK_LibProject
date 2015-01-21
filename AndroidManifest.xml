@@ -20,13 +20,20 @@
         android:name="com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication"
         >
         <activity
-            android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity"
+            android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.WelcomeActivity"
+            android:theme="@style/SplashActivityTheme"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity 
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity"

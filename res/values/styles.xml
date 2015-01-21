@@ -16,6 +16,10 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="SplashActivityTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:background">@drawable/img_splash</item>
+    </style>
 
     <style name="text_marquee_forever">
         <item name="android:ellipsize">marquee</item>
