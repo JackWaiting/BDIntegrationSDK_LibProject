@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/info_layout"
+        >
+        
+    </android.support.v4.view.ViewPager>
+	
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator 
+        android:id="@+id/pageIndicator"
+        android:layout_below="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fillColor="@color/color_blue"
+        app:pageColor="@color/color_dark_gray"
+        android:padding="5dp"
+        />
+    
+	<RelativeLayout 
+	    android:id="@+id/info_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/control_layout"
+	    android:layout_margin="10dp"
+	    >
+	    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+	        android:id="@+id/tv_music_name"
+	        android:padding="10dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="jjjj"
+	        android:textSize="20sp"
+	        />
+	    
+	    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+	        android:id="@+id/tv_artist"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_below="@+id/tv_music_name"
+	        android:text="jjj"
+	        android:textSize="16sp"
+	        android:textColor="@android:color/darker_gray"
+	        />
+	    
+	</RelativeLayout>
+	
+	<include 
+	    android:id="@+id/control_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    layout="@layout/layout_player_control"
+	    android:layout_alignParentBottom="true"
+	    />
+
+</RelativeLayout>

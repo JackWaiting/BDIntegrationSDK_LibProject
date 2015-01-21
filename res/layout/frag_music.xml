@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/rg_top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" 
+        android:layout_marginTop="10dp"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_my_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/my_music"
+            android:textColor="@color/selector_music_rg_text"
+             />
+
+        <RadioButton
+            android:id="@+id/rb_tf_card_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_mid"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/tf_card_music"
+            android:textColor="@color/selector_music_rg_text" />
+
+        <RadioButton
+            android:id="@+id/rb_cloud_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_right"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/cloud_music"
+            android:textColor="@color/selector_music_rg_text" />
+    </RadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

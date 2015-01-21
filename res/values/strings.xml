@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ColorBluetoothLampV2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="no_network">No network!</string>
+    
+    <string name="bluetooth_conn">蓝牙连接</string>
+    <string name="time_light">定时开灯</string>
+    <string name="sleep_assistant">睡眠助手</string>
+    <string name="version_update">版本更新</string>
+    <string name="music_play">音乐播放</string>
+    <string name="color_lamp">彩灯</string>
+    <string name="shake">摇一摇</string>
+    <string name="music">音乐</string>
+    <string name="shake_setting">设置</string>
+    <string name="my_music">我的音乐</string>
+    <string name="tf_card_music">TF卡音乐</string>
+    <string name="cloud_music">云音乐</string>
+
+     <string name="file_not_exist_or_damaged">The file is damaged or does not exist!</string>
+    <string name="network_exception">Network Anomaly!</string>
+    <string name="media_error_unsupport">Unsupported file format!</string>
+    <string name="media_error_timeout">Read Timeout!</string>
+    
+    <string name="order">Order</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="single_reapet">Repeat</string>
+    <string name="playlist">播放列表</string>
+</resources>

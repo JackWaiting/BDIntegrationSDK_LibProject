@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TitleView">
+        <attr name="rightImg" format="reference" />
+        <attr name="leftImg" format="reference" />
+        <attr name="text" format="string" />
+        <attr name="rightBtnVisibility" format="enum">
+            
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HeaderGridView">
+        <attr name="customNumColumns" format="integer"></attr>
+    </declare-styleable>
+
+</resources>

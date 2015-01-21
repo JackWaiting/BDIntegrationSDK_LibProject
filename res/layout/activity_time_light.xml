@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rightImg="@drawable/selector_btn_player"
+        app:leftImg="@drawable/selector_btn_back"
+        app:text="@string/time_light">
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+</LinearLayout>

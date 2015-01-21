@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.NoScrollViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rg_nav_bottom" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.widget.NoScrollViewPager>
+
+    <RadioGroup
+        android:id="@+id/rg_nav_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" 
+        android:background="@color/color_title_bg"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableBottom="@drawable/selector_rb_lamp"
+            android:checked="true"
+             />
+
+        <RadioButton
+            android:id="@+id/rb_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableBottom="@drawable/selector_rb_music"
+             />
+        
+
+        <RadioButton
+            android:id="@+id/rb_shake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableBottom="@drawable/selector_rb_shake" 
+            />
+    </RadioGroup>
+
+</RelativeLayout>

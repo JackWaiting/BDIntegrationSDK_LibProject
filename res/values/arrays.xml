@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="menu_items">
+        <item>@string/bluetooth_conn</item>
+        <item>@string/time_light</item>
+        <item>@string/sleep_assistant</item>
+        <item>@string/version_update</item>
+    </string-array>
+    <string-array name="main_page_titles">
+        <item>@string/color_lamp</item>
+        <item>@string/music</item>
+        <item>@string/shake</item>
+    </string-array>
+    <string-array name="ximalaya_name">
+        <item>热门</item>
+        <item>有声小说</item>
+        <item>音乐</item>
+        <item>综艺娱乐</item>
+        <item>相声评书</item>
+        <item>最新资讯</item>
+        <item>情感生活</item>
+        <item>历史人文</item>
+        <item>外语</item>
+        <item>培训讲座</item>
+        <item>百家讲堂</item>
+        <item>广播剧</item>
+        <item>戏剧</item>
+        <item>儿童</item>
+        <item>电台</item>
+        <item>商业财经</item>
+        <item>IT科技</item>
+        <item>健康养生</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="ximalaya_code">
+        <item>ximalaya_remen</item>
+        <item>ximalaya_yousheng</item>
+        <item>ximalaya_yinyue</item>
+        <item>ximalaya_zongyiyule</item>
+        <item>ximalaya_xiangsheng</item>
+        <item>ximalaya_zuixinzixun</item>
+        <item>ximalaya_qingganshenghuo</item>
+        <item>ximalaya_renwen</item>
+        <item>ximalaya_waiyu</item>
+        <item>ximalaya_peixunjiangzuo</item>
+        <item>ximalaya_baijiajiangtan</item>
+        <item>ximalaya_guangboju</item>
+        <item>ximalaya_xiqu</item>
+        <item>ximalaya_ertong</item>
+        <item>ximalaya_diantai</item>
+        <item>ximalaya_shangyecaijing</item>
+        <item>ximalaya_ITkeji</item>
+        <item>ximalaya_jiankangyangsheng</item>
+        <item>ximalaya_qita</item>
+    </string-array>
+</resources>

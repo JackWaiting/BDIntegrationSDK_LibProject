@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/color_gray"
+    >
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/music_play" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+    
+    <include 
+        android:layout_below="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/frag_music_player"
+        />
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer
+        android:id="@+id/playlist_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:stickTo="right"
+        >
+
+        <include 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/layout_playlist"
+            />
+    </com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer>
+
+</RelativeLayout>
