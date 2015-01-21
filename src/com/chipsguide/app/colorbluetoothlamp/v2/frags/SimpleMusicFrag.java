@@ -67,7 +67,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 		}else{
 			userClick = true;
 			prePosition = position;
-			playerManager.skipTo(position);
+			playerManager.setMusicList(adapter.getMusicList(), position, getPlayType());
 			adapter.setSelected(position);
 		}
 	}
@@ -87,7 +87,8 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 			return;
 		}
 		if(getPlayType() != PlayerManager.getPlayType()){
-			adapter.setSelected(-1);
+			prePosition = -1;
+			adapter.setSelected(prePosition);
 		}else{
 			int position = playerManager.getCurrentPosition();
 			adapter.setSelected(position);
@@ -95,6 +96,15 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 				musicListLv.setSelection(position);
 			}
 			userClick = false;
+		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(getPlayType() != PlayerManager.getPlayType()){
+			prePosition = -1;
+			adapter.setSelected(prePosition);
 		}
 	}
 

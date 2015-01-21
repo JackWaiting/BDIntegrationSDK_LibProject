@@ -1,5 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 
 public abstract class BaseFragment extends Fragment {
 	protected View root;
@@ -69,6 +73,10 @@ public abstract class BaseFragment extends Fragment {
 	
 	protected void startActivity(Class<? extends Activity> clas) {
 		attachAct.startActivity(clas);
+	}
+	
+	protected void startMusicPlayerActivity(List<Music> list, int currentPosition, PlayType type) {
+		attachAct.startMusicPlayerActivity(list, currentPosition, type);
 	}
 	/**
 	 * 检查网络连接

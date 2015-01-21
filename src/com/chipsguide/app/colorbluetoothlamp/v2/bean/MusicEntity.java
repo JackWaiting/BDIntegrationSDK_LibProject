@@ -14,7 +14,7 @@ public class MusicEntity {
 
 	@Override
 	public String toString() {
-		return "Music2Entity [content=" + content + "]";
+		return "MusicEntity [content=" + content + "]";
 	}
 	
 

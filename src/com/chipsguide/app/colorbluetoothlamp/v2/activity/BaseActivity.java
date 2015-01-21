@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,6 +15,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.NetworkState;
 import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -144,6 +148,18 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 		} catch (Exception e) {
 		}
 		return null;
+	}
+	
+	/**
+	 * 打开播放界面，覆盖上次的播放列表
+	 * @param list
+	 * @param currentPosition
+	 * @param type
+	 */
+	public void startMusicPlayerActivity(List<Music> list, int currentPosition, PlayType type){
+		PlayerManager.getInstance(getApplicationContext()).setMusicList(list, currentPosition, type);
+		Intent intent = new Intent(this, MusicPlayerActivity.class);
+		startActivity(intent);
 	}
 	
 	public void startMusicPlayerActivity(){

@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
@@ -13,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicListActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.AlbumListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Album;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlbumEntity;
@@ -151,10 +153,10 @@ public class AlbumListFragment extends BaseFragment {
 			if(position > albumlist.size() - 1){
 				return;
 			}
-			//Album album = albumlist.get(position);
-			//Intent intent = new Intent(getActivity(), MusicListActivity.class);
-			//intent.putExtra(MusicListActivity.EXTRA_ALBUM, album);
-			//startActivity(intent);
+			Album album = albumlist.get(position);
+			Intent intent = new Intent(getActivity(), MusicListActivity.class);
+			intent.putExtra(MusicListActivity.EXTRA_ALBUM, album);
+			startActivity(intent);
 		}
 	};
 

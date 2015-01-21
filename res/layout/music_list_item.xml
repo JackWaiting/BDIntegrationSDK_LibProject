@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="5dp" >
+
+    <RelativeLayout
+        android:id="@+id/img_layout"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingRight="8dp" >
+
+        <ImageView
+            android:id="@+id/image_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:paddingRight="8dp" />
+        
+        <ImageView 
+            android:id="@+id/iv_play_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+        
+    </RelativeLayout>
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/tv_music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_layout"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="@dimen/text_size_first" />
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/tv_music_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_layout"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/img_layout"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="@dimen/text_size_secondary" />
+
+</RelativeLayout>

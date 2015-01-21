@@ -1,0 +1,226 @@
+package com.chipsguide.app.colorbluetoothlamp.v2.frags;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.adapter.NetMusicListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.Album;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.MusicBoby;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.MusicEntity;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.SearchEntity;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpCallback;
+import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpFactory;
+import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpType;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
+import com.google.gson.Gson;
+
+public class NetMusicListFrag extends BaseFragment{
+	public static final String EXTRA_QUERY_TYPE = "query_type";
+	public static final String QUERY_TYPE_BY_NAME = "query_by_name";
+	public static final String QUERY_TYPE_BY_ALBUM = "query_by_album";
+	public static final String EXTRA_DATA = "extra_data";
+	
+	private static final int LIMITED_NUM = 12;
+	private NetMusicListAdapter adapter;
+	private int currentPage = 1;
+	private int lastItem;
+	private Footer4List footer;
+	private ListView musicListLv;
+	private List<Music> musiclist;
+	private boolean loading;
+	
+	private String queryType;
+	private String searchName;
+	private Album mAlbum;
+	private int currentPosition;
+	
+	public List<Music> getMusiclist() {
+		return musiclist;
+	}
+	
+	public int getCurrentPosition(){
+		return currentPosition;
+	}
+	
+	
+	@Override
+	protected void initBase() {
+		Bundle bundle = getArguments();
+		queryType = bundle.getString(EXTRA_QUERY_TYPE);
+		if(QUERY_TYPE_BY_ALBUM.equals(queryType)){
+			mAlbum = (Album) bundle.getSerializable(EXTRA_DATA);
+		}else{
+			searchName = bundle.getString(EXTRA_DATA);
+		}
+		musiclist = new ArrayList<Music>();
+		adapter = new NetMusicListAdapter(getActivity());
+	}
+
+	@Override
+	protected int getLayoutId() {
+		return R.layout.common_listview_layout;
+	}
+
+	@Override
+	protected void initView() {
+		footer = new Footer4List(getActivity());
+		
+		musicListLv = (ListView) findViewById(R.id.listview);
+		musicListLv.setOnScrollListener(scrollListener);
+		musicListLv.setOnItemClickListener(itemClickListener);
+		musicListLv.addFooterView(footer);
+		musicListLv.setAdapter(adapter);
+	}
+
+	@Override
+	protected void initData() {
+		getMusicList(currentPage);
+	}
+	
+	private void getMusicList(int page) {
+		if (checkNetwork(true)) {
+			if(!loading){
+				loading = true;
+				if(QUERY_TYPE_BY_ALBUM.equals(queryType) && mAlbum != null){
+					HttpFactory.getMusicBySpecial(getActivity(), httpCallback, mAlbum.getType(), mAlbum.getId(), page, LIMITED_NUM);
+				}else{
+					HttpFactory.searchMusicByname(getActivity(), httpCallback, "1", searchName, page, LIMITED_NUM);
+				}
+			}
+		}else{
+			footer.hideProgressBar();
+			footer.setText(R.string.hint_loading_failed);
+		}
+	}
+	
+	/**
+	 * 网络请求回调
+	 */
+	private HttpCallback httpCallback = new HttpCallback() {
+		@Override
+		public void onStart(String threadName) {
+		}
+		@Override
+		public void onCancel(String threadName) {
+			loading = false;
+		}
+		
+		@Override
+		public void onFinish(boolean success, String response, HttpType type,
+				String threadName) {
+			loading = false;
+			if(success){
+				if(QUERY_TYPE_BY_ALBUM.equals(queryType)){
+					forMusicEntity(response);
+				}else{
+					forSearchEntity(response);
+				}
+			}else{
+			}
+		}
+	};
+	
+	private void forMusicEntity(String response) {
+		MusicEntity music2Entity = parse(response, MusicEntity.class);
+		if (music2Entity != null) {
+			MusicBoby music2boby = music2Entity.getContent();
+			if(music2boby != null && music2boby.getLists() != null){
+				List<Music> list = music2boby.getLists().getList();
+				int totalPage = music2boby.getCountPage();
+				currentPage = music2boby.getPage();
+				if(list != null && list.size() > 0){
+					for (int i = 0; i < list.size(); i++) {
+						list.get(i).setAlbumCoverpath(mAlbum.getCoverpath_l());;
+					}
+					musiclist.addAll(list);
+					adapter.setMusicList(musiclist);
+					if (currentPage >= totalPage) {
+						musicListLv.removeFooterView(footer);
+					}
+				}
+			}
+		}
+	}
+	
+	private void forSearchEntity(String response) {
+		SearchEntity searchEntity = parse(response, SearchEntity.class);
+		if (searchEntity != null && searchEntity.getContent() != null
+				&& searchEntity.getContent().getList() != null) {
+			if (currentPage == 1
+					&& searchEntity.getContent().getList().size() == 0) {
+				showToast(R.string.search_no_result);
+			} else {
+
+			}
+			List<Music> list = searchEntity.getContent().getList();
+
+			int totalPage = searchEntity.getContent().getCountPage();
+			currentPage = searchEntity.getContent().getPage();
+			if (list != null && list.size() > 0) {
+				musiclist.addAll(list);
+				adapter.setMusicList(musiclist);
+				if (currentPage >= totalPage) {
+					musicListLv.removeFooterView(footer);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * ListView滚动监听，实现加载更多
+	 */
+	private OnScrollListener scrollListener = new OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+				if (OnScrollListener.SCROLL_STATE_IDLE == scrollState
+						&& adapter != null && lastItem == adapter.getCount() + 1) {
+					getMusicList(currentPage + 1);
+				}
+			}
+		}
+		
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			lastItem = firstVisibleItem + visibleItemCount;
+		}
+	};
+
+	private OnItemClickListener itemClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			//点击footer
+			if(position > musiclist.size() - 1){
+				return;
+			}
+			currentPosition = position;
+			startMusicPlayerActivity(musiclist, currentPosition, PlayType.Net);
+		}
+	};
+	
+	protected <T> T parse(String json, Type cls) {
+		T t = null;
+		try {
+			Gson gson = new Gson();
+			t = gson.fromJson(json, cls);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+
+}
