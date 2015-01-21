@@ -1,21 +1,16 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
-import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.VersionUpdateActivity;
-import com.chipsguide.app.colorbluetoothlamp.v2.adapter.ViewHolder;
+import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
@@ -38,7 +33,7 @@ public class NavFrag extends BaseFragment {
 	@Override
 	protected void initView() {
 		final ListView navLv = (ListView) findViewById(R.id.nav_list);
-		final NavListAdapter adapter = new NavListAdapter();
+		final SidebarNavListAdapter adapter = new SidebarNavListAdapter(getActivity(),menuItemTitles);
 		navLv.setAdapter(adapter);
 		navLv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -78,54 +73,4 @@ public class NavFrag extends BaseFragment {
 	public void setOnItemClickListener(OnNavItemClickListener listener){
 		mNavItemClickListener = listener;
 	}
-	
-	private class NavListAdapter extends BaseAdapter{
-		private View seletedView;
-		private int selectedPosi;
-
-		@Override
-		public int getCount() {
-			return menuItemTitles.length;
-		}
-
-		@Override
-		public Object getItem(int positon) {
-			return positon;
-		}
-
-		@Override
-		public long getItemId(int positon) {
-			return 0;
-		}
-		
-		public void setSelected(int position){
-			if(selectedPosi != position){
-				if(seletedView != null){
-					seletedView.setBackgroundColor(Color.TRANSPARENT);
-				}
-			}
-			selectedPosi = position;
-			this.notifyDataSetChanged();
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if(convertView == null){
-				convertView = LayoutInflater.from(getActivity()).inflate(R.layout.nav_list_item, parent, false);
-			}
-			
-			TextView titleTv = ViewHolder.get(convertView, R.id.item_title_tv);
-			titleTv.setText(menuItemTitles[position]);
-			
-			if(selectedPosi == position){
-				//convertView.setBackgroundResource(R.drawable.list_longpressed_holo);
-				seletedView = convertView;
-			}else{
-				convertView.setBackgroundColor(Color.TRANSPARENT);
-			}
-			
-			return convertView;
-		}
-	}
-
 }
