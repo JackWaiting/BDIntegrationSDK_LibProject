@@ -6,6 +6,7 @@ import java.util.List;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.AlbumGridViewAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Column;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.GridHeaderView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.HeaderGridView;
 
 public class CloudMusicFrag extends BaseFragment {
@@ -29,8 +30,10 @@ public class CloudMusicFrag extends BaseFragment {
 
 	@Override
 	protected void initView() {
+		GridHeaderView headerView = new GridHeaderView(getActivity());
 		gridView = (HeaderGridView) findViewById(R.id.headerGridView);
 		gridView.setNumColumns(3);
+		gridView.addHeaderView(headerView);
 		gridView.setAdapter(adapter);
 	}
 
