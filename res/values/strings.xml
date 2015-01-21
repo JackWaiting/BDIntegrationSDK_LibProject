@@ -29,4 +29,6 @@
     <string name="single_reapet">Repeat</string>
     <string name="playlist">播放列表</string>
     <string name="hint_search_song">请输入搜索内容</string>
+    <string name="text_loading">正在加载……</string>
+    <string name="hint_loading_failed">加载失败，请检查网络连接！</string>
 </resources>

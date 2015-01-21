@@ -18,7 +18,7 @@ public class WrapImageLoader {
 	private int imageRes;
 
 	private WrapImageLoader(Context context) {
-		this.imageRes = R.drawable.ic_launcher;
+		this.imageRes = R.drawable.loading_image;
 		init(context);
 	}
 	
