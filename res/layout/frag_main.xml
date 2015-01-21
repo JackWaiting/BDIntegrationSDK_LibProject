@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
     <com.chipsguide.app.colorbluetoothlamp.v2.widget.NoScrollViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
@@ -15,52 +15,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal" 
         android:background="@color/color_title_bg"
-        android:paddingTop="5dp"
+        android:orientation="horizontal"
         android:paddingBottom="3dp"
-        >
+        android:paddingTop="5dp" >
 
         <RadioButton
             android:id="@+id/rb_light"
+            style="@style/bottom_nav_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:drawableTop="@drawable/selector_rb_lamp"
             android:checked="true"
-            android:text="@string/color_lamp"
-            android:textSize="12sp"
-            android:textColor="@color/selector_bottom_rb_text"
-             />
+            android:drawableTop="@drawable/selector_rb_lamp"
+            android:text="@string/color_lamp" />
 
         <RadioButton
             android:id="@+id/rb_music"
+            style="@style/bottom_nav_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/selector_rb_music"
-            android:text="@string/music"
-            android:textSize="12sp"
-            android:textColor="@color/selector_bottom_rb_text"
-             />
-        
+            android:text="@string/music" />
 
         <RadioButton
             android:id="@+id/rb_shake"
+            style="@style/bottom_nav_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:drawableTop="@drawable/selector_rb_shake" 
-            android:text="@string/shake"
-            android:textSize="12sp"
-            android:textColor="@color/selector_bottom_rb_text"
-            />
+            android:drawableTop="@drawable/selector_rb_shake"
+            android:text="@string/shake" />
     </RadioGroup>
 
 </RelativeLayout>
