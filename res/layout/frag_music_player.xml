@@ -31,12 +31,11 @@
 	    android:layout_margin="10dp"
 	    >
 	    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+	        style="@style/text_marquee_forever"
 	        android:id="@+id/tv_music_name"
 	        android:padding="10dp"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="jjjj"
 	        android:textSize="20sp"
 	        />
 	    
@@ -46,7 +45,6 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
 	        android:layout_below="@+id/tv_music_name"
-	        android:text="jjj"
 	        android:textSize="16sp"
 	        android:textColor="@android:color/darker_gray"
 	        />

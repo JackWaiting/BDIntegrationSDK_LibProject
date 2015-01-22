@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:paddingRight="10dp" >
 
-    <ImageView
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
         android:id="@+id/iv_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginRight="5dp"
-        android:scaleType="fitXY" />
+        app:border_width="1dp"
+        app:border_color="@color/color_dark_gray" />
 
     <ImageView
         android:id="@+id/icon"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/iv_image"
-        />
+        android:src="@drawable/ic_album"
+         />
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/tv_name"
@@ -29,8 +31,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:text="专辑"
-        android:textSize="@dimen/text_size_first"
-        />
+        android:textSize="@dimen/text_size_first" />
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/tv_count"
@@ -38,10 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_plays"
         android:layout_toRightOf="@id/iv_image"
-        android:textColor="@color/secondary_text_color"
         android:text="节目数"
-        android:textSize="@dimen/text_size_secondary"
-         />
+        android:textColor="@color/secondary_text_color"
+        android:textSize="@dimen/text_size_secondary" />
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/tv_plays"
@@ -50,10 +50,9 @@
         android:layout_alignBottom="@+id/iv_image"
         android:layout_marginBottom="5dp"
         android:layout_toRightOf="@id/iv_image"
-        android:textColor="@color/secondary_text_color"
         android:text="更新日期"
-        android:textSize="@dimen/text_size_secondary"
-        />
+        android:textColor="@color/secondary_text_color"
+        android:textSize="@dimen/text_size_secondary" />
 
     <ImageView
         android:id="@+id/action_btn"
@@ -62,7 +61,6 @@
         android:layout_alignBottom="@+id/iv_image"
         android:layout_alignParentRight="true"
         android:paddingBottom="10dp"
-        android:scaleType="fitXY"
-         />
+        android:scaleType="fitXY" />
 
 </RelativeLayout>

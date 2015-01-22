@@ -37,7 +37,7 @@
             android:src="@drawable/bg_record"
              />
         
-         <ImageView
+         <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
             android:id="@+id/iv_music_img"
             android:layout_width="220dp"
             android:layout_height="220dp"
