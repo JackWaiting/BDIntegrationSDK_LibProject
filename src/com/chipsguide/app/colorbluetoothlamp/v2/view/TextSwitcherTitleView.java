@@ -78,7 +78,7 @@ public class TextSwitcherTitleView extends FrameLayout implements ViewFactory{
 		MyTextView tv = new MyTextView(getContext());
 		tv.setTextColor(Color.WHITE);
 		tv.setGravity(Gravity.CENTER);
-		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
 		return tv;
 	}
 	
