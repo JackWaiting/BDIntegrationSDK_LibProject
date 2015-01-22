@@ -205,6 +205,7 @@ public class CircleImageView extends ImageView {
             if (drawable instanceof ColorDrawable) {
                 bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
             } else {
+            	//getIntrinsicWidth()方法为在当前设备像素密度下此图片所表现出的宽度（即被拉伸后的宽度，如mdpi中的图片，在hdpi的设备上会被拉伸）
                 bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
             }
 
@@ -227,6 +228,7 @@ public class CircleImageView extends ImageView {
             return;
         }
 
+        //位图渲染类，第一个参数为被渲染的位图，第二个参数：x方向上的平铺模式
         mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
         mBitmapPaint.setAntiAlias(true);

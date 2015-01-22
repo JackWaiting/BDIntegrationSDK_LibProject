@@ -37,10 +37,10 @@ public class NetMusicItemView extends FrameLayout {
 	}
 	
 	public void setSelected(boolean playing) {
-		//playStateIv.setImageResource(resId);
+		playStateIv.setImageResource(R.drawable.selector_list_play_btn);
 	}
 	
 	public void disSelected() {
-		//playStateIv.setImageResource(resId);
+		playStateIv.setImageResource(R.drawable.selector_list_pause_btn);
 	}
 }

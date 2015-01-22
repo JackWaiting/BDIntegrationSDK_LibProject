@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -9,22 +10,23 @@
         android:id="@+id/img_layout"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:paddingRight="8dp" >
+         >
 
-        <ImageView
+        <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
             android:id="@+id/image_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingRight="8dp" />
-        
-        <ImageView 
+            app:border_color="@color/color_dark_gray"
+            app:border_width="1dp" />
+
+        <ImageView
             android:id="@+id/iv_play_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            />
-        
+            android:src="@drawable/selector_list_pause_btn"
+             />
     </RelativeLayout>
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
