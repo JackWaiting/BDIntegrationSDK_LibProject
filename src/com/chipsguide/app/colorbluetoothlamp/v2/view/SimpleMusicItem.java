@@ -36,7 +36,11 @@ public class SimpleMusicItem extends FrameLayout {
 			}
 			durationTv.setVisibility(View.GONE);
 		}else{
-			artistTv.setText(music.getArtist());
+			String artist = music.getArtist();
+			if("<unknown>".equals(artist)){
+				artist = "未知歌手";
+			}
+			artistTv.setText(artist);
 			durationTv.setText(StringFormatUtil.formatDuration(music.getDuration()));
 		}
 	}
