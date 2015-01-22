@@ -210,6 +210,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 			if(position > musiclist.size() - 1){
 				return;
 			}
+			adapter.setSelected(position);
 			currentPosition = position;
 			startMusicPlayerActivity(musiclist, currentPosition, PlayType.Net);
 		}
