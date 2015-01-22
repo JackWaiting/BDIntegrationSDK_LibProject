@@ -225,7 +225,7 @@ public class PlayerManager {
 			player.setPlaylist(playList);
 			if (play) {
 				player.skipTo(currentPosition);
-			}else if(mPlayListener != null){
+			}else if(mPlayListener != null && currentPosition >= 0){
 				mPlayListener.onMusicChange(mMusicList.get(currentPosition).getPath());
 			}
 			int m = preferenceUtil.getPlayMode();
