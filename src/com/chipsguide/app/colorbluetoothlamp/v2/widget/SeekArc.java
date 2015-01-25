@@ -35,6 +35,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
@@ -316,6 +317,7 @@ public class SeekArc extends View {
 			if(ignoreTouch(event.getX(), event.getY())){
 				return false;
 			}
+			requestDisallowInterceptTouchEvent();
 			onStartTrackingTouch();
 			updateOnTouch(event);
 			break;
@@ -334,6 +336,13 @@ public class SeekArc extends View {
 		}
 
 		return true;
+	}
+	
+	private void requestDisallowInterceptTouchEvent() {
+		ViewParent parent = getParent();
+		if(parent != null){
+			parent.requestDisallowInterceptTouchEvent(true);
+		}
 	}
 
 	@Override
