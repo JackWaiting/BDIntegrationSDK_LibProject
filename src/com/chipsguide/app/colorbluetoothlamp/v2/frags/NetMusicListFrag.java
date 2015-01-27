@@ -21,6 +21,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.MusicBoby;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.MusicEntity;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.SearchEntity;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpCallback;
 import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpFactory;
@@ -28,7 +30,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.net.HttpType;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
 import com.google.gson.Gson;
 
-public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
+public class NetMusicListFrag extends BaseFragment implements OnSearchListener, SimpleMusicPlayListener{
 	public static final String EXTRA_QUERY_TYPE = "query_type";
 	public static final String QUERY_TYPE_BY_NAME = "query_by_name";
 	public static final String QUERY_TYPE_BY_ALBUM = "query_by_album";
@@ -47,6 +49,8 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 	private String searchName;
 	private Album mAlbum;
 	private int currentPosition;
+	private PlayerManager playerManager;
+	private Music currentMusic;
 	
 	public List<Music> getMusiclist() {
 		return musiclist;
@@ -59,6 +63,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 	
 	@Override
 	protected void initBase() {
+		playerManager = PlayerManager.getInstance(getActivity().getApplicationContext());
 		Bundle bundle = getArguments();
 		if(bundle != null){
 			queryType = bundle.getString(EXTRA_QUERY_TYPE);
@@ -88,6 +93,20 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 		musicListLv.setAdapter(adapter);
 	}
 
+	private void updateUI() {
+		if(adapter == null){
+			return;
+		}
+		if(PlayType.Net == PlayerManager.getPlayType()){
+			currentMusic = playerManager.getCurrentMusic();
+			adapter.setSelected(currentMusic.getPath());
+			if(!userClick && musicListLv != null){
+				//musicListLv.setSelection(adapter.getSelected());
+			}
+			userClick = false;
+		}
+	}
+	
 	@Override
 	protected void initData() {
 		getMusicList(currentPage);
@@ -152,6 +171,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 					}
 					musiclist.addAll(list);
 					adapter.setMusicList(musiclist);
+					updateUI();
 					if (currentPage >= totalPage) {
 						musicListLv.removeFooterView(footer);
 					}
@@ -173,6 +193,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 				if (currentPage >= totalPage) {
 					musicListLv.removeFooterView(footer);
 				}
+				updateUI();
 			}else if(currentPage == 1){
 				showToast(R.string.search_no_result);
 				footer.hideProgressBar();
@@ -210,6 +231,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 			if(position > musiclist.size() - 1){
 				return;
 			}
+			userClick = true;
 			adapter.setSelected(position);
 			currentPosition = position;
 			startMusicPlayerActivity(musiclist, currentPosition, PlayType.Net);
@@ -243,6 +265,23 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener{
 		queryType = QUERY_TYPE_BY_NAME;
 		searchName = keyWords;
 		getMusicList(currentPage);
+	}
+
+	@Override
+	public void onMusicProgress(long duration, long currentDuration, int percent) {
+	}
+
+	@Override
+	public void onMusicPlayStateChange(boolean playing) {
+		
+	}
+
+	private boolean userClick;
+	@Override
+	public void onMusicChange() {
+		if(PlayType.Net == PlayerManager.getPlayType()){
+			updateUI();
+		}
 	}
 
 }

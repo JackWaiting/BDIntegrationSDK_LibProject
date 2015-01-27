@@ -1,7 +1,9 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.view.View;
@@ -16,6 +18,7 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 	private int currentSelectedPosi = -1;
 	private NetMusicItemView preSelectedItem;
 	private boolean playing;
+	private Map<String, Integer> urls = new HashMap<String, Integer>();
 	
 	public NetMusicListAdapter(Context context) {
 		this.mContext = context;
@@ -24,6 +27,11 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 	@Override
 	public void setMusicList(List<Music> musics) {
 		this.musics = musics;
+		int size = musics.size();
+		for(int i = 0 ; i < size ; i++){
+			Music m = musics.get(i);
+			urls.put(m.getPath(), i);
+		}
 		this.notifyDataSetChanged();
 	}
 	
@@ -73,6 +81,18 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 		}
 		currentSelectedPosi = position;
 		this.notifyDataSetChanged();
+	}
+	
+	public int getSelected() {
+		return currentSelectedPosi;
+	}
+	
+	public void setSelected(String url) {
+		int position = -1;
+		if(urls.get(url) != null){
+			position = urls.get(url);
+		}
+		setSelected(position);
 	}
 	
 }

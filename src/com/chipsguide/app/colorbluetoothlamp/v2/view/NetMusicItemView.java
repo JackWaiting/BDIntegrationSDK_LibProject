@@ -15,6 +15,7 @@ public class NetMusicItemView extends FrameLayout {
 	private TextView artistTv;
 	private ImageView imageIv,playStateIv;
 	private WrapImageLoader imageLoader;
+	private String url;
 	
 	public NetMusicItemView(Context context) {
 		super(context);
@@ -31,6 +32,7 @@ public class NetMusicItemView extends FrameLayout {
 	}
 	
 	public void render(Music music){
+		url = music.getPath();
 		songNameTv.setText(music.getName());
 		artistTv.setText(music.getArtist());
 		imageLoader.displayImage(music.getImage(), imageIv, 1, null);
