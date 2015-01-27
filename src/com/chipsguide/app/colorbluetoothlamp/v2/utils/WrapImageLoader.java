@@ -1,4 +1,5 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.utils;
+
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.widget.ImageView;
@@ -21,46 +22,50 @@ public class WrapImageLoader {
 		this.imageRes = R.drawable.loading_image;
 		init(context);
 	}
-	
-	private WrapImageLoader(Context context,int imageRes) {
+
+	private WrapImageLoader(Context context, int imageRes) {
 		this(context);
-		if(imageRes > 0){
+		if (imageRes > 0) {
 			this.imageRes = imageRes;
 		}
 	}
-	
+
 	public void setDefaultImage(int imageRes) {
 		this.imageRes = imageRes;
 	}
 
 	private void init(Context context) {
 		options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(imageRes)
-				.showImageForEmptyUri(imageRes)
+				.showImageOnLoading(imageRes).showImageForEmptyUri(imageRes)
 				.showImageOnFail(imageRes)
-				.imageScaleType(ImageScaleType.EXACTLY)
-				.cacheInMemory(true)
-				.cacheOnDisc(true).considerExifParams(false)
-				.build();
+				.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)
+				.cacheOnDisc(true).considerExifParams(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				context).threadPriority(Thread.NORM_PRIORITY - 2)
 				.denyCacheImageMultipleSizesInMemory()
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
-				.build();
+				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(config);
 	}
-	
-	public static WrapImageLoader getInstance(Context context){
-		if(loader == null){
+
+	public static WrapImageLoader getInstance(Context context) {
+		if (loader == null) {
 			loader = new WrapImageLoader(context);
 		}
 		return loader;
 	}
-	
-	public void displayImage(String uri,ImageView iv,int insampleSize,ImageLoadingListener listener) {
+
+	public void displayImage(String uri, ImageView iv, int insampleSize,
+			ImageLoadingListener listener) {
 		Options o = options.getDecodingOptions();
 		o.inSampleSize = insampleSize;
-		imageLoader.displayImage(uri, iv, options,listener);
+		imageLoader.displayImage(uri, iv, options, listener);
+	}
+
+	public void displayImage(DisplayImageOptions options, String uri,
+			ImageView iv, int insampleSize, ImageLoadingListener listener) {
+		Options o = options.getDecodingOptions();
+		o.inSampleSize = insampleSize;
+		imageLoader.displayImage(uri, iv, options, listener);
 	}
 }

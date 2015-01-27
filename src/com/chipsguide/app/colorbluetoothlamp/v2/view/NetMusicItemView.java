@@ -9,19 +9,29 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class NetMusicItemView extends FrameLayout {
 	private TextView songNameTv;
 	private TextView artistTv;
-	private ImageView imageIv,playStateIv;
+	private ImageView imageIv, playStateIv;
 	private WrapImageLoader imageLoader;
-	private String url;
+	private String imgageUrl = "";
+	private static DisplayImageOptions options;
 	
 	public NetMusicItemView(Context context) {
 		super(context);
 		LayoutInflater.from(context).inflate(R.layout.music_list_item, this);
 		imageLoader = WrapImageLoader.getInstance(context);
 		initView();
+		if(options == null){
+			options = new DisplayImageOptions.Builder()
+			.showImageForEmptyUri(R.drawable.loading_image)
+			.showImageOnFail(R.drawable.loading_image)
+			.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)
+			.cacheOnDisc(true).considerExifParams(false).build();
+		}
 	}
 
 	private void initView() {
@@ -30,18 +40,20 @@ public class NetMusicItemView extends FrameLayout {
 		imageIv = (ImageView) findViewById(R.id.image_pic);
 		playStateIv = (ImageView) findViewById(R.id.iv_play_state);
 	}
-	
-	public void render(Music music){
-		url = music.getPath();
+
+	public void render(Music music) {
 		songNameTv.setText(music.getName());
 		artistTv.setText(music.getArtist());
-		imageLoader.displayImage(music.getImage(), imageIv, 1, null);
+		if (!imgageUrl.equals(music.getImage())) {
+			imageLoader.displayImage(options, music.getImage(), imageIv, 1, null);
+		}
+		imgageUrl = music.getPath();
 	}
-	
+
 	public void setSelected(boolean playing) {
 		playStateIv.setImageResource(R.drawable.selector_list_play_btn);
 	}
-	
+
 	public void disSelected() {
 		playStateIv.setImageResource(R.drawable.selector_list_pause_btn);
 	}

@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
             app:border_color="@color/color_dark_gray"
+            android:src="@drawable/loading_image"
             app:border_width="1dp" />
 
         <ImageView

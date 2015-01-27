@@ -5,11 +5,15 @@ import android.view.View.OnClickListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeUtil.OnShakeListener;
 
-public class ShakeFrag extends BaseFragment implements OnClickListener{
-
+public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeListener{
+	private ShakeUtil shakeUtil;
 	@Override
 	protected void initBase() {
+		shakeUtil = new ShakeUtil(getActivity());
+		shakeUtil.setOnShakeListener(this);
 	}
 
 	@Override
@@ -36,5 +40,21 @@ public class ShakeFrag extends BaseFragment implements OnClickListener{
 			break;
 		}
 	}
-
+	
+	@Override
+	public void onShake() {
+		showToast("摇动了");
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		shakeUtil.start();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		shakeUtil.stop();
+	}
 }
