@@ -34,4 +34,10 @@
     <string name="search_no_result">没有搜索结果！</string>
     <string name="album_result">找专辑</string>
     <string name="voice_result">找声音</string>
+    <string name="shake_default">系统默认</string>
+    <string name="other_options">其他设置</string>
+    <string name="random_color">随机颜色</string>
+    <string name="toggle_light">开/关灯</string>
+    <string name="play_pause">播放/暂停</string>
+    <string name="next_song">下一曲</string>
 </resources>

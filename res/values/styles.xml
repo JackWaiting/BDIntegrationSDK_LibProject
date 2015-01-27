@@ -42,4 +42,12 @@
         <item name="android:gravity">center</item>
     </style>
     
+    <style 
+        name="shake_setting_radioButton">
+        <item name="android:background">@drawable/bg_rb</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    
 </resources>
