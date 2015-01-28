@@ -1,6 +1,8 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.utils;
 
 
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -10,6 +12,7 @@ public class PreferenceUtil {
 	private static String FM_FREQUENCY = "fm_frequency";
 	private static String PHONE_MUSIC_POSITION = "phone_music_position";
 	private static String PHONE_MUSIC_CURRENT_DURATION = "phone_music_current_duration";
+	private static String SHAKE_OPTION = "shake_option";
 	private static SharedPreferences sp;
 	private static PreferenceUtil settingPrefences;
 
@@ -62,5 +65,13 @@ public class PreferenceUtil {
 	
 	public int getPhoneMusicCurrentDuration() {
 		return sp.getInt(PHONE_MUSIC_CURRENT_DURATION, 0);
+	}
+	
+	public void saveShakeOption(int option) {
+		sp.edit().putInt(SHAKE_OPTION, option).commit();
+	}
+	
+	public int getShakeOption() {
+		return sp.getInt(SHAKE_OPTION, R.id.rb_random_color);
 	}
 }

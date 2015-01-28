@@ -15,7 +15,7 @@
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
 
     <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/rg_shake_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
