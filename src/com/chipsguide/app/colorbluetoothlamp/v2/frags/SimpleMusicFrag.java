@@ -55,7 +55,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 				public void onLoadMusic(List<Music> musics, int prePosition) {
 					adapter.setMusicList(musics);
 				}
-			});
+			},getActivity());
 		}
 	}
 

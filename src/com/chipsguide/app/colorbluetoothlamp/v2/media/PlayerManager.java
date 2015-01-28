@@ -3,8 +3,8 @@ package com.chipsguide.app.colorbluetoothlamp.v2.media;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +15,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.RecentPlayMusic;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceMusicSongEntity;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicLoopModeChangedListener;
@@ -25,6 +26,7 @@ import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicMan
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
 import com.platomix.platomixplayerlib.api.PlaybackMode;
 import com.platomix.platomixplayerlib.api.Playlist;
+import com.platomix.platomixplayerlib.core.AudioHelper;
 import com.platomix.platomixplayerlib.core.PlayerListener;
 import com.platomix.platomixplayerlib.core.local.LoadMusicCallback;
 import com.platomix.platomixplayerlib.core.local.LocalPlayer;
@@ -55,10 +57,13 @@ public class PlayerManager {
 	 */
 	public static boolean isPlayRecentMusic;
 
+	private AudioHelper audioHelper;
+	
 	private PlayerManager(Context context) {
 		mContext = context;
 		preferenceUtil = PreferenceUtil.getIntance(mContext);
 		preLocalMusicListPosition = preferenceUtil.getPhoneMusicPosition();
+		audioHelper = new AudioHelper(mContext, null);
 	}
 
 	public static PlayerManager getInstance(Context context) {
@@ -68,6 +73,13 @@ public class PlayerManager {
 		return instance;
 	}
 	
+	/**
+     * 请求音乐焦点
+     * @return
+     */
+    private boolean requestFocus(Activity act) {
+    	return audioHelper.requestFocus();
+    }
 	
 	/**
 	 * 设置歌曲列表及播放位置
@@ -200,7 +212,7 @@ public class PlayerManager {
 						.setOnBluetoothDeviceMusicSongChangedListener(null);
 				deviceMusicManager = null;
 			}
-			CustomApplication.changeToA2DP();
+			BluetoothDeviceManagerProxy.changeToA2DPMode();
 			handler.removeCallbacks(progressRunnable);
 			if (player == null) {
 				player = LocalPlayer.getInstance(mContext);
@@ -277,7 +289,7 @@ public class PlayerManager {
 				if (currentMusic != null) {
 					if (currentMusic.getId().equals(music.getId())) {
 						if (mMusicList.size() == 0) {
-							destory();
+							destoryAll();
 						} else {
 							skipTo(position);
 						}
@@ -352,6 +364,10 @@ public class PlayerManager {
 		}
 	}
 
+	private List<BluetoothDeviceMusicSongEntity> mPlistEntitys;
+	private MusicCallback mCallback;
+	private int tag;
+	private WrapBluetoothDeviceMusicSongListListener deviceMusicSongListListener;
 	/**
 	 * 加载蓝牙音乐
 	 * @param bltDeiviceMusicManager
@@ -359,32 +375,67 @@ public class PlayerManager {
 	 */
 	public void loadBluetoothDeviceMusic(
 			final IBluetoothDeviceMusicManager bltDeiviceMusicManager,
-			final MusicCallback callback) {
-		if(bltDeiviceMusicManager == null){
-			return;
-		}
-		requestFocus();
-		int size = bltDeiviceMusicManager.getSongSize();
-		bltDeiviceMusicManager.getSongList(1, size, new OnBluetoothDeviceMusicSongListListener() {
-			public void onBluetoothDeviceMusicSongList(
-					List<BluetoothDeviceMusicSongEntity> list) {
-				int size = list.size();
-				List<Music> musics = new ArrayList<Music>();
-				for (int i = 0; i < size; i++) {
-					Music music = new Music();
-					BluetoothDeviceMusicSongEntity entity = list.get(i);
-					music.setId(entity.getName());
-					music.setName(entity.getName());
-					music.setClassname(entity.getArtist());
-					music.setPath(entity.getIndex() + entity.getName());
-					musics.add(music);
-				}
-				prepareBluz(
-						bltDeiviceMusicManager, musics);
-				callback.onLoadMusic(musics, 0);
-			}
-		});
+			final MusicCallback callback, Activity act) {
+		tag++;
+		deviceMusicSongListListener = new WrapBluetoothDeviceMusicSongListListener(tag);
+		deviceMusicListhandler.removeCallbacks(runnable);
+		requestFocus(act);
+		deviceMusicManager = bltDeiviceMusicManager;
+		mCallback = callback;
+		mPlistEntitys = new ArrayList<BluetoothDeviceMusicSongEntity>();
+		getBluzMusicList();
 	}
+	/**
+	 * 防止下标越界，分次获取
+	 * @param bltDeiviceMusicManager
+	 */
+	private void getBluzMusicList() {
+		int plistSize = mPlistEntitys.size();
+		int musicManagerSongSize = deviceMusicManager.getSongSize();
+		if (plistSize < musicManagerSongSize){
+			int left = musicManagerSongSize - plistSize;
+			deviceMusicManager.getSongList(plistSize + 1, Math.min(5, left) ,deviceMusicSongListListener);
+		}else if(plistSize == musicManagerSongSize){
+			int size = mPlistEntitys.size();
+			List<Music> musics = new ArrayList<Music>();
+			for (int i = 0; i < size; i++) {
+				Music music = new Music();
+				BluetoothDeviceMusicSongEntity entity = mPlistEntitys.get(i);
+				music.setId(entity.getName());
+				music.setName(entity.getName());
+				music.setClassname(entity.getArtist());
+				music.setPath(entity.getIndex() + entity.getName());
+				musics.add(music);
+			}
+			prepareBluz(
+					deviceMusicManager, musics);
+			mCallback.onLoadMusic(musics, 0);
+		}
+	}
+	
+	private class WrapBluetoothDeviceMusicSongListListener implements OnBluetoothDeviceMusicSongListListener{
+		private int tag;
+		public WrapBluetoothDeviceMusicSongListListener(int tag){
+			this.tag = tag;
+		}
+		
+		@Override
+		public void onBluetoothDeviceMusicSongList(
+				List<BluetoothDeviceMusicSongEntity> songs) {
+			if (PlayerManager.this.tag == this.tag) {
+				mPlistEntitys.addAll(songs);
+				deviceMusicListhandler.post(runnable);
+			}
+		}
+	}
+	
+	private Handler deviceMusicListhandler = new Handler();
+	private Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			getBluzMusicList();
+		}
+	};
 
 	/**
 	 * 获取当前播放位置
@@ -716,17 +767,6 @@ public class PlayerManager {
 	}
 	
 	/**
-     * 请求音乐焦点
-     * @return
-     */
-    private boolean requestFocus() {
-    	AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        return AudioManager.AUDIOFOCUS_REQUEST_GRANTED ==
-            mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
-            AudioManager.AUDIOFOCUS_GAIN);
-    }
-
-	/**
 	 * 本地音乐和网络音乐的监听
 	 */
 	private PlayerListener localPlayerListener = new PlayerListener() {
@@ -933,24 +973,38 @@ public class PlayerManager {
 	/**
 	 * 关闭播放器，释放相关资源
 	 */
-	public void destory() {
+	public void destoryAll() {
 		setPlayType(null);
+		destroyLocalPlayer();
+		destroyBluzPlayer();
+		currentPosition = -1;
+		mMusicList = null;
+		instance = null;
+		mContext = null;
+	}
+	
+	public void destroyLocalPlayer(){
 		if (player != null) {
 			player.pause();
 			player.stop();
 			player = null;
 		}
+		if (mType != PlayType.Bluz) {
+			mType = null;
+		}
+	}
+	public void destroyBluzPlayer(){
 		if (deviceMusicManager != null) {
 			if (isPlaying()) {
 				deviceMusicManager.pause();
-				deviceMusicManager = null;
 			}
+			deviceMusicManager = null;
 		}
+		deviceMusicListhandler.removeCallbacks(runnable);
 		handler.removeCallbacks(progressRunnable);
-		currentPosition = -1;
-		mMusicList = null;
-		instance = null;
-		mContext = null;
+		if (mType == PlayType.Bluz) {
+			mType = null;
+		}
 	}
 
 	/**
