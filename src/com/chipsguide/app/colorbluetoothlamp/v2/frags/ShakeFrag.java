@@ -1,8 +1,13 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
@@ -15,11 +20,13 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	private ShakeManager shakeUtil;
 	private boolean isVisibleToUser;
 	private PlayerManager playerManager;
+	private ImageView shakeIv;
 	@Override
 	protected void initBase() {
+		Context context = getActivity().getApplicationContext();
 		shakeUtil = ShakeManager.getInstance(getActivity());
 		shakeUtil.setOnShakeListener(this);
-		playerManager = PlayerManager.getInstance(getActivity().getApplicationContext());
+		playerManager = PlayerManager.getInstance(context);
 	}
 
 	@Override
@@ -30,6 +37,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	@Override
 	protected void initView() {
 		findViewById(R.id.btn_shake_setting).setOnClickListener(this);
+		shakeIv = (ImageView) findViewById(R.id.iv_shake);
 	}
 
 	@Override
@@ -64,6 +72,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	
 	@Override
 	public void onShake() {
+		startShakeAnim();
 		int id = PreferenceUtil.getIntance(getActivity()).getShakeOption();
 		String text = "";
 		switch(id){
@@ -85,6 +94,12 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			break;
 		}
 		Log.d("ShakeFrag", "摇一摇>>" + text);
+	}
+	
+	private void startShakeAnim() {
+		Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
+		shakeIv.clearAnimation();
+		shakeIv.startAnimation(anim);
 	}
 	
 	@Override
