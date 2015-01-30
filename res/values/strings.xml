@@ -40,4 +40,7 @@
     <string name="toggle_light">开/关灯</string>
     <string name="play_pause">播放/暂停</string>
     <string name="next_song">下一曲</string>
+    <string name="loading_music">正在载入……</string>
+    <string name="tf_card_has_plugin">TF卡已插入！</string>
+    <string name="tf_card_has_plugout">TF卡已拔出！</string>
 </resources>

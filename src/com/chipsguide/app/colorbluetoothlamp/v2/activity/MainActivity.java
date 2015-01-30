@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
@@ -109,4 +110,9 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 		titleView.setTitleText(title);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		BluetoothDeviceManagerProxy.getInstance(this).destory();
+	}
 }

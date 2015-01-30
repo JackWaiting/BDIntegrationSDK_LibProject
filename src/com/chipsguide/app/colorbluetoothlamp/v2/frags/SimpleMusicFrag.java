@@ -2,6 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import java.util.List;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -10,10 +11,15 @@ import android.widget.ListView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.MusicCallback;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
+import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClickListener,SimpleMusicPlayListener{
 	private SimpleMusicListAdapter adapter;
@@ -21,6 +27,9 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	private int prePosition = -1;
 	private boolean userClick;
 	private ListView musicListLv;
+	private BluetoothDeviceManagerProxy bluzDeviceManProxy;
+	private Footer4List footer;
+	
 	/**
 	 * 获取与此Fragment对应的播放类型
 	 * @return
@@ -29,16 +38,21 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	
 	@Override
 	protected void initBase() {
-		playerManager = PlayerManager.getInstance(getActivity().getApplicationContext());
+		Context context = getActivity().getApplicationContext();
+		bluzDeviceManProxy = BluetoothDeviceManagerProxy.getInstance(context);
+		playerManager = PlayerManager.getInstance(context);
 		adapter = new SimpleMusicListAdapter(getActivity());
 	}
 
 	@Override
 	protected void initView() {
+		footer = new Footer4List(getActivity());
 		musicListLv = (ListView) findViewById(R.id.lv_musiclist);
+		musicListLv.addFooterView(footer);
 		musicListLv.setOnItemClickListener(this);
 		musicListLv.setAdapter(adapter);
 	}
+	
 
 	@Override
 	protected void initData() {
@@ -47,15 +61,11 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 				@Override
 				public void onLoadMusic(List<Music> musics, int prePosition) {
 					adapter.setMusicList(musics);
+					adapter.setSelected(prePosition);
+					musicListLv.removeFooterView(footer);
 				}
 			}, false);
 		}else if(getPlayType() == PlayType.Bluz){
-			playerManager.loadBluetoothDeviceMusic(null, new MusicCallback() {
-				@Override
-				public void onLoadMusic(List<Music> musics, int prePosition) {
-					adapter.setMusicList(musics);
-				}
-			},getActivity());
 		}
 	}
 
@@ -71,6 +81,36 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 			adapter.setSelected(position);
 		}
 	}
+	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if(isVisibleToUser && bluzDeviceManProxy != null && getPlayType() == PlayType.Bluz){
+			musicListLv.addFooterView(footer);
+			bluzDeviceManProxy.setOnBluetoothDeviceMuisicReadyListener(deviceMusicManagerReadyListener);
+			bluzDeviceManProxy.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
+		}else if(!isVisibleToUser && musicListLv != null){
+			musicListLv.removeFooterView(footer);
+		}
+	}
+	
+	private OnDeviceMusicManagerReadyListener deviceMusicManagerReadyListener = new OnDeviceMusicManagerReadyListener() {
+		@Override
+		public void onMusicManagerReadyFailed(int mode) {
+		}
+		
+		@Override
+		public void onMusicManagerReady(IBluetoothDeviceMusicManager manager,
+				int mode) {
+			playerManager.loadBluetoothDeviceMusic(manager, new MusicCallback() {
+				@Override
+				public void onLoadMusic(List<Music> musics, int prePosition) {
+					musicListLv.removeFooterView(footer);
+					adapter.setMusicList(musics);
+				}
+			},getActivity());
+		}
+	};
 
 	@Override
 	public void onMusicProgress(long duration, long currentDuration, int percent) {
@@ -90,10 +130,15 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 			prePosition = -1;
 			adapter.setSelected(prePosition);
 		}else{
-			int position = playerManager.getCurrentPosition();
-			adapter.setSelected(position);
+			prePosition = playerManager.getCurrentPosition();
+			adapter.setSelected(prePosition);
 			if(!userClick && musicListLv != null){
-				musicListLv.setSelection(position);
+				musicListLv.post(new Runnable() {
+					@Override
+					public void run() {
+						musicListLv.setSelection(prePosition);
+					}
+				});
 			}
 			userClick = false;
 		}

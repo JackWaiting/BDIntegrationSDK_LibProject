@@ -47,6 +47,11 @@ public class SimpleMusicListAdapter extends IMusicListAdapter {
 		this.notifyDataSetChanged();
 	}
 	
+	public void clear() {
+		mList.clear();
+		this.notifyDataSetChanged();
+	}
+	
 	@Override
 	public void setSelected(int position){
 		if(preSelectedItem != null){

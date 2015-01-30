@@ -4,7 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.bluetooth.BluetoothDevice;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,33 +15,33 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class MusicFrag extends BaseFragment implements OnPageChangeListener,
-		OnCheckedChangeListener,
-		OnBluetoothDeviceConnectionStateChangedListener {
+		OnCheckedChangeListener {
+	private static final String TF = "tf";
 	private ViewPager viewPager;
 	private RadioGroup topNavRg;
 	private PlayerManager manager;
 	private boolean hasUpdate;
 	private MyPlayListener playListener;
-	private BluetoothDeviceManagerProxy btDeviceManProxy;
 
 	private MyPagerAdapter adapter;
-	private boolean connected;
+	private boolean tf;
+	
+	public static MusicFrag newInstance(boolean tf) {
+		MusicFrag frag = new MusicFrag();
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(TF, tf);
+		frag.setArguments(bundle);
+		return frag;
+	}
 
 	@Override
 	protected void initBase() {
-		btDeviceManProxy = BluetoothDeviceManagerProxy
-				.getInstance(getActivity().getApplicationContext());
-		btDeviceManProxy
-				.addOnBluetoothDeviceConnectionStateChangedListener(this);
 		playListener = new MyPlayListener(this);
 		manager = PlayerManager.getInstance(getActivity()
 				.getApplicationContext());
@@ -54,12 +54,16 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	@Override
 	protected void initView() {
+		tf = getArguments().getBoolean(TF);
 		List<Fragment> fragments = new ArrayList<Fragment>();
+		findViewById(R.id.rb_tf_card_music).setVisibility(tf ? View.VISIBLE : View.GONE);
 		fragments.add(new MyMusicFrag());
+		if(tf){
+			fragments.add(new TFCardMusicFrag());
+		}
 		fragments.add(new CloudMusicFrag());
 		adapter = new MyPagerAdapter(getChildFragmentManager());
 		adapter.setList(fragments);
-		findViewById(R.id.rb_tf_card_music).setVisibility(View.GONE);
 
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setOffscreenPageLimit(2);
@@ -207,7 +211,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			break;
 		case 1:
 			checkedId = R.id.rb_tf_card_music;
-			if (!connected) {
+			if (!tf) {
 				checkedId = R.id.rb_cloud_music;
 			}
 			break;
@@ -231,7 +235,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			break;
 		case R.id.rb_cloud_music:
 			item = 2;
-			if (!connected) {
+			if (!tf) {
 				item = 1;
 			}
 			break;
@@ -239,37 +243,6 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			break;
 		}
 		viewPager.setCurrentItem(item);
-	}
-
-	@Override
-	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice device,
-			int state) {
-		List<Fragment> fragments = new ArrayList<Fragment>();
-		switch (state) {
-		case BluetoothDeviceManager.ConnectionState.CONNECTED:
-			connected = true;
-			findViewById(R.id.rb_tf_card_music).setVisibility(View.VISIBLE);
-			fragments.add(new MyMusicFrag());
-			fragments.add(new TFCardMusicFrag());
-			fragments.add(new CloudMusicFrag());
-			adapter.setList(fragments);
-			break;
-		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
-		case BluetoothDeviceManager.ConnectionState.SPP_DISCONNECTED:
-			connected = false;
-			findViewById(R.id.rb_tf_card_music).setVisibility(View.GONE);
-			fragments.add(new MyMusicFrag());
-			fragments.add(new CloudMusicFrag());
-			adapter.setList(fragments);
-			break;
-		}
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		btDeviceManProxy
-				.removeOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
 }

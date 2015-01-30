@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.actions.ibluz.manager.BluzManagerData.PlayState;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.RecentPlayMusic;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
@@ -212,7 +211,9 @@ public class PlayerManager {
 						.setOnBluetoothDeviceMusicSongChangedListener(null);
 				deviceMusicManager = null;
 			}
-			BluetoothDeviceManagerProxy.changeToA2DPMode();
+			if(play){
+				BluetoothDeviceManagerProxy.changeToA2DPMode();
+			}
 			handler.removeCallbacks(progressRunnable);
 			if (player == null) {
 				player = LocalPlayer.getInstance(mContext);
@@ -376,6 +377,9 @@ public class PlayerManager {
 	public void loadBluetoothDeviceMusic(
 			final IBluetoothDeviceMusicManager bltDeiviceMusicManager,
 			final MusicCallback callback, Activity act) {
+		if(bltDeiviceMusicManager == null){
+			return;
+		}
 		tag++;
 		deviceMusicSongListListener = new WrapBluetoothDeviceMusicSongListListener(tag);
 		deviceMusicListhandler.removeCallbacks(runnable);
@@ -733,6 +737,7 @@ public class PlayerManager {
 		deviceMusicManager
 				.setOnBluetoothDeviceMusicSongChangedListener(songChangedListener);
 		playWithCurrentEngine(playNow);
+		setPlayListener(mPlayListener, PlayType.Bluz, false);
 	}
 
 	/**

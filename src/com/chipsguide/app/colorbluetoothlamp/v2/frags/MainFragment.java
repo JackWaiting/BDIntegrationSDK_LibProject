@@ -37,7 +37,7 @@ public class MainFragment extends BaseFragment implements OnCheckedChangeListene
 	protected void initBase() {
 		pageTitle = getActivity().getResources().getStringArray(R.array.main_page_titles);
 		fragments.add(new ColorLampFrag());
-		fragments.add(new MusicFrag());
+		fragments.add(new WrapMusicFrag());
 		fragments.add(new ShakeFrag());
 	}
 

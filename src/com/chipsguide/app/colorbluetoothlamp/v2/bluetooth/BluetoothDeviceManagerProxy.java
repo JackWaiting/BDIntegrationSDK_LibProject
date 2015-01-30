@@ -23,7 +23,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePluggl
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceUsbMusicManager;
 
 public class BluetoothDeviceManagerProxy{
-	public static final String TAG = "CustomApplication";
+	public static final String TAG = "BluetoothDeviceManagerProxy";
 	public static BluetoothDeviceManagerProxy proxy;
 	/**
 	 * 广播，tf卡热插拔事件
@@ -43,6 +43,8 @@ public class BluetoothDeviceManagerProxy{
 	public static final String EXTRA_OLD_MODE = "old_mode";
 	
 	public static final String EXTRA_FIRST_MODE_CHANGE = "first_time_mode_change";
+	
+	public static final String EXTRA_FIRST_CARD_PLUG = "first_time_plug_in";
 	/**
 	 * 在应用内切换的模式
 	 */
@@ -131,6 +133,19 @@ public class BluetoothDeviceManagerProxy{
 					.setOnBluetoothDeviceHotplugChangedListener(hotplugChangedListener);
 		}
 		return bluzDeviceMan;
+	}
+	
+	public boolean isConnected() {
+		return connected;
+	}
+	
+	public boolean isPlugTFCard(){
+		if(bluzDeviceMan == null){
+			Log.d(TAG, "bluzDeviceMan == null");
+			return false;
+		}
+		Log.d(TAG, "isPlugIn card = " + bluzDeviceMan.isPlugIn(DevicePlugglable.CARD));
+		return bluzDeviceMan.isPlugIn(DevicePlugglable.CARD);
 	}
 	
 	/**
@@ -430,15 +445,14 @@ public class BluetoothDeviceManagerProxy{
 
 		@Override
 		public void onBluetoothDeviceCardPlugChanged(boolean arg0) {
-			// TODO TF卡插入、拔出时相应的操作（正在播放设备音乐，拔出TF卡时？）
 			Log.d(TAG, ">>>card hot plug = " + arg0);
 			if(cardPlugFirstCallback){
 				cardPlugFirstCallback = false;
-				return;
 			}
 			hasTfCard = arg0;
 			selectPriorityMode();
 			Intent intent = new Intent(ACTION_TF_CARD_PLUG_CHANGED);
+			intent.putExtra(EXTRA_FIRST_CARD_PLUG, cardPlugFirstCallback);
 			intent.putExtra(EXTRA_PLUG_IN, arg0);
 			context.sendOrderedBroadcast(intent, null);
 		}
@@ -516,14 +530,11 @@ public class BluetoothDeviceManagerProxy{
 			if (bluzDeviceMan.isDiscovering()) {
 				bluzDeviceMan.cancelDiscovery();
 			}
-			bluzDeviceMan = null;
 		}
+		bluzDeviceMan = null;
 		disconnected();
 		deviceMusicManager = null;
-		cardPlugFirstCallback = true;
-		usbPlugFirstCallback = true;
-		changeToA2DPInApp = false;
-		firstModeChange = true;
+		proxy = null;
 	}
 
 }
