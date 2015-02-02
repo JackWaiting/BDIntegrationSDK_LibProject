@@ -27,6 +27,7 @@ public class NetMusicItemView extends FrameLayout {
 		initView();
 		if(options == null){
 			options = new DisplayImageOptions.Builder()
+			.showImageOnLoading(R.drawable.loading_image)
 			.showImageForEmptyUri(R.drawable.loading_image)
 			.showImageOnFail(R.drawable.loading_image)
 			.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)

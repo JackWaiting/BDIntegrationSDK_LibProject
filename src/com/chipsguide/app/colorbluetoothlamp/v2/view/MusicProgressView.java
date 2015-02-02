@@ -51,6 +51,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 		if(animator != null){
 			animator.removeAllUpdateListeners();
 			animator.end();
+			currentDegree = ViewHelper.getRotation(musicIv);
 		}
 	}
 

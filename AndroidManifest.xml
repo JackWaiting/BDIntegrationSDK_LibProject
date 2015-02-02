@@ -5,79 +5,78 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
+        android:name="com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:name="com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication"
-        >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.WelcomeActivity"
-            android:theme="@style/SplashActivityTheme"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/SplashActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
         </activity>
-        <activity 
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.VersionUpdateActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicPlayerActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.AlbumListActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicListActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        
-        <service android:name="com.platomix.platomixplayerlib.core.local.PlayerService"></service>
-        
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name="com.platomix.platomixplayerlib.core.local.PlayerService" >
+        </service>
     </application>
 
 </manifest>

@@ -89,6 +89,7 @@ public class MusicPlayerActivity extends BaseActivity {
 			}
 		});
 		spectrumLayout = new MusicSpectrumView(this);
+		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
 		views.add(spectrumLayout);
 		
@@ -157,6 +158,7 @@ public class MusicPlayerActivity extends BaseActivity {
 		if (update && !force) {
 			return;
 		}
+		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		update = true;
 		Music currentMusic = playerManager.getCurrentMusic();
 		currentPosition = playerManager.getCurrentPosition();

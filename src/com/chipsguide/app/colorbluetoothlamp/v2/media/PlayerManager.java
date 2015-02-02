@@ -974,6 +974,13 @@ public class PlayerManager {
 			}
 		}
 	};
+	
+	public int getAudioSessionId() {
+		if(player != null){
+			return player.getAudioSessionId();
+		}
+		return -1;
+	}
 
 	/**
 	 * 关闭播放器，释放相关资源
