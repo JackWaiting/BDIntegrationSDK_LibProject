@@ -49,7 +49,7 @@ public abstract class IAlbumListItemView extends FrameLayout {
 		nameTv.setText(name);
 		countTv.setText("节目数：" + album.getMusicCount());
 		renderPlayCount(album);
-		imageLoader.displayImage(album.getCoverpath_s(), albumPicIv, 1, null);
+		imageLoader.displayImage(album.getCoverpath_m(), albumPicIv, 1, null);
 	}
 	
 	private void renderPlayCount(Album album) {

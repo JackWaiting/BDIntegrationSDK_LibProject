@@ -2,22 +2,20 @@
 <resources>
 
     <string name="app_name">ColorBluetoothLampV2</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="no_network">No network!</string>
     
-    <string name="bluetooth_conn">蓝牙连接</string>
-    <string name="time_light">定时开灯</string>
-    <string name="sleep_assistant">睡眠助手</string>
-    <string name="version_update">版本更新</string>
-    <string name="music_play">音乐播放</string>
-    <string name="color_lamp">彩灯</string>
-    <string name="shake">摇一摇</string>
-    <string name="music">音乐</string>
-    <string name="shake_setting">设置</string>
-    <string name="my_music">我的音乐</string>
-    <string name="tf_card_music">TF卡音乐</string>
-    <string name="cloud_music">云音乐</string>
+    <string name="bluetooth_conn">Bluetooth Conn</string>
+    <string name="time_light">Timing Light</string>
+    <string name="sleep_assistant">Sleep Assistant</string>
+    <string name="version_update">Version Update</string>
+    <string name="music_play">Music play</string>
+    <string name="color_lamp">Color Lamp</string>
+    <string name="shake">Shake</string>
+    <string name="music">Music</string>
+    <string name="shake_setting">Setting</string>
+    <string name="my_music">My Music</string>
+    <string name="tf_card_music">TF Card Music</string>
+    <string name="cloud_music">Cloud Music</string>
 
      <string name="file_not_exist_or_damaged">The file is damaged or does not exist!</string>
     <string name="network_exception">Network Anomaly!</string>
@@ -27,20 +25,20 @@
     <string name="order">Order</string>
     <string name="shuffle">Shuffle</string>
     <string name="single_reapet">Repeat</string>
-    <string name="playlist">播放列表</string>
-    <string name="hint_search_song">请输入搜索内容</string>
-    <string name="text_loading">正在加载……</string>
-    <string name="hint_loading_failed">加载失败，请检查网络连接！</string>
-    <string name="search_no_result">没有搜索结果！</string>
-    <string name="album_result">找专辑</string>
-    <string name="voice_result">找声音</string>
-    <string name="shake_default">系统默认</string>
-    <string name="other_options">其他设置</string>
-    <string name="random_color">随机颜色</string>
-    <string name="toggle_light">开/关灯</string>
-    <string name="play_pause">播放/暂停</string>
-    <string name="next_song">下一曲</string>
-    <string name="loading_music">正在载入……</string>
-    <string name="tf_card_has_plugin">TF卡已插入！</string>
-    <string name="tf_card_has_plugout">TF卡已拔出！</string>
+    <string name="playlist">Playlist</string>
+    <string name="hint_search_song">Please input keywords</string>
+    <string name="text_loading">loading……</string>
+    <string name="hint_loading_failed">Load failed,please check the network！</string>
+    <string name="search_no_result">No result！</string>
+    <string name="album_result">Album</string>
+    <string name="voice_result">Voice</string>
+    <string name="shake_default">Default</string>
+    <string name="other_options">Other</string>
+    <string name="random_color">Random color</string>
+    <string name="toggle_light">Close/Open Light</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="next_song">Next song</string>
+    <string name="loading_music">loading……</string>
+    <string name="tf_card_has_plugin">TF card plugin！</string>
+    <string name="tf_card_has_plugout">TF card plugout！</string>
 </resources>
