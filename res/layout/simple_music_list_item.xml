@@ -35,6 +35,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="歌曲名称"
+            android:textSize="18sp"
             />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
