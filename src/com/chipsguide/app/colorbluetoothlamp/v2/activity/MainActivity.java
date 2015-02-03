@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 		sm.setBehindOffset(getResources().getDisplayMetrics().widthPixels / 7 * 2);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
-		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 
 		sm.setBackgroundImage(R.drawable.bg_sidebar);
 
