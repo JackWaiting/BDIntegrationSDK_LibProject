@@ -36,7 +36,6 @@ public class VisualizerView extends View {
 	}
 
 	private void init() {
-		mBytes = null;
 		itemWidth = PixelUtil.dp2px(5, getContext());
 		itemSpace = PixelUtil.dp2px(4, getContext());
 		mForePaint.setStrokeWidth(itemWidth);
@@ -71,6 +70,7 @@ public class VisualizerView extends View {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		mSpectrumNum = getWidth() / (itemWidth + itemSpace);
 		mRect.set(0, 0, getWidth(), getHeight()/2);
+		mBytes = new byte[mSpectrumNum];
 	}
 
 	@Override
