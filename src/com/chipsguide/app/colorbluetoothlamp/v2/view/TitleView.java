@@ -26,6 +26,8 @@ public class TitleView extends FrameLayout {
 		int rightImgRes = a.getResourceId(R.styleable.TitleView_rightImg, R.drawable.selector_btn_player);
 		String text = a.getString(R.styleable.TitleView_text);
 		boolean visible = a.getBoolean(R.styleable.TitleView_rightBtnVisibility, true);
+		boolean marque = a.getBoolean(R.styleable.TitleView_marque, true);
+		titleTv.setFocusable(marque);
 		setRightBtnVisibility(visible);
 		setRightBtnImageRes(rightImgRes);
 		setLeftBtnImageRes(leftImgRes);

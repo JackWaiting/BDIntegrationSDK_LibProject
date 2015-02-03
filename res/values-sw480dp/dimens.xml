@@ -1,0 +1,4 @@
+<resources>
+
+   <dimen name="progress_padding">50dp</dimen>
+</resources>

@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class VisualizerView extends View {
 	private byte[] mBytes;
@@ -15,7 +16,9 @@ public class VisualizerView extends View {
 	private Rect mRect = new Rect();
 
 	private Paint mForePaint = new Paint();
-	private int mSpectrumNum = 20;
+	private int mSpectrumNum = -1;
+	private int itemWidth;
+	private int itemSpace;
 
 	public VisualizerView(Context context) {
 		super(context);
@@ -34,8 +37,9 @@ public class VisualizerView extends View {
 
 	private void init() {
 		mBytes = null;
-
-		mForePaint.setStrokeWidth(20f);
+		itemWidth = PixelUtil.dp2px(5, getContext());
+		itemSpace = PixelUtil.dp2px(4, getContext());
+		mForePaint.setStrokeWidth(itemWidth);
 		mForePaint.setAntiAlias(true);
 		mForePaint.setColor(getResources().getColor(R.color.color_blue));
 	}
@@ -65,7 +69,7 @@ public class VisualizerView extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		mSpectrumNum = getWidth() / 25;
+		mSpectrumNum = getWidth() / (itemWidth + itemSpace);
 		mRect.set(0, 0, getWidth(), getHeight()/2);
 	}
 
@@ -81,8 +85,10 @@ public class VisualizerView extends View {
 			mPoints = new float[mBytes.length * 4];
 		}
 
+		if(mSpectrumNum < 0){
+			mSpectrumNum = getWidth() / (itemWidth + itemSpace);
+		}
 		// 绘制频谱
-		final int baseX = mRect.width() / mSpectrumNum;
 		final int height = mRect.height();
 
 		for (int i = 0; i < mSpectrumNum; i++) {
@@ -90,14 +96,15 @@ public class VisualizerView extends View {
 				mBytes[i] = 127;
 			}
 
-			final int xi = baseX * i + baseX / 2;
+			final int xi = (itemSpace) * (i + 1) + itemWidth * i;
 			
 			int delta = 4*mBytes[i] + 5;
+			delta = Math.min(delta, height);
 			mPoints[i * 4] = xi;
-			mPoints[i * 4 + 1] = height + Math.min(delta, height);
+			mPoints[i * 4 + 1] = height + delta;
 
 			mPoints[i * 4 + 2] = xi;
-			mPoints[i * 4 + 3] = height - Math.min(delta, height);
+			mPoints[i * 4 + 3] = height - delta;
 		}
 
 		canvas.drawLines(mPoints, mForePaint);

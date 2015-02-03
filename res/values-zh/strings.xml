@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ColorBluetoothLampV2</string>
+    <string name="app_name">彩灯2.0</string>
     <string name="no_network">无网络连接!</string>
     
     <string name="bluetooth_conn">蓝牙连接</string>

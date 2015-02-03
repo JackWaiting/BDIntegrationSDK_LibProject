@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:seekarc="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    >
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        >
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_duration"
+        android:padding="@dimen/progress_padding"
+         >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc
             android:id="@+id/seekArc"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:padding="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:padding="20dp"
             seekarc:arcColor="@color/color_dark_gray"
+            seekarc:arcWidth="3dp"
             seekarc:clockwise="false"
             seekarc:max="1000"
             seekarc:progressColor="@color/color_blue"
+            seekarc:progressWidth="3dp"
             seekarc:rotation="-60"
             seekarc:startAngle="0"
             seekarc:sweepAngle="300"
-            seekarc:touchInside="false" 
-            seekarc:progressWidth="3dp"
-            seekarc:arcWidth="3dp"
-            />
-        
+            seekarc:touchInside="false" />
+
         <ImageView
             android:id="@+id/bg"
-            android:layout_width="230dp"
-            android:layout_height="230dp"
-            android:layout_gravity="center"
-            android:src="@drawable/bg_record"
-             />
-        
-         <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/seekArc"
+            android:layout_alignTop="@+id/seekArc"
+            android:layout_centerInParent="true"
+            android:layout_margin="25dp"
+            android:src="@drawable/bg_record" />
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
             android:id="@+id/iv_music_img"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_gravity="center"
-            android:src="@drawable/img_record"
-             />
-    </FrameLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_margin="30dp"
+            android:src="@drawable/img_record" />
+    </RelativeLayout>
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/tv_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="00:10/03:10"
         android:gravity="center_horizontal"
-        />
+        android:layout_alignParentBottom="true"
+        android:text="00:00/00:00" />
 
-</LinearLayout>
+</RelativeLayout>
