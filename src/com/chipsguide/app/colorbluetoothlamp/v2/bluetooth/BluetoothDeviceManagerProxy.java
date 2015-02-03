@@ -445,15 +445,15 @@ public class BluetoothDeviceManagerProxy{
 		@Override
 		public void onBluetoothDeviceCardPlugChanged(boolean arg0) {
 			Log.d(TAG, ">>>card hot plug = " + arg0);
-			if(cardPlugFirstCallback){
-				cardPlugFirstCallback = false;
-			}
 			hasTfCard = arg0;
 			selectPriorityMode();
 			Intent intent = new Intent(ACTION_TF_CARD_PLUG_CHANGED);
 			intent.putExtra(EXTRA_FIRST_CARD_PLUG, cardPlugFirstCallback);
 			intent.putExtra(EXTRA_PLUG_IN, arg0);
 			context.sendOrderedBroadcast(intent, null);
+			if(cardPlugFirstCallback){
+				cardPlugFirstCallback = false;
+			}
 		}
 
 		@Override
