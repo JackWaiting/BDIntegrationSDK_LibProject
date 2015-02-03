@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -78,6 +79,10 @@ public class SearchActivity extends BaseActivity implements
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if(actionId == EditorInfo.IME_ACTION_SEARCH){
+					if(TextUtils.isEmpty(searchEt.getText().toString().trim())){
+						showToast(R.string.keywords_cannot_be_null);
+						return false;
+					}
 					hideInputMethod(v);
 					int size = fragments.size();
 					for(int i = 0 ; i < size ; i++){
