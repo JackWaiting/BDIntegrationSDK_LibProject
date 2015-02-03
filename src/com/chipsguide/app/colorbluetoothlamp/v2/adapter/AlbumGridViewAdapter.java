@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Column;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class AlbumGridViewAdapter extends BaseAdapter {
 	private static final int DEF_NUM = 9;
@@ -30,9 +31,11 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 
 	private boolean isHide = true;
 	private int mLimited = 0;
+	private int headHeight;
 
-	public AlbumGridViewAdapter(Context mContext) {
-		this.mContext = mContext;
+	public AlbumGridViewAdapter(Context context) {
+		this.mContext = context;
+		headHeight = PixelUtil.dp2px(50, context);
 	}
 	
 	public void setList(List<Column> list) {
@@ -71,7 +74,7 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		} else {
 			hodler = (ViewHodler) convertView.getTag();
 		}
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/ 3 - 40);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, (parent.getHeight() - headHeight)/ 3);
 		convertView.setLayoutParams(params);
 
 		hodler.iv_image.setImageResource(images[position % images.length]);
