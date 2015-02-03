@@ -66,6 +66,13 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 		progressSeekBar.setOnSeekArcChangeListener(this);
 		ViewHelper.setRotation(musicIv, currentDegree);
 	}
+	
+	public void setSeekable(boolean seek) {
+		if(!seek){
+			progressSeekBar.setThumbVisibility(false);
+			progressSeekBar.setSeekable(false);
+		}
+	}
 
 	public void updateProgress(long duration, long currentDuration, int percent) {
 		String currentDurationStr = StringFormatUtil.formatDuration(currentDuration);

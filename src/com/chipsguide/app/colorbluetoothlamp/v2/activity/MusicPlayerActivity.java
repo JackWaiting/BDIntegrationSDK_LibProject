@@ -130,7 +130,9 @@ public class MusicPlayerActivity extends BaseActivity {
 	private void initForType() {
 		PlayType type = PlayerManager.getPlayType();
 		if (type != null && type == PlayType.Net) {
+			
 		} else if (type != null && type == PlayType.Bluz) {
+			progressLayout.setSeekable(false);
 		} else if (type == null) {
 			if (playerManager.loadRecentPlay()) {
 				initForType();
@@ -169,11 +171,16 @@ public class MusicPlayerActivity extends BaseActivity {
 				title = currentMusic.getName_en();
 			}
 			musicNameTv.setText(title);
-			if(!TextUtils.isEmpty(currentMusic.getArtist())){
-				artistTv.setText(currentMusic.getArtist());
+			String artist = currentMusic.getArtist();
+			if("<unknown>".equals(artist)){
+				artist = "未知歌手";
+			}
+			if(!TextUtils.isEmpty(artist)){
+				artistTv.setText(artist);
 			}
 			titleView.setTitleText(title);
 			progressLayout.updateMusicImage(currentMusic.getPicpath_l());
+			progressLayout.updateProgress(currentMusic.getDuration(), 0, 0);
 		}
 		mAdapter.setSelected(currentPosition, true);
 		// 不是用户点击，才滚动ListView
@@ -295,7 +302,12 @@ public class MusicPlayerActivity extends BaseActivity {
 			finish();
 			break;
 		case R.id.iv_play_state:
-			playerManager.toggle();
+			if(playerManager.isPlaying()){
+				playerManager.pause();
+			}else{
+				currentPosition = Math.max(currentPosition, 0);
+				playerManager.skipTo(currentPosition);
+			}
 			break;
 		case R.id.iv_next:
 			playerManager.next();

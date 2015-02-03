@@ -276,8 +276,20 @@ public class SeekArc extends View {
 				mProgressPaint);
 
 		// Draw the thumb nail
-		canvas.translate(mTranslateX -mThumbXPos, mTranslateY -mThumbYPos);
-		mThumb.draw(canvas);		
+		if(thumbVisible){
+			canvas.translate(mTranslateX -mThumbXPos, mTranslateY -mThumbYPos);
+			mThumb.draw(canvas);		
+		}
+	}
+	
+	private boolean thumbVisible = true;
+	public void setThumbVisibility(boolean visible) {
+		thumbVisible = visible;
+		invalidate();
+	}
+	private boolean canSeek = true;
+	public void setSeekable(boolean canSeek) {
+		this.canSeek = canSeek;
 	}
 
 
@@ -312,6 +324,9 @@ public class SeekArc extends View {
 
 	@SuppressLint("ClickableViewAccessibility") @Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(!canSeek){
+			return true;
+		}
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if(ignoreTouch(event.getX(), event.getY())){

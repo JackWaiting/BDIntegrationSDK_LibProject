@@ -20,7 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/iv_state" 
-        android:padding="15dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
