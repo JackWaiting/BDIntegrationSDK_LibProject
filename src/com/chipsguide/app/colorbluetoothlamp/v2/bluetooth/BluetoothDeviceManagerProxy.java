@@ -144,8 +144,7 @@ public class BluetoothDeviceManagerProxy{
 			Log.d(TAG, "bluzDeviceMan == null");
 			return false;
 		}
-		Log.d(TAG, "isPlugIn card = " + bluzDeviceMan.isPlugIn(DevicePlugglable.CARD));
-		return bluzDeviceMan.isPlugIn(DevicePlugglable.CARD);
+		return bluzDeviceMan.isPlugIn(DevicePlugglable.CARD) && isConnected();
 	}
 	
 	/**
