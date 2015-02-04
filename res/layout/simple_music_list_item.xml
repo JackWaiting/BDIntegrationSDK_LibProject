@@ -21,8 +21,8 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/iv_state" 
         android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
@@ -35,7 +35,8 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="歌曲名称"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#363636"
             />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
@@ -48,7 +49,8 @@
             android:layout_toLeftOf="@+id/duration_tv"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
-            android:textColor="@color/color_dark_gray"
+            android:textColor="#646464"
+            android:text="歌手"
             />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
@@ -62,11 +64,4 @@
              />
         
     </RelativeLayout>
-	<ImageView 
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:layout_alignParentBottom="true"
-	    android:background="@color/color_dark_gray"
-	    android:layerType="software"
-	    />
 </RelativeLayout>
