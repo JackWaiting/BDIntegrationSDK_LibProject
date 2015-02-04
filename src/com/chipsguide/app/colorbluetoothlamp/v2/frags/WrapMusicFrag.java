@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
@@ -17,6 +16,8 @@ public class WrapMusicFrag extends BaseFragment implements
 	private BluetoothDeviceManagerProxy btDeviceManProxy;
 	private boolean plugTFCard;
 	private int currentConState;
+	
+	private MusicFrag musicFrag;
 
 	@Override
 	protected void initBase() {
@@ -58,7 +59,10 @@ public class WrapMusicFrag extends BaseFragment implements
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if (BluetoothDeviceManagerProxy.ACTION_MODE_CHANGE.equals(action)) {
-				
+				int newMode = intent.getIntExtra(BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
+				if(newMode == BluetoothDeviceManager.Mode.CARD){
+					musicFrag.setCurrentItem(1);
+				}
 			} else {
 				plugTFCard = intent.getBooleanExtra(
 						BluetoothDeviceManagerProxy.EXTRA_PLUG_IN, false);
