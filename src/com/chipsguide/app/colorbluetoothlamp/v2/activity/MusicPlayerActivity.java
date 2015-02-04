@@ -4,6 +4,10 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
@@ -30,6 +35,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.platomixplayerlib.api.PlaybackMode;
 
 public class MusicPlayerActivity extends BaseActivity {
@@ -38,17 +44,17 @@ public class MusicPlayerActivity extends BaseActivity {
 	private SimpleMusicListAdapter mAdapter;
 	private int currentPosition;
 	private boolean userClick, update;
-	
+
 	private TitleView titleView;
-	private ImageView playBtn,playmodeBtn;
+	private ImageView playBtn, playmodeBtn;
 	private SlidingLayer playListLayer;
 	private ListView playListLv;
 	private MusicProgressView progressLayout;
 	private MusicSpectrumView spectrumLayout;
-	private TextView musicNameTv,artistTv;
-	
+	private TextView musicNameTv, artistTv;
+
 	private List<View> views = new ArrayList<View>();
-	
+
 	@Override
 	public void initBase() {
 		playerManager = PlayerManager.getInstance(getApplicationContext());
@@ -59,6 +65,7 @@ public class MusicPlayerActivity extends BaseActivity {
 		currentModeRes = PlayUtil.getModeImgRes(mode);
 
 		mAdapter = new SimpleMusicListAdapter(this);
+		registBroadcase();
 	}
 
 	@Override
@@ -78,21 +85,22 @@ public class MusicPlayerActivity extends BaseActivity {
 		updateUI(true);
 
 	}
-	
+
 	private void initPagerView() {
 		progressLayout = new MusicProgressView(this);
-		progressLayout.setOnSeekArcChangeListener(new SimpleSeekArcChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekArc seekArc) {
-				playerManager
-				.seekTo((int) ((float) seekArc.getProgress() / 1000 * 100));
-			}
-		});
+		progressLayout
+				.setOnSeekArcChangeListener(new SimpleSeekArcChangeListener() {
+					@Override
+					public void onStopTrackingTouch(SeekArc seekArc) {
+						playerManager.seekTo((int) ((float) seekArc
+								.getProgress() / 1000 * 100));
+					}
+				});
 		spectrumLayout = new MusicSpectrumView(this);
 		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
 		views.add(spectrumLayout);
-		
+
 		ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setAdapter(new MyPagerAdapter());
 		CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
@@ -130,7 +138,7 @@ public class MusicPlayerActivity extends BaseActivity {
 	private void initForType() {
 		PlayType type = PlayerManager.getPlayType();
 		if (type != null && type == PlayType.Net) {
-			
+
 		} else if (type != null && type == PlayType.Bluz) {
 			progressLayout.setSeekable(false);
 		} else if (type == null) {
@@ -172,10 +180,10 @@ public class MusicPlayerActivity extends BaseActivity {
 			}
 			musicNameTv.setText(title);
 			String artist = currentMusic.getArtist();
-			if("<unknown>".equals(artist)){
+			if ("<unknown>".equals(artist)) {
 				artist = "未知歌手";
 			}
-			if(!TextUtils.isEmpty(artist)){
+			if (!TextUtils.isEmpty(artist)) {
 				artistTv.setText(artist);
 			}
 			titleView.setTitleText(title);
@@ -189,7 +197,6 @@ public class MusicPlayerActivity extends BaseActivity {
 		}
 	}
 
-
 	@Override
 	public void initData() {
 	}
@@ -197,7 +204,6 @@ public class MusicPlayerActivity extends BaseActivity {
 	@Override
 	public void initListener() {
 	}
-
 
 	/**
 	 * 播放器回调。此监听比Activity的生命周期要长，所以声明为静态内部类，防止内存泄露
@@ -214,10 +220,8 @@ public class MusicPlayerActivity extends BaseActivity {
 			MusicPlayerActivity act = ref.get();
 			if (act != null) {
 				act.mAdapter.setSelected(
-						act.playerManager.getCurrentPosition(),
-						true);
-				act.playBtn
-						.setImageResource(R.drawable.selector_btn_play);
+						act.playerManager.getCurrentPosition(), true);
+				act.playBtn.setImageResource(R.drawable.selector_btn_play);
 				act.progressLayout.playStateChange(true);
 			}
 		}
@@ -227,10 +231,8 @@ public class MusicPlayerActivity extends BaseActivity {
 			MusicPlayerActivity act = ref.get();
 			if (act != null) {
 				act.mAdapter.setSelected(
-						act.playerManager.getCurrentPosition(),
-						false);
-				act.playBtn
-						.setImageResource(R.drawable.selector_btn_pause);
+						act.playerManager.getCurrentPosition(), false);
+				act.playBtn.setImageResource(R.drawable.selector_btn_pause);
 				act.progressLayout.playStateChange(false);
 			}
 		}
@@ -240,9 +242,11 @@ public class MusicPlayerActivity extends BaseActivity {
 				long currentDuration, int percent) {
 			MusicPlayerActivity act = ref.get();
 			if (act != null) {
-				act.progressLayout.updateProgress(duration, currentDuration, percent);
-				if(!act.progressLayout.isRotatingAnim()){
-					act.progressLayout.playStateChange(act.playerManager.isPlaying());
+				act.progressLayout.updateProgress(duration, currentDuration,
+						percent);
+				if (!act.progressLayout.isRotatingAnim()) {
+					act.progressLayout.playStateChange(act.playerManager
+							.isPlaying());
 				}
 				if (!act.update) {
 					act.updateUI(false);
@@ -302,9 +306,9 @@ public class MusicPlayerActivity extends BaseActivity {
 			finish();
 			break;
 		case R.id.iv_play_state:
-			if(playerManager.isPlaying()){
+			if (playerManager.isPlaying()) {
 				playerManager.pause();
-			}else{
+			} else {
 				currentPosition = Math.max(currentPosition, 0);
 				playerManager.skipTo(currentPosition);
 			}
@@ -362,8 +366,8 @@ public class MusicPlayerActivity extends BaseActivity {
 		playerManager.setPlayListener(new MyPlayListener(this),
 				PlayerManager.getPlayType(), true);
 	}
-	
-	private class MyPagerAdapter extends PagerAdapter{
+
+	private class MyPagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
@@ -375,7 +379,7 @@ public class MusicPlayerActivity extends BaseActivity {
 			container.addView(views.get(position));
 			return views.get(position);
 		}
-		
+
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			return arg0 == arg1;
@@ -387,5 +391,41 @@ public class MusicPlayerActivity extends BaseActivity {
 		}
 	}
 
+	private boolean register;
 
+	private void registBroadcase() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BluetoothDeviceManagerProxy.ACTION_TF_CARD_PLUG_CHANGED);
+		filter.addAction(BluetoothDeviceManagerProxy.ACTION_MODE_CHANGE);
+		registerReceiver(bluzBroadcaseReceiver, filter);
+		register = true;
+	}
+
+	private BroadcastReceiver bluzBroadcaseReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (BluetoothDeviceManagerProxy.ACTION_MODE_CHANGE.equals(action)) {
+				int newMode = intent.getIntExtra(
+						BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
+				int oldMode = intent.getIntExtra(
+						BluetoothDeviceManagerProxy.EXTRA_OLD_MODE, -1);
+				int a2dpMode = BluetoothDeviceManager.Mode.A2DP;
+				int cardMode = BluetoothDeviceManager.Mode.CARD;
+				if (newMode != a2dpMode && oldMode == a2dpMode && oldMode != -1) {// 之前的模式是A2DP，新模式不是A2DP则结束
+					finish();
+				} else if (newMode != cardMode && oldMode == cardMode) {// 之前的模式是卡模式，新模式不是卡模式则结束
+					finish();
+				}
+			}
+		}
+	};
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (register) {
+			unregisterReceiver(bluzBroadcaseReceiver);
+		}
+	}
 }
