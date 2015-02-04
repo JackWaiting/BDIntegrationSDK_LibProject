@@ -114,6 +114,10 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		}
 		onMusicChange(null, null);
 	}
+	
+	public void setCurrentItem(int item) {
+		viewPager.setCurrentItem(item);
+	}
 
 	private static class MyPlayListener extends PlayListener {
 		private WeakReference<MusicFrag> ref;

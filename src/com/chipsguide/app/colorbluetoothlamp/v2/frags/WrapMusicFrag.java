@@ -39,9 +39,9 @@ public class WrapMusicFrag extends BaseFragment implements
 	
 	private void refreshMusicFrag() {
 		plugTFCard = btDeviceManProxy.isPlugTFCard();
-		MusicFrag frag = MusicFrag.newInstance(plugTFCard);
+		musicFrag = MusicFrag.newInstance(plugTFCard);
 		//在WrapMusicFrag界面不可见时，调用此方法会报错。改为commitAllowingStateLoss()不会报错，但界面不刷新
-		getChildFragmentManager().beginTransaction().replace(R.id.content_layout, frag).commitAllowingStateLoss();
+		getChildFragmentManager().beginTransaction().replace(R.id.content_layout, musicFrag).commitAllowingStateLoss();
 	}
 		
 	private boolean register;
