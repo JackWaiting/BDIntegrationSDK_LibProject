@@ -14,7 +14,6 @@ import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMu
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceHotplugChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceUsbMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
@@ -123,8 +122,6 @@ public class BluetoothDeviceManagerProxy{
 			bluzDeviceMan.build();
 			bluzDeviceMan
 					.setBluetoothDeviceMacAddressFilterPrefix(MAC_ADDRESS_FILTER_PREFIX);
-			bluzDeviceMan
-					.setOnBluetoothDeviceManagerReadyListener(deviceManagerReadyListener);
 			bluzDeviceMan
 					.setOnBluetoothDeviceConnectionStateChangedListener(connStateChangeListener);
 			bluzDeviceMan
@@ -346,16 +343,6 @@ public class BluetoothDeviceManagerProxy{
 		}
 	}
 
-	/**
-	 * 蓝牙管理类准备监听
-	 */
-	private OnBluetoothDeviceManagerReadyListener deviceManagerReadyListener = new OnBluetoothDeviceManagerReadyListener() {
-
-		@Override
-		public void onBluetoothDeviceManagerReady() {
-			
-		}
-	};
 	/**
 	 * 蓝牙连接状态改变监听
 	 */
