@@ -93,7 +93,7 @@ public class MusicPlayerActivity extends BaseActivity {
 					@Override
 					public void onStopTrackingTouch(SeekArc seekArc) {
 						playerManager.seekTo((int) ((float) seekArc
-								.getProgress() / 1000 * 100));
+								.getProgress() / 1000 * 1000));
 					}
 				});
 		spectrumLayout = new MusicSpectrumView(this);
