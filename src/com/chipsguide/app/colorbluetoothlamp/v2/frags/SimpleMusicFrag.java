@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicPlayerActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
@@ -73,13 +74,14 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if(position == prePosition){
-			playerManager.toggle();
+			//playerManager.toggle();
 		}else{
 			userClick = true;
 			prePosition = position;
-			playerManager.setMusicList(adapter.getMusicList(), position, getPlayType());
 			adapter.setSelected(position);
 		}
+		playerManager.setMusicList(adapter.getMusicList(), position, getPlayType());
+		startActivity(MusicPlayerActivity.class);
 	}
 	
 	@Override
