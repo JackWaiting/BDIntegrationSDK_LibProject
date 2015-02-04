@@ -2,6 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 	private WrapImageLoader imageLoader;
 	private static float currentDegree;
 	private boolean onTrackingTouch;
+	private long duration;
 
 	public static abstract class SimpleSeekArcChangeListener implements OnSeekArcChangeListener{
 		@Override
@@ -75,10 +77,11 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 	}
 
 	public void updateProgress(long duration, long currentDuration, int percent) {
-		String currentDurationStr = StringFormatUtil.formatDuration(currentDuration);
-		String durationStr = StringFormatUtil.formatDuration(duration);
-		musicDurationTv.setText(currentDurationStr + "/" + durationStr);
+		this.duration = duration;
 		if(!onTrackingTouch){
+			String currentDurationStr = StringFormatUtil.formatDuration(currentDuration);
+			String durationStr = StringFormatUtil.formatDuration(duration);
+			musicDurationTv.setText(currentDurationStr + "/" + durationStr);
 			progressSeekBar.setProgress((int)(1000 * percent / 1000f));
 		}
 	}
@@ -146,6 +149,11 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 	@Override
 	public void onProgressChanged(SeekArc seekArc, int progress,
 			boolean fromUser) {
+		if(fromUser){
+			String currentDurationStr = StringFormatUtil.formatDuration(duration*progress / seekArc.getMaxProgress());
+			String durationStr = StringFormatUtil.formatDuration(duration);
+			musicDurationTv.setText(currentDurationStr + "/" + durationStr);
+		}
 		if(seekArcListener != null){
 			seekArcListener.onProgressChanged(seekArc, progress, fromUser);
 		}

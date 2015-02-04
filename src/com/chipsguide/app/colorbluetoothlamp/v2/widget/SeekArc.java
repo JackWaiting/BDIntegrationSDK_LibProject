@@ -559,4 +559,8 @@ public class SeekArc extends View {
 	public void setClockwise(boolean isClockwise) {
 		mClockwise = isClockwise;
 	}
+	
+	public int getMaxProgress() {
+		return mMax;
+	}
 }

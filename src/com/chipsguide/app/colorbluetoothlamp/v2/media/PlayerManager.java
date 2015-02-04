@@ -628,7 +628,7 @@ public class PlayerManager {
 	/**
 	 * 调整播放进度。蓝牙设备音乐播放时此方法无效
 	 * 
-	 * @param percent
+	 * @param percent 千分比
 	 */
 	public void seekTo(int percent) {
 		if (player != null) {
