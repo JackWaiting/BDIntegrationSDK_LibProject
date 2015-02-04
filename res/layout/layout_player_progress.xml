@@ -37,7 +37,7 @@
             android:layout_alignBottom="@+id/seekArc"
             android:layout_alignTop="@+id/seekArc"
             android:layout_centerInParent="true"
-            android:layout_margin="25dp"
+            android:layout_margin="30dp"
             android:src="@drawable/bg_record" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_margin="30dp"
+            android:layout_margin="35dp"
             android:src="@drawable/img_record" />
     </RelativeLayout>
 
