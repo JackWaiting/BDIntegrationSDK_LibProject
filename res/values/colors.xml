@@ -6,4 +6,5 @@
     <color name="color_dark_gray">#cccccc</color>
     <color name="first_text_color">#ffffff</color>
     <color name="secondary_text_color">#cccccc</color>
+    <color name="color_divider_line">#d2d2d2</color>
 </resources>
