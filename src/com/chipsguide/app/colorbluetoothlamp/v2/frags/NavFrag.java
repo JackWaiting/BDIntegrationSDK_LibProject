@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -11,6 +12,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.VersionUpdateActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
@@ -41,6 +43,13 @@ public class NavFrag extends BaseFragment {
 					long id) {
 				adapter.setSelected(position);
 				onNavagationItemClick(position);
+			}
+		});
+		findViewById(R.id.moon).setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				WrapImageLoader.getInstance(getActivity()).clearCache();
+				return false;
 			}
 		});
 	}

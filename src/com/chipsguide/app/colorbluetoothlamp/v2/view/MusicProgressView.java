@@ -2,7 +2,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.view;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -17,12 +16,14 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc.OnSeekArcChangeLi
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 public class MusicProgressView extends FrameLayout implements OnSeekArcChangeListener{
 	private SeekArc progressSeekBar;
 	private ImageView musicIv;
 	private TextView musicDurationTv;
 	private WrapImageLoader imageLoader;
+	private DisplayImageOptions options;
 	private static float currentDegree;
 	private boolean onTrackingTouch;
 	private long duration;
@@ -59,7 +60,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 
 	private void init() {
 		imageLoader = WrapImageLoader.getInstance(getContext());
-		imageLoader.setDefaultImage(R.drawable.img_record);
+		options = WrapImageLoader.buildDisplayImageOptions(R.drawable.img_record);
 		LayoutInflater.from(getContext()).inflate(
 				R.layout.layout_player_progress, this);
 		progressSeekBar = (SeekArc) this.findViewById(R.id.seekArc);
@@ -90,7 +91,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 		if(TextUtils.isEmpty(url)){
 			return;
 		}
-		imageLoader.displayImage(url, musicIv, 1, null);
+		imageLoader.displayImage(options, url, musicIv, 1, null);
 	}
 	
 	public void playStateChange(boolean playing) {

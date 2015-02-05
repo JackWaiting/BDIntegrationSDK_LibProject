@@ -49,7 +49,7 @@
             android:layout_toLeftOf="@+id/duration_tv"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
-            android:textColor="#646464"
+            android:textColor="@color/color_dark_gray"
             android:text="歌手"
             />
 

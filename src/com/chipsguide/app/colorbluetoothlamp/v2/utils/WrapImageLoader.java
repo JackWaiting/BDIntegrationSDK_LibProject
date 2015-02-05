@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 public class WrapImageLoader {
@@ -39,13 +40,25 @@ public class WrapImageLoader {
 				.showImageOnLoading(imageRes).showImageForEmptyUri(imageRes)
 				.showImageOnFail(imageRes)
 				.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)
-				.cacheOnDisc(true).considerExifParams(false).build();
+				.displayer(new FadeInBitmapDisplayer(300)).cacheOnDisc(true)
+				.considerExifParams(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				context).threadPriority(Thread.NORM_PRIORITY - 2)
+				.discCacheSize(2 * 1024 * 1024)
 				.denyCacheImageMultipleSizesInMemory()
 				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(config);
+	}
+
+	public static DisplayImageOptions buildDisplayImageOptions(int imageRes) {
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(imageRes).showImageForEmptyUri(imageRes)
+				.showImageOnFail(imageRes)
+				.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)
+				.displayer(new FadeInBitmapDisplayer(300)).cacheOnDisc(true)
+				.considerExifParams(false).build();
+		return options;
 	}
 
 	public static WrapImageLoader getInstance(Context context) {
@@ -67,5 +80,10 @@ public class WrapImageLoader {
 		Options o = options.getDecodingOptions();
 		o.inSampleSize = insampleSize;
 		imageLoader.displayImage(uri, iv, options, listener);
+	}
+	
+	public void clearCache() {
+		imageLoader.clearDiscCache();
+		imageLoader.clearMemoryCache();
 	}
 }

@@ -16,6 +16,7 @@ public class VisualizerView extends View {
 	private Rect mRect = new Rect();
 
 	private Paint mForePaint = new Paint();
+	private Paint linePaint = new Paint();
 	private int mSpectrumNum = -1;
 	private int itemWidth;
 	private int itemSpace;
@@ -41,6 +42,9 @@ public class VisualizerView extends View {
 		mForePaint.setStrokeWidth(itemWidth);
 		mForePaint.setAntiAlias(true);
 		mForePaint.setColor(getResources().getColor(R.color.color_blue));
+		
+		linePaint.set(mForePaint);
+		linePaint.setStrokeWidth(4);
 	}
 	
 	private boolean update = true;
@@ -52,16 +56,16 @@ public class VisualizerView extends View {
 		if (!update) {
 			return;
 		}
-
 		byte[] model = new byte[fft.length / 2 + 1];
 
 		model[0] = (byte) Math.abs(fft[0]);
-		for (int i = 2, j = 1; j < mSpectrumNum;) {
+		for (int i = 2, j = 1; j < mSpectrumNum + 1;) {
 			model[j] = (byte) Math.hypot(fft[i], fft[i + 1]);
 			i += 2;
 			j++;
 		}
 		mBytes = model;
+		//mBytes = fft;
 		invalidate();
 	}
 	
@@ -70,7 +74,8 @@ public class VisualizerView extends View {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		mSpectrumNum = getWidth() / (itemWidth + itemSpace);
 		mRect.set(0, 0, getWidth(), getHeight()/2);
-		mBytes = new byte[mSpectrumNum];
+		rect.set(0, 0, getWidth(), getHeight());
+		mBytes = new byte[mSpectrumNum + 1];
 	}
 
 	@Override
@@ -81,6 +86,14 @@ public class VisualizerView extends View {
 			return;
 		}
 
+		drawHistogram(canvas);
+		//drawLine(canvas);
+	}
+	/**
+	 * 柱状图
+	 * @param canvas
+	 */
+	private void drawHistogram(Canvas canvas) {
 		if (mPoints == null || mPoints.length < mBytes.length * 4) {
 			mPoints = new float[mBytes.length * 4];
 		}
@@ -110,4 +123,29 @@ public class VisualizerView extends View {
 		canvas.drawLines(mPoints, mForePaint);
 	}
 	
+	private float [] points;
+	private Rect rect = new Rect();
+	/**
+	 * 波形图
+	 * @param canvas
+	 */
+	protected void drawLine(Canvas canvas) {
+		if (mBytes == null) {
+            return;
+        }
+
+        if (points == null || points.length < mBytes.length * 4) {
+        	points = new float[mBytes.length * 4];
+        }
+
+        for (int i = 0; i < mSpectrumNum; i++) {
+        	points[i * 4] = rect.width() * i / mSpectrumNum;
+        	points[i * 4 + 1] = rect.height() / 2 + mBytes[i] * 2;
+        	points[i * 4 + 2] = rect.width() * (i + 1) / mSpectrumNum;
+        	points[i * 4 + 3] = rect.height() / 2 + mBytes[i + 1] * 2;
+        }
+
+        canvas.drawLines(points, linePaint);
+	}
+		
 }
