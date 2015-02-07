@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/edit" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <TextView
+        android:id="@+id/textview_rename"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/restting_name"
+        android:textSize="20sp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/textview_deletedevice"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/cancl_pair2"
+        android:textColor="@color/color_red"
+        android:textSize="20sp"
+        android:background="@color/white"  />
+
+</LinearLayout>

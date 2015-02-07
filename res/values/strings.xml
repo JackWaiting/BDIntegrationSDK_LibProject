@@ -16,6 +16,7 @@
     <string name="my_music">My Music</string>
     <string name="tf_card_music">TF Card Music</string>
     <string name="cloud_music">Cloud Music</string>
+    <string name="edit">edit</string>
 
      <string name="file_not_exist_or_damaged">The file is damaged or does not exist!</string>
     <string name="network_exception">Network Anomaly!</string>
@@ -42,4 +43,20 @@
     <string name="tf_card_has_plugin">TF card plugin！</string>
     <string name="tf_card_has_plugout">TF card plugout！</string>
     <string name="keywords_cannot_be_null">搜索内容不能为空!</string>
+    
+    <string name="light_normal">NORMAL</string>
+    <string name="light_rainbow">RAINBOW</string>
+    <string name="light_pulse">PULSE</string>
+    <string name="light_flashing">FLASHING</string>
+    <string name="light_candle">CANDLE</string>
+    <string name="connect">connected</string><!-- 连接 -->
+    <string name="not_connect">unlink</string> <!-- 未连接 -->
+    <string name="bluetooth_not_available">Bluetooth is not enabled!</string>
+    <string name="ok">OK</string>
+    <string name="cancl">Cancel</string>
+    <string name="cancl_pair">Cancel Paired</string>
+    <string name="cancl_pair2">Delete device</string>
+    <string name="restting_name">Rename</string>
+    <string name="remove_device">Are you sure to delete this device？</string>
+    <string name="name_not_null">The name cannot be null</string>
 </resources>

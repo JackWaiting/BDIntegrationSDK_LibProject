@@ -8,4 +8,7 @@
     <dimen name="text_size_medium">16sp</dimen>
     
     <dimen name="progress_padding">5dp</dimen>
+    <!-- by fiskz -->
+    <dimen name="colorpick_width">180dp</dimen>
+    <dimen name="font_size">4pt</dimen>
 </resources>

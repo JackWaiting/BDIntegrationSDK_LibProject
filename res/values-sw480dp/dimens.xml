@@ -1,4 +1,7 @@
 <resources>
 
    <dimen name="progress_padding">50dp</dimen>
+   
+   <dimen name="colorpick_width">200dp</dimen>
+    <dimen name="font_size">6pt</dimen>
 </resources>

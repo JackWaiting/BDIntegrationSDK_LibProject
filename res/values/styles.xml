@@ -60,4 +60,13 @@
         <item name="android:backgroundDimEnabled">false</item><!--模糊-->  
         <item name="android:backgroundDimAmount">0.6</item> 
     </style>
+    
+    <style name="radiobutton_light_effect">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
 </resources>
