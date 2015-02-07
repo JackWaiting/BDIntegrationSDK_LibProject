@@ -27,9 +27,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ComposeShader;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.SweepGradient;
+import android.graphics.Bitmap.Config;
+import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -563,4 +572,5 @@ public class SeekArc extends View {
 	public int getMaxProgress() {
 		return mMax;
 	}
+	
 }

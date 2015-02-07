@@ -9,30 +9,19 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class NetMusicItemView extends FrameLayout {
 	private TextView songNameTv;
 	private TextView artistTv;
 	private ImageView imageIv, playStateIv;
 	private WrapImageLoader imageLoader;
-	private String imgageUrl = "";
-	private static DisplayImageOptions options;
+	private String imageUrl = "";
 	
 	public NetMusicItemView(Context context) {
 		super(context);
 		LayoutInflater.from(context).inflate(R.layout.music_list_item, this);
 		imageLoader = WrapImageLoader.getInstance(context);
 		initView();
-		if(options == null){
-			options = new DisplayImageOptions.Builder()
-			.showImageOnLoading(R.drawable.loading_image)
-			.showImageForEmptyUri(R.drawable.loading_image)
-			.showImageOnFail(R.drawable.loading_image)
-			.imageScaleType(ImageScaleType.EXACTLY).cacheInMemory(true)
-			.cacheOnDisc(true).considerExifParams(false).build();
-		}
 	}
 
 	private void initView() {
@@ -45,10 +34,11 @@ public class NetMusicItemView extends FrameLayout {
 	public void render(Music music) {
 		songNameTv.setText(music.getName());
 		artistTv.setText(music.getArtist());
-		if (!imgageUrl.equals(music.getImage())) {
-			imageLoader.displayImage(options, music.getImage(), imageIv, 1, null);
+		String newImageUrl = music.getPicpath_m();
+		if (!imageUrl.equals(newImageUrl)) {
+			imageLoader.displayImage(newImageUrl, imageIv, 1, null);
+			imageUrl = newImageUrl;
 		}
-		imgageUrl = music.getPath();
 	}
 
 	public void setSelected(boolean playing) {

@@ -26,6 +26,8 @@ public abstract class IAlbumListItemView extends FrameLayout {
 	protected View actionBtn;
 	private WrapImageLoader imageLoader;
 	
+	private String imageUrl = "";
+	
 	public IAlbumListItemView(Context context) {
 		super(context);
 		LayoutInflater.from(context).inflate(getInflateLayout(), this);
@@ -49,7 +51,10 @@ public abstract class IAlbumListItemView extends FrameLayout {
 		nameTv.setText(name);
 		countTv.setText("节目数：" + album.getMusicCount());
 		renderPlayCount(album);
-		imageLoader.displayImage(album.getCoverpath_m(), albumPicIv, 1, null);
+		if(!imageUrl.equals(album.getCoverpath_m())){
+			imageLoader.displayImage(album.getCoverpath_m(), albumPicIv, 1, null);
+		}
+		imageUrl = album.getCoverpath_m();
 	}
 	
 	private void renderPlayCount(Album album) {
