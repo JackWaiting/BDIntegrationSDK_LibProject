@@ -2,30 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-     >
-    <LinearLayout 
+    android:orientation="vertical" >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        >
-    </LinearLayout> 
-    
-    <include 
+        android:orientation="horizontal" >
+
+        <RadioGroup
+            android:id="@+id/radiogroup_rhythm_effect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/readioButton_button_light_normal"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:checked="true"
+                android:drawableTop="@drawable/select_button_lignt_normal" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_light_rainbow"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:drawableTop="@drawable/select_button_lignt_rainbow" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_light_pulse"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:drawableTop="@drawable/select_button_lignt_pulse" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_light_flashing"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:drawableTop="@drawable/select_button_lignt_flashing" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_light_candle"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:drawableTop="@drawable/select_button_lignt_candle" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <include
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        layout="@layout/layout_colorpicker"/>
-    
-    <LinearLayout 
+        layout="@layout/layout_colorpicker" />
+
+    <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:orientation="vertical"
-        >
-
+        android:orientation="vertical" >
     </LinearLayout>
 
 </LinearLayout>
