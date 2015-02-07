@@ -113,13 +113,13 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 						R.layout.item_listview_bluetooth_devices, null);
 				mViewHolderItem.mTtextView = (TextView) convertView
 						.findViewById(R.id.textview_device_name_item_listview_bluetooth_devices);
-				if (null == msg.getBluetoothname()
-						|| "".equals(msg.getBluetoothname()))
+				if (null == msg.getBluetoothName()
+						|| "".equals(msg.getBluetoothName()))
 				{
 					mViewHolderItem.mTtextView.setText(msg.getAddress());
 				} else
 				{
-					mViewHolderItem.mTtextView.setText(msg.getBluetoothname());
+					mViewHolderItem.mTtextView.setText(msg.getBluetoothName());
 				}
 				convertView.setTag(mViewHolderItem);
 				break;
@@ -131,14 +131,14 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 						.findViewById(R.id.textview_device_name_item);
 				mViewHolderItemConnect.isConnect = (TextView) convertView
 						.findViewById(R.id.textview_device_connect);
-				if (null == msg.getBluetoothname()
-						|| "".equals(msg.getBluetoothname()))
+				if (null == msg.getBluetoothName()
+						|| "".equals(msg.getBluetoothName()))
 				{
 					mViewHolderItemConnect.mTimeView.setText(msg.getAddress());
 				} else
 				{
 					mViewHolderItemConnect.mTimeView.setText(msg
-							.getBluetoothname());
+							.getBluetoothName());
 				}
 				String messageConnect = mContext.getResources().getString(
 						R.string.not_connect);
@@ -164,7 +164,7 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 								Intent intent = new Intent(mContext,
 										EditActivity.class);
 								intent.putExtra("btname",
-										msg.getBluetoothname());
+										msg.getBluetoothName());
 								intent.putExtra("address", msg.getAddress());
 								mContext.startActivity(intent);
 							}
@@ -177,26 +177,26 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 			{
 			case TYPE_ITEM:
 				mViewHolderItem = (ViewHolderItem) convertView.getTag();
-				if (null == msg.getBluetoothname()
-						|| "".equals(msg.getBluetoothname()))
+				if (null == msg.getBluetoothName()
+						|| "".equals(msg.getBluetoothName()))
 				{
 					mViewHolderItem.mTtextView.setText(msg.getAddress());
 				} else
 				{
-					mViewHolderItem.mTtextView.setText(msg.getBluetoothname());
+					mViewHolderItem.mTtextView.setText(msg.getBluetoothName());
 				}
 				break;
 			case TYPE_SEPARATOR:
 				mViewHolderItemConnect = (ViewHolderItemConnect) convertView
 						.getTag();
-				if (null == msg.getBluetoothname()
-						|| "".equals(msg.getBluetoothname()))
+				if (null == msg.getBluetoothName()
+						|| "".equals(msg.getBluetoothName()))
 				{
 					mViewHolderItemConnect.mTimeView.setText(msg.getAddress());
 				} else
 				{
 					mViewHolderItemConnect.mTimeView.setText(msg
-							.getBluetoothname());
+							.getBluetoothName());
 				}
 				String messageConnect = mContext.getResources().getString(
 						R.string.not_connect);
@@ -223,7 +223,7 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 								Intent intent = new Intent(mContext,
 										EditActivity.class);
 								intent.putExtra("btname",
-										msg.getBluetoothname());
+										msg.getBluetoothName());
 								intent.putExtra("address", msg.getAddress());
 								mContext.startActivity(intent);
 							}

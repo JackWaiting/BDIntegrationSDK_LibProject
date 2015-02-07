@@ -32,7 +32,7 @@ public class StringUtil
 		{
 			ConnectMessage msg = new ConnectMessage();
 			msg.setType(ConnectMessage.TYPE_SEPARATOR);
-			msg.setBluetoothname(daolist.get(i).getContent_name());
+			msg.setBluetoothName(daolist.get(i).getContent_name());
 			msglist.add(msg);
 		}
 		 return msglist;
@@ -48,7 +48,7 @@ public class StringUtil
 		{
 			ConnectMessage msg = new ConnectMessage();
 			msg.setType(ConnectMessage.TYPE_SEPARATOR);
-			msg.setBluetoothname(daolist.get(i).getContent_name());
+			msg.setBluetoothName(daolist.get(i).getContent_name());
 			msg.setAddress(daolist.get(i).getMac_address());
 			msglist.add(msg);
 			
@@ -71,7 +71,7 @@ public class StringUtil
 		{
 			ConnectMessage msg = new ConnectMessage();
 			msg.setType(ConnectMessage.TYPE_SEPARATOR);
-			msg.setBluetoothname(daolist.get(i).getContent_name());
+			msg.setBluetoothName(daolist.get(i).getContent_name());
 			msg.setAddress(daolist.get(i).getMac_address());
 			msglist.add(msg);
 			
@@ -82,7 +82,7 @@ public class StringUtil
 		{
 			ConnectMessage msg = new ConnectMessage();
 			msg.setType(ConnectMessage.TYPE_ITEM);
-			msg.setBluetoothname(search.get(i).getName());
+			msg.setBluetoothName(search.get(i).getName());
 			msg.setAddress(search.get(i).getAddress());
 			
 			if(set.add(search.get(i).getAddress()))

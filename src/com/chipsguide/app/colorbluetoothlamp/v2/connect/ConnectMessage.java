@@ -17,11 +17,11 @@ public class ConnectMessage {
 	{
 		this.type = type;
 	}
-	public String getBluetoothname() 
+	public String getBluetoothName() 
 	{
 		return bluetoothname;
 	}
-	public void setBluetoothname(String bluetoothname)
+	public void setBluetoothName(String bluetoothname)
 	{
 		this.bluetoothname = bluetoothname;
 	}

@@ -2,16 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical"
-    >
-    
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:orientation="vertical" >
+
     <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rightImg="@drawable/selector_btn_player"
         app:leftImg="@drawable/selector_btn_back"
-        app:text="@string/sleep_assistant">
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/sleep_assistant" >
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_moon_big" />
+    </RelativeLayout>
 
 </LinearLayout>
