@@ -59,4 +59,5 @@
     <string name="restting_name">重命名</string>
     <string name="remove_device">确认要刪除此设备？</string>
     <string name="name_not_null">名字不能为空</string>
+    <string name="select_time">请选择睡眠时间</string>
 </resources>

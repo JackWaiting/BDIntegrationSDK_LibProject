@@ -59,4 +59,5 @@
     <string name="restting_name">Rename</string>
     <string name="remove_device">Are you sure to delete this device？</string>
     <string name="name_not_null">The name cannot be null</string>
+    <string name="select_time">Please choose the sleep time</string>
 </resources>
