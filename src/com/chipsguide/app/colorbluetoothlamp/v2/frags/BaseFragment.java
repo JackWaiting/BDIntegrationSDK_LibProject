@@ -15,9 +15,10 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 
 public abstract class BaseFragment extends Fragment {
+	MyLogger flog = MyLogger.fLog();
+	
 	protected View root;
 	private BaseActivity attachAct;
-	MyLogger flog = MyLogger.fLog();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

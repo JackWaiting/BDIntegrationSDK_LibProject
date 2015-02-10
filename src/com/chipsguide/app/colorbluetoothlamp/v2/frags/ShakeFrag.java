@@ -1,7 +1,5 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
-import java.util.Random;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -12,30 +10,27 @@ import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager.OnShakeListener;
-import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeListener{
+	
+	private LampManager mLampManager;
 	private ShakeManager shakeUtil;
 	private boolean isVisibleToUser;
 	private PlayerManager playerManager;
 	private ImageView shakeIv;
 	
-	private BluetoothDeviceManager mBluetoothDeviceManager;
-	private BluetoothDeviceColorLampManager mBluetoothDeviceColorLampManager;
 	@Override
 	protected void initBase() {
 		Context context = getActivity().getApplicationContext();
 		shakeUtil = ShakeManager.getInstance(getActivity());
 		shakeUtil.setOnShakeListener(this);
 		playerManager = PlayerManager.getInstance(context);
-		mBluetoothDeviceManager = ((CustomApplication) getActivity()
-				.getApplicationContext()).getBluetoothDeviceManager();
+		mLampManager = LampManager.getInstance(getActivity());
 	}
 
 	@Override
@@ -87,19 +82,11 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		switch(id){
 		case R.id.rb_random_color:
 			text = "随机颜色";
-			//后面封装到colorLampFrag中去
-			mBluetoothDeviceColorLampManager = mBluetoothDeviceManager.getBluetoothDeviceColorLampManager();
-	        Random r = new Random();
-	        int red = r.nextInt(255)+1;// 范围是[0+1,255)
-	        int green = r.nextInt(255)+1;// 范围是[0+1,255)
-	        int blue = r.nextInt(255)+1;// 范围是[0+1,255)
-	        if(mBluetoothDeviceColorLampManager != null)
-	        {
-	        		mBluetoothDeviceColorLampManager.setColor(red,green,blue);
-	        }
+			mLampManager.random();
 			break;
 		case R.id.rb_light_toggle:
 			text = "开关灯";
+			mLampManager.lampOff();
 			break;
 		case R.id.rb_player_toggle:
 			text = "播放暂停";

@@ -68,6 +68,12 @@
         android:gravity="center"
         android:orientation="vertical" >
 
+        <CheckBox
+            android:id="@+id/cb_lamp_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_lamp_on_btn" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
