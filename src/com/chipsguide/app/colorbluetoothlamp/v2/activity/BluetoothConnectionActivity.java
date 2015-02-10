@@ -17,7 +17,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
@@ -26,8 +25,6 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,
 		OnBluetoothDeviceConnectionStateChangedListener {
-
-	MyLogger flog = MyLogger.fLog();
 
 	private ImageView mImageViewButtonSearsh;
 	private ListView mListView;

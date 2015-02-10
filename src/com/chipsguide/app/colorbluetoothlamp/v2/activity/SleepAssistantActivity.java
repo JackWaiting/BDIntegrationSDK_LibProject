@@ -2,7 +2,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,19 +10,21 @@ import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.FormatHelper;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 
 public class SleepAssistantActivity extends BaseActivity implements
 		OnCheckedChangeListener {
 
 	private TextView mShowTimeTextView;
 	private ProgressBar mProgressBar;
-	private Button mConfirmationButton;
+	private TextView mConfirmationTextView;
 	private RadioGroup mSleepTimeRadiogroup;
 	private RadioButton mButton10ReadioButton;
 	private RadioButton mButton20ReadioButton;
 	private RadioButton mButton30ReadioButton;
 	private RadioButton mButton60ReadioButton;
 	private RadioButton mButton90ReadioButton;
+	private TitleView mSleepTitleview;
 
 	private MyCount mCount;
 	private int mColorTextDown;
@@ -46,11 +47,12 @@ public class SleepAssistantActivity extends BaseActivity implements
 	@Override
 	public void initUI()
 	{
+		mSleepTitleview = (TitleView)this.findViewById(R.id.titleview_sleep);
 		mShowTimeTextView = (TextView) this
 				.findViewById(R.id.textview_show_time);
 		mProgressBar = (ProgressBar) this.findViewById(R.id.progressBar);
-		mConfirmationButton = (Button) this
-				.findViewById(R.id.button_confirmation);
+		mConfirmationTextView = (TextView) this
+				.findViewById(R.id.textview_confirmation);
 		mSleepTimeRadiogroup = (RadioGroup) this
 				.findViewById(R.id.radiogroup_slect_sleeptime);
 		mButton10ReadioButton = (RadioButton) this
@@ -66,12 +68,13 @@ public class SleepAssistantActivity extends BaseActivity implements
 
 		mSleepTimeRadiogroup.setOnCheckedChangeListener(this);
 		// mProgressBar.seton
-		mConfirmationButton.setOnClickListener(this);
+		mConfirmationTextView.setOnClickListener(this);
 	}
 
 	@Override
 	public void initData()
 	{
+		mSleepTitleview.setRightBtnVisibility(false);
 	}
 
 	@Override
@@ -85,7 +88,9 @@ public class SleepAssistantActivity extends BaseActivity implements
 		super.onClick(v);
 		switch (v.getId())
 		{
-		case R.id.button_confirmation:
+		case R.id.textview_confirmation:
+			mSleepTitleview.setLiftBtnVisibility(false);
+			
 			if (mCount != null)
 			{
 				mCount.cancel();
@@ -140,6 +145,9 @@ public class SleepAssistantActivity extends BaseActivity implements
 			mButton90ReadioButton.setTextColor(mColorTextDown);
 			break;
 		}
+		mProgressBar.setProgress(0);
+		mShowTimeTextView.setText(FormatHelper
+				.formatLongToTimeMinuteStr((long) time * 60 * 1000));
 	}
 
 	/* 定义一个倒计时的内部类 */
@@ -154,15 +162,17 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			mCount.cancel();
 			mShowTimeTextView.setText("88:88");
+			mSleepTitleview.setLiftBtnVisibility(true);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished)
 		{
 			long millis = millisUntilFinished / 1000;
-			 mShowTimeTextView.setText(FormatHelper
-			 .formatLongToTimeMinuteStr(millisUntilFinished));
-//			 setSleepSound(millis);
+			mProgressBar.setProgress(((time*60-(int) millis)/(time*60))*100);
+			mShowTimeTextView.setText(FormatHelper
+					.formatLongToTimeMinuteStr(millisUntilFinished));
+			// setSleepSound(millis);
 		}
 	}
 

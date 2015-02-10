@@ -7,6 +7,7 @@
     android:orientation="vertical" >
 
     <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleview_sleep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImg="@drawable/selector_btn_back"
@@ -29,21 +30,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="20:00"
             android:textColor="@color/color_blue"
+            android:text="10:00"
             android:textSize="60dp" />
     </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_weight="1"
-        android:maxHeight="1dp"
-        android:minHeight="1dp"
-        android:progress="20" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:maxHeight="5dp"
+            android:minHeight="5dp" />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:text="自动关灯倒计时中..."/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -134,11 +150,14 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/button_confirmation"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:text="确认设置" />
+        <TextView
+            android:id="@+id/textview_confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_btn_sleep_ok"
+            android:gravity="center"
+            android:text="确认设置"
+            android:textSize="16dp" />
     </LinearLayout>
 
 </LinearLayout>
