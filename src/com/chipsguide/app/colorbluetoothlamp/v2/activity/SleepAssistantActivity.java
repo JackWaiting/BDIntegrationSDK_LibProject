@@ -1,5 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -26,10 +28,14 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private RadioButton mButton90ReadioButton;
 	private TitleView mSleepTitleview;
 
+	private AudioManager mAudioManager;
+	private int current;//当前音量
+	private int max;//最大音量
 	private MyCount mCount;
 	private int mColorTextDown;
 	private int mColorTextNor;
 	private int time = 10;
+	private int TIME_GAP = 6;//分6段减小音量
 
 	@Override
 	public int getLayoutId()
@@ -42,6 +48,9 @@ public class SleepAssistantActivity extends BaseActivity implements
 	{
 		mColorTextDown = getResources().getColor(R.color.color_blue);
 		mColorTextNor = getResources().getColor(R.color.white);
+		mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+		max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		current = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 	}
 
 	@Override
@@ -149,6 +158,24 @@ public class SleepAssistantActivity extends BaseActivity implements
 		mShowTimeTextView.setText(FormatHelper
 				.formatLongToTimeMinuteStr((long) time * 60 * 1000));
 	}
+	
+	private void setSleepSound(long millis)
+	{
+		int cl = (time*60)/TIME_GAP;
+		for(int i =1 ;i <=TIME_GAP ; i++)
+		{
+			if((millis == cl*i))
+			{
+				flog.d("音量为：" + (current/TIME_GAP)*i + " i: " + i + " current: " + current);
+				//如果分段的段数超过了音量最大可以加上这个，最大音量为15
+				if(current < TIME_GAP && TIME_GAP < max)
+				 {
+					 current =  TIME_GAP;
+				 }
+				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (current/TIME_GAP)*i, 0);
+			}
+		}
+	}
 
 	/* 定义一个倒计时的内部类 */
 	class MyCount extends CountDownTimer {
@@ -169,11 +196,13 @@ public class SleepAssistantActivity extends BaseActivity implements
 		public void onTick(long millisUntilFinished)
 		{
 			long millis = millisUntilFinished / 1000;
-			mProgressBar.setProgress(((time*60-(int) millis)/(time*60))*100);
+			double x = (time*60-(int) millis)/1.0;//预留小数点
+			mProgressBar.setProgress((int)((x/(time*60))*100));
 			mShowTimeTextView.setText(FormatHelper
 					.formatLongToTimeMinuteStr(millisUntilFinished));
-			// setSleepSound(millis);
+			 setSleepSound(millis);
 		}
+
 	}
 
 }
