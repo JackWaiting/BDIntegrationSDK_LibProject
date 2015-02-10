@@ -9,8 +9,12 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-    <ImageView
+    <CheckBox
+        android:id="@+id/cb_lamp_active"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" 
+        android:layout_centerInParent="true"
+        android:button="@drawable/selector_lamp_active_btn"
+        />
 
 </RelativeLayout>
