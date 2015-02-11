@@ -213,7 +213,6 @@ public class ColorPicker extends View {
 
 		drawDrawable(canvas);
 
-		Log.d("colorChnage", "<<<<colorChange");
 		if (mColorChangelistener != null) {
 			int color = Color.HSVToColor(colorHSV);
 			int alpha = Color.alpha(color);
