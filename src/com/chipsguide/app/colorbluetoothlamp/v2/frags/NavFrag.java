@@ -10,9 +10,13 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
-import com.chipsguide.app.colorbluetoothlamp.v2.activity.VersionUpdateActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
+import com.platomix.lib.update.bean.VersionEntity;
+import com.platomix.lib.update.core.UpdateAgent;
+import com.platomix.lib.update.listener.OnCheckUpdateListener;
+import com.platomix.lib.update.listener.OnCheckUpdateListener.UpdateStatus;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
@@ -41,7 +45,7 @@ public class NavFrag extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				adapter.setSelected(position);
+				//adapter.setSelected(position);
 				onNavagationItemClick(position);
 			}
 		});
@@ -66,7 +70,11 @@ public class NavFrag extends BaseFragment {
 			startActivity(SleepAssistantActivity.class);
 			break;
 		case 3:
-			startActivity(VersionUpdateActivity.class);
+			//startActivity(VersionUpdateActivity.class);
+			if(checkNetwork(true)){
+				checeNewVersion();
+				showToast(R.string.check_new_version);
+			}
 			break;
 		}
 		if(mNavItemClickListener != null){
@@ -82,4 +90,24 @@ public class NavFrag extends BaseFragment {
 	public void setOnItemClickListener(OnNavItemClickListener listener){
 		mNavItemClickListener = listener;
 	}
+	
+
+	private void checeNewVersion() {
+		UpdateAgent.setOnCheckUpdateListener(checkUpdateListener);
+		UpdateAgent.setNotifycationVisibility(true);
+		UpdateAgent.checkUpdate(CustomApplication.APP_SIGN, getActivity());
+	}
+
+	private OnCheckUpdateListener checkUpdateListener = new OnCheckUpdateListener() {
+		@Override
+		public boolean onCheckResult(int status, boolean force,
+				VersionEntity entity) {
+			showToast(R.string.no_newversion);
+			if (status != UpdateStatus.YES) {
+			}
+			return false;
+		}
+	};
+
+	
 }

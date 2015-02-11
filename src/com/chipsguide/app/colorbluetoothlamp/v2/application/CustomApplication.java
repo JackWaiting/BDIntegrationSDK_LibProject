@@ -5,7 +5,7 @@ import android.app.Application;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
-
+	public static final String APP_SIGN = "ColorBluetoothLamp_V2";
 	/**
 	 * 蓝牙地址过滤
 	 */
