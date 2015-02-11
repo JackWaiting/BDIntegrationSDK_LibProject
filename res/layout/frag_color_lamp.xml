@@ -24,35 +24,35 @@
                 android:checked="true"
                 android:drawableTop="@drawable/select_button_lignt_normal"
                 android:textSize="@dimen/font_size"
-                android:text="无灯效" />
+                android:text="@string/light_normal" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_rainbow"
                 style="@style/radiobutton_light_effect"
                 android:drawableTop="@drawable/select_button_lignt_rainbow"
                 android:textSize="@dimen/font_size"
-                android:text="彩虹" />
+                android:text="@string/light_rainbow" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_pulse"
                 style="@style/radiobutton_light_effect"
                 android:drawableTop="@drawable/select_button_lignt_pulse"
                 android:textSize="@dimen/font_size"
-                android:text="呼吸" />
+                android:text="@string/light_pulse" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_flashing"
                 style="@style/radiobutton_light_effect"
                 android:drawableTop="@drawable/select_button_lignt_flashing" 
                 android:textSize="@dimen/font_size"
-                android:text="呼吸"/>
+                android:text="@string/light_flashing"/>
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_candle"
                 style="@style/radiobutton_light_effect"
                 android:drawableTop="@drawable/select_button_lignt_candle"
                 android:textSize="@dimen/font_size"
-                android:text="烛光" />
+                android:text="@string/light_candle" />
         </RadioGroup>
     </LinearLayout>
 

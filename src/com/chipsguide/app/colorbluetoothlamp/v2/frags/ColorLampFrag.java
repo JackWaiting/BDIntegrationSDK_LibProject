@@ -82,10 +82,10 @@ public class ColorLampFrag extends BaseFragment implements
 		case R.id.cb_lamp_active:
 			if(isChecked)
 			{
-				mLampManager.turnColorOn();
+				mLampManager.turnCommonOn();
 			}else
 			{
-				mLampManager.turnCommonOn();
+				mLampManager.turnColorOn();
 			}
 			break;
 		case R.id.cb_lamp_on:
