@@ -42,6 +42,10 @@ public class TitleView extends FrameLayout {
 	public void setRightBtnVisibility(boolean visible) {
 		rightBtn.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 	}
+
+	public void setLiftBtnVisibility(boolean visible) {
+		leftBtn.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+	}
 	
 	public void setLeftBtnImageRes(int resId){
 		leftBtn.setImageResource(resId);

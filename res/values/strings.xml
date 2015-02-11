@@ -16,6 +16,7 @@
     <string name="my_music">My Music</string>
     <string name="tf_card_music">TF Card Music</string>
     <string name="cloud_music">Cloud Music</string>
+    <string name="edit">edit</string>
 
      <string name="file_not_exist_or_damaged">The file is damaged or does not exist!</string>
     <string name="network_exception">Network Anomaly!</string>

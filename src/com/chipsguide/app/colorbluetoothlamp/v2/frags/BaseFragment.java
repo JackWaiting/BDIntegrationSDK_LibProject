@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 
 public abstract class BaseFragment extends Fragment {
+	MyLogger flog = MyLogger.fLog();
+	
 	protected View root;
 	private BaseActivity attachAct;
 	

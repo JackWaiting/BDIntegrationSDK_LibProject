@@ -11,21 +11,26 @@ import android.widget.ImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager.OnShakeListener;
 
 public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeListener{
+	
+	private LampManager mLampManager;
 	private ShakeManager shakeUtil;
 	private boolean isVisibleToUser;
 	private PlayerManager playerManager;
 	private ImageView shakeIv;
+	
 	@Override
 	protected void initBase() {
 		Context context = getActivity().getApplicationContext();
 		shakeUtil = ShakeManager.getInstance(getActivity());
 		shakeUtil.setOnShakeListener(this);
 		playerManager = PlayerManager.getInstance(context);
+		mLampManager = LampManager.getInstance(getActivity());
 	}
 
 	@Override
@@ -77,9 +82,11 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		switch(id){
 		case R.id.rb_random_color:
 			text = "随机颜色";
+			mLampManager.random();
 			break;
 		case R.id.rb_light_toggle:
 			text = "开关灯";
+			mLampManager.lampOff();
 			break;
 		case R.id.rb_player_toggle:
 			text = "播放暂停";

@@ -7,4 +7,10 @@
     <color name="first_text_color">#ffffff</color>
     <color name="secondary_text_color">#cccccc</color>
     <color name="color_divider_line">#d2d2d2</color>
+
+    <color name="white">#ffffff</color>
+    <color name="light_blue">#007aff</color>
+    <color name="color_dialog_line">#cccccc</color>
+    <color name="color_dialog_bag">#f0f0f0</color>
+    <color name="color_red">#ff0010</color>
 </resources>

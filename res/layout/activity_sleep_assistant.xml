@@ -2,16 +2,165 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical"
-    >
-    
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:orientation="vertical" >
+
     <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleview_sleep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rightImg="@drawable/selector_btn_player"
         app:leftImg="@drawable/selector_btn_back"
-        app:text="@string/sleep_assistant">
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/sleep_assistant" >
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_moon_big" />
+
+        <TextView
+            android:id="@+id/textview_show_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/color_blue"
+            android:text="10:00"
+            android:textSize="60dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_visibility_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:maxHeight="5dp"
+            android:minHeight="5dp" />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:text="自动关灯倒计时中..."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_visibility_selector_time"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/select_time"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_dialog_line" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup_slect_sleeptime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/readioButton_button_10"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:checked="true"
+                android:text="10分钟"
+                android:textColor="@color/color_blue"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_20"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:text="20分钟"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_30"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:text="30分钟"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_60"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:text="60分钟"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:id="@+id/readioButton_button_90"
+                style="@style/radiobutton_light_effect"
+                android:layout_marginLeft="0.5dp"
+                android:text="90分钟"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_dialog_line" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textview_confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_btn_sleep_ok"
+            android:gravity="center"
+            android:text="@string/confirmation"
+            android:textSize="16dp" />
+    </LinearLayout>
 
 </LinearLayout>

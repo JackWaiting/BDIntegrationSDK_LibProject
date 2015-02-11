@@ -16,9 +16,30 @@ public class CustomApplication extends Application {
 	private static BluetoothDeviceManager bluzDeviceMan;
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		super.onCreate();
 	}
-	
-	
+
+	/**
+	 * 获取蓝牙管理类
+	 * 
+	 * @return
+	 */
+	public BluetoothDeviceManager getBluetoothDeviceManager()
+	{
+		if (bluzDeviceMan == null)
+		{
+			bluzDeviceMan = BluetoothDeviceManager
+					.getInstance(this.getApplicationContext())
+					.setBluetoothDevice(
+							BluetoothDeviceManager.Device.LAMP_COLOR)
+					.setBluetoothDeviceSub(
+							BluetoothDeviceManager.Device.LAMP_COMMON)
+							.build();
+//					.setBluetoothDeviceMacAddressFilterPrefix(
+//							MAC_ADDRESS_FILTER_PREFIX)
+		}
+		return bluzDeviceMan;
+	}
 }

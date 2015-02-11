@@ -16,6 +16,7 @@
     <string name="my_music">我的音乐</string>
     <string name="tf_card_music">TF卡音乐</string>
     <string name="cloud_music">云音乐</string>
+    <string name="edit">编辑</string>
 
      <string name="file_not_exist_or_damaged">文件不存在或已损坏!</string>
     <string name="network_exception">网络异常!</string>
@@ -44,4 +45,24 @@
     <string name="keywords_cannot_be_null">搜索内容不能为空!</string>
     <string name="check_new_version">正在检测新版本……</string>
     <string name="no_newversion">没有新版本!</string>
+    
+    <string name="light_normal">无灯效</string>
+    <string name="light_rainbow">彩虹</string>
+    <string name="light_pulse">呼吸</string>
+    <string name="light_flashing">闪烁</string>
+    <string name="light_candle">烛光</string>
+    
+    <string name="connect">已连接</string>
+    <string name="not_connect">未连接</string>
+    <string name="bluetooth_not_available">当前蓝牙不可用!</string>
+    <string name="ok">确定</string>
+    <string name="cancl">取消</string>
+    <string name="cancl_pair">取消配对</string>
+    <string name="cancl_pair2">删除设备</string>
+    <string name="restting_name">重命名</string>
+    <string name="remove_device">确认要刪除此设备？</string>
+    <string name="name_not_null">名字不能为空</string>
+    <string name="select_time">请选择睡眠时间</string>
+    <string name="confirmation">确认设置</string>
+    <string name="confirmation_cancel">取消设置</string>
 </resources>
