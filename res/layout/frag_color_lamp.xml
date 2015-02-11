@@ -14,7 +14,6 @@
             android:id="@+id/radiogroup_rhythm_effect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:background="#55000000"
             android:gravity="center"
             android:orientation="horizontal" >
@@ -22,36 +21,38 @@
             <RadioButton
                 android:id="@+id/readioButton_button_light_normal"
                 style="@style/radiobutton_light_effect"
-                android:layout_marginLeft="0.5dp"
                 android:checked="true"
-                android:drawableStart="@drawable/select_button_lignt_normal" />
+                android:drawableTop="@drawable/select_button_lignt_normal"
+                android:textSize="@dimen/font_size"
+                android:text="无灯效" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_rainbow"
                 style="@style/radiobutton_light_effect"
-                android:layout_marginLeft="0.5dp"
-                android:layout_marginRight="0.5dp"
-                android:drawableStart="@drawable/select_button_lignt_rainbow" />
+                android:drawableTop="@drawable/select_button_lignt_rainbow"
+                android:textSize="@dimen/font_size"
+                android:text="彩虹" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_pulse"
                 style="@style/radiobutton_light_effect"
-                android:layout_marginLeft="0.5dp"
-                android:layout_marginRight="0.5dp"
-                android:drawableStart="@drawable/select_button_lignt_pulse" />
+                android:drawableTop="@drawable/select_button_lignt_pulse"
+                android:textSize="@dimen/font_size"
+                android:text="呼吸" />
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_flashing"
                 style="@style/radiobutton_light_effect"
-                android:layout_marginLeft="0.5dp"
-                android:layout_marginRight="0.5dp"
-                android:drawableStart="@drawable/select_button_lignt_flashing" />
+                android:drawableTop="@drawable/select_button_lignt_flashing" 
+                android:textSize="@dimen/font_size"
+                android:text="呼吸"/>
 
             <RadioButton
                 android:id="@+id/readioButton_button_light_candle"
                 style="@style/radiobutton_light_effect"
-                android:layout_marginLeft="0.5dp"
-                android:drawableStart="@drawable/select_button_lignt_candle" />
+                android:drawableTop="@drawable/select_button_lignt_candle"
+                android:textSize="@dimen/font_size"
+                android:text="烛光" />
         </RadioGroup>
     </LinearLayout>
 

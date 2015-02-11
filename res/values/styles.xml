@@ -67,6 +67,8 @@
         <item name="android:button">@null</item>
         <item name="android:layout_weight">1.0</item>
         <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="android:scaleType">centerInside</item>
     </style>
 </resources>

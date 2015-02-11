@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.FormatHelper;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 
 public class SleepAssistantActivity extends BaseActivity implements
@@ -37,6 +38,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private LinearLayout mVisibilitySelectorTimeLinearLayout;
 
 	private PlayerManager playerManager;
+	private LampManager mLampManager;
 	private AudioManager mAudioManager;
 	private int current;// 当前音量
 	private int max;// 最大音量
@@ -63,6 +65,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		current = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
+		mLampManager = LampManager.getInstance(getApplicationContext());
 	}
 
 	@Override
@@ -235,6 +238,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			cancelSleep();
 			playerManager.pause();
+			mLampManager.lampOff();
 		}
 
 		@Override
