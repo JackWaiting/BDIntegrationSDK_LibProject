@@ -80,6 +80,7 @@
         
         <receiver android:name="com.platomix.platomixplayerlib.core.local.MediaButtonIntentReceiver"></receiver>
         
+        <service android:name="com.platomix.lib.update.core.UpdateService"></service>
     </application>
 
 </manifest>

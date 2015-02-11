@@ -41,4 +41,7 @@
     <string name="loading_music">正在载入……</string>
     <string name="tf_card_has_plugin">TF卡已插入！</string>
     <string name="tf_card_has_plugout">TF卡已拔出！</string>
+    <string name="keywords_cannot_be_null">搜索内容不能为空!</string>
+    <string name="check_new_version">正在检测新版本……</string>
+    <string name="no_newversion">没有新版本!</string>
 </resources>

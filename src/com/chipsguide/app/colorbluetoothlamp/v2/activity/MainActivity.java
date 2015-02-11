@@ -1,5 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,26 +8,32 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
-import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.platomix.lib.update.bean.VersionEntity;
+import com.platomix.lib.update.core.UpdateAgent;
+import com.platomix.lib.update.listener.OnCheckUpdateListener;
+import com.platomix.lib.update.listener.OnCheckUpdateListener.UpdateStatus;
 
-
-public class MainActivity extends BaseActivity implements OnNavItemClickListener, OnMainPageChangeListener{
+public class MainActivity extends BaseActivity implements
+		OnNavItemClickListener, OnMainPageChangeListener,
+		DialogInterface.OnClickListener {
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
-	
+
 	private TextSwitcherTitleView titleView;
-	
+
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +48,7 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 		}
 		navFrag.setOnItemClickListener(this);
 	}
-	
+
 	private void initBehindSlidingMenu() {
 		SlidingMenu sm = getSlidingMenu();
 		sm.setFadeEnabled(false);
@@ -60,10 +67,10 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 			}
 		});
 	}
-	
-	
+
 	@Override
 	public void initBase() {
+		checeNewVersion();
 		fragManager = getSupportFragmentManager();
 		initBehindSlidingMenu();
 	}
@@ -73,9 +80,10 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 		titleView = (TextSwitcherTitleView) findViewById(R.id.titleView);
 		titleView.setOnClickListener(this);
 		titleView.setTitleText(R.string.color_lamp);
-		
+
 		MainFragment mainFrag = new MainFragment();
-		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag).commit();
+		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
+				.commit();
 	}
 
 	@Override
@@ -89,7 +97,7 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 	@Override
 	public void onItemClick(int position, String title) {
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -97,7 +105,7 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 			getSlidingMenu().showMenu(true);
 			break;
 		case R.id.right_btn:
-			//TODO 开启播放界面
+			// TODO 开启播放界面
 			startMusicPlayerActivity();
 			break;
 		default:
@@ -114,5 +122,36 @@ public class MainActivity extends BaseActivity implements OnNavItemClickListener
 	protected void onDestroy() {
 		super.onDestroy();
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
+	}
+
+	private boolean forceUpdate;
+
+	private void checeNewVersion() {
+		UpdateAgent.setOnCheckUpdateListener(checkUpdateListener);
+		UpdateAgent.setDialogButtonClickListener(this);
+		UpdateAgent.setNotifycationVisibility(true);
+		UpdateAgent.checkUpdate(CustomApplication.APP_SIGN, this);
+	}
+
+	private OnCheckUpdateListener checkUpdateListener = new OnCheckUpdateListener() {
+		@Override
+		public boolean onCheckResult(int status, boolean force,
+				VersionEntity entity) {
+			if (status == UpdateStatus.YES) {
+				forceUpdate = force;
+			}
+			return false;
+		}
+	};
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		switch (which) {
+		case DialogInterface.BUTTON_NEGATIVE:
+			if (forceUpdate) {
+				finish();
+			}
+			break;
+		}
 	}
 }

@@ -13,7 +13,7 @@ public class SidebarNavListAdapter extends BaseAdapter {
 	private Context context;
 	private String [] texts;
 	private SidebarNavItemView seletedView;
-	private int selectedPosi;
+	private int selectedPosi = -1;
 	
 	public SidebarNavListAdapter(Context context, String [] texts){
 		this.context = context;

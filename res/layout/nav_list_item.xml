@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/dot_sidebar_inactive" >
+            android:src="@drawable/selector_sidebar_dot" >
         </ImageView>
 
         <ImageView
