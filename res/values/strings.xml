@@ -41,5 +41,5 @@
     <string name="loading_music">loading……</string>
     <string name="tf_card_has_plugin">TF card plugin！</string>
     <string name="tf_card_has_plugout">TF card plugout！</string>
-    <string name="keywords_cannot_be_null">搜索内容不能为空!</string>
+    <string name="keywords_cannot_be_null">Content cannot be null!</string>
 </resources>
