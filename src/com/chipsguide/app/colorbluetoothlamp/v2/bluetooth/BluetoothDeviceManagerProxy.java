@@ -115,9 +115,9 @@ public class BluetoothDeviceManagerProxy{
 		if (bluzDeviceMan == null) {
 			bluzDeviceMan = BluetoothDeviceManager.getInstance(context);
 			if (bluzDeviceMan == null
-					|| (bluzDeviceMan
-							.setBluetoothDevice(BluetoothDeviceManager.Device.LAMP_COMMON) == null && 
-							bluzDeviceMan.setBluetoothDeviceSub(BluetoothDeviceManager.Device.LAMP_COLOR) == null )) {
+					|| bluzDeviceMan
+							.setBluetoothDevice(BluetoothDeviceManager.Device.LAMP_COLOR) == null || 
+							bluzDeviceMan.setBluetoothDeviceSub(BluetoothDeviceManager.Device.LAMP_COMMON) == null) {
 				return null;
 			}
 					
