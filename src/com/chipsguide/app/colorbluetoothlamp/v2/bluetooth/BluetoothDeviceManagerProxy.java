@@ -76,7 +76,7 @@ public class BluetoothDeviceManagerProxy{
 	/**
 	 * 蓝牙地址过滤
 	 */
-	private static final String MAC_ADDRESS_FILTER_PREFIX = "";
+	private static final String MAC_ADDRESS_FILTER_PREFIX = "C9:2";
 
 	private boolean hasTfCard;
 	private boolean hasUsb;
@@ -115,10 +115,12 @@ public class BluetoothDeviceManagerProxy{
 		if (bluzDeviceMan == null) {
 			bluzDeviceMan = BluetoothDeviceManager.getInstance(context);
 			if (bluzDeviceMan == null
-					|| bluzDeviceMan
-							.setBluetoothDevice(BluetoothDeviceManager.Device.FM_SENDER) == null) {
+					|| (bluzDeviceMan
+							.setBluetoothDevice(BluetoothDeviceManager.Device.LAMP_COMMON) == null && 
+							bluzDeviceMan.setBluetoothDeviceSub(BluetoothDeviceManager.Device.LAMP_COLOR) == null )) {
 				return null;
 			}
+					
 			bluzDeviceMan.build();
 			bluzDeviceMan
 					.setBluetoothDeviceMacAddressFilterPrefix(MAC_ADDRESS_FILTER_PREFIX);
