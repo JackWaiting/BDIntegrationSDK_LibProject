@@ -36,9 +36,10 @@ public class CustomApplication extends Application {
 							BluetoothDeviceManager.Device.LAMP_COLOR)
 					.setBluetoothDeviceSub(
 							BluetoothDeviceManager.Device.LAMP_COMMON)
+							
+					.setBluetoothDeviceMacAddressFilterPrefix(
+							MAC_ADDRESS_FILTER_PREFIX)
 							.build();
-//					.setBluetoothDeviceMacAddressFilterPrefix(
-//							MAC_ADDRESS_FILTER_PREFIX)
 		}
 		return bluzDeviceMan;
 	}
