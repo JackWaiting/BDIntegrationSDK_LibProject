@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    >
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider_line"
+        />
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+        android:id="@+id/tv_alarm_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_lamp_blue"
+        android:drawablePadding="10dp"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:textSize="@dimen/text_size_medium"
+        />
+
+    <CheckBox
+        android:id="@+id/cb_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/selector_alarm_toggle"
+        android:padding="10dp"
+         />
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider_line"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

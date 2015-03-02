@@ -5,7 +5,7 @@
         <attr name="rightImg" format="reference" />
         <attr name="leftImg" format="reference" />
         <attr name="text" format="string" />
-        <attr name="rightBtnVisibility" format="enum"/>
+        <attr name="rightBtnVisibility" format="boolean"/>
         <attr name="marque" format="boolean"></attr>
     </declare-styleable>
     <declare-styleable name="HeaderGridView">

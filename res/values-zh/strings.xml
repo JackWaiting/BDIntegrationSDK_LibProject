@@ -65,4 +65,9 @@
     <string name="select_time">请选择睡眠时间</string>
     <string name="confirmation">确认设置</string>
     <string name="confirmation_cancel">取消设置</string>
+    
+    <string name="light_setting">开灯设置</string>
+    <string name="repeate">重复</string>
+    <string name="light">灯光</string>
+    <string name="delete">删除</string>
 </resources>

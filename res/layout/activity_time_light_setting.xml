@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray" >
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightBtnVisibility="false"
+        app:text="@string/light_setting" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView
+        android:id="@+id/time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" />
+
+    <include
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_layout"
+        layout="@layout/layout_light_setting_param"
+        android:layout_marginBottom="20dp"
+         />
+    
+    <View 
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider_line"
+        android:layout_below="@+id/layout"
+        />
+
+    <LinearLayout
+        android:id="@+id/ok_del_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:orientation="horizontal" 
+        android:background="@android:color/white"
+        >
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/btn_del"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" 
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/text_size_medium"
+            android:padding="10dp"
+            android:background="@drawable/selector_btn_simple"
+            />
+        
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textSize="@dimen/text_size_medium"
+            android:padding="10dp"
+            android:textColor="@color/color_blue"
+            android:background="@drawable/selector_btn_simple"
+             />
+        
+    </LinearLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider_line"
+        android:layout_below="@+id/ok_del_layout"
+        />
+
+</RelativeLayout>
