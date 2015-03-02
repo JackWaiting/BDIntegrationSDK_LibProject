@@ -70,4 +70,11 @@
     <string name="repeate">重复</string>
     <string name="light">灯光</string>
     <string name="delete">删除</string>
+    
+    <string name="days">一　二　三　四　五　六　日</string>
+    <string name="silent">静音</string>
+    <string name="custom_sound">自定义歌曲</string>
+    <string name="select_alarm_sound">选择歌曲</string>
+    <string name="ringtone">铃声</string>
+    <string name="song">歌曲</string>
 </resources>

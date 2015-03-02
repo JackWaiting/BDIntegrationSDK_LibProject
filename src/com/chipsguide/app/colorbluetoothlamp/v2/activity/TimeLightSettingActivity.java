@@ -6,16 +6,22 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
+import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
 import com.chipsguide.lib.timer.Alarm;
 import com.chipsguide.lib.timer.Alarm.Day;
@@ -23,15 +29,20 @@ import com.chipsguide.lib.timer.Alarms;
 
 public class TimeLightSettingActivity extends BaseActivity {
 	public static final String EXTRA_ALARM = "alarm";
+	public static final int REQUEST_SELECT_SOUND = 1;
 
-	private TextView repeateDayTv;
+	private TextView repeateDayTv, musicNameTv;
 	private MyTimePickerView timePicker;
 	private Alarms alarms;
+	private AlarmLightColorDAO lightColorDao;
 	private Alarm alarm;
+	private AlarmLightColor alarmLightColor;
 
 	private String[] week;
 	private boolean[] checkedItems;
 	private boolean[] newCheckedItems;
+	private String color;
+	private String soundPath;
 
 	@Override
 	public int getLayoutId() {
@@ -42,13 +53,44 @@ public class TimeLightSettingActivity extends BaseActivity {
 	public void initBase() {
 		week = getResources().getStringArray(R.array.week);
 		alarms = Alarms.getInstance(getApplicationContext());
+		lightColorDao = AlarmLightColorDAO.getDao(getApplicationContext());
 		alarm = (Alarm) getIntent().getSerializableExtra(EXTRA_ALARM);
+		alarmLightColor = lightColorDao.query(alarm.getId()+"");
+		soundPath = alarm.getAlarmTonePath();
 	}
 
 	@Override
 	public void initUI() {
 		repeateDayTv = (TextView) findViewById(R.id.tv_repeate_day);
+		musicNameTv = (TextView) findViewById(R.id.tv_music_name);
+		if(!TextUtils.isEmpty(soundPath)){
+			String [] arr = soundPath.split("\\|");
+			if(arr != null && arr.length > 1){
+				musicNameTv.setText(arr[1]);
+			}
+		}
 		timePicker = (MyTimePickerView) findViewById(R.id.time_layout);
+		RadioGroup colorGroup = (RadioGroup) findViewById(R.id.rg_color);
+		colorGroup.check(R.id.rb_color_white);
+		colorGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				View view = group.findViewById(checkedId);
+				color = view.getTag().toString();
+			}
+		});
+		if(alarmLightColor != null){
+			color = alarmLightColor.getColor();
+			int childCount = colorGroup.getChildCount();
+			for(int i = 0 ; i < childCount ; i++){
+				RadioButton rb = (RadioButton) colorGroup.getChildAt(i);
+				if(rb.getTag().equals(color)){
+					rb.setChecked(true);
+					break;
+				}
+			}
+		}
+		
 	}
 
 	@Override
@@ -77,6 +119,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		findViewById(R.id.btn_del).setOnClickListener(this);
 		findViewById(R.id.btn_save).setOnClickListener(this);
 		findViewById(R.id.repeate_layout).setOnClickListener(this);
+		findViewById(R.id.music_layout).setOnClickListener(this);
 	}
 
 	private CharSequence getSelectedDayString(boolean [] selected) {
@@ -109,8 +152,28 @@ public class TimeLightSettingActivity extends BaseActivity {
 		case R.id.repeate_layout:
 			showSelectDaysDialog();
 			break;
+		case R.id.music_layout:
+			Intent intent = new Intent(this, AlarmSoundActivity.class);
+			intent.putExtra(AlarmSoundActivity.EXTRA_SOUND_PATH, soundPath);
+			startActivityForResult(intent, REQUEST_SELECT_SOUND);
+			break;
 		default:
 			break;
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == RESULT_OK){
+			if(requestCode == REQUEST_SELECT_SOUND){
+				soundPath = data.getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
+				if(!TextUtils.isEmpty(soundPath)){
+					String [] arr = soundPath.split("\\|");
+					String name = arr[1];
+					musicNameTv.setText(name);
+				}
+			}
 		}
 	}
 
@@ -154,6 +217,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		calendar.set(Calendar.SECOND, 0);
 		alarm.setAlarmActive(true);
 		alarm.setAlarmTime(calendar);
+		alarm.setAlarmTonePath(soundPath);
 		List<Day> list = new ArrayList<Day>();
 		Day[] allDay = Day.values();
 		for (int i = 0; i < 7; i++) {
@@ -168,6 +232,12 @@ public class TimeLightSettingActivity extends BaseActivity {
 		Day[] selectedDays = new Day[list.size()];
 		alarm.setDays(list.toArray(selectedDays));
 		alarms.saveAlarm(alarm);
+		if(alarmLightColor == null){
+			alarmLightColor = new AlarmLightColor();
+			alarmLightColor.setAlarm_id(alarm.getId());
+		}
+		alarmLightColor.setColor(color);
+		lightColorDao.saveOrUpdate(alarmLightColor);
 	}
 
 	private void delAlarm() {

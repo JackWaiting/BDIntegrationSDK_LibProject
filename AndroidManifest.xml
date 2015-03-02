@@ -82,6 +82,14 @@
             android:name=".activity.TimeLightSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.AlarmSoundActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.AlarmSoundSelectActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.platomix.platomixplayerlib.core.local.PlayerService" >
         </service>

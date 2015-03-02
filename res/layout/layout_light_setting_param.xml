@@ -16,21 +16,55 @@
         android:id="@+id/repeate_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_btn_simple"
         android:padding="10dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/text_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeate"
             android:textSize="@dimen/text_size_medium" />
-        
+
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/tv_repeate_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/days"
-            android:textSize="@dimen/text_size_medium" 
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/text_repeat"
+            android:gravity="center"
+            android:text="@string/days"
+            android:textSize="@dimen/text_size_medium" />
+    </RelativeLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider_line"
+        />
+
+    <RelativeLayout
+        android:id="@+id/light_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_btn_simple"
+        >
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/text_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/light"
+            android:textSize="@dimen/text_size_medium" 
+            android:padding="10dp" />
+        
+        <include 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/layout_color_select"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/text_light"
             />
         
     </RelativeLayout>
@@ -41,31 +75,11 @@
         android:background="@color/color_divider_line"
         />
 
-    <LinearLayout
-        android:id="@+id/light_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/light"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
-    
-    <View 
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_divider_line"
-        />
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/music_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@drawable/selector_btn_simple"
         android:padding="10dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
@@ -73,7 +87,17 @@
             android:layout_height="wrap_content"
             android:text="@string/music"
             android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
+        
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/tv_music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/music"
+            android:textSize="@dimen/text_size_secondary" 
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color_dark_gray"
+            />
+    </RelativeLayout>
     
     <View 
         android:layout_width="match_parent"

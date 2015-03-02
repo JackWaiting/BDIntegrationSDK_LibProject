@@ -11,4 +11,8 @@
     <!-- by fiskz -->
     <dimen name="colorpick_width">180dp</dimen>
     <dimen name="font_size">4pt</dimen>
+    
+    <dimen name="color_circle_innerRadius">14dp</dimen>
+    <dimen name="color_circle_size">30dp</dimen>
+    <dimen name="color_circle_padding">3dp</dimen>
 </resources>

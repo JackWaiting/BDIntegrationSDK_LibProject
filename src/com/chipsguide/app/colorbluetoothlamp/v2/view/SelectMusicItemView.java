@@ -10,20 +10,21 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 
-public class SimpleMusicItem extends IMusicItemView {
+public class SelectMusicItemView extends IMusicItemView {
 	private View stateIv;
 	private TextView artistTv, songNameTv, durationTv;
 	
-	public SimpleMusicItem(Context context){
+	public SelectMusicItemView(Context context) {
 		super(context);
-		LayoutInflater.from(context).inflate(R.layout.simple_music_list_item, this);
+		LayoutInflater.from(context).inflate(R.layout.item_select_music, this);
 		stateIv = (View) findViewById(R.id.iv_state);
 		songNameTv = (TextView) findViewById(R.id.song_name_tv);
 		artistTv = (TextView) findViewById(R.id.artist_tv);
 		durationTv = (TextView) findViewById(R.id.duration_tv);
 		durationTv.setVisibility(View.GONE);
 	}
-	
+
+	@Override
 	public void render(int index, final Music music, boolean blzDeviceMusic) {
 		songNameTv.setText(music.getName());
 		if(blzDeviceMusic){
@@ -42,14 +43,13 @@ public class SimpleMusicItem extends IMusicItemView {
 			durationTv.setText(StringFormatUtil.formatDuration(music.getDuration()));
 		}
 	}
-	
+	@Override
 	public void setSelected(boolean playing) {
 		stateIv.setVisibility(View.VISIBLE);
 	}
-	
+	@Override
 	public void disSelected() {
 		stateIv.setVisibility(View.INVISIBLE);
 	}
-
 
 }

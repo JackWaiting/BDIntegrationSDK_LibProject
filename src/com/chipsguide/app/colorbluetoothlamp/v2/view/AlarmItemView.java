@@ -52,6 +52,7 @@ public class AlarmItemView extends FrameLayout {
 		alarmTimeTv.setText(String.format("%02d", hour) + ":" + String.format("%02d",minute));
 		boolean active = alarm.getAlarmActive();
 		toggleCb.setChecked(active);
+		alarmTimeTv.setCompoundDrawables(active ? on : off, null, null, null);
 	}
 	
 	public void setOnToggleListener(OnCheckedChangeListener listener) {

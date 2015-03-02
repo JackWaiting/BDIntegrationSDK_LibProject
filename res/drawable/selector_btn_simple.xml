@@ -8,7 +8,7 @@
     </item>
     <item 
         >
-        <color android:color="@android:color/transparent"/>
+        <color android:color="@android:color/white"/>
     </item>
 
 </selector>

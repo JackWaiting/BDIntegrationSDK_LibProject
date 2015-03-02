@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import android.content.Intent;
 import android.view.View;
@@ -50,9 +51,12 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.right_btn:
-			Alarm alarm = new Alarm(alarmListAdapter.getAlarms().size() + "");
+			Alarm alarm = new Alarm();
+			int id = Math.abs(UUID.randomUUID().toString().hashCode());
+			alarm.setId(id);
 			alarm.setAlarmTime(Calendar.getInstance());
 			alarm.setAlarmActive(true);
+			alarm.setAlarmTonePath("");
 			startLightSettingActivity(alarm);
 			break;
 		default:
