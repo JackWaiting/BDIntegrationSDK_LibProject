@@ -62,14 +62,14 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	public void onColorChange(int alpha, int red, int green, int blue)
+	public void onColorChange(int red, int green, int blue)
 	{
-		color = Color.argb(alpha, red, green, blue);
+		color = Color.argb(0, red, green, blue);
 //		findViewById(R.id.layout).setBackgroundColor(color);
 	}
 
 	@Override
-	public void onColorChangeEnd(int alpha, int red, int green, int blue)
+	public void onColorChangeEnd(int red, int green, int blue)
 	{
 		mLampManager.setColor(red, green, blue);
 	}
