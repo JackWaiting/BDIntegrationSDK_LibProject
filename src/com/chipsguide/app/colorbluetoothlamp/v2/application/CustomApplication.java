@@ -9,7 +9,7 @@ public class CustomApplication extends Application {
 	/**
 	 * 蓝牙地址过滤
 	 */
-	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:2";
+	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:60:01";
 	/**
 	 * 蓝牙设备管理类
 	 */

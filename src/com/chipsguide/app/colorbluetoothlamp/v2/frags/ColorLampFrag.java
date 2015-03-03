@@ -135,7 +135,7 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 		case R.id.readioButton_button_light_normal:
 			flog.d("normal");
-			mEffect = BluetoothDeviceColorLampManager.Effect.BREATH;
+			mEffect = BluetoothDeviceColorLampManager.Effect.NORMAL;
 			break;
 		case R.id.readioButton_button_light_rainbow:
 			flog.d("rainbow");
@@ -155,6 +155,7 @@ public class ColorLampFrag extends BaseFragment implements
 			break;
 		}
 
+		flog.e(mEffect);
 		// 当前的灯效和快慢速度
 		mLampManager.setLampEffect(mEffect);
 	}

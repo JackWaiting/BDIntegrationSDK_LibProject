@@ -76,7 +76,7 @@ public class BluetoothDeviceManagerProxy{
 	/**
 	 * 蓝牙地址过滤
 	 */
-	private static final String MAC_ADDRESS_FILTER_PREFIX = "C9:2";
+	private static final String MAC_ADDRESS_FILTER_PREFIX = "C9:60:01";
 
 	private boolean hasTfCard;
 	private boolean hasUsb;
