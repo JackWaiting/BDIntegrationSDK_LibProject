@@ -1,7 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
-import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -9,11 +8,12 @@ import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
 
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener,OnCheckedChangeListener {
+		OnColorChangeListener,OnCheckedChangeListener ,LampListener{
 	
 	private LampManager mLampManager;
 	
@@ -32,6 +32,7 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 		mLampManager = LampManager.getInstance(getActivity());
 		mLampManager.init();
+		mLampManager.setLampListener(this);
 	}
 
 	@Override
@@ -106,6 +107,17 @@ public class ColorLampFrag extends BaseFragment implements
 			}
 			break;
 		}
+	}
+
+	@Override
+	public void onLampStateChange(boolean colorState, boolean OnorOff)
+	{
+		if (mLampCheckBox != null && mLampOnCheckBox != null)
+		{
+			mLampCheckBox.setChecked(colorState);
+			mLampOnCheckBox.setChecked(OnorOff);
+		}
+
 	}
 
 }
