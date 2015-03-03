@@ -86,7 +86,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			break;
 		case R.id.rb_light_toggle:
 			text = "开关灯";
-			mLampManager.lampOff();
+			mLampManager.LampOnorOff();
 			break;
 		case R.id.rb_player_toggle:
 			text = "播放暂停";
