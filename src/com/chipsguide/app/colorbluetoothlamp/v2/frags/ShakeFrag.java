@@ -82,7 +82,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		switch(id){
 		case R.id.rb_random_color:
 			text = "随机颜色";
-			mLampManager.random();
+			mLampManager.randomColor();
 			break;
 		case R.id.rb_light_toggle:
 			text = "开关灯";
