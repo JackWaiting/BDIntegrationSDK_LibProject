@@ -13,4 +13,10 @@
     <color name="color_dialog_line">#cccccc</color>
     <color name="color_dialog_bag">#f0f0f0</color>
     <color name="color_red">#ff0010</color>
+    
+    <color name="color_orange">#fdb42c</color>
+    <color name="color_pink">#de427f</color>
+    <color name="color_purple">#af46d3</color>
+    <color name="color_green">#47df6d</color>
+    <color name="color_ching">#27b9d5</color>
 </resources>

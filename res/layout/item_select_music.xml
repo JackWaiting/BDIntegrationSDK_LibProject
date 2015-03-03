@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp" >
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/song_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/duration_tv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="歌曲名称"
+            android:textColor="#363636"
+            android:textSize="16sp" />
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/artist_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/song_name_tv"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/duration_tv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="歌手"
+            android:textColor="@color/color_dark_gray" />
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/duration_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="00:00"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_selected" 
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        />
+
+</RelativeLayout>

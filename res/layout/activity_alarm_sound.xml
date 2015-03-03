@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray" >
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightBtnVisibility="false"
+        app:text="@string/ringtone" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/titleView"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_divider_line" />
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/text_silent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:padding="10dp"
+        android:text="@string/silent"
+        android:background="@drawable/selector_btn_simple"
+        android:textSize="@dimen/text_size_medium"
+         />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/text_silent"
+        android:background="@color/color_divider_line" />
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/text_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/custom_sound"
+        android:textSize="@dimen/text_size_secondary" />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/text_custom"
+        android:background="@color/color_divider_line" />
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/text_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line3"
+        android:background="@drawable/selector_btn_simple"
+        android:padding="10dp"
+        android:text="@string/select_alarm_sound"
+        android:textSize="@dimen/text_size_medium" />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/text_select"
+        android:background="@color/color_divider_line" />
+
+    <RelativeLayout
+        android:id="@+id/song_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/line4"
+        android:visibility="invisible"
+        >
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/tv_sound_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            />
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_sound_name"
+            android:background="@color/color_divider_line" />
+    </RelativeLayout>
+
+</RelativeLayout>

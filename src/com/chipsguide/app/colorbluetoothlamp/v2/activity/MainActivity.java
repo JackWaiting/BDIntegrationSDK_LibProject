@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -14,21 +15,22 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
+import com.chipsguide.lib.timer.Alarms;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.platomix.lib.update.bean.VersionEntity;
 import com.platomix.lib.update.core.UpdateAgent;
 import com.platomix.lib.update.listener.OnCheckUpdateListener;
-import com.platomix.lib.update.listener.OnCheckUpdateListener.UpdateStatus;
 
 public class MainActivity extends BaseActivity implements
 		OnNavItemClickListener, OnMainPageChangeListener,
 		DialogInterface.OnClickListener {
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
+	private Intent alarmAlertService;
 
 	private TextSwitcherTitleView titleView;
-
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -92,6 +94,8 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
+		alarmAlertService = new Intent(this, AlarmAlertService.class);
+		startService(alarmAlertService);
 	}
 
 	@Override
@@ -122,6 +126,8 @@ public class MainActivity extends BaseActivity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
+		stopService(alarmAlertService);
+		Alarms.getInstance(getApplicationContext()).cancel();
 	}
 
 	private boolean forceUpdate;
@@ -154,4 +160,5 @@ public class MainActivity extends BaseActivity implements
 			break;
 		}
 	}
+	
 }

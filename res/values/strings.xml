@@ -65,4 +65,17 @@
     <string name="confirmation_cancel">Cancel</string>
     <string name="check_new_version">Checking new version……</string>
     <string name="no_newversion">No new version!</string>
+    <string name="light_setting">Setting</string>
+    <string name="repeate">Repeat</string>
+    <string name="light">Light</string>
+    <string name="delete">Delete</string>
+    <string name="days">M　TU　W　TH　F　SA　SU</string>
+    <string name="silent">Silent</string>
+    <string name="custom_sound">Custom sound</string>
+    <string name="select_alarm_sound">Select alarm sound</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="song">Song</string>
+    <string name="alarm">Alarm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="time_up_">Time up!</string>
 </resources>

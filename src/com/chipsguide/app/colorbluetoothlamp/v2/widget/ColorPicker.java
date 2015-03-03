@@ -36,7 +36,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -213,14 +212,13 @@ public class ColorPicker extends View {
 
 		drawDrawable(canvas);
 
-		Log.d("colorChnage", "<<<<colorChange");
 		if (mColorChangelistener != null) {
 			int color = Color.HSVToColor(colorHSV);
-			int alpha = Color.alpha(color);
+			//int alpha = Color.alpha(color);
 			int red = (color & 0xff0000) >> 16;
 			int green = (color & 0x00ff00) >> 8;
 			int blue = (color & 0x0000ff);
-			mColorChangelistener.onColorChange(alpha, red, green, blue);
+			mColorChangelistener.onColorChange(red, green, blue);
 		}
 	}
 
@@ -366,11 +364,11 @@ public class ColorPicker extends View {
 			downOnWheel = false;
 			if (mColorChangelistener != null) {
 				int color = Color.HSVToColor(colorHSV);
-				int alpha = Color.alpha(color);
+				//int alpha = Color.alpha(color);
 				int red = (color & 0xff0000) >> 16;
 				int green = (color & 0x00ff00) >> 8;
 				int blue = (color & 0x0000ff);
-				mColorChangelistener.onColorChangeEnd(alpha, red, green, blue);
+				mColorChangelistener.onColorChangeEnd(red, green, blue);
 			}
 			break;
 		}
@@ -434,9 +432,9 @@ public class ColorPicker extends View {
 	}
 
 	public interface OnColorChangeListener {
-		void onColorChange(int alpha, int red, int green, int blue);
+		void onColorChange(int red, int green, int blue);
 
-		void onColorChangeEnd(int alpha, int red, int green, int blue);
+		void onColorChangeEnd(int red, int green, int blue);
 	}
 
 }

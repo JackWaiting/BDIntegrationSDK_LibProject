@@ -4,14 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 
-public class SimpleMusicItem extends FrameLayout {
+public class SimpleMusicItem extends IMusicItemView {
 	private View stateIv;
 	private TextView artistTv, songNameTv, durationTv;
 	
@@ -51,4 +50,6 @@ public class SimpleMusicItem extends FrameLayout {
 	public void disSelected() {
 		stateIv.setVisibility(View.INVISIBLE);
 	}
+
+
 }

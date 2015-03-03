@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray" >
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightBtnVisibility="false"
+        app:text="@string/song" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+	
+    <RadioGroup
+        android:id="@+id/rg_top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" 
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/titleView"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_my_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/my_music"
+            android:textColor="@color/selector_music_rg_text"
+             />
+
+        <RadioButton
+            android:id="@+id/rb_tf_card_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_music_nav_right"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/tf_card_music"
+            android:textColor="@color/selector_music_rg_text" />
+
+    </RadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rg_top_nav"
+        >
+    </android.support.v4.view.ViewPager>
+    
+</RelativeLayout>
