@@ -20,6 +20,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.MyMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag.OnItemSelectedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.TFCardMusicFrag;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 
 public class AlarmSoundSelectActivity extends BaseActivity implements
 		OnPageChangeListener, OnCheckedChangeListener ,OnItemSelectedListener{
@@ -50,7 +51,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 			String [] arr = soundPath.split("\\|");
 			if(arr != null && arr.length > 1){
 				type = arr[0];
-				if(type.equals(MyMusicFrag.TAG)){
+				if(type.equals(PlayType.Local.name())){
 					tag = arr[2];
 				}else{
 					tag = arr[1];
@@ -137,10 +138,10 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 	public void onItemSelected(SimpleMusicFrag frag, Music music) {
 		switch (frag.getPlayType()) {
 		case Local:
-			soundPath = "local|" + music.getName() + "|" + music.getLocalPath();
+			soundPath = PlayType.Local.name() + "|" + music.getName() + "|" + music.getLocalPath();
 			break;
 		case Bluz:
-			soundPath = "bluz|" + music.getName();
+			soundPath = PlayType.Bluz.name() + "|" + music.getName();
 			break;
 		default:
 			break;

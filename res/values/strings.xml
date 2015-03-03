@@ -75,4 +75,7 @@
     <string name="select_alarm_sound">Select alarm sound</string>
     <string name="ringtone">Ringtone</string>
     <string name="song">Song</string>
+    <string name="alarm">Alarm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="time_up_">Time up!</string>
 </resources>

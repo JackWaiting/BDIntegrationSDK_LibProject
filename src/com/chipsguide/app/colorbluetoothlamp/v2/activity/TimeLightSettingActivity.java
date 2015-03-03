@@ -71,7 +71,6 @@ public class TimeLightSettingActivity extends BaseActivity {
 		}
 		timePicker = (MyTimePickerView) findViewById(R.id.time_layout);
 		RadioGroup colorGroup = (RadioGroup) findViewById(R.id.rg_color);
-		colorGroup.check(R.id.rb_color_white);
 		colorGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -79,6 +78,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 				color = view.getTag().toString();
 			}
 		});
+		colorGroup.check(R.id.rb_color_white);
 		if(alarmLightColor != null){
 			color = alarmLightColor.getColor();
 			int childCount = colorGroup.getChildCount();
