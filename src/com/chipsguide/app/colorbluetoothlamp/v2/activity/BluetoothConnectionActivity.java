@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.BluetoothDeivcesListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
@@ -36,6 +37,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	private CustomApplication application;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDevice bluetoothDeviceConnected;// 当前连接的蓝牙
+	private BluetoothDeviceManagerProxy mManagerProxy;
 
 	private ConnectDao dao;
 
@@ -49,10 +51,10 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	public void initBase()
 	{
 		application = (CustomApplication) getApplication();
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
-		mBluetoothDeviceManager
-				.setOnBluetoothDeviceConnectionStateChangedListener(this);
+		mManagerProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 		dao = ConnectDao.getDao(this);
 	}
 
