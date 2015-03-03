@@ -196,12 +196,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			mAdapter.setBluetooth(bluetoothDevice);
 			mAdapter.setList(StringUtil.getListConnectMessage(
 					connectBluetoothDevices, listBluetooth));
-			// if (mBluetoothDeviceColorLampManager != null
-			// && mBluetoothDeviceCommonLampManager != null)
-			// {
-			// mBluetoothDeviceColorLampManager.getStatus();
-			// mBluetoothDeviceCommonLampManager.getLampstatus();
-			// }
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
