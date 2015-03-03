@@ -215,9 +215,9 @@ public class ColorPicker extends View {
 		if (mColorChangelistener != null) {
 			int color = Color.HSVToColor(colorHSV);
 			//int alpha = Color.alpha(color);
-			int red = (color & 0xff0000) >> 16;
-			int green = (color & 0x00ff00) >> 8;
-			int blue = (color & 0x0000ff);
+			int red = Color.red(color);
+			int green = Color.green(color);
+			int blue = Color.blue(color);
 			mColorChangelistener.onColorChange(red, green, blue);
 		}
 	}
@@ -400,6 +400,8 @@ public class ColorPicker extends View {
 
 	public void setColor(int color) {
 		Color.colorToHSV(color, colorHSV);
+		updateThumbPosition();
+		invalidate();
 	}
 
 	public int getColor() {

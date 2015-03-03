@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
+import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -42,7 +43,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	protected void initView()
 	{
-		ColorPicker colorPicker = (ColorPicker) findViewById(R.id.colorPicker);
+		final ColorPicker colorPicker = (ColorPicker) findViewById(R.id.colorPicker);
 		colorPicker.setOnColorChangeListener(this);
 		
 		mLampCheckBox = (CheckBox)this.findViewById(R.id.cb_lamp_active);
@@ -61,11 +62,18 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 	}
 
+	private float[] colorHSV = new float[] { 0f, 0f, 1f };
 	@Override
 	public void onColorChange(int red, int green, int blue)
 	{
 		color = Color.argb(0, red, green, blue);
-//		findViewById(R.id.layout).setBackgroundColor(color);
+		Color.RGBToHSV(red, green, blue, colorHSV);
+		if(colorHSV[0] == 0 && colorHSV[1] == 0){ //说明为白色
+			float value = colorHSV[2];
+			int rank = (int)(value * 16); //等级0-16
+			//TODO 调节等级
+			
+		}
 	}
 
 	@Override
