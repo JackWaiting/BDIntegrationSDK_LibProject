@@ -74,78 +74,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/selector_lamp_on_btn" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:background="@drawable/round"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/view_color_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:background="@drawable/round"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/view_color_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:background="@drawable/round"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/view_color_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:background="@drawable/round"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/view_color_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:background="@drawable/round"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/view_color_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </LinearLayout>
+		<include 
+		    layout="@layout/layout_select_color"/>       
     </LinearLayout>
 
 </LinearLayout>
