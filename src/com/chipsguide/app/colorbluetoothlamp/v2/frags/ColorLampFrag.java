@@ -17,6 +17,7 @@ public class ColorLampFrag extends BaseFragment implements
 	
 	private LampManager mLampManager;
 	
+	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
 	private CheckBox mLampOnCheckBox;
 	private ImageView mColor01;
@@ -44,8 +45,8 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	protected void initView()
 	{
-		final ColorPicker colorPicker = (ColorPicker) findViewById(R.id.colorPicker);
-		colorPicker.setOnColorChangeListener(this);
+		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);
+		mColorPicker.setOnColorChangeListener(this);
 		
 		mLampCheckBox = (CheckBox)this.findViewById(R.id.cb_lamp_active);
 		mLampOnCheckBox = (CheckBox)this.findViewById(R.id.cb_lamp_on);
@@ -73,14 +74,21 @@ public class ColorLampFrag extends BaseFragment implements
 			float value = colorHSV[2];
 			int rank = (int)(value * 16); //等级0-16
 			//TODO 调节等级
-			
+			mLampManager.setBrightness(rank+1);
 		}
 	}
 
 	@Override
 	public void onColorChangeEnd(int red, int green, int blue)
 	{
-		mLampManager.setColor(red, green, blue);
+		color = Color.argb(0, red, green, blue);
+		Color.RGBToHSV(red, green, blue, colorHSV);
+		if(colorHSV[0] == 0 && colorHSV[1] == 0)
+		{ //说明为白色
+		}else
+		{
+			mLampManager.setColor(red, green, blue);
+		}
 	}
 
 	@Override
@@ -95,6 +103,7 @@ public class ColorLampFrag extends BaseFragment implements
 			}else
 			{
 				mLampManager.turnCommonOn();
+				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
 		case R.id.cb_lamp_on:
@@ -110,14 +119,20 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	public void onLampStateChange(boolean colorState, boolean OnorOff)
+	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
 	{
+		flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 		if (mLampCheckBox != null && mLampOnCheckBox != null)
 		{
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
 		}
+	}
 
+	@Override
+	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
+	{
+		onLampStateInqiryBackChange(colorState, OnorOff);
 	}
 
 }
