@@ -7,14 +7,13 @@
     android:background="@color/color_gray"
      >
     
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.TitleView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rightImg="@drawable/selector_btn_player"
         app:leftImg="@drawable/selector_btn_back"
-        app:text="@string/time_light">
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+        app:text="@string/time_light"/>
     
     <ListView 
         android:paddingTop="10dp"

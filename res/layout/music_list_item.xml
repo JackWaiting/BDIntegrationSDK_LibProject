@@ -12,7 +12,7 @@
         android:layout_height="80dp"
          >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
+        <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.widget.CircleImageView
             android:id="@+id/image_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,7 +30,7 @@
              />
     </RelativeLayout>
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/tv_music_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:maxLines="2"
         android:textSize="@dimen/text_size_first" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/tv_music_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

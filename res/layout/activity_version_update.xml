@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.TitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rightImg="@drawable/selector_btn_player"
         app:leftImg="@drawable/selector_btn_back"
-        app:text="@string/version_update">
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+        app:text="@string/version_update"/>
 
 </LinearLayout>

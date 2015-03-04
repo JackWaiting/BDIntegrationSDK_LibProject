@@ -1,0 +1,36 @@
+package com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.frags;
+
+import android.content.Context;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.adapter.SimpleMusicListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.media.PlayerManager.PlayType;
+
+public class MyMusicFrag extends SimpleMusicFrag {
+	public static final String TAG = "local";
+	
+	public static MyMusicFrag getInstance(Context context, String tag, SimpleMusicListAdapter adapter, OnItemSelectedListener listener){
+		MyMusicFrag frag = new MyMusicFrag();
+		frag.setFilterTag(tag);
+		frag.setAdapter(adapter);
+		frag.setOnItemSelectedListener(listener);
+		return frag;
+	}
+	
+	@Override
+	protected int getLayoutId() {
+		return R.layout.frag_my_music;
+	}
+
+	@Override
+	public PlayType getPlayType() {
+		return PlayType.Local;
+	}
+	
+	@Override
+	public String getFilter(Music music) {
+		return music.getLocalPath();
+	}
+	
+}

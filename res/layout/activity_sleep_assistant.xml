@@ -6,14 +6,14 @@
     android:background="@drawable/bg_main"
     android:orientation="vertical" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.TitleView
         android:id="@+id/titleview_sleep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImg="@drawable/selector_btn_back"
         app:rightImg="@drawable/selector_btn_player"
         app:text="@string/sleep_assistant" >
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+    </com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.TitleView>
 
     <RelativeLayout
         android:layout_width="match_parent"

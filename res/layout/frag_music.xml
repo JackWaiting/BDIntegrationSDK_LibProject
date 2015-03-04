@@ -35,7 +35,7 @@
             android:text="@string/tf_card_music"
             android:textColor="@color/selector_music_rg_text" />
 
-        <RadioButton
+        <!-- <RadioButton
             android:id="@+id/rb_cloud_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/cloud_music"
-            android:textColor="@color/selector_music_rg_text" />
+            android:textColor="@color/selector_music_rg_text" /> -->
     </RadioGroup>
 
     <android.support.v4.view.ViewPager

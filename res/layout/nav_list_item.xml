@@ -53,7 +53,7 @@
         </ImageView>
     </RelativeLayout>
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/item_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

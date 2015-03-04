@@ -10,7 +10,7 @@
         android:background="@color/color_divider_line"
         />
     
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView 
         android:id="@+id/tv_alarm_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

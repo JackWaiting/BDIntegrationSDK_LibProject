@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:paddingRight="10dp" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.widget.CircleImageView
         android:id="@+id/iv_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -22,7 +22,7 @@
         android:src="@drawable/ic_album"
          />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:text="专辑"
         android:textSize="@dimen/text_size_first" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:textColor="@color/secondary_text_color"
         android:textSize="@dimen/text_size_secondary" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.view.MyTextView
         android:id="@+id/tv_plays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.NoScrollViewPager
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.widget.NoScrollViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rg_nav_bottom" >
-    </com.chipsguide.app.colorbluetoothlamp.v2.widget.NoScrollViewPager>
+        android:layout_above="@+id/rg_nav_bottom" />
 
     <RadioGroup
         android:id="@+id/rg_nav_bottom"

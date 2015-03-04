@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker
+    <com.chipsguide.app.colorbluetoothlamp.v2.xinbaosheng.widget.ColorPicker
         android:id="@+id/colorPicker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
