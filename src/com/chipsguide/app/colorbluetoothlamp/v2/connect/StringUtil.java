@@ -98,6 +98,10 @@ public class StringUtil
 	 */
 	public static List<BluetoothDevice> removeDuplicateWithOrder(List<BluetoothDevice> listBluetooth)
 	{
+		if(listBluetooth.size() == 1)
+		{
+			return listBluetooth;
+		}
 		Set<BluetoothDevice> set = new HashSet<BluetoothDevice>();
 		List<BluetoothDevice> newList = new ArrayList<BluetoothDevice>();
 		for (Iterator<BluetoothDevice> iter = listBluetooth.iterator(); iter.hasNext();)

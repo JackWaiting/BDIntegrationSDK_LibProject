@@ -260,7 +260,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		listBluetooth = StringUtil.removeDuplicateWithOrder(listBluetooth);
 		mAdapter.setList(StringUtil.getListConnectMessage(
 				connectBluetoothDevices, listBluetooth));
-
 	}
 
 	@Override
