@@ -194,7 +194,7 @@ public abstract class AbstractWheelView extends AbstractWheel {
     protected void recreateAssets(int width, int height) {
         mSpinBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mSeparatorsBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        setSelectorPaintCoeff(0);
+        setSelectorPaintCoeff(1);
     }
 
     /**
@@ -237,14 +237,14 @@ public abstract class AbstractWheelView extends AbstractWheel {
     @Override
     protected void onScrollTouchedUp() {
         super.onScrollTouchedUp();
-        fadeSelectorWheel(750);
-        lightSeparators(750);
+        //fadeSelectorWheel(750);
+        //lightSeparators(750);
     }
 
     @Override
     protected void onScrollFinished() {
-        fadeSelectorWheel(500);
-        lightSeparators(500);
+        //fadeSelectorWheel(500);
+        //lightSeparators(500);
     }
 
     //----------------------------------
