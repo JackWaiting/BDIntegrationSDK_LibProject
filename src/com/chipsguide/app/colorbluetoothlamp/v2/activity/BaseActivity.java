@@ -24,7 +24,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.umeng.analytics.MobclickAgent;
 
 
 public abstract class BaseActivity extends SlidingFragmentActivity implements OnClickListener{

@@ -5,11 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.provider.AlarmClock;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
-import com.chipsguide.lib.timer.Alarm;
-import com.chipsguide.lib.timer.db.AlarmBuilder;
 
 public class AlarmLightColorDAO {
 	public static final String TABLE_NAME = "lightColor";

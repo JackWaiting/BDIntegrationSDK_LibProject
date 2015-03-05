@@ -3,7 +3,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.utils;
 import java.text.NumberFormat;
 
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 
 public class StringFormatUtil {
 	

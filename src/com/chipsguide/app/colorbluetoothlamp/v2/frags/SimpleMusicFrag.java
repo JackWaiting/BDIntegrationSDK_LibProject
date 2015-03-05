@@ -3,7 +3,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 import java.util.List;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;

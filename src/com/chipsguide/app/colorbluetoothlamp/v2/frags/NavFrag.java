@@ -16,7 +16,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
 import com.platomix.lib.update.bean.VersionEntity;
 import com.platomix.lib.update.core.UpdateAgent;
 import com.platomix.lib.update.listener.OnCheckUpdateListener;
-import com.platomix.lib.update.listener.OnCheckUpdateListener.UpdateStatus;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;

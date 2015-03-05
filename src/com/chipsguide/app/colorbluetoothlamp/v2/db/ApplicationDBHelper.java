@@ -2,9 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.AlarmClock;
 
 public class ApplicationDBHelper extends SQLiteOpenHelper {
 	private static final String DB_NAME = "alarm_color";

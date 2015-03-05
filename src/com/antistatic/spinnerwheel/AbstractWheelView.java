@@ -202,7 +202,7 @@ public abstract class AbstractWheelView extends AbstractWheel {
      * spinnerwheel.
      * @param alpha alpha value from 0 to 255
      */
-    @SuppressWarnings("unused")  // Called via reflection
+    // Called via reflection
     public void setSeparatorsPaintAlpha(int alpha) {
         mSeparatorsPaint.setAlpha(alpha);
         invalidate();
