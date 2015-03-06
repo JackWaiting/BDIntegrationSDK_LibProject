@@ -21,11 +21,11 @@
             android:padding="25dp"
             seekarc:arcColor="@color/color_dark_gray"
             seekarc:arcWidth="3dp"
-            seekarc:clockwise="false"
+            seekarc:clockwise="true"
             seekarc:max="1000"
             seekarc:progressColor="@color/color_blue"
             seekarc:progressWidth="3dp"
-            seekarc:rotation="-60"
+            seekarc:rotation="120"
             seekarc:startAngle="0"
             seekarc:sweepAngle="300"
             seekarc:touchInside="false" />
@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:text="00:00/00:00" />
 
 </RelativeLayout>

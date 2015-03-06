@@ -28,6 +28,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView.SimpleSeekArcChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicSpectrumView;
@@ -51,7 +52,7 @@ public class MusicPlayerActivity extends BaseActivity {
 	private ListView playListLv;
 	private MusicProgressView progressLayout;
 	private MusicSpectrumView spectrumLayout;
-	private TextView musicNameTv, artistTv;
+	private TextView musicNameTv, artistTv, durationTv;
 
 	private List<View> views = new ArrayList<View>();
 
@@ -77,6 +78,7 @@ public class MusicPlayerActivity extends BaseActivity {
 		titleView.setRightBtnVisibility(false);
 		musicNameTv = (TextView) findViewById(R.id.tv_music_name);
 		artistTv = (TextView) findViewById(R.id.tv_artist);
+		durationTv = (TextView) findViewById(R.id.tv_duration2);
 
 		playBtn = (ImageView) findViewById(R.id.iv_play_state);
 		playmodeBtn = (ImageView) findViewById(R.id.iv_play_mode);
@@ -187,6 +189,9 @@ public class MusicPlayerActivity extends BaseActivity {
 				artistTv.setText(artist);
 			}
 			titleView.setTitleText(title);
+			String currentDurationStr = StringFormatUtil.formatDuration(0);
+			String durationStr = StringFormatUtil.formatDuration(currentMusic.getDuration());
+			durationTv.setText(currentDurationStr + "/" + durationStr);
 			progressLayout.updateMusicImage(currentMusic.getPicpath_l());
 			progressLayout.updateProgress(currentMusic.getDuration(), 0, 0);
 		}
@@ -242,6 +247,9 @@ public class MusicPlayerActivity extends BaseActivity {
 				long currentDuration, int percent) {
 			MusicPlayerActivity act = ref.get();
 			if (act != null) {
+				String currentDurationStr = StringFormatUtil.formatDuration(currentDuration);
+				String durationStr = StringFormatUtil.formatDuration(duration);
+				act.durationTv.setText(currentDurationStr + "/" + durationStr);
 				act.progressLayout.updateProgress(duration, currentDuration,
 						percent);
 				if (!act.progressLayout.isRotatingAnim()) {

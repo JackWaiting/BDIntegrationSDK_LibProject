@@ -80,4 +80,5 @@
     <string name="alarm">定时</string>
     <string name="dismiss">取消</string>
     <string name="time_up_">时间到!</string>
+    <string name="current_setting">当前设置:</string>
 </resources>

@@ -30,6 +30,28 @@
             android:layout_marginTop="20dp"
              />
         
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+            android:id="@+id/set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_shake"
+            android:text="@string/current_setting"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_secondary"
+            />
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
+            android:id="@+id/tv_current_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/random_color"
+            android:layout_marginLeft="5dp"
+            />
+        
     </RelativeLayout>
 
     <ImageView
