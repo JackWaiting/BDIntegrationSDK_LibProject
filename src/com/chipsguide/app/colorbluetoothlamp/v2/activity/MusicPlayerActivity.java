@@ -40,6 +40,8 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.platomixplayerlib.api.PlaybackMode;
 
 public class MusicPlayerActivity extends BaseActivity {
+	public static final String EXTRA_MODE_TO_BE = "mode_to_be"; 
+	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; //将要切换的模式
 	private PlayerManager playerManager;
 	private int currentModeRes;
 	private SimpleMusicListAdapter mAdapter;
@@ -58,6 +60,7 @@ public class MusicPlayerActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
+		modeTobe = getIntent().getIntExtra(EXTRA_MODE_TO_BE, modeTobe);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		int index = PreferenceUtil.getIntance(getApplicationContext())
 				.getPlayMode();
@@ -420,6 +423,9 @@ public class MusicPlayerActivity extends BaseActivity {
 						BluetoothDeviceManagerProxy.EXTRA_OLD_MODE, -1);
 				int a2dpMode = BluetoothDeviceManager.Mode.A2DP;
 				int cardMode = BluetoothDeviceManager.Mode.CARD;
+				if(modeTobe == newMode){
+					return;
+				}
 				if (newMode != a2dpMode && oldMode == a2dpMode && oldMode != -1) {// 之前的模式是A2DP，新模式不是A2DP则结束
 					finish();
 				} else if (newMode != cardMode && oldMode == cardMode) {// 之前的模式是卡模式，新模式不是卡模式则结束
