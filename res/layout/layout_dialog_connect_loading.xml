@@ -43,7 +43,7 @@
             android:layout_height="50dp"
             android:layout_weight="2"
             android:gravity="center|right"
-            android:text="@string/audio_connectioning"
+            android:text=""
             android:textColor="#767676" />
 
         <TextView
