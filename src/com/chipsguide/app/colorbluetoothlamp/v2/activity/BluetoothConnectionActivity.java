@@ -18,7 +18,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManager
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -121,6 +121,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			{
 				mBluetoothDeviceManager.startDiscovery();
 				createConnPD();
+				setText(0);
 			}
 			break;
 		}
@@ -136,6 +137,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// a2dp连接中
 		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
 			createConnPD();
+			setText(R.string.audio_connectioning);
 			flog.d("A2DP_CONNECTING  a2dp连接中");
 			break;
 
@@ -153,6 +155,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// a2dp连接
 		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTED:
 			flog.d("A2DP_CONNECTED  a2dp连接成功");
+			setText(R.string.audio_connectionend);
 			break;
 
 		// a2dp断开
@@ -163,11 +166,13 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// spp连接中
 		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTING:
 			flog.d("SPP_CONNECTING  spp连接中");
+			setText(R.string.data_connectioning);
 			break;
 
 		// /spp连接成功
 		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTED:
 			flog.d("SPP_CONNECTED  spp连接成功");
+			setText(R.string.data_connectionend);
 			break;
 
 		// spp断开
@@ -184,6 +189,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// 连接
 		case BluetoothDeviceManager.ConnectionState.CONNECTED:
 			flog.d("CONNECTED  连接成功");
+			setText(R.string.connectionend);
 			dismissConnectPD();
 			 bluetoothDeviceConnected = bluetoothDevice;
 			// //如果连接了蓝牙设备，且匹配不了，就不添加到数据库
@@ -367,17 +373,26 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		{
 			if (this.getParent() != null)
 			{
-				mConnectpd = new CustomDialog(this.getParent(),
+				mConnectpd = new ConnectDialog(this.getParent(),
 						R.style.Dialog_Fullscreen);
 			} else
 			{
-				mConnectpd = new CustomDialog(this, R.style.Dialog_Fullscreen);
+				mConnectpd = new ConnectDialog(this, R.style.Dialog_Fullscreen);
 			}
 			showConnectPD();
 		} else
 		{
 			showConnectPD();
 		}
+	}
+	
+	private void setText(int resId)
+	{
+		if (mConnectpd != null)
+		{
+			mConnectpd.setMessage(resId);
+		}
+		
 	}
 
 	private void showConnectPD()

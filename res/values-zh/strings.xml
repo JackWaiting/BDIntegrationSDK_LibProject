@@ -80,4 +80,10 @@
     <string name="alarm">定时</string>
     <string name="dismiss">取消</string>
     <string name="time_up_">时间到!</string>
+    
+    <string name="audio_connectioning">音频连接中</string>
+	<string name="audio_connectionend">音频已连接</string>
+	<string name="data_connectioning">数据连接中</string>
+	<string name="data_connectionend">数据已连接</string>
+	<string name="connectionend">连接完成</string>
 </resources>

@@ -36,20 +36,20 @@ public class CustomDialog extends Dialog {
 		initView();
 	}
 	
-	
 	public void setMessage(int resId) {
 		msgId = resId;
 	}
-
+	
 	private void initView() {
 		progressIv = (ImageView) this.findViewById(R.id.iv_progress);
 		msgTv = (TextView) this.findViewById(R.id.tv_message);
+		
 		if(msgId > 0){
 			msgTv.setText(msgId);
 		}else{
 			msgTv.setText("");
 		}
-		RotateAnimation anim = new RotateAnimation(359, 0,
+		RotateAnimation anim = new RotateAnimation(0, 360,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
 		anim.setInterpolator(new LinearInterpolator());
