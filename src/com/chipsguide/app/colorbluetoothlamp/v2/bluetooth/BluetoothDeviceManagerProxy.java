@@ -199,6 +199,10 @@ public class BluetoothDeviceManagerProxy{
 	private boolean isMusicManagerMode(int mode) {
 		return (mode == BluetoothDeviceManager.Mode.CARD || mode == BluetoothDeviceManager.Mode.USB);
 	}
+	
+	public boolean isInMusicManagerMode(){
+		return isMusicManagerMode(deviceManagerMode);
+	}
 
 	/**
 	 * 获取卡播放管理类,并设置模式

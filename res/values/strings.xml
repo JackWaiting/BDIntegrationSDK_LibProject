@@ -79,4 +79,7 @@
     <string name="dismiss">Dismiss</string>
     <string name="time_up_">Time up!</string>
     <string name="current_setting">Current setting:</string>
+    
+    <string name="loading_tf_music">Loading TF card music……%1$d%%</string>
+    <string name="loading_tf_music_success">Load successfully!\n%1$d musics in total, loaded %2$d musics!</string>
 </resources>

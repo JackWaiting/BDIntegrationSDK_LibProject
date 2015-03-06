@@ -23,6 +23,7 @@ import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicS
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicSongListListener;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.platomixplayerlib.api.PlaybackMode;
 import com.platomix.platomixplayerlib.api.Playlist;
 import com.platomix.platomixplayerlib.core.AudioHelper;
@@ -312,7 +313,20 @@ public class PlayerManager {
 	}
 
 	public interface MusicCallback {
+		/**
+		 * 获取歌曲完成
+		 * @param musics
+		 * @param prePosition
+		 */
 		void onLoadMusic(List<Music> musics, int prePosition);
+		/**
+		 * 正在获取歌曲
+		 * @param loaded
+		 * @param total
+		 */
+		void onLoading(int loaded, int total);
+		
+		void onLoadStart();
 	}
 
 	/**
@@ -386,6 +400,7 @@ public class PlayerManager {
 		requestFocus(act);
 		deviceMusicManager = bltDeiviceMusicManager;
 		mCallback = callback;
+		mCallback.onLoadStart();
 		mPlistEntitys = new ArrayList<BluetoothDeviceMusicSongEntity>();
 		getBluzMusicList();
 	}
@@ -398,8 +413,10 @@ public class PlayerManager {
 		int musicManagerSongSize = deviceMusicManager.getSongSize();
 		if (plistSize < musicManagerSongSize){
 			int left = musicManagerSongSize - plistSize;
+			mCallback.onLoading(plistSize, musicManagerSongSize);
 			deviceMusicManager.getSongList(plistSize + 1, Math.min(5, left) ,deviceMusicSongListListener);
 		}else if(plistSize == musicManagerSongSize){
+			mCallback.onLoading(plistSize, musicManagerSongSize);
 			int size = mPlistEntitys.size();
 			List<Music> musics = new ArrayList<Music>();
 			for (int i = 0; i < size; i++) {

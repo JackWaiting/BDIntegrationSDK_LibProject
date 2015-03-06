@@ -3,6 +3,8 @@ package com.chipsguide.app.colorbluetoothlamp.v2.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -12,9 +14,9 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
 public class CustomDialog extends Dialog {
-	private ImageView progressIv;
+	private ImageView progressIv, lampIv, successIv;
 	private TextView msgTv;
-	private int msgId;
+	private String msgText;
 
 	public CustomDialog(Context context) {
 		super(context, 0);
@@ -38,17 +40,40 @@ public class CustomDialog extends Dialog {
 	
 	
 	public void setMessage(int resId) {
-		msgId = resId;
+		msgText = getContext().getResources().getString(resId);
+	}
+	
+	public void setMessage(String text) {
+		msgText = text;
+	}
+	
+	public void updateMessage(String msg){
+		if(msgTv != null){
+			msgTv.setText(msg);
+		}
+	}
+	
+	public void dismiss(boolean success, long delay) {
+		if(success){
+			progressIv.clearAnimation();
+			progressIv.setVisibility(View.INVISIBLE);
+			lampIv.setVisibility(View.INVISIBLE);
+			successIv.setVisibility(View.VISIBLE);
+		}
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				CustomDialog.this.dismiss();
+			}
+		}, delay);
 	}
 
 	private void initView() {
 		progressIv = (ImageView) this.findViewById(R.id.iv_progress);
+		lampIv = (ImageView) this.findViewById(R.id.iv_lamp);
+		successIv = (ImageView) this.findViewById(R.id.iv_complete);
 		msgTv = (TextView) this.findViewById(R.id.tv_message);
-		if(msgId > 0){
-			msgTv.setText(msgId);
-		}else{
-			msgTv.setText("");
-		}
+		msgTv.setText(msgText);
 		RotateAnimation anim = new RotateAnimation(359, 0,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
