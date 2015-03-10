@@ -8,4 +8,5 @@
 	 <item type="id" name="tv_count"></item>
 	 <item type="id" name="tv_plays"></item>
 	 <item type="id" name="iv_image"></item>
+	 <item type="id" name="tag_is_playing"></item>
 </resources>

@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/selector_list_pause_btn"
+            android:padding="10dp"
              />
     </RelativeLayout>
 
