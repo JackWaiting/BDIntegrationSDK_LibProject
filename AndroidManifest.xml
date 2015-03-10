@@ -93,10 +93,10 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name="com.platomix.platomixplayerlib.core.local.PlayerService" >
+        <service android:name="com.platomix.lib.playerengine.core.local.PlayerService" >
         </service>
         
-        <receiver android:name="com.platomix.platomixplayerlib.core.local.MediaButtonIntentReceiver"></receiver>
+        <receiver android:name="com.platomix.lib.playerengine.core.local.MediaButtonIntentReceiver"></receiver>
         
         <service android:name="com.platomix.lib.update.core.UpdateService"></service>
         <service android:name="com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService"></service>

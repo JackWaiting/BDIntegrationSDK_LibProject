@@ -23,14 +23,13 @@ import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicS
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicSongListListener;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-import com.platomix.platomixplayerlib.api.PlaybackMode;
-import com.platomix.platomixplayerlib.api.Playlist;
-import com.platomix.platomixplayerlib.core.AudioHelper;
-import com.platomix.platomixplayerlib.core.PlayerListener;
-import com.platomix.platomixplayerlib.core.local.LoadMusicCallback;
-import com.platomix.platomixplayerlib.core.local.LocalPlayer;
-import com.platomix.platomixplayerlib.core.local.PlaylistEntity;
+import com.platomix.lib.playerengine.api.PlaybackMode;
+import com.platomix.lib.playerengine.api.Playlist;
+import com.platomix.lib.playerengine.core.AudioHelper;
+import com.platomix.lib.playerengine.core.PlayerListener;
+import com.platomix.lib.playerengine.core.local.LoadMusicCallback;
+import com.platomix.lib.playerengine.core.local.LocalPlayer;
+import com.platomix.lib.playerengine.core.local.PlaylistEntity;
 
 /**
  * 播放器管理类
@@ -218,6 +217,7 @@ public class PlayerManager {
 			handler.removeCallbacks(progressRunnable);
 			if (player == null) {
 				player = LocalPlayer.getInstance(mContext);
+				player.setFadeVolumeWhenStartOrPause(true);
 				player.setListener(localPlayerListener);
 			}
 		} else {

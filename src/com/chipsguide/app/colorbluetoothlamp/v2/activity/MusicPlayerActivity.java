@@ -37,7 +37,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-import com.platomix.platomixplayerlib.api.PlaybackMode;
+import com.platomix.lib.playerengine.api.PlaybackMode;
 
 public class MusicPlayerActivity extends BaseActivity {
 	public static final String EXTRA_MODE_TO_BE = "mode_to_be"; 
@@ -197,6 +197,9 @@ public class MusicPlayerActivity extends BaseActivity {
 			durationTv.setText(currentDurationStr + "/" + durationStr);
 			progressLayout.updateMusicImage(currentMusic.getPicpath_l());
 			progressLayout.updateProgress(currentMusic.getDuration(), 0, 0);
+			if (!progressLayout.isRotatingAnim()) {
+				progressLayout.playStateChange(playerManager.isPlaying());
+			}
 		}
 		mAdapter.setSelected(currentPosition, true);
 		// 不是用户点击，才滚动ListView
@@ -255,10 +258,6 @@ public class MusicPlayerActivity extends BaseActivity {
 				act.durationTv.setText(currentDurationStr + "/" + durationStr);
 				act.progressLayout.updateProgress(duration, currentDuration,
 						percent);
-				if (!act.progressLayout.isRotatingAnim()) {
-					act.progressLayout.playStateChange(act.playerManager
-							.isPlaying());
-				}
 				if (!act.update) {
 					act.updateUI(false);
 				}

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/selector_list_item"
     android:paddingRight="10dp" >
 
     <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
