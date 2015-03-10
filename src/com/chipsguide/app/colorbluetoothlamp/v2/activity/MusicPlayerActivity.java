@@ -197,9 +197,7 @@ public class MusicPlayerActivity extends BaseActivity {
 			durationTv.setText(currentDurationStr + "/" + durationStr);
 			progressLayout.updateMusicImage(currentMusic.getPicpath_l());
 			progressLayout.updateProgress(currentMusic.getDuration(), 0, 0);
-			if (!progressLayout.isRotatingAnim()) {
-				progressLayout.playStateChange(playerManager.isPlaying());
-			}
+			progressLayout.playStateChange(playerManager.isPlaying());
 		}
 		mAdapter.setSelected(currentPosition, true);
 		// 不是用户点击，才滚动ListView
