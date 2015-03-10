@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
@@ -73,10 +74,6 @@ public class BluetoothDeviceManagerProxy{
 	private IBluetoothDeviceMusicManager deviceMusicManager;
 
 	private static int deviceManagerMode = -1;
-	/**
-	 * 蓝牙地址过滤
-	 */
-	private static final String MAC_ADDRESS_FILTER_PREFIX = "C9:71:01";
 
 	private boolean hasTfCard;
 	private boolean hasUsb;
@@ -123,7 +120,7 @@ public class BluetoothDeviceManagerProxy{
 					
 			bluzDeviceMan.build();
 			bluzDeviceMan
-					.setBluetoothDeviceMacAddressFilterPrefix(MAC_ADDRESS_FILTER_PREFIX);
+					.setBluetoothDeviceMacAddressFilterPrefix(CustomApplication.MAC_ADDRESS_FILTER_PREFIX);
 			bluzDeviceMan
 					.setOnBluetoothDeviceConnectionStateChangedListener(connStateChangeListener);
 			bluzDeviceMan
