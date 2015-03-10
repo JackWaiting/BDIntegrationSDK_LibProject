@@ -64,7 +64,9 @@ public class MusicListActivity extends BaseActivity {
 	}
 
 	private void updateUI(boolean playing) {
-		onMusicChange(null, null);
+		if(musicListFrag instanceof SimpleMusicPlayListener){
+			((SimpleMusicPlayListener) musicListFrag).onMusicPlayStateChange(playing);
+		}
 	}
 	
 	private void onMusicChange(PlayType oldType, PlayType newType) {
@@ -77,6 +79,10 @@ public class MusicListActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		hasUpdate = false;
+		initPlayListener();
+	}
+	
+	public void initPlayListener(){
 		manager.setPlayListener(new MyPlayListener(this), PlayType.Net, false);
 	}
 	

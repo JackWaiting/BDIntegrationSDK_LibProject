@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicListActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SearchActivity.OnSearchListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.NetMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.NetMusicListAdapter.OnItemPlayButtonClickListener;
@@ -53,6 +55,15 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 	private int currentPosition = -1;
 	private PlayerManager playerManager;
 	private Music currentMusic;
+	
+	private MusicListActivity attachAct;
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if(activity instanceof MusicListActivity){
+			attachAct = (MusicListActivity) activity;
+		}
+	}
 
 	public List<Music> getMusiclist() {
 		return musiclist;
@@ -102,10 +113,8 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 		if (PlayType.Net == PlayerManager.getPlayType()) {
 			currentMusic = playerManager.getCurrentMusic();
 			adapter.setSelected(currentMusic.getPath(), playerManager.isPlaying());
-			if (!userClick && musicListLv != null) {
-				// musicListLv.setSelection(adapter.getSelected());
-			}
-			userClick = false;
+		}else{
+			adapter.setSelected(-1, false);
 		}
 	}
 
@@ -239,7 +248,6 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 			if (position > musiclist.size() - 1) {
 				return;
 			}
-			userClick = true;
 			adapter.setSelected(position, playerManager.isPlaying());
 			currentPosition = position;
 			startMusicPlayerActivity(musiclist, currentPosition, PlayType.Net);
@@ -281,23 +289,25 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 
 	@Override
 	public void onMusicPlayStateChange(boolean playing) {
+		currentPosition = playerManager.getCurrentPosition();
+		adapter.setSelected(currentPosition, playing);
 	}
 
-	private boolean userClick;
 
 	@Override
 	public void onMusicChange() {
-		if (PlayType.Net == PlayerManager.getPlayType()) {
-			updateUI();
-		}
+		updateUI();
 	}
-
+	
 	@Override
 	public void onItemPlayButtonClick(View view, int position, boolean isPrePlaying) {
 		if(isPrePlaying){
 			playerManager.pause();
 		}else{
 			playerManager.setMusicList(musiclist, position, PlayType.Net);
+			if(attachAct != null){
+				attachAct.initPlayListener();
+			}
 		}
 		adapter.setSelected(position, !isPrePlaying);
 		currentPosition = position;

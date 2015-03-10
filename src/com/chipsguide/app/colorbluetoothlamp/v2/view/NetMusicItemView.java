@@ -54,11 +54,11 @@ public class NetMusicItemView extends FrameLayout {
 	}
 
 	public void setSelected(boolean playing) {
+		playStateIv.setTag(R.id.tag_is_playing, playing);
 		int drawable = R.drawable.selector_list_pause_btn;
 		if(playing){
 			drawable = R.drawable.selector_list_play_btn;
 		}
-		playStateIv.setTag(R.id.tag_is_playing, playing);
 		playStateIv.setImageResource(drawable);
 	}
 
