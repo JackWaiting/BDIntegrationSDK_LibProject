@@ -195,6 +195,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 	@Override
 	public void onResume() {
 		super.onResume();
+		hasUpdate = false;
 		// 调转到播放界面会使监听失效，所以要在onResume()中重新设置
 		manager.setPlayListener(playListener, null, true);
 	}
