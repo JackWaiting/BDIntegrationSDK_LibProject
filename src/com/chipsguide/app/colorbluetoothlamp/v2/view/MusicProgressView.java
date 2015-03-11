@@ -133,7 +133,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 				}
 			});
 			animator.start();
-		} else {
+		} else if(!start){
 			animStart = false;
 			if (animator != null) {
 				animator.removeAllUpdateListeners();
