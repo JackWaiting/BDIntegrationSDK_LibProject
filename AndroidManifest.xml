@@ -101,7 +101,6 @@
         <service android:name="com.platomix.lib.update.core.UpdateService"></service>
         <service android:name="com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService"></service>
         
-        <receiver android:name="com.chipsguide.lib.timer.alert.AlarmAlertBroadcastReciever"></receiver>
         <receiver android:name="com.chipsguide.lib.timer.Alarms$AlarmServiceBroadcastReciever"></receiver>
     </application>
 

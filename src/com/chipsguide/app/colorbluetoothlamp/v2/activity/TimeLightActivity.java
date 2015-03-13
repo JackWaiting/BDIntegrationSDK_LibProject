@@ -52,8 +52,6 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		switch (v.getId()) {
 		case R.id.right_btn:
 			Alarm alarm = new Alarm();
-			int id = Math.abs(UUID.randomUUID().toString().hashCode());
-			alarm.setId(id);
 			alarm.setAlarmTime(Calendar.getInstance());
 			alarm.setAlarmActive(true);
 			alarm.setAlarmTonePath("");

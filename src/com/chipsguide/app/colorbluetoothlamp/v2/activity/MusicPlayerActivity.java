@@ -365,7 +365,7 @@ public class MusicPlayerActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		update = false;
+		//update = false;
 	}
 
 	@Override

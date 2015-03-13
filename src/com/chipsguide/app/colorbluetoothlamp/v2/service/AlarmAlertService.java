@@ -1,18 +1,19 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.service;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Service;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -25,10 +26,9 @@ import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.timer.Alarm;
-import com.chipsguide.lib.timer.Alarms;
-import com.chipsguide.lib.timer.Alarms.OnAlertListener;
+import com.chipsguide.lib.timer.service.AlarmService;
 
-public class AlarmAlertService extends Service {
+public class AlarmAlertService extends AlarmService {
 	private MediaPlayer mediaPlayer;
 	private AlarmLightColorDAO lightColorDao;
 	private LampManager mLampManager;
@@ -43,15 +43,6 @@ public class AlarmAlertService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		initAlertListener();
-		mediaPlayer = new MediaPlayer();
-		mediaPlayer.setLooping(true);
-		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
-			@Override
-			public void onPrepared(MediaPlayer arg0) {
-				mediaPlayer.start();
-			}
-		});
 	}
 
 	private void initAlertListener() {
@@ -59,14 +50,15 @@ public class AlarmAlertService extends Service {
 				.getInstance(getApplicationContext());
 		lightColorDao = AlarmLightColorDAO
 				.getDao(getApplicationContext());
-		Alarms.getInstance(getApplicationContext()).setOnAlertListener(new MyAlertListener(this));
 	}
 
-	private void showDialog() {
+	private void showDialog(String time) {
 		AlertDialog ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
-				.setMessage(R.string.time_up_)
+				.setMessage(time)
 				.setNegativeButton(R.string.dismiss, listener).create();
 		ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		ad.setCanceledOnTouchOutside(false);
+		ad.setCancelable(false);
 		ad.show();
 	}
 	
@@ -86,14 +78,9 @@ public class AlarmAlertService extends Service {
 	};
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-
-		return super.onStartCommand(intent, flags, startId);
-	}
-
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.d("", "onDestroy");
 		destroy = true;
 		if(mediaPlayer != null){
 			mediaPlayer.release();
@@ -101,22 +88,7 @@ public class AlarmAlertService extends Service {
 		}
 	}
 
-	private static class MyAlertListener implements OnAlertListener{
-		private WeakReference<AlarmAlertService> ref;
-		public MyAlertListener(AlarmAlertService service){
-			ref = new WeakReference<AlarmAlertService>(service);
-		}
-
-		@Override
-		public void onAlert(List<Alarm> list) {
-			AlarmAlertService service = ref.get();
-			if(service != null && !service.destroy){
-				service.onAlert(list);
-			}
-		}
-	}
-	
-	private void onAlert(List<Alarm> list) {
+	@SuppressLint("SimpleDateFormat") private void onAlert(List<Alarm> list) {
 		Alarm alarm = list.get(0);
 		AlarmLightColor lightcolor = lightColorDao.query(alarm
 				.getId() + "");
@@ -136,11 +108,27 @@ public class AlarmAlertService extends Service {
 				Log.d("", arr[1]);
 			}
 		}
-		showDialog();
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		Calendar calendar = alarm.getAlarmTime();
+		Date date = calendar.getTime();
+		showDialog(format.format(date));
+	}
+	
+	private void build() {
+		mediaPlayer = new MediaPlayer();
+		mediaPlayer.setLooping(true);
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
+			@Override
+			public void onPrepared(MediaPlayer arg0) {
+				mediaPlayer.start();
+			}
+		});
 	}
 	
 	private void playLocalMusic(String path) {
 		try {
+			build();
 			mediaPlayer.setDataSource(path);
 			mediaPlayer.prepareAsync();
 		} catch (IllegalArgumentException e) {
@@ -153,4 +141,10 @@ public class AlarmAlertService extends Service {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void onAlarmActive(List<Alarm> list) {
+		onAlert(list);
+	}
+
 }

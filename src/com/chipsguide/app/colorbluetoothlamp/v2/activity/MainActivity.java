@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
+	private Alarms alarms;
 
 	private TextSwitcherTitleView titleView;
 	@Override
@@ -75,6 +76,9 @@ public class MainActivity extends BaseActivity implements
 		checeNewVersion();
 		fragManager = getSupportFragmentManager();
 		initBehindSlidingMenu();
+		alarms = Alarms.getInstance(getApplicationContext());
+		alarms.setAllowInBack(true, AlarmAlertService.class);
+		alarms.activieAllEnable();
 	}
 
 	@Override
@@ -127,7 +131,7 @@ public class MainActivity extends BaseActivity implements
 		super.onDestroy();
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
 		stopService(alarmAlertService);
-		Alarms.getInstance(getApplicationContext()).cancel();
+		alarms.cancel(true);
 	}
 
 	private boolean forceUpdate;
