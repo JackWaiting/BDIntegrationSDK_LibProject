@@ -13,6 +13,7 @@ public class PreferenceUtil {
 	private static String PHONE_MUSIC_POSITION = "phone_music_position";
 	private static String PHONE_MUSIC_CURRENT_DURATION = "phone_music_current_duration";
 	private static String SHAKE_OPTION = "shake_option";
+	private static String FIRST_TIME_ENTER_ALARM = "first_time_enter_alarm";
 	private static SharedPreferences sp;
 	private static PreferenceUtil settingPrefences;
 
@@ -73,5 +74,13 @@ public class PreferenceUtil {
 	
 	public int getShakeOption() {
 		return sp.getInt(SHAKE_OPTION, R.id.rb_random_color);
+	}
+	
+	public void setFirstEnterAlarm(boolean first) {
+		sp.edit().putBoolean(FIRST_TIME_ENTER_ALARM, first).commit();
+	}
+	
+	public boolean isFirstEnterAlarm(){
+		return sp.getBoolean(FIRST_TIME_ENTER_ALARM, true);
 	}
 }
