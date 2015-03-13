@@ -32,7 +32,7 @@ public class AlarmAlertService extends AlarmService {
 	private MediaPlayer mediaPlayer;
 	private AlarmLightColorDAO lightColorDao;
 	private LampManager mLampManager;
-	private boolean destroy;
+	protected boolean destroy;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -55,7 +55,7 @@ public class AlarmAlertService extends AlarmService {
 	private void showDialog(String time) {
 		AlertDialog ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
 				.setMessage(time)
-				.setNegativeButton(R.string.dismiss, listener).create();
+				.setNegativeButton(R.string.cancl, listener).create();
 		ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		ad.setCanceledOnTouchOutside(false);
 		ad.setCancelable(false);
@@ -68,8 +68,10 @@ public class AlarmAlertService extends AlarmService {
 		public void onClick(DialogInterface dialog, int which) {
 			switch (which) {
 			case DialogInterface.BUTTON_NEGATIVE:
-				mediaPlayer.release();
-				mediaPlayer = null;
+				if(mediaPlayer != null){
+					mediaPlayer.release();
+					mediaPlayer = null;
+				}
 				break;
 			default:
 				break;

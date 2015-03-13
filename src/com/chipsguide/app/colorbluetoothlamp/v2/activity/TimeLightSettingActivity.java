@@ -63,12 +63,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 	public void initUI() {
 		repeateDayTv = (TextView) findViewById(R.id.tv_repeate_day);
 		musicNameTv = (TextView) findViewById(R.id.tv_music_name);
-		if(!TextUtils.isEmpty(soundPath)){
-			String [] arr = soundPath.split("\\|");
-			if(arr != null && arr.length > 1){
-				musicNameTv.setText(arr[1]);
-			}
-		}
+		updateMusicName();
 		timePicker = (MyTimePickerView) findViewById(R.id.time_layout);
 		RadioGroup colorGroup = (RadioGroup) findViewById(R.id.rg_color);
 		colorGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -90,7 +85,17 @@ public class TimeLightSettingActivity extends BaseActivity {
 				}
 			}
 		}
-		
+	}
+	
+	private void updateMusicName() {
+		if(!TextUtils.isEmpty(soundPath)){
+			String [] arr = soundPath.split("\\|");
+			if(arr != null && arr.length > 1){
+				musicNameTv.setText(arr[1]);
+			}
+		}else{
+			musicNameTv.setText(R.string.silent);
+		}
 	}
 
 	@Override
@@ -168,11 +173,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		if(resultCode == RESULT_OK){
 			if(requestCode == REQUEST_SELECT_SOUND){
 				soundPath = data.getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
-				if(!TextUtils.isEmpty(soundPath)){
-					String [] arr = soundPath.split("\\|");
-					String name = arr[1];
-					musicNameTv.setText(name);
-				}
+				updateMusicName();
 			}
 		}
 	}

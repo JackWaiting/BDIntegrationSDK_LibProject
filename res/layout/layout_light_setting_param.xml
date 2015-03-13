@@ -80,13 +80,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_btn_simple"
-        android:padding="10dp" >
+        android:padding="5dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/myTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/music"
+            android:paddingLeft="5dp"
+            android:layout_centerVertical="true"
             android:textSize="@dimen/text_size_medium" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
@@ -99,7 +101,8 @@
             android:textColor="@color/color_dark_gray"
             android:textSize="@dimen/text_size_secondary" 
             android:layout_marginLeft="30dp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
+            android:drawableRight="@drawable/ic_more"
             />
     </RelativeLayout>
     
