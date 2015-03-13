@@ -5,9 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
@@ -24,6 +24,8 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	private boolean isVisibleToUser;
 	private PlayerManager playerManager;
 	private ImageView shakeIv;
+	private TextView currentSetTv;
+	private int currentSetId;
 	
 	@Override
 	protected void initBase() {
@@ -43,10 +45,12 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	protected void initView() {
 		findViewById(R.id.btn_shake_setting).setOnClickListener(this);
 		shakeIv = (ImageView) findViewById(R.id.iv_shake);
+		currentSetTv = (TextView) findViewById(R.id.tv_current_set);
 	}
 
 	@Override
 	protected void initData() {
+		currentSetId = PreferenceUtil.getIntance(getActivity()).getShakeOption();
 	}
 	
 	@Override
@@ -68,6 +72,8 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			if(shakeUtil != null){
 				shakeUtil.start();
 			}
+			currentSetId = PreferenceUtil.getIntance(getActivity()).getShakeOption();
+			currentSetTv.setText(getTextFromId(currentSetId));
 		}else{
 			if(shakeUtil != null){
 				shakeUtil.stop();
@@ -78,23 +84,18 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	@Override
 	public void onShake() {
 		startShakeAnim();
-		int id = PreferenceUtil.getIntance(getActivity()).getShakeOption();
-		String text = "";
-		switch(id){
+		String text = getTextFromId(currentSetId);
+		switch(currentSetId){
 		case R.id.rb_random_color:
-			text = "随机颜色";
 			mLampManager.random();
 			break;
 		case R.id.rb_light_toggle:
-			text = "开关灯";
 			mLampManager.lampOff();
 			break;
 		case R.id.rb_player_toggle:
-			text = "播放暂停";
 			playerManager.toggle();
 			break;
 		case R.id.rb_next_song:
-			text = "下一曲";
 			if(playerManager.isPlaying()){
 				playerManager.next();
 			}
@@ -109,6 +110,25 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		shakeIv.startAnimation(anim);
 	}
 	
+	private String getTextFromId(int id) {
+		String text = "";
+		switch(id){
+		case R.id.rb_random_color:
+			text = "随机颜色";
+			break;
+		case R.id.rb_light_toggle:
+			text = "开关灯";
+			break;
+		case R.id.rb_player_toggle:
+			text = "播放/暂停";
+			break;
+		case R.id.rb_next_song:
+			text = "下一曲";
+			break;
+		}
+		return text;
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -116,6 +136,8 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			if(shakeUtil != null){
 				shakeUtil.start();
 			}
+			currentSetId = PreferenceUtil.getIntance(getActivity()).getShakeOption();
+			currentSetTv.setText(getTextFromId(currentSetId));
 		}
 	}
 	
