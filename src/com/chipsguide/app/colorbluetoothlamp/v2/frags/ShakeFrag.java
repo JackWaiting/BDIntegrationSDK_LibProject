@@ -111,22 +111,19 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	}
 	
 	private String getTextFromId(int id) {
-		String text = "";
+		int resId = R.string.random_color;
 		switch(id){
-		case R.id.rb_random_color:
-			text = "随机颜色";
-			break;
 		case R.id.rb_light_toggle:
-			text = "开关灯";
+			resId = R.string.toggle_light;
 			break;
 		case R.id.rb_player_toggle:
-			text = "播放/暂停";
+			resId = R.string.play_pause;
 			break;
 		case R.id.rb_next_song:
-			text = "下一曲";
+			resId = R.string.next_song;
 			break;
 		}
-		return text;
+		return getString(resId);
 	}
 	
 	@Override
