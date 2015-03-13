@@ -57,22 +57,22 @@
     </string-array>
     
     <string-array name="week">
-        <item >Monday</item>
-        <item >Tuesday</item>
-        <item >Wednesday</item>
-        <item >Thursday</item>
-        <item >Friday</item>
-        <item >Saturday</item>
-        <item >Sunday</item>
+        <item >周一</item>
+        <item >周二</item>
+        <item >周三</item>
+        <item >周四</item>
+        <item >周五</item>
+        <item >周六</item>
+        <item >周日</item>
     </string-array>
     
     <string-array name="repeat_days">
-        <item >M</item>
-        <item >TU</item>
-        <item >W</item>
-        <item >TH</item>
-        <item >F</item>
-        <item >SA</item>
-        <item >SU</item>
+        <item >一</item>
+        <item >二</item>
+        <item >三</item>
+        <item >四</item>
+        <item >五</item>
+        <item >六</item>
+        <item >日</item>
     </string-array>
 </resources>

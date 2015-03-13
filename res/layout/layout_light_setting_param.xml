@@ -26,15 +26,17 @@
             android:text="@string/repeate"
             android:textSize="@dimen/text_size_medium" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
-            android:id="@+id/tv_repeate_day"
-            android:layout_width="wrap_content"
+        <LinearLayout 
+            android:id="@+id/layout_selected_days"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/text_repeat"
             android:gravity="center"
-            android:text="@string/days"
-            android:textSize="@dimen/text_size_medium" />
+            android:orientation="horizontal"
+            >
+            
+        </LinearLayout>
     </RelativeLayout>
     
     <View 
