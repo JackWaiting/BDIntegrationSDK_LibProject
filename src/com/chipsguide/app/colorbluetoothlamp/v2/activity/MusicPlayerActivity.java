@@ -8,15 +8,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -40,8 +44,8 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
 public class MusicPlayerActivity extends BaseActivity {
-	public static final String EXTRA_MODE_TO_BE = "mode_to_be"; 
-	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; //将要切换的模式
+	public static final String EXTRA_MODE_TO_BE = "mode_to_be";
+	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; // 将要切换的模式
 	private PlayerManager playerManager;
 	private int currentModeRes;
 	private SimpleMusicListAdapter mAdapter;
@@ -55,11 +59,15 @@ public class MusicPlayerActivity extends BaseActivity {
 	private MusicProgressView progressLayout;
 	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
+	private SeekBar volumeSeekBar;
+	private AudioManager audioManager;
+	private static final int VOLUME_FACTOR = 1;
 
 	private List<View> views = new ArrayList<View>();
 
 	@Override
 	public void initBase() {
+		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		modeTobe = getIntent().getIntExtra(EXTRA_MODE_TO_BE, modeTobe);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		int index = PreferenceUtil.getIntance(getApplicationContext())
@@ -86,9 +94,35 @@ public class MusicPlayerActivity extends BaseActivity {
 		playBtn = (ImageView) findViewById(R.id.iv_play_state);
 		playmodeBtn = (ImageView) findViewById(R.id.iv_play_mode);
 		playmodeBtn.setImageResource(currentModeRes);
+
+		volumeSeekBar = (SeekBar) findViewById(R.id.seekbar_vol);
+		volumeSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				if(fromUser){
+					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+							progress / VOLUME_FACTOR, 0);
+				}
+			}
+		});
+		initVolume();
 		initForType();
 		updateUI(true);
+	}
 
+	private void initVolume() {
+		int maxVolume = audioManager
+				.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		volumeSeekBar.setMax(maxVolume * VOLUME_FACTOR);
+		volumeSeekBar.setProgress(audioManager
+				.getStreamVolume(AudioManager.STREAM_MUSIC) * VOLUME_FACTOR);
 	}
 
 	private void initPagerView() {
@@ -193,7 +227,8 @@ public class MusicPlayerActivity extends BaseActivity {
 			}
 			titleView.setTitleText(title);
 			String currentDurationStr = StringFormatUtil.formatDuration(0);
-			String durationStr = StringFormatUtil.formatDuration(currentMusic.getDuration());
+			String durationStr = StringFormatUtil.formatDuration(currentMusic
+					.getDuration());
 			durationTv.setText(currentDurationStr + "/" + durationStr);
 			progressLayout.updateMusicImage(currentMusic.getPicpath_l());
 			progressLayout.updateProgress(currentMusic.getDuration(), 0, 0);
@@ -251,7 +286,8 @@ public class MusicPlayerActivity extends BaseActivity {
 				long currentDuration, int percent) {
 			MusicPlayerActivity act = ref.get();
 			if (act != null) {
-				String currentDurationStr = StringFormatUtil.formatDuration(currentDuration);
+				String currentDurationStr = StringFormatUtil
+						.formatDuration(currentDuration);
 				String durationStr = StringFormatUtil.formatDuration(duration);
 				act.durationTv.setText(currentDurationStr + "/" + durationStr);
 				act.progressLayout.updateProgress(duration, currentDuration,
@@ -365,7 +401,7 @@ public class MusicPlayerActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//update = false;
+		// update = false;
 	}
 
 	@Override
@@ -420,7 +456,7 @@ public class MusicPlayerActivity extends BaseActivity {
 						BluetoothDeviceManagerProxy.EXTRA_OLD_MODE, -1);
 				int a2dpMode = BluetoothDeviceManager.Mode.A2DP;
 				int cardMode = BluetoothDeviceManager.Mode.CARD;
-				if(modeTobe == newMode){
+				if (modeTobe == newMode) {
 					return;
 				}
 				if (newMode != a2dpMode && oldMode == a2dpMode && oldMode != -1) {// 之前的模式是A2DP，新模式不是A2DP则结束
@@ -431,6 +467,21 @@ public class MusicPlayerActivity extends BaseActivity {
 			}
 		}
 	};
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_VOLUME_UP:
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+					keyCode == KeyEvent.KEYCODE_VOLUME_UP ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER,
+					0);
+			volumeSeekBar.setProgress(audioManager
+					.getStreamVolume(AudioManager.STREAM_MUSIC) * VOLUME_FACTOR);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
 	@Override
 	protected void onDestroy() {
