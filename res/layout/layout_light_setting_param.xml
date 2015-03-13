@@ -83,19 +83,23 @@
         android:padding="10dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/myTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/music"
             android:textSize="@dimen/text_size_medium" />
-        
+
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/tv_music_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/music"
-            android:textSize="@dimen/text_size_secondary" 
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/myTextView1"
+            android:text="@string/music"
             android:textColor="@color/color_dark_gray"
+            android:textSize="@dimen/text_size_secondary" 
+            android:layout_marginLeft="30dp"
+            android:gravity="right"
             />
     </RelativeLayout>
     
