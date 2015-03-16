@@ -35,6 +35,7 @@ public class AlarmAlertService extends AlarmService {
 	private LampManager mLampManager;
 	protected boolean destroy;
 	private PlayerManager playerManager;
+	private AlertDialog ad;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -56,7 +57,16 @@ public class AlarmAlertService extends AlarmService {
 	}
 
 	private void showDialog(String time) {
-		AlertDialog ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
+		if(ad != null){
+			ad.dismiss();
+		}
+		
+		if(mediaPlayer != null){
+			mediaPlayer.release();
+			mediaPlayer = null;
+		}
+		
+		ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
 				.setMessage(time)
 				.setNegativeButton(R.string.cancl, listener).create();
 		ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
