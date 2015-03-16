@@ -60,12 +60,6 @@ public class AlarmAlertService extends AlarmService {
 		if(ad != null){
 			ad.dismiss();
 		}
-		
-		if(mediaPlayer != null){
-			mediaPlayer.release();
-			mediaPlayer = null;
-		}
-		
 		ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
 				.setMessage(time)
 				.setNegativeButton(R.string.cancl, listener).create();
@@ -143,6 +137,10 @@ public class AlarmAlertService extends AlarmService {
 	
 	private void playLocalMusic(String path) {
 		try {
+			if(mediaPlayer != null){
+				mediaPlayer.release();
+				mediaPlayer = null;
+			}
 			build();
 			mediaPlayer.setDataSource(path);
 			mediaPlayer.prepareAsync();
