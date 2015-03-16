@@ -52,8 +52,10 @@
     <string name="light_flashing">闪烁</string>
     <string name="light_candle">烛光</string>
     
-    <string name="connect">已连接</string>
+    <string name="connected">已连接</string>
     <string name="not_connect">未连接</string>
+    <string name="connect">连接</string>
+    <string name="delay">稍后</string>
     <string name="bluetooth_not_available">当前蓝牙不可用!</string>
     <string name="ok">确定</string>
     <string name="cancl">取消</string>
@@ -87,4 +89,5 @@
     <string name="clear">知道了</string>
     <string name="enter_app">进入应用&gt;&gt;</string>
     <string name="press_again_to_exist">再按一次推出应用!</string>
+    <string name="connect_toast">此款应用相关功能需连接蓝牙才能激活，\n是否现在进行蓝牙连接。</string>
 </resources>
