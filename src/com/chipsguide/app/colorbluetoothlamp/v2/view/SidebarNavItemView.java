@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
 public class SidebarNavItemView extends FrameLayout {
+	@SuppressWarnings("unused")
 	private ImageView lineUpIv, lineDownIv, dotIv;
 	private TextView navTv;
 	

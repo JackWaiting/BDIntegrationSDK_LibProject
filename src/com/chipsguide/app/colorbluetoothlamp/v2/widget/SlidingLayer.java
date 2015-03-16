@@ -48,7 +48,7 @@ import android.widget.Scroller;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
-
+@SuppressWarnings("unused")
 public class SlidingLayer extends FrameLayout {
 
     /**
@@ -118,7 +118,7 @@ public class SlidingLayer extends FrameLayout {
      */
     private int mOffsetWidth;
 
-    private boolean mDrawingCacheEnabled;
+	private boolean mDrawingCacheEnabled;
     private int mScreenSide = STICK_TO_AUTO;
 
     /**
@@ -402,7 +402,6 @@ public class SlidingLayer extends FrameLayout {
     
 
 
-    @SuppressWarnings("unused")
 	private boolean allowSlidingFromHereX(final MotionEvent ev, final float initialX) {
         switch (mScreenSide) {
         case STICK_TO_LEFT:
