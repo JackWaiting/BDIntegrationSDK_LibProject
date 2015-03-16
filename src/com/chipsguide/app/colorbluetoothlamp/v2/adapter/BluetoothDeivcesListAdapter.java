@@ -147,7 +147,7 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 					if (msg.getAddress().equals(device.getAddress()))
 					{
 						messageConnect = mContext.getResources().getString(
-								R.string.connect);
+								R.string.connected);
 					}
 				}
 				mViewHolderItemConnect.isConnect.setText(messageConnect);
@@ -205,7 +205,7 @@ public class BluetoothDeivcesListAdapter extends BaseAdapter {
 					if (msg.getAddress().equals(device.getAddress()))
 					{
 						messageConnect = mContext.getResources().getString(
-								R.string.connect);
+								R.string.connected);
 					}
 				}
 

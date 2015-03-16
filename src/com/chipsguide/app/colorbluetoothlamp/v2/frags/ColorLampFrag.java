@@ -15,6 +15,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
@@ -189,9 +190,18 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	protected void initData()
 	{
-		if(CustomApplication.isFirstConnect)
+	}
+	
+	//目前是根据a2dp来判断是否连接上的，用spp判断目前还存在问题
+	//现在的问题是spp还没有连接上就开始获取了，所以，获取的是null
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(CustomApplication.isFirstConnect && (mLampManager.getBluetoothDevice() == null))
 		{
-			
+			ToastIsConnectDialog toastDialog = new ToastIsConnectDialog(getActivity());
+			toastDialog.show();
 			CustomApplication.isFirstConnect = false;
 		}
 	}
