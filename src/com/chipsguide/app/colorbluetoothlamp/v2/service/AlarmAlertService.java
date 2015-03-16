@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.timer.Alarm;
@@ -33,6 +34,7 @@ public class AlarmAlertService extends AlarmService {
 	private AlarmLightColorDAO lightColorDao;
 	private LampManager mLampManager;
 	protected boolean destroy;
+	private PlayerManager playerManager;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -42,6 +44,7 @@ public class AlarmAlertService extends AlarmService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		playerManager = PlayerManager.getInstance(getApplicationContext());
 		initAlertListener();
 	}
 
@@ -146,6 +149,9 @@ public class AlarmAlertService extends AlarmService {
 
 	@Override
 	public void onAlarmActive(List<Alarm> list) {
+		if(playerManager.isPlaying()){
+			playerManager.pause();
+		}
 		onAlert(list);
 	}
 
