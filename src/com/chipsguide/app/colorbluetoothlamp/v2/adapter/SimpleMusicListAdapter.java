@@ -20,7 +20,6 @@ public class SimpleMusicListAdapter extends IMusicListAdapter {
 	private List<Music> mList = new ArrayList<Music>();
 	private int currentSelectedPosi = -1;
 	private IMusicItemView preSelectedItem;
-	private boolean playing;
 	private boolean bluetoothDeviceMusic;
 	
 	public SimpleMusicListAdapter(Context context){
@@ -65,6 +64,12 @@ public class SimpleMusicListAdapter extends IMusicListAdapter {
 	public void setSelected(int position, boolean playing){
 		this.playing = playing;
 		setSelected(position);
+	}
+	
+	@Override
+	public void setPlaying(boolean playing) {
+		super.setPlaying(playing);
+		this.notifyDataSetChanged();
 	}
 	
 	@Override

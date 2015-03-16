@@ -221,6 +221,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 
 	@Override
 	public void onMusicPlayStateChange(boolean playing) {
+		adapter.setPlaying(playing);
 	}
 
 	@Override
@@ -253,6 +254,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 			prePosition = -1;
 			adapter.setSelected(prePosition);
 		}
+		adapter.setPlaying(playerManager.isPlaying());
 	}
 
 }
