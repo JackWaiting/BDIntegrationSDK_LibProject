@@ -24,7 +24,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.umeng.analytics.MobclickAgent;
 
 
 public abstract class BaseActivity extends SlidingFragmentActivity implements OnClickListener{
@@ -186,13 +185,13 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this); 
+		//MobclickAgent.onResume(this); 
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		MobclickAgent.onPause(this);
+		//MobclickAgent.onPause(this);
 	}
 	
 }

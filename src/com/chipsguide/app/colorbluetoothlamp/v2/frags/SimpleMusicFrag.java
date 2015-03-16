@@ -138,10 +138,10 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		userClick = true;
 		if(position == prePosition){
 			//playerManager.toggle();
 		}else{
-			userClick = true;
 			prePosition = position;
 			adapter.setSelected(position);
 		}

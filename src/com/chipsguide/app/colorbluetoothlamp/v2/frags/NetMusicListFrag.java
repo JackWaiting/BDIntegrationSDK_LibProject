@@ -47,6 +47,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 	private Footer4List footer;
 	private ListView musicListLv;
 	private List<Music> musiclist;
+	private List<Music> playList;
 	private boolean loading;
 
 	private String queryType;
@@ -86,6 +87,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 			}
 		}
 		musiclist = new ArrayList<Music>();
+		playList = new ArrayList<Music>();
 		adapter = new NetMusicListAdapter(getActivity());
 		adapter.setOnItemPlayButtonClickListener(this);
 	}
@@ -250,7 +252,9 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 			}
 			adapter.setSelected(position, playerManager.isPlaying());
 			currentPosition = position;
-			startMusicPlayerActivity(musiclist, currentPosition, PlayType.Net);
+			playList.clear();
+			playList.addAll(musiclist);
+			startMusicPlayerActivity(playList, currentPosition, PlayType.Net);
 		}
 	};
 
@@ -274,6 +278,7 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 		if (musiclist != null) {
 			musiclist.clear();
 		}
+		currentPage = 1;
 		musicListLv.removeFooterView(footer);
 		musicListLv.addFooterView(footer);
 		footer.showProgressBar();

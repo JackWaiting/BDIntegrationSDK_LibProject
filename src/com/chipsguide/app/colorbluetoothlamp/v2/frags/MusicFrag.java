@@ -142,6 +142,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			if (frag != null) {
 				if (!frag.hasUpdate) {
 					frag.hasUpdate = true;
+					frag.onMusicChange(null, null);
 				}
 			}
 		}
@@ -151,7 +152,6 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			MusicFrag frag = ref.get();
 			if (frag != null) {
 				frag.updateUI(false);
-				frag.onMusicPlayingStateChange(false);
 			}
 		}
 
@@ -194,7 +194,6 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			if (frag instanceof SimpleMusicPlayListener) {
 				SimpleMusicPlayListener listener = (SimpleMusicPlayListener) frag;
 				listener.onMusicChange();
-				
 			}
 		}
 	}

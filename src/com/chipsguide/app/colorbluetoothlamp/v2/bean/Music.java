@@ -2,7 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.bean;
 
 import java.io.Serializable;
 
-public class Music implements Serializable{
+public class Music implements Serializable, Cloneable{
 	/**
 	 * 
 	 */
@@ -207,5 +207,12 @@ public class Music implements Serializable{
 	public String getAlbumId() {
 		return albumId;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+	
+	
 	
 }
