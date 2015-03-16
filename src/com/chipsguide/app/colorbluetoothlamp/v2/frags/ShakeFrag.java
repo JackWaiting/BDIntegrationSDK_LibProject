@@ -90,7 +90,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			mLampManager.randomColor();
 			break;
 		case R.id.rb_light_toggle:
-			mLampManager.lampOff();
+			mLampManager.LampOnorOff();
 			break;
 		case R.id.rb_player_toggle:
 			playerManager.toggle();

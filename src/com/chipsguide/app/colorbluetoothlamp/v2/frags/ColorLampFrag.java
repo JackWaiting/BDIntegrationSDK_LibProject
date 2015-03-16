@@ -286,7 +286,7 @@ public class ColorLampFrag extends BaseFragment implements
 		flog.e("rhythm------" + rhythm);
 		switch (rhythm)
 		{
-		case BluetoothDeviceColorLampManager.Effect.NORMAL+1:
+		case BluetoothDeviceColorLampManager.Effect.NORMAL:
 			mButtonLightNormal.setChecked(true);
 			break;
 		case BluetoothDeviceColorLampManager.Effect.RAINBOW:
