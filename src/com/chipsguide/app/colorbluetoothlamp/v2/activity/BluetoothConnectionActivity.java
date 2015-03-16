@@ -19,6 +19,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -191,7 +192,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			flog.d("CONNECTED  连接成功");
 			setText(R.string.connectionend);
 			dismissConnectPD();
-			 bluetoothDeviceConnected = bluetoothDevice;
+			bluetoothDeviceConnected = bluetoothDevice;
 			// //如果连接了蓝牙设备，且匹配不了，就不添加到数据库
 			if (bluetoothDevice.getAddress().startsWith(
 					CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
@@ -209,19 +210,17 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
 			flog.d("DISCONNECTED  断开连接");
 			dismissConnectPD();
-			 mAdapter.setBluetooth(null);
-			 mAdapter.notifyDataSetChanged();
+			mAdapter.setBluetooth(null);
+			mAdapter.notifyDataSetChanged();
 			break;
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
 		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();
-			// ErrorToastDialog toastDialog = new
-			// ErrorToastDialog(this,R.style.Dialog_Fullscreen);
-			// toastDialog.show();
+			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
+					R.style.Dialog_Fullscreen);
+			toastDialog.show();
 			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
-			break;
-		default:
 			break;
 		}
 	}
@@ -385,14 +384,14 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			showConnectPD();
 		}
 	}
-	
+
 	private void setText(int resId)
 	{
 		if (mConnectpd != null)
 		{
 			mConnectpd.setMessage(resId);
 		}
-		
+
 	}
 
 	private void showConnectPD()
