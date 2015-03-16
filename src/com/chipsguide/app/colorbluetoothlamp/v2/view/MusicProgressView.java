@@ -3,6 +3,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.view;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,7 +22,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 public class MusicProgressView extends FrameLayout implements OnSeekArcChangeListener{
 	private SeekArc progressSeekBar;
 	private ImageView musicIv;
-	private TextView musicDurationTv;
+	private TextView musicDurationTv, adjustProgressTv;
 	private WrapImageLoader imageLoader;
 	private DisplayImageOptions options;
 	private static float currentDegree;
@@ -67,6 +68,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 		musicIv = (ImageView) findViewById(R.id.iv_music_img);
 		musicDurationTv = (TextView) findViewById(R.id.tv_duration);
 		progressSeekBar.setOnSeekArcChangeListener(this);
+		adjustProgressTv = (TextView) findViewById(R.id.tv_adjust_progress);
 		ViewHelper.setRotation(musicIv, currentDegree);
 	}
 	
@@ -118,7 +120,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 				animator.removeAllUpdateListeners();
 			}
 			animator = ValueAnimator.ofFloat(0, 360);
-			animator.setDuration(10000);
+			animator.setDuration(15000);
 			animator.setRepeatMode(ValueAnimator.RESTART);
 			animator.setRepeatCount(ValueAnimator.INFINITE);
 			animator.setInterpolator(new LinearInterpolator());
@@ -133,7 +135,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 				}
 			});
 			animator.start();
-		} else {
+		} else if(!start){
 			animStart = false;
 			if (animator != null) {
 				animator.removeAllUpdateListeners();
@@ -154,6 +156,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 			String currentDurationStr = StringFormatUtil.formatDuration(duration*progress / seekArc.getMaxProgress());
 			String durationStr = StringFormatUtil.formatDuration(duration);
 			musicDurationTv.setText(currentDurationStr + "/" + durationStr);
+			adjustProgressTv.setText(currentDurationStr);
 		}
 		if(seekArcListener != null){
 			seekArcListener.onProgressChanged(seekArc, progress, fromUser);
@@ -163,6 +166,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 	@Override
 	public void onStartTrackingTouch(SeekArc seekArc) {
 		onTrackingTouch = true;
+		adjustProgressTv.setVisibility(View.VISIBLE);
 		if(seekArcListener != null){
 			seekArcListener.onStartTrackingTouch(seekArc);
 		}
@@ -171,6 +175,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 	@Override
 	public void onStopTrackingTouch(SeekArc seekArc) {
 		onTrackingTouch = false;
+		adjustProgressTv.setVisibility(View.GONE);
 		if(seekArcListener != null){
 			seekArcListener.onStopTrackingTouch(seekArc);
 		}

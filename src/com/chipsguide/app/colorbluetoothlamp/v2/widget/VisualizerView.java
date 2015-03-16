@@ -41,7 +41,7 @@ public class VisualizerView extends View {
 		itemSpace = PixelUtil.dp2px(4, getContext());
 		mForePaint.setStrokeWidth(itemWidth);
 		mForePaint.setAntiAlias(true);
-		mForePaint.setColor(getResources().getColor(R.color.color_blue));
+		mForePaint.setColor(getResources().getColor(R.color.color_orange));
 		
 		linePaint.set(mForePaint);
 		linePaint.setStrokeWidth(4);

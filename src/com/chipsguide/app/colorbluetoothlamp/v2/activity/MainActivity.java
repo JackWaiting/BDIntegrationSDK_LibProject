@@ -1,12 +1,12 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -18,7 +18,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.platomix.lib.update.bean.VersionEntity;
@@ -31,9 +30,9 @@ public class MainActivity extends BaseActivity implements
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
+	private Alarms alarms;
 
 	private TextSwitcherTitleView titleView;
-	private BluetoothDeviceManager mBluetoothDeviceManager;
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -77,8 +76,10 @@ public class MainActivity extends BaseActivity implements
 	public void initBase() {
 		checeNewVersion();
 		fragManager = getSupportFragmentManager();
-		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
 		initBehindSlidingMenu();
+		alarms = Alarms.getInstance(getApplicationContext());
+		alarms.setAllowInBack(true, AlarmAlertService.class);
+		alarms.activieAllEnable();
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class MainActivity extends BaseActivity implements
 	@Override
 	public void onItemClick(int position, String title) {
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity implements
 		super.onDestroy();
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
 		stopService(alarmAlertService);
-		Alarms.getInstance(getApplicationContext()).cancel();
+		alarms.cancel(true);
 	}
 
 	private boolean forceUpdate;
@@ -165,45 +166,19 @@ public class MainActivity extends BaseActivity implements
 		}
 	}
 	
-	/**
-    * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-    */
-	private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
-	/**
-	 * Bluetooth 设备可见时间，单位：秒。
-	 */
-	private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
-	
+	private long preTime;
+	private static final long INTERVAL = 2000;
+
 	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		if (this.mBluetoothDeviceManager != null)
-		{
-			this.mBluetoothDeviceManager.setForeground(true);
-		}
-		refreshBluetooth();
-	}
-	
-	private void refreshBluetooth()
-	{
-		if ((mBluetoothDeviceManager.isBluetoothSupported()) && (!mBluetoothDeviceManager.isBluetoothEnabled()))
-		{
-			turnOnBluetooth();
+	public void onBackPressed() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - preTime > INTERVAL) {
+			showToast(R.string.press_again_to_exist);
+			preTime = currentTime;
+		}else{
+			cancelToast();
+			super.onBackPressed();
 		}
 	}
-	
-	/**
-    * 弹出系统弹框提示用户打开 Bluetooth
-    */
-   private void turnOnBluetooth()
-   {
-       // 请求打开 Bluetooth
-       Intent requestBluetoothOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-       // 设置 Bluetooth 设备可见时间
-       requestBluetoothOn.putExtra( BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,BLUETOOTH_DISCOVERABLE_DURATION);
-       // 请求开启 Bluetooth
-       this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
-   }
 	
 }

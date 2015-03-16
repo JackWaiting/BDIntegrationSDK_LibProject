@@ -112,6 +112,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		if (manager == null) {
 			return;
 		}
+		onMusicPlayingStateChange(isPlaying);
 		onMusicChange(null, null);
 	}
 	
@@ -141,7 +142,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			if (frag != null) {
 				if (!frag.hasUpdate) {
 					frag.hasUpdate = true;
-					frag.updateUI(frag.manager.isPlaying());
+					frag.onMusicChange(null, null);
 				}
 			}
 		}
@@ -175,6 +176,17 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		}
 	}
 
+	private void onMusicPlayingStateChange(boolean playing) {
+		int size = adapter.getFragments().size();
+		for (int i = 0; i < size; i++) {
+			Fragment frag = adapter.getFragments().get(i);
+			if (frag instanceof SimpleMusicPlayListener) {
+				SimpleMusicPlayListener listener = (SimpleMusicPlayListener) frag;
+				listener.onMusicPlayStateChange(playing);
+			}
+		}
+	}
+	
 	private void onMusicChange(PlayType oldType, PlayType newType) {
 		int size = adapter.getFragments().size();
 		for (int i = 0; i < size; i++) {
@@ -195,6 +207,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 	@Override
 	public void onResume() {
 		super.onResume();
+		hasUpdate = false;
 		// 调转到播放界面会使监听失效，所以要在onResume()中重新设置
 		manager.setPlayListener(playListener, null, true);
 	}

@@ -2,7 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.media;
 
 import com.actions.ibluz.manager.BluzManagerData.LoopMode;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.platomix.platomixplayerlib.api.PlaybackMode;
+import com.platomix.lib.playerengine.api.PlaybackMode;
 
 public class PlayUtil {
 	private static int [] playModeImgs = {R.drawable.selector_btn_order,

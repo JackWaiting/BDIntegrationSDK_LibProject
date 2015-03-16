@@ -8,14 +8,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.umeng.analytics.MobclickAgent;
 
 public class WelcomeActivity extends Activity {
+	private PreferenceUtil preference;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_splash);
 		this.loadingMainActivityDelayed();
+		preference = PreferenceUtil.getIntance(this);
 	}
 
 	@Override
@@ -36,9 +39,13 @@ public class WelcomeActivity extends Activity {
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
-				startActivity(new Intent(WelcomeActivity.this,
-						MainActivity.class));
-
+				Intent intent = new Intent();
+				if(preference.isFirstLaunch()){
+					intent.setClass(WelcomeActivity.this, IntroductoryActivity.class);
+				}else{
+					intent.setClass(WelcomeActivity.this, MainActivity.class);
+				}
+				startActivity(intent);
 				finish();
 			}
 		}, 2 * 1000);

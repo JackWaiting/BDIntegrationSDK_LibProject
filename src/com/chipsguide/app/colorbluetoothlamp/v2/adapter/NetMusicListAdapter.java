@@ -7,8 +7,10 @@ import java.util.Map;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.NetMusicItemView;
 
@@ -49,7 +51,19 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 			item = (NetMusicItemView) convertView;
 		}
 		Music music = getItem(position);
-		item.render(music);
+		item.render(music, position);
+		if(item.getOnPlayButtonClickListener() == null){
+			item.setOnPlayButtonClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					int position = (Integer) v.getTag();
+					boolean playing = (Boolean) v.getTag(R.id.tag_is_playing);
+					if(mListener != null){
+						mListener.onItemPlayButtonClick(v, position, playing);
+					}
+				}
+			});
+		}
 		if(currentSelectedPosi == position){
 			preSelectedItem = item;
 			item.setSelected(playing);
@@ -74,6 +88,38 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 		return position;
 	}
 
+	public void setSelected(int position, boolean playing) {
+		this.playing = playing;
+		setSelected(position);
+	}
+	
+	public int getSelected() {
+		return currentSelectedPosi;
+	}
+	
+	public void setSelected(String url, boolean playing) {
+		int position = -1;
+		if(urls.get(url) != null){
+			position = urls.get(url);
+		}
+		setSelected(position, playing);
+	}
+	
+	private OnItemPlayButtonClickListener mListener;
+	public void setOnItemPlayButtonClickListener(OnItemPlayButtonClickListener listener) {
+		mListener = listener;
+	}
+	
+	public interface OnItemPlayButtonClickListener{
+		/**
+		 * 
+		 * @param view
+		 * @param position
+		 * @param isPrePlaying 之前是否为播放状态
+		 */
+		void onItemPlayButtonClick(View view, int position, boolean isPrePlaying);
+	}
+
 	@Override
 	public void setSelected(int position) {
 		if(preSelectedItem != null){
@@ -82,17 +128,4 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 		currentSelectedPosi = position;
 		this.notifyDataSetChanged();
 	}
-	
-	public int getSelected() {
-		return currentSelectedPosi;
-	}
-	
-	public void setSelected(String url) {
-		int position = -1;
-		if(urls.get(url) != null){
-			position = urls.get(url);
-		}
-		setSelected(position);
-	}
-	
 }

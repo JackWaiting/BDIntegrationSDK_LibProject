@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_gray"
+    android:id="@+id/parent"
      >
     
     <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView

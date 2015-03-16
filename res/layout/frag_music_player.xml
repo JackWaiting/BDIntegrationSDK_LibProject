@@ -9,10 +9,18 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pageIndicator"
+        android:layout_above="@+id/tv_duration2"
         >
         
     </android.support.v4.view.ViewPager>
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        android:id="@+id/tv_duration2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/pageIndicator"
+        android:text="00:00/00:00" />
 	
     <com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator 
         android:id="@+id/pageIndicator"

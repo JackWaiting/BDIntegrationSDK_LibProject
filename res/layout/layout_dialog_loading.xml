@@ -20,20 +20,34 @@
             android:src="@drawable/loading_run" />
 
         <ImageView
+            android:id="@+id/iv_lamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/loading_middle" />
+        
+        <ImageView
+            android:id="@+id/iv_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:src="@drawable/loading_middle" />
+        
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text=""
+        android:textSize="@dimen/text_size_medium"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

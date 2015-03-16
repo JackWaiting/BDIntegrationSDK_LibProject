@@ -23,7 +23,8 @@
             android:singleLine="true"
             android:text="歌曲名称"
             android:textColor="#363636"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+             />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/artist_tv"

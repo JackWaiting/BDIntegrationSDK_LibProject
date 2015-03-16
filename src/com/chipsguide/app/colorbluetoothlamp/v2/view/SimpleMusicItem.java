@@ -1,9 +1,12 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.view;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -11,17 +14,20 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 
 public class SimpleMusicItem extends IMusicItemView {
-	private View stateIv;
+	private ImageView stateIv;
 	private TextView artistTv, songNameTv, durationTv;
+	private AnimationDrawable anim;
 	
 	public SimpleMusicItem(Context context){
 		super(context);
 		LayoutInflater.from(context).inflate(R.layout.simple_music_list_item, this);
-		stateIv = (View) findViewById(R.id.iv_state);
+		stateIv = (ImageView) findViewById(R.id.iv_state);
 		songNameTv = (TextView) findViewById(R.id.song_name_tv);
 		artistTv = (TextView) findViewById(R.id.artist_tv);
 		durationTv = (TextView) findViewById(R.id.duration_tv);
 		durationTv.setVisibility(View.GONE);
+		Drawable drawable = stateIv.getDrawable();
+		anim = (AnimationDrawable) drawable;
 	}
 	
 	public void render(int index, final Music music, boolean blzDeviceMusic) {
@@ -45,9 +51,15 @@ public class SimpleMusicItem extends IMusicItemView {
 	
 	public void setSelected(boolean playing) {
 		stateIv.setVisibility(View.VISIBLE);
+		if(playing){
+			anim.start();
+		}else{
+			anim.stop();
+		}
 	}
 	
 	public void disSelected() {
+		anim.stop();
 		stateIv.setVisibility(View.INVISIBLE);
 	}
 

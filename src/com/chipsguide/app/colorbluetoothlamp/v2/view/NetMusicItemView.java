@@ -16,6 +16,7 @@ public class NetMusicItemView extends FrameLayout {
 	private ImageView imageIv, playStateIv;
 	private WrapImageLoader imageLoader;
 	private String imageUrl = "";
+	private OnClickListener playStateIvClickListener;
 	
 	public NetMusicItemView(Context context) {
 		super(context);
@@ -29,9 +30,11 @@ public class NetMusicItemView extends FrameLayout {
 		artistTv = (TextView) findViewById(R.id.tv_music_class);
 		imageIv = (ImageView) findViewById(R.id.image_pic);
 		playStateIv = (ImageView) findViewById(R.id.iv_play_state);
+		playStateIv.setTag(R.id.tag_is_playing, false);
 	}
 
-	public void render(Music music) {
+	public void render(Music music, int position) {
+		playStateIv.setTag(position);
 		songNameTv.setText(music.getName());
 		artistTv.setText(music.getArtist());
 		String newImageUrl = music.getPicpath_m();
@@ -40,9 +43,23 @@ public class NetMusicItemView extends FrameLayout {
 			imageUrl = newImageUrl;
 		}
 	}
+	
+	public void setOnPlayButtonClickListener(OnClickListener listener) {
+		this.playStateIvClickListener = listener;
+		playStateIv.setOnClickListener(listener);
+	}
+	
+	public OnClickListener getOnPlayButtonClickListener() {
+		return playStateIvClickListener;
+	}
 
 	public void setSelected(boolean playing) {
-		playStateIv.setImageResource(R.drawable.selector_list_play_btn);
+		playStateIv.setTag(R.id.tag_is_playing, playing);
+		int drawable = R.drawable.selector_list_pause_btn;
+		if(playing){
+			drawable = R.drawable.selector_list_play_btn;
+		}
+		playStateIv.setImageResource(drawable);
 	}
 
 	public void disSelected() {

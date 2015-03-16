@@ -26,15 +26,17 @@
             android:text="@string/repeate"
             android:textSize="@dimen/text_size_medium" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
-            android:id="@+id/tv_repeate_day"
-            android:layout_width="wrap_content"
+        <LinearLayout 
+            android:id="@+id/layout_selected_days"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/text_repeat"
             android:gravity="center"
-            android:text="@string/days"
-            android:textSize="@dimen/text_size_medium" />
+            android:orientation="horizontal"
+            >
+            
+        </LinearLayout>
     </RelativeLayout>
     
     <View 
@@ -80,22 +82,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_btn_simple"
-        android:padding="10dp" >
+        android:padding="5dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/myTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/music"
+            android:paddingLeft="5dp"
+            android:layout_centerVertical="true"
             android:textSize="@dimen/text_size_medium" />
-        
+
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/tv_music_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/music"
-            android:textSize="@dimen/text_size_secondary" 
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/myTextView1"
+            android:text="@string/music"
             android:textColor="@color/color_dark_gray"
+            android:textSize="@dimen/text_size_secondary" 
+            android:layout_marginLeft="30dp"
+            android:gravity="right|center_vertical"
+            android:drawableRight="@drawable/ic_more"
             />
     </RelativeLayout>
     

@@ -61,6 +61,13 @@
         <item name="android:backgroundDimAmount">0.6</item> 
     </style>
     
+    <style name="Dialog_Fullscreen_dim"
+        parent="@style/Dialog_Fullscreen">
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->  
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->  
+        <item name="android:backgroundDimAmount">0.7</item> 
+    </style>
+    
     <style name="radiobutton_light_effect">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

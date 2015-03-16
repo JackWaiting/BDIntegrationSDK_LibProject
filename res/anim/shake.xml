@@ -26,4 +26,31 @@
         android:duration="300"
         android:startOffset="600"
         />
+     
+     <rotate 
+        android:pivotX="0%"
+        android:pivotY="100%"
+        android:fromDegrees="0"
+        android:toDegrees="-10"
+        android:duration="200"
+        android:startOffset="900"
+        />
+	
+     <rotate 
+        android:pivotX="0%"
+        android:pivotY="100%"
+        android:fromDegrees="-10"
+        android:toDegrees="10"
+        android:duration="400"
+        android:startOffset="1100"
+        />
+     
+     <rotate 
+        android:pivotX="0%"
+        android:pivotY="100%"
+        android:fromDegrees="10"
+        android:toDegrees="0"
+        android:duration="300"
+        android:startOffset="1500"
+        />
 </set>

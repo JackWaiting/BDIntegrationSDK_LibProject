@@ -17,8 +17,43 @@
         app:marque="false" >
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
     
-    <include 
+    <RelativeLayout 
         android:layout_below="@+id/titleView"
+        android:id="@+id/volume_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+        <ImageView 
+            android:id="@+id/vol_decrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_vol_decrease"
+            android:layout_centerVertical="true"
+            />
+        
+        <SeekBar 
+            android:id="@+id/seekbar_vol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/thumb"
+            android:layout_toRightOf="@+id/vol_decrease"
+            android:layout_toLeftOf="@+id/vol_increase"
+            android:progressDrawable="@drawable/seek_img"
+            />
+        
+        <ImageView 
+            android:id="@+id/vol_increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_vol_increase"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    
+    <include 
+        android:layout_below="@+id/volume_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/frag_music_player"

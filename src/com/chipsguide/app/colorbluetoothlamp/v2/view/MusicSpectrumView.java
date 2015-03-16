@@ -12,6 +12,7 @@ public class MusicSpectrumView extends FrameLayout {
 	private Visualizer mVisualizer;
 	private VisualizerView mVisualizerView;
 	private int sessionId;
+	private boolean detached;
 	
 	public MusicSpectrumView(Context context) {
 		super(context);
@@ -33,6 +34,9 @@ public class MusicSpectrumView extends FrameLayout {
 	}
 
 	private void setupVisualizerFxAndUI() {
+		if(detached){
+			return;
+		}
 		final int maxCR = Visualizer.getMaxCaptureRate();
 		if(mVisualizer != null){
 			mVisualizer.setEnabled(false);
@@ -62,10 +66,12 @@ public class MusicSpectrumView extends FrameLayout {
 	
 	@Override
 	protected void onDetachedFromWindow() {
+		detached = true;
 		super.onDetachedFromWindow();
 		if(mVisualizer != null){
 			mVisualizer.setEnabled(false);
 			mVisualizer.release();
+			mVisualizer = null;
 		}
 	}
 }

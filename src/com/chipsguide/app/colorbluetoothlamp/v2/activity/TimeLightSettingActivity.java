@@ -8,12 +8,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -31,7 +29,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 	public static final String EXTRA_ALARM = "alarm";
 	public static final int REQUEST_SELECT_SOUND = 1;
 
-	private TextView repeateDayTv, musicNameTv;
+	private TextView  musicNameTv;
 	private MyTimePickerView timePicker;
 	private Alarms alarms;
 	private AlarmLightColorDAO lightColorDao;
@@ -39,10 +37,12 @@ public class TimeLightSettingActivity extends BaseActivity {
 	private AlarmLightColor alarmLightColor;
 
 	private String[] week;
+	private String[] repeatDays;
 	private boolean[] checkedItems;
 	private boolean[] newCheckedItems;
 	private String color;
 	private String soundPath;
+	private LinearLayout selectedDaysLayout;
 
 	@Override
 	public int getLayoutId() {
@@ -52,6 +52,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 	@Override
 	public void initBase() {
 		week = getResources().getStringArray(R.array.week);
+		repeatDays = getResources().getStringArray(R.array.repeat_days);
 		alarms = Alarms.getInstance(getApplicationContext());
 		lightColorDao = AlarmLightColorDAO.getDao(getApplicationContext());
 		alarm = (Alarm) getIntent().getSerializableExtra(EXTRA_ALARM);
@@ -61,14 +62,8 @@ public class TimeLightSettingActivity extends BaseActivity {
 
 	@Override
 	public void initUI() {
-		repeateDayTv = (TextView) findViewById(R.id.tv_repeate_day);
 		musicNameTv = (TextView) findViewById(R.id.tv_music_name);
-		if(!TextUtils.isEmpty(soundPath)){
-			String [] arr = soundPath.split("\\|");
-			if(arr != null && arr.length > 1){
-				musicNameTv.setText(arr[1]);
-			}
-		}
+		updateMusicName();
 		timePicker = (MyTimePickerView) findViewById(R.id.time_layout);
 		RadioGroup colorGroup = (RadioGroup) findViewById(R.id.rg_color);
 		colorGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -90,7 +85,28 @@ public class TimeLightSettingActivity extends BaseActivity {
 				}
 			}
 		}
-		
+		initSelectedDayLayout();
+	}
+	
+	private void initSelectedDayLayout() {
+		selectedDaysLayout = (LinearLayout) findViewById(R.id.layout_selected_days);
+		LayoutInflater inflater = LayoutInflater.from(this);
+		for(int i = 0 ; i < repeatDays.length ; i++){
+			RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, null);
+			radioButton.setText(repeatDays[i]);
+			selectedDaysLayout.addView(radioButton);
+		}
+	}
+	
+	private void updateMusicName() {
+		if(!TextUtils.isEmpty(soundPath)){
+			String [] arr = soundPath.split("\\|");
+			if(arr != null && arr.length > 1){
+				musicNameTv.setText(arr[1]);
+			}
+		}else{
+			musicNameTv.setText(R.string.silent);
+		}
 	}
 
 	@Override
@@ -110,8 +126,8 @@ public class TimeLightSettingActivity extends BaseActivity {
 			}
 			checkedItems[position] = true;
 		}
-		repeateDayTv.setText(getSelectedDayString(checkedItems));
 		newCheckedItems = checkedItems.clone();
+		updateSelectedDayLayout(checkedItems);
 	}
 
 	@Override
@@ -122,19 +138,12 @@ public class TimeLightSettingActivity extends BaseActivity {
 		findViewById(R.id.music_layout).setOnClickListener(this);
 	}
 
-	private CharSequence getSelectedDayString(boolean [] selected) {
-		int color = getResources().getColor(R.color.color_blue);
-		SpannableStringBuilder builder = new SpannableStringBuilder(
-				repeateDayTv.getText());
-		for(int i = 0 ; i < 7 ; i++){
-			ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.BLACK);
-			if(selected[i]){
-				colorSpan = new ForegroundColorSpan(color);
-			}
-			builder.setSpan(colorSpan, 2*i, 2*i + 1,
-					Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+	private void updateSelectedDayLayout(boolean [] selected) {
+		int count = selectedDaysLayout.getChildCount();
+		for(int i = 0 ; i < count ; i++){
+			RadioButton rb = (RadioButton) selectedDaysLayout.getChildAt(i);
+			rb.setChecked(selected[i]);
 		}
-		return builder;
 	}
 
 	@Override
@@ -168,11 +177,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		if(resultCode == RESULT_OK){
 			if(requestCode == REQUEST_SELECT_SOUND){
 				soundPath = data.getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
-				if(!TextUtils.isEmpty(soundPath)){
-					String [] arr = soundPath.split("\\|");
-					String name = arr[1];
-					musicNameTv.setText(name);
-				}
+				updateMusicName();
 			}
 		}
 	}
@@ -200,7 +205,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 				break;
 			case DialogInterface.BUTTON_POSITIVE:
 				checkedItems = newCheckedItems.clone();
-				repeateDayTv.setText(getSelectedDayString(checkedItems));
+				updateSelectedDayLayout(checkedItems);
 				break;
 			default:
 				break;
@@ -218,6 +223,17 @@ public class TimeLightSettingActivity extends BaseActivity {
 		alarm.setAlarmActive(true);
 		alarm.setAlarmTime(calendar);
 		alarm.setAlarmTonePath(soundPath);
+		alarm.setDays(getSelectedDays());
+		alarms.saveAlarm(alarm);
+		if(alarmLightColor == null){
+			alarmLightColor = new AlarmLightColor();
+			alarmLightColor.setAlarm_id(alarm.getId());
+		}
+		alarmLightColor.setColor(color);
+		lightColorDao.saveOrUpdate(alarmLightColor);
+	}
+	
+	private Day[] getSelectedDays() {
 		List<Day> list = new ArrayList<Day>();
 		Day[] allDay = Day.values();
 		for (int i = 0; i < 7; i++) {
@@ -229,15 +245,8 @@ public class TimeLightSettingActivity extends BaseActivity {
 				}
 			}
 		}
-		Day[] selectedDays = new Day[list.size()];
-		alarm.setDays(list.toArray(selectedDays));
-		alarms.saveAlarm(alarm);
-		if(alarmLightColor == null){
-			alarmLightColor = new AlarmLightColor();
-			alarmLightColor.setAlarm_id(alarm.getId());
-		}
-		alarmLightColor.setColor(color);
-		lightColorDao.saveOrUpdate(alarmLightColor);
+		Day [] days = new Day[list.size()];
+		return list.toArray(days);
 	}
 
 	private void delAlarm() {
