@@ -21,10 +21,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 
-@SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, OnCheckedChangeListener, LampListener,
-		android.widget.RadioGroup.OnCheckedChangeListener, OnClickListener,OnLongClickListener {
+		OnColorChangeListener, OnCheckedChangeListener, LampListener, OnClickListener,OnLongClickListener {
 
 	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
@@ -89,6 +87,11 @@ public class ColorLampFrag extends BaseFragment implements
 		mColor03 = (CircleImageView) this.findViewById(R.id.view_color_3);
 		mColor04 = (CircleImageView) this.findViewById(R.id.view_color_4);
 		mColor05 = (CircleImageView) this.findViewById(R.id.view_color_5);
+		mButtonLightNormal.setOnClickListener(this);
+		mButtonLightRainbow.setOnClickListener(this);
+		mButtonLightPusle.setOnClickListener(this);
+		mButtonLightFlashing.setOnClickListener(this);
+		mButtonLightCandle.setOnClickListener(this);
 
 		mColor01.setOnClickListener(this);
 		mColor02.setOnClickListener(this);
@@ -100,7 +103,6 @@ public class ColorLampFrag extends BaseFragment implements
 		mColor03.setOnLongClickListener(this);
 		mColor04.setOnLongClickListener(this);
 		mColor05.setOnLongClickListener(this);
-		mButtonGroupRhythm.setOnCheckedChangeListener(this);
 		
 		mLampCheckBox.setOnCheckedChangeListener(this);
 		mLampOnCheckBox.setOnCheckedChangeListener(this);
@@ -109,6 +111,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onClick(View v)
 	{
+		effect(v.getId());
 		switch (v.getId())
 		{
 		case R.id.view_color_1:
@@ -131,33 +134,8 @@ public class ColorLampFrag extends BaseFragment implements
 			break;
 		}
 	}
-	
-	@Override
-	public boolean onLongClick(View v)
-	{
-		switch (v.getId())
-		{
-		case R.id.view_color_1:
 
-			break;
-		case R.id.view_color_2:
-
-			break;
-		case R.id.view_color_3:
-
-			break;
-		case R.id.view_color_4:
-
-			break;
-		case R.id.view_color_5:
-
-			break;
-		}
-		return false;
-	}
-
-	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId)
+	private void effect(int checkedId)
 	{
 		switch (checkedId)
 		{
@@ -182,9 +160,32 @@ public class ColorLampFrag extends BaseFragment implements
 			mEffect = BluetoothDeviceColorLampManager.Effect.CANDLE;
 			break;
 		}
-
 		// 当前的灯效和快慢速度
 		mLampManager.setLampEffect(mEffect);
+	}
+	
+	@Override
+	public boolean onLongClick(View v)
+	{
+		switch (v.getId())
+		{
+		case R.id.view_color_1:
+
+			break;
+		case R.id.view_color_2:
+
+			break;
+		case R.id.view_color_3:
+
+			break;
+		case R.id.view_color_4:
+
+			break;
+		case R.id.view_color_5:
+
+			break;
+		}
+		return false;
 	}
 
 	@Override
@@ -277,6 +278,30 @@ public class ColorLampFrag extends BaseFragment implements
 	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
 	{
 		onLampStateInqiryBackChange(colorState, OnorOff);
+	}
+
+	@Override
+	public void onLampRhythmChange(int rhythm)
+	{
+		flog.e("rhythm------" + rhythm);
+		switch (rhythm)
+		{
+		case BluetoothDeviceColorLampManager.Effect.NORMAL+1:
+			mButtonLightNormal.setChecked(true);
+			break;
+		case BluetoothDeviceColorLampManager.Effect.RAINBOW:
+			mButtonLightRainbow.setChecked(true);
+			break;
+		case BluetoothDeviceColorLampManager.Effect.PULSE:
+			mButtonLightPusle.setChecked(true);
+			break;
+		case BluetoothDeviceColorLampManager.Effect.FLASHING:
+			mButtonLightFlashing.setChecked(true);
+			break;
+		case BluetoothDeviceColorLampManager.Effect.CANDLE:
+			mButtonLightCandle.setChecked(true);
+			break;
+		}
 	}
 
 }
