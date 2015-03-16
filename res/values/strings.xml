@@ -88,5 +88,11 @@
     <string name="clear">Clear</string>
     <string name="enter_app">Enter&gt;&gt;</string>
     <string name="press_again_to_exist">Press again to exist!</string>
+    
+    <string name="audio_connectioning">Audio connectioning</string>
+	<string name="audio_connectionend">Audio connection</string>
+	<string name="data_connectioning">Data connectioning</string>
+	<string name="data_connectionend">Data connection</string>
+	<string name="connectionend">connection</string>
     <string name="connect_toast">The application of related functions need to be connected with the Bluetooth to activate,\n whether it was a Bluetooth connection.</string>
 </resources>

@@ -89,5 +89,11 @@
     <string name="clear">知道了</string>
     <string name="enter_app">进入应用&gt;&gt;</string>
     <string name="press_again_to_exist">再按一次推出应用!</string>
+    
+    <string name="audio_connectioning">音频连接中</string>
+	<string name="audio_connectionend">音频已连接</string>
+	<string name="data_connectioning">数据连接中</string>
+	<string name="data_connectionend">数据已连接</string>
+	<string name="connectionend">连接完成</string>
     <string name="connect_toast">此款应用相关功能需连接蓝牙才能激活，\n是否现在进行蓝牙连接。</string>
 </resources>
