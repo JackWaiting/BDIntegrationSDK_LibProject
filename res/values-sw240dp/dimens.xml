@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="round_padding">30dp</dimen>
+
+</resources>

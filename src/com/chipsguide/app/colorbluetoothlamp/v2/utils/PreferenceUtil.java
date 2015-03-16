@@ -13,6 +13,10 @@ public class PreferenceUtil {
 	private static String PHONE_MUSIC_POSITION = "phone_music_position";
 	private static String PHONE_MUSIC_CURRENT_DURATION = "phone_music_current_duration";
 	private static String SHAKE_OPTION = "shake_option";
+	private static String LAMP_COLOR_01 = "lamp_color_01";
+	private static String LAMP_COLOR_02 = "lamp_color_02";
+	private static String LAMP_COLOR_03 = "lamp_color_03";
+	private static String LAMP_COLOR_04 = "lamp_color_04";
 	private static SharedPreferences sp;
 	private static PreferenceUtil settingPrefences;
 
@@ -73,5 +77,37 @@ public class PreferenceUtil {
 	
 	public int getShakeOption() {
 		return sp.getInt(SHAKE_OPTION, R.id.rb_random_color);
+	}
+	
+	public void saveLampColor1(int color01) {
+		sp.edit().putInt(LAMP_COLOR_01, color01).commit();
+	}
+	
+	public int getLampColor1() {
+		return sp.getInt(LAMP_COLOR_01,0);
+	}
+	
+	public void saveLampColor2(int color02) {
+		sp.edit().putInt(LAMP_COLOR_02, color02).commit();
+	}
+	
+	public int getLampColor2() {
+		return sp.getInt(LAMP_COLOR_02,0);
+	}
+	
+	public void saveLampColor3(int color03) {
+		sp.edit().putInt(LAMP_COLOR_03, color03).commit();
+	}
+	
+	public int getLampColor3() {
+		return sp.getInt(LAMP_COLOR_03,0);
+	}
+	
+	public void saveLampColor4(int color04) {
+		sp.edit().putInt(LAMP_COLOR_04, color04).commit();
+	}
+	
+	public int getLampColor4() {
+		return sp.getInt(LAMP_COLOR_04,0);
 	}
 }

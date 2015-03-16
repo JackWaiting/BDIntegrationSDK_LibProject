@@ -14,6 +14,9 @@ public class CustomApplication extends Application {
 	 * 蓝牙设备管理类
 	 */
 	private static BluetoothDeviceManager bluzDeviceMan;
+	
+	//提示第一次进入，判断蓝牙是否连接
+	public static boolean isFirstConnect = true;
 
 	@Override
 	public void onCreate()

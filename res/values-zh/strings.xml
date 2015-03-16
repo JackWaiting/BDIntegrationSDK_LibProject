@@ -54,6 +54,7 @@
     
     <string name="connect">已连接</string>
     <string name="not_connect">未连接</string>
+    <string name="delay">稍后</string>
     <string name="bluetooth_not_available">当前蓝牙不可用!</string>
     <string name="ok">确定</string>
     <string name="cancl">取消</string>
@@ -86,4 +87,6 @@
 	<string name="data_connectioning">数据连接中</string>
 	<string name="data_connectionend">数据已连接</string>
 	<string name="connectionend">连接完成</string>
+	
+	<string name="connect_toast">此款应用相关功能需连接蓝牙才能激活，是否现在进行蓝牙连接。</string>
 </resources>

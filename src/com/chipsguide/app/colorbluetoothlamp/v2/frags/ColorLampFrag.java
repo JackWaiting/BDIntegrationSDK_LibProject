@@ -1,35 +1,41 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener,OnCheckedChangeListener ,LampListener,
-		android.widget.RadioGroup.OnCheckedChangeListener {
-	
+		OnColorChangeListener, OnCheckedChangeListener, LampListener,
+		android.widget.RadioGroup.OnCheckedChangeListener, OnClickListener,OnLongClickListener {
+
+	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
-	
+
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
 	private CheckBox mLampOnCheckBox;
-	private ImageView mColor01;
-	private ImageView mColor02;
-	private ImageView mColor03;
-	private ImageView mColor04;
-	private ImageView mColor05;
+	private CircleImageView mColor01;
+	private CircleImageView mColor02;
+	private CircleImageView mColor03;
+	private CircleImageView mColor04;
+	private CircleImageView mColor05;
 	private RadioGroup mButtonGroupRhythm;
 	private RadioButton mButtonLightNormal;
 	private RadioButton mButtonLightRainbow;
@@ -37,18 +43,17 @@ public class ColorLampFrag extends BaseFragment implements
 	private RadioButton mButtonLightFlashing;
 	private RadioButton mButtonLightCandle;
 
-
 	private int color;
-	
+
 	private int mEffect = 0;// 当前的灯效
 
-	
 	@Override
 	protected void initBase()
 	{
 		mLampManager = LampManager.getInstance(getActivity());
 		mLampManager.init();
 		mLampManager.setLampListener(this);
+		mPreference = PreferenceUtil.getIntance(getActivity());
 	}
 
 	@Override
@@ -62,15 +67,6 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);
 		mColorPicker.setOnColorChangeListener(this);
-		
-		mLampCheckBox = (CheckBox)this.findViewById(R.id.cb_lamp_active);
-		mLampOnCheckBox = (CheckBox)this.findViewById(R.id.cb_lamp_on);
-		mColor01 = (ImageView)this.findViewById(R.id.view_color_1);
-		mColor02 = (ImageView)this.findViewById(R.id.view_color_2);
-		mColor03 = (ImageView)this.findViewById(R.id.view_color_3);
-		mColor04 = (ImageView)this.findViewById(R.id.view_color_4);
-		mColor05 = (ImageView)this.findViewById(R.id.view_color_5);
-		
 
 		mButtonGroupRhythm = (RadioGroup) root
 				.findViewById(R.id.radiogroup_rhythm_effect);
@@ -87,18 +83,77 @@ public class ColorLampFrag extends BaseFragment implements
 
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);
-		mColor01 = (ImageView) this.findViewById(R.id.view_color_1);
-		mColor02 = (ImageView) this.findViewById(R.id.view_color_2);
-		mColor03 = (ImageView) this.findViewById(R.id.view_color_3);
-		mColor04 = (ImageView) this.findViewById(R.id.view_color_4);
-		mColor05 = (ImageView) this.findViewById(R.id.view_color_5);
+		mColor01 = (CircleImageView) this.findViewById(R.id.view_color_1);
+		mColor02 = (CircleImageView) this.findViewById(R.id.view_color_2);
+		mColor03 = (CircleImageView) this.findViewById(R.id.view_color_3);
+		mColor04 = (CircleImageView) this.findViewById(R.id.view_color_4);
+		mColor05 = (CircleImageView) this.findViewById(R.id.view_color_5);
 
+		mColor01.setOnClickListener(this);
+		mColor02.setOnClickListener(this);
+		mColor03.setOnClickListener(this);
+		mColor04.setOnClickListener(this);
+		mColor05.setOnClickListener(this);
+		mColor01.setOnLongClickListener(this);
+		mColor02.setOnLongClickListener(this);
+		mColor03.setOnLongClickListener(this);
+		mColor04.setOnLongClickListener(this);
+		mColor05.setOnLongClickListener(this);
 		mButtonGroupRhythm.setOnCheckedChangeListener(this);
-
+		
 		mLampCheckBox.setOnCheckedChangeListener(this);
 		mLampOnCheckBox.setOnCheckedChangeListener(this);
 	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+		case R.id.view_color_1:
+
+			break;
+		case R.id.view_color_2:
+
+			break;
+		case R.id.view_color_3:
+
+			break;
+		case R.id.view_color_4:
+
+			break;
+		case R.id.view_color_5:
+//			mColor01.setImageResource(R.color.);
+//			mColor01.setImageBitmap(new Bitmap);
+//			mColor01.setImageDrawable(new BitmapDrawable());
+//			mPreference.saveLampColor1(color);
+			break;
+		}
+	}
 	
+	@Override
+	public boolean onLongClick(View v)
+	{
+		switch (v.getId())
+		{
+		case R.id.view_color_1:
+
+			break;
+		case R.id.view_color_2:
+
+			break;
+		case R.id.view_color_3:
+
+			break;
+		case R.id.view_color_4:
+
+			break;
+		case R.id.view_color_5:
+
+			break;
+		}
+		return false;
+	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
@@ -107,7 +162,7 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 		case R.id.readioButton_button_light_normal:
 			flog.d("normal");
-			mEffect = BluetoothDeviceColorLampManager.Effect.BREATH;
+			mEffect = BluetoothDeviceColorLampManager.Effect.NORMAL;
 			break;
 		case R.id.readioButton_button_light_rainbow:
 			flog.d("rainbow");
@@ -131,23 +186,29 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampManager.setLampEffect(mEffect);
 	}
 
-
 	@Override
 	protected void initData()
 	{
+		if(CustomApplication.isFirstConnect)
+		{
+			
+			CustomApplication.isFirstConnect = false;
+		}
 	}
 
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
+
 	@Override
 	public void onColorChange(int red, int green, int blue)
 	{
 		color = Color.argb(0, red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
-		if(colorHSV[0] == 0 && colorHSV[1] == 0){ //说明为白色
+		if (colorHSV[0] == 0 && colorHSV[1] == 0)
+		{ // 说明为白色
 			float value = colorHSV[2];
-			int rank = (int)(value * 16); //等级0-16
-			//TODO 调节等级
-			mLampManager.setBrightness(rank+1);
+			int rank = (int) (value * 16); // 等级0-16
+			// TODO 调节等级
+			mLampManager.setBrightness(rank + 1);
 		}
 	}
 
@@ -156,9 +217,9 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 		color = Color.argb(0, red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
-		if(colorHSV[0] == 0 && colorHSV[1] == 0)
-		{ //说明为白色
-		}else
+		if (colorHSV[0] == 0 && colorHSV[1] == 0)
+		{ // 说明为白色
+		} else
 		{
 			mLampManager.setColor(red, green, blue);
 		}
@@ -170,20 +231,20 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (buttonView.getId())
 		{
 		case R.id.cb_lamp_active:
-			if(isChecked)
+			if (isChecked)
 			{
 				mLampManager.turnColorOn();
-			}else
+			} else
 			{
 				mLampManager.turnCommonOn();
 				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
 		case R.id.cb_lamp_on:
-			if(isChecked)
+			if (isChecked)
 			{
 				mLampManager.lampOn();
-			}else
+			} else
 			{
 				mLampManager.lampOff();
 			}

@@ -52,6 +52,7 @@
     <string name="light_candle">CANDLE</string>
     <string name="connect">connected</string><!-- 连接 -->
     <string name="not_connect">unlink</string> <!-- 未连接 -->
+    <string name="delay">delay</string>
     <string name="bluetooth_not_available">Bluetooth is not enabled!</string>
     <string name="ok">OK</string>
     <string name="cancl">Cancel</string>
@@ -84,4 +85,6 @@
 	<string name="data_connectioning">Data connectioning</string>
 	<string name="data_connectionend">Data connection</string>
 	<string name="connectionend">connection</string>
+	
+	<string name="connect_toast">The application of related functions need to be connected with the Bluetooth to activate, whether it was a Bluetooth connection.</string>
 </resources>

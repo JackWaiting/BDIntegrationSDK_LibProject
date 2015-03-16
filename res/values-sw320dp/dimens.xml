@@ -1,4 +1,7 @@
 <resources>
 
-   <dimen name="progress_padding">15dp</dimen>
+    <dimen name="progress_padding">15dp</dimen>
+    
+    <dimen name="round_padding">50dp</dimen>
+
 </resources>
