@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -162,6 +163,21 @@ public class MainActivity extends BaseActivity implements
 				finish();
 			}
 			break;
+		}
+	}
+	
+	private long preTime;
+	private static final long INTERVAL = 2000;
+
+	@Override
+	public void onBackPressed() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - preTime > INTERVAL) {
+			showToast(R.string.press_again_to_exist);
+			preTime = currentTime;
+		}else{
+			cancelToast();
+			super.onBackPressed();
 		}
 	}
 	
