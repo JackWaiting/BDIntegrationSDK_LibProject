@@ -1,10 +1,10 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.utils;
 
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
 public class PreferenceUtil {
 
@@ -14,6 +14,7 @@ public class PreferenceUtil {
 	private static String PHONE_MUSIC_CURRENT_DURATION = "phone_music_current_duration";
 	private static String SHAKE_OPTION = "shake_option";
 	private static String FIRST_TIME_ENTER_ALARM = "first_time_enter_alarm";
+	private static String FIRST_LAUNCH = "first_launch";
 	private static SharedPreferences sp;
 	private static PreferenceUtil settingPrefences;
 
@@ -82,5 +83,13 @@ public class PreferenceUtil {
 	
 	public boolean isFirstEnterAlarm(){
 		return sp.getBoolean(FIRST_TIME_ENTER_ALARM, true);
+	}
+	
+	public boolean isFirstLaunch() {
+		return sp.getBoolean(FIRST_LAUNCH, true);
+	}
+	
+	public void setFirstLaunch(boolean firstLaunch) {
+		sp.edit().putBoolean(FIRST_LAUNCH, firstLaunch).commit();
 	}
 }

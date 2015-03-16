@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;

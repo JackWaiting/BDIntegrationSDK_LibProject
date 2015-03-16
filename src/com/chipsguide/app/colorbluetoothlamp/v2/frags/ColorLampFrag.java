@@ -1,7 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
-import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
