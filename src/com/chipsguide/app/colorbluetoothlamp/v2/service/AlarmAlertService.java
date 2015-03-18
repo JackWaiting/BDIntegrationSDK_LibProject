@@ -18,6 +18,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -27,6 +28,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.timer.Alarm;
+import com.chipsguide.lib.timer.Alarms;
 import com.chipsguide.lib.timer.service.AlarmService;
 
 public class AlarmAlertService extends AlarmService {
@@ -36,7 +38,7 @@ public class AlarmAlertService extends AlarmService {
 	protected boolean destroy;
 	private PlayerManager playerManager;
 	private AlertDialog ad;
-	
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -50,32 +52,32 @@ public class AlarmAlertService extends AlarmService {
 	}
 
 	private void initAlertListener() {
-		mLampManager = LampManager
-				.getInstance(getApplicationContext());
-		lightColorDao = AlarmLightColorDAO
-				.getDao(getApplicationContext());
+		mLampManager = LampManager.getInstance(getApplicationContext());
+		lightColorDao = AlarmLightColorDAO.getDao(getApplicationContext());
 	}
 
 	private void showDialog(String time) {
-		if(ad != null){
+		if (ad != null) {
 			ad.dismiss();
 		}
 		ad = new AlertDialog.Builder(this).setTitle(R.string.alarm)
-				.setMessage(time)
-				.setNegativeButton(R.string.cancl, listener).create();
-		ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+				.setMessage(time).setNegativeButton(R.string.cancl, listener)
+				.create();
+		Window window = ad.getWindow();
+		window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		ad.setCanceledOnTouchOutside(false);
 		ad.setCancelable(false);
 		ad.show();
 	}
-	
+
 	private OnClickListener listener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			switch (which) {
 			case DialogInterface.BUTTON_NEGATIVE:
-				if(mediaPlayer != null){
+				Alarms.getInstance(getApplicationContext()).releaseAllLock();
+				if (mediaPlayer != null) {
 					mediaPlayer.release();
 					mediaPlayer = null;
 				}
@@ -91,16 +93,16 @@ public class AlarmAlertService extends AlarmService {
 		super.onDestroy();
 		Log.d("", "onDestroy");
 		destroy = true;
-		if(mediaPlayer != null){
+		if (mediaPlayer != null) {
 			mediaPlayer.release();
 			mediaPlayer = null;
 		}
 	}
 
-	@SuppressLint("SimpleDateFormat") private void onAlert(List<Alarm> list) {
+	@SuppressLint("SimpleDateFormat")
+	private void onAlert(List<Alarm> list) {
 		Alarm alarm = list.get(0);
-		AlarmLightColor lightcolor = lightColorDao.query(alarm
-				.getId() + "");
+		AlarmLightColor lightcolor = lightColorDao.query(alarm.getId() + "");
 		int color = Color.parseColor(lightcolor.getColor());
 		int red = Color.red(color);
 		int green = Color.green(color);
@@ -122,7 +124,7 @@ public class AlarmAlertService extends AlarmService {
 		Date date = calendar.getTime();
 		showDialog(format.format(date));
 	}
-	
+
 	private void build() {
 		mediaPlayer = new MediaPlayer();
 		mediaPlayer.setLooping(true);
@@ -134,10 +136,10 @@ public class AlarmAlertService extends AlarmService {
 			}
 		});
 	}
-	
+
 	private void playLocalMusic(String path) {
 		try {
-			if(mediaPlayer != null){
+			if (mediaPlayer != null) {
 				mediaPlayer.release();
 				mediaPlayer = null;
 			}
@@ -157,7 +159,10 @@ public class AlarmAlertService extends AlarmService {
 
 	@Override
 	public void onAlarmActive(List<Alarm> list) {
-		if(playerManager.isPlaying()){
+		if (list == null || list.isEmpty()) {
+			return;
+		}
+		if (playerManager.isPlaying()) {
 			playerManager.pause();
 		}
 		onAlert(list);
