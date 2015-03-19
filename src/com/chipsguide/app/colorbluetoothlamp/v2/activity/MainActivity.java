@@ -1,12 +1,12 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -18,6 +18,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.platomix.lib.update.bean.VersionEntity;
@@ -31,6 +32,7 @@ public class MainActivity extends BaseActivity implements
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
 	private Alarms alarms;
+	private BluetoothDeviceManager mBluetoothDeviceManager;
 
 	private TextSwitcherTitleView titleView;
 	@Override
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity implements
 		alarms = Alarms.getInstance(getApplicationContext());
 		alarms.setAllowInBack(true, AlarmAlertService.class);
 		alarms.activieAllEnable();
+		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
 	}
 
 	@Override
@@ -180,5 +183,45 @@ public class MainActivity extends BaseActivity implements
 			super.onBackPressed();
 		}
 	}
+	
+	
+	/**
+	    * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
+	    */
+		private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
+		/**
+		 * Bluetooth 设备可见时间，单位：秒。
+		 */
+		private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
+		
+		@Override
+		protected void onResume()
+		{
+			super.onResume();
+			refreshBluetooth();
+		}
+		
+		private void refreshBluetooth()
+		{
+			if ((mBluetoothDeviceManager.isBluetoothSupported()) && (!mBluetoothDeviceManager.isBluetoothEnabled()))
+			{
+				turnOnBluetooth();
+			}
+		}
+		
+		/**
+	    * 弹出系统弹框提示用户打开 Bluetooth
+	    */
+	   private void turnOnBluetooth()
+	   {
+	       // 请求打开 Bluetooth
+	       Intent requestBluetoothOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+	       // 设置 Bluetooth 设备可见时间
+	       requestBluetoothOn.putExtra( BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,BLUETOOTH_DISCOVERABLE_DURATION);
+	       // 请求开启 Bluetooth
+	       this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
+	   }
+		
+
 	
 }
