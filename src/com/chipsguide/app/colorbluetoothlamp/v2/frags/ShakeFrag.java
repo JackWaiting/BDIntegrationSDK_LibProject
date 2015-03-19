@@ -93,7 +93,13 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			mLampManager.LampOnorOff();
 			break;
 		case R.id.rb_player_toggle:
-			playerManager.toggle();
+			if(playerManager.isPlaying()){
+				playerManager.pause();
+			}else{
+				int position = playerManager.getCurrentPosition();
+				position = Math.max(0, position);
+				playerManager.skipTo(position);
+			}
 			break;
 		case R.id.rb_next_song:
 			if(playerManager.isPlaying()){
