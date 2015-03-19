@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,6 +21,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
@@ -263,6 +266,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			}
 		}
 		listBluetooth = StringUtil.removeDuplicateWithOrder(listBluetooth);
+		flog.e("listBluetooth " +listBluetooth.size());
 		mAdapter.setList(StringUtil.getListConnectMessage(
 				connectBluetoothDevices, listBluetooth));
 	}
@@ -325,12 +329,10 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 							deviceConnected.getAddress()))
 					{
 						// // 断开蓝牙
-						// DisconnectBluetoothDialog diacoonctDialog = new
-						// DisconnectBluetoothDialog(
-						// MainActivity.this,
-						// R.style.register_inform_style, mHandler,
-						// bluetoothDevice, this.mBluetoothDeviceManager);
-						// diacoonctDialog.show();
+						 DisconnectBluetoothDialog diacoonctDialog = new DisconnectBluetoothDialog(BluetoothConnectionActivity.this,
+						 R.style.register_inform_style, mHandler,
+						 bluetoothDevice, this.mBluetoothDeviceManager);
+						 diacoonctDialog.show();
 					} else
 					{
 						if (bluetoothDevice != null)
@@ -411,5 +413,21 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			mConnectpd = null;
 		}
 	}
+	
+	Handler mHandler = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+			switch (msg.what)
+			{
+			case 01:
+				bluetoothDeviceConnected = null;
+				break;
+			}
+		}
+
+	};
 
 }

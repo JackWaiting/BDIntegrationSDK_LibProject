@@ -6,17 +6,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+
 import android.bluetooth.BluetoothDevice;
 
 public class StringUtil
 {
-	public static final String MAC_IDENTIFIER = "C9:2";
-	
 	public static boolean isMacMatched(String mac)
 	{
 		if (mac != null)
 		{
-			if (mac.startsWith(MAC_IDENTIFIER))
+			if (mac.startsWith(CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
 			{
 				return true;
 			}
@@ -98,7 +98,7 @@ public class StringUtil
 	 */
 	public static List<BluetoothDevice> removeDuplicateWithOrder(List<BluetoothDevice> listBluetooth)
 	{
-		if(listBluetooth.size() == 1)
+		if(listBluetooth.size() == 1 && isMacMatched(listBluetooth.get(0).getAddress()))
 		{
 			return listBluetooth;
 		}
