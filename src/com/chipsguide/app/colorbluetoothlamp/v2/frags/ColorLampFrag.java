@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -22,7 +20,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChange
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, OnCheckedChangeListener, LampListener, OnClickListener,OnLongClickListener {
+		OnColorChangeListener, LampListener, OnClickListener,OnLongClickListener {
 
 	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
@@ -104,14 +102,18 @@ public class ColorLampFrag extends BaseFragment implements
 		mColor04.setOnLongClickListener(this);
 		mColor05.setOnLongClickListener(this);
 		
-		mLampCheckBox.setOnCheckedChangeListener(this);
-		mLampOnCheckBox.setOnCheckedChangeListener(this);
+		mLampCheckBox.setOnClickListener(this);
+		mLampOnCheckBox.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v)
 	{
-		effect(v.getId());
+		if(v instanceof RadioGroup)
+		{
+			effect(v);
+		}
+		checkedbox(v.getId());
 		switch (v.getId())
 		{
 		case R.id.view_color_1:
@@ -135,9 +137,9 @@ public class ColorLampFrag extends BaseFragment implements
 		}
 	}
 
-	private void effect(int checkedId)
+	private void effect(View v)
 	{
-		switch (checkedId)
+		switch (v.getId())
 		{
 		case R.id.readioButton_button_light_normal:
 			flog.d("normal");
@@ -236,13 +238,12 @@ public class ColorLampFrag extends BaseFragment implements
 		}
 	}
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	private void checkedbox(int id)
 	{
-		switch (buttonView.getId())
+		switch (id)
 		{
 		case R.id.cb_lamp_active:
-			if (isChecked)
+			if (mLampCheckBox.isChecked())
 			{
 				mLampManager.turnColorOn();
 			} else
@@ -252,7 +253,7 @@ public class ColorLampFrag extends BaseFragment implements
 			}
 			break;
 		case R.id.cb_lamp_on:
-			if (isChecked)
+			if (mLampOnCheckBox.isChecked())
 			{
 				mLampManager.lampOn();
 			} else
