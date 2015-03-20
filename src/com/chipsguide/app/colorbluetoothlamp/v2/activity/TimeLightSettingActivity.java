@@ -92,7 +92,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		selectedDaysLayout = (LinearLayout) findViewById(R.id.layout_selected_days);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		for(int i = 0 ; i < repeatDays.length ; i++){
-			RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, null);
+			RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, selectedDaysLayout, false);
 			radioButton.setText(repeatDays[i]);
 			selectedDaysLayout.addView(radioButton);
 		}

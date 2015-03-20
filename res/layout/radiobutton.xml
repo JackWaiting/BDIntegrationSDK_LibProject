@@ -6,6 +6,7 @@
     android:textColor="@color/repeat_days"
     android:clickable="false"
     android:paddingRight="10dp"
+    android:background="@null"
     >
     
 
