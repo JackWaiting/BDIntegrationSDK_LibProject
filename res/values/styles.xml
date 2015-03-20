@@ -40,6 +40,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/selector_bottom_rb_text</item>
         <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
     </style>
     
     <style 
@@ -85,5 +86,6 @@
         <item name="android:lines">1</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@null</item>
     </style>
 </resources>

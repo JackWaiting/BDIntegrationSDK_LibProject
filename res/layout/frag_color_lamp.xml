@@ -17,7 +17,7 @@
             android:background="#55000000"
             android:gravity="center"
             android:orientation="horizontal" >
-
+			
             <RadioButton
                 android:id="@+id/readioButton_button_light_normal"
                 style="@style/radiobutton_light_effect"
@@ -73,7 +73,8 @@
             android:id="@+id/cb_lamp_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/selector_lamp_on_btn" />
+            android:button="@null"
+            android:background="@drawable/selector_lamp_on_btn" />
 		<include 
 		    layout="@layout/layout_select_color"/>
     </LinearLayout>

@@ -14,7 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
         android:layout_centerInParent="true"
-        android:button="@drawable/selector_lamp_active_btn"
+        android:gravity="center"
+        android:button="@null"
+        android:background="@drawable/selector_lamp_active_btn"
         />
 
 </RelativeLayout>
