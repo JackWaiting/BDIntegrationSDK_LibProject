@@ -75,4 +75,13 @@
         <item >SA</item>
         <item >SU</item>
     </string-array>
+    
+    <string-array name="sleep_time">
+        <item >10min</item>
+        <item >20min</item>
+        <item >30min</item>
+        <item >60min</item>
+        <item >90min</item>
+    </string-array>
+    
 </resources>

@@ -43,7 +43,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
-public class MusicPlayerActivity extends BaseActivity {
+public class MusicPlayerActivity extends BaseActivity{
 	public static final String EXTRA_MODE_TO_BE = "mode_to_be";
 	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; // 将要切换的模式
 	private PlayerManager playerManager;
@@ -433,6 +433,8 @@ public class MusicPlayerActivity extends BaseActivity {
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			super.destroyItem(container, position, object);
 		}
+		
+		
 	}
 
 	private boolean register;
@@ -490,4 +492,5 @@ public class MusicPlayerActivity extends BaseActivity {
 			unregisterReceiver(bluzBroadcaseReceiver);
 		}
 	}
+
 }

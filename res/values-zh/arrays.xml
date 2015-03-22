@@ -75,4 +75,12 @@
         <item >六</item>
         <item >日</item>
     </string-array>
+    
+     <string-array name="sleep_time">
+        <item >10分钟</item>
+        <item >20分钟</item>
+        <item >30分钟</item>
+        <item >60分钟</item>
+        <item >90分钟</item>
+    </string-array>
 </resources>

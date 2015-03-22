@@ -60,7 +60,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="16dp"
-            android:text="自动关灯倒计时中..."/>
+            android:text="@string/sleep_countdown"/>
     </LinearLayout>
 
     <LinearLayout
@@ -99,7 +99,6 @@
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
                 android:checked="true"
-                android:text="10分钟"
                 android:textColor="@color/color_blue"
                 android:textSize="16dp" />
 
@@ -108,7 +107,6 @@
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:text="20分钟"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -117,7 +115,6 @@
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:text="30分钟"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -126,7 +123,6 @@
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:text="60分钟"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -134,7 +130,6 @@
                 android:id="@+id/readioButton_button_90"
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
-                android:text="90分钟"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
         </RadioGroup>

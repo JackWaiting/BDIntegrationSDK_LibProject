@@ -89,5 +89,6 @@
     <string name="connect_toast">The application of related functions need to be connected with the Bluetooth to activate,\n whether it was a Bluetooth connection.</string>
     <string name="discon_connect">Do you want to disconnect？</string>
     <string name="bluetooth_discon_hint">The operation will disconnect the connection with the remote device.</string>
+    <string name="sleep_countdown">the countdown is going on...</string>
 
 </resources>

@@ -47,6 +47,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private int mColorTextNor;
 	private int time = 10;
 	private int TIME_GAP = 6;// 分6段减小音量
+	private String [] sleep_time;
 
 	private boolean mSleepMode = false;
 
@@ -66,6 +67,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		current = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		mLampManager = LampManager.getInstance(getApplicationContext());
+		sleep_time = getResources().getStringArray(R.array.sleep_time);
 	}
 
 	@Override
@@ -104,6 +106,11 @@ public class SleepAssistantActivity extends BaseActivity implements
 	public void initData()
 	{
 		mSleepTitleview.setRightBtnVisibility(false);
+		mButton10ReadioButton.setText(sleep_time[0]);
+		mButton20ReadioButton.setText(sleep_time[1]);
+		mButton30ReadioButton.setText(sleep_time[2]);
+		mButton60ReadioButton.setText(sleep_time[3]);
+		mButton90ReadioButton.setText(sleep_time[4]);
 	}
 
 	@Override

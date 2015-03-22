@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="enter_app">進入應用&gt;&gt;</string>
+	
+	<string-array name="sleep_time">
+        <item >10分鍾</item>
+        <item >20分鍾</item>
+        <item >30分鍾</item>
+        <item >60分鍾</item>
+        <item >90分鍾</item>
+    </string-array>
 </resources>
