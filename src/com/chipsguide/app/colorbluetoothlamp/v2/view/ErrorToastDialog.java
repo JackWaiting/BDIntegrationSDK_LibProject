@@ -18,7 +18,7 @@ public class ErrorToastDialog extends Dialog implements android.view.View.OnClic
 	
 	public ErrorToastDialog(Context context)
 	{
-		super(context);
+		this(context,0);
 		this.context = context;
 	}
 
@@ -49,10 +49,11 @@ public class ErrorToastDialog extends Dialog implements android.view.View.OnClic
 		switch (v.getId())
 		{
 		case R.id.imageview_error_ok:
-			context.startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
 			dismiss();
+			context.startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
 			break;
 		default:
+			dismiss();
 			break;
 		}
 	}

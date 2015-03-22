@@ -198,6 +198,10 @@ public class MainActivity extends BaseActivity implements
 		protected void onResume()
 		{
 			super.onResume();
+			if (this.mBluetoothDeviceManager != null)
+			{
+				this.mBluetoothDeviceManager.setForeground(true);
+			}
 			refreshBluetooth();
 		}
 		

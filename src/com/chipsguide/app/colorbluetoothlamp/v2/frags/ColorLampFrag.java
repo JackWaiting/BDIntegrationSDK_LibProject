@@ -20,7 +20,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChange
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, LampListener, OnClickListener,OnLongClickListener {
+		OnColorChangeListener, LampListener, OnClickListener,
+		OnLongClickListener {
 
 	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
@@ -101,7 +102,7 @@ public class ColorLampFrag extends BaseFragment implements
 		mColor03.setOnLongClickListener(this);
 		mColor04.setOnLongClickListener(this);
 		mColor05.setOnLongClickListener(this);
-		
+
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
 	}
@@ -109,7 +110,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onClick(View v)
 	{
-		if(v instanceof RadioGroup)
+		if (v instanceof RadioButton)
 		{
 			effect(v);
 		}
@@ -129,10 +130,10 @@ public class ColorLampFrag extends BaseFragment implements
 
 			break;
 		case R.id.view_color_5:
-//			mColor01.setImageResource(R.color.);
-//			mColor01.setImageBitmap(new Bitmap);
-//			mColor01.setImageDrawable(new BitmapDrawable());
-//			mPreference.saveLampColor1(color);
+			// mColor01.setImageResource(R.color.);
+			// mColor01.setImageBitmap(new Bitmap);
+			// mColor01.setImageDrawable(new BitmapDrawable());
+			// mPreference.saveLampColor1(color);
 			break;
 		}
 	}
@@ -165,7 +166,7 @@ public class ColorLampFrag extends BaseFragment implements
 		// 当前的灯效和快慢速度
 		mLampManager.setLampEffect(mEffect);
 	}
-	
+
 	@Override
 	public boolean onLongClick(View v)
 	{
@@ -194,16 +195,18 @@ public class ColorLampFrag extends BaseFragment implements
 	protected void initData()
 	{
 	}
-	
-	//目前是根据a2dp来判断是否连接上的，用spp判断目前还存在问题
-	//现在的问题是spp还没有连接上就开始获取了，所以，获取的是null
+
+	// 目前是根据a2dp来判断是否连接上的，用spp判断目前还存在问题
+	// 现在的问题是spp还没有连接上就开始获取了，所以，获取的是null
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		if(CustomApplication.isFirstConnect && (mLampManager.getBluetoothDevice() == null))
+		if (CustomApplication.isFirstConnect
+				&& (mLampManager.getBluetoothDevice() == null))
 		{
-			ToastIsConnectDialog toastDialog = new ToastIsConnectDialog(getActivity());
+			ToastIsConnectDialog toastDialog = new ToastIsConnectDialog(
+					getActivity());
 			toastDialog.show();
 			CustomApplication.isFirstConnect = false;
 		}
@@ -301,6 +304,9 @@ public class ColorLampFrag extends BaseFragment implements
 			break;
 		case BluetoothDeviceColorLampManager.Effect.CANDLE:
 			mButtonLightCandle.setChecked(true);
+			break;
+		default:
+			mButtonLightNormal.setChecked(true);
 			break;
 		}
 	}

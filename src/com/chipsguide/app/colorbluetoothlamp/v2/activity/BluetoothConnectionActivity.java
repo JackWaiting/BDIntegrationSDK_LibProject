@@ -105,7 +105,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
 		{
-			mBluetoothDeviceManager.setForeground(true);
 			bluetoothDeviceConnected = mBluetoothDeviceManager
 					.getBluetoothDeviceConnectedSpp();
 			mAdapter.setBluetooth(bluetoothDeviceConnected);
