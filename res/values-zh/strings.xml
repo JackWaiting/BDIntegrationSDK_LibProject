@@ -98,4 +98,6 @@
     <string name="connect_toast">此款应用相关功能需连接蓝牙才能激活，\n是否现在进行蓝牙连接。</string>
     <string name="discon_connect">断开连接？</string>
     <string name="bluetooth_discon_hint">此操作将会断开您与设备的连接：</string>
+    <string name="sleep_countdown">自动关灯倒计时中...</string>
+    <string name="bluetooth_disconnect">蓝牙断开</string>
 </resources>

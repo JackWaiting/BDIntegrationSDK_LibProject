@@ -103,6 +103,7 @@ public class WrapMusicFrag extends BaseFragment implements
 			if(!pause && plugTFCard){
 				refreshMusicFrag();
 			}
+			showToast(R.string.bluetooth_disconnect);
 			break;
 		}
 	}

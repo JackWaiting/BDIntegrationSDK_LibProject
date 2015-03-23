@@ -90,5 +90,6 @@
     <string name="discon_connect">Do you want to disconnect？</string>
     <string name="bluetooth_discon_hint">The operation will disconnect the connection with the remote device.</string>
     <string name="sleep_countdown">the countdown is going on...</string>
+    <string name="bluetooth_disconnect">Bluetooth disconnect</string>
 
 </resources>
