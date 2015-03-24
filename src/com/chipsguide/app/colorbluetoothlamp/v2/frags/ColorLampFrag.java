@@ -89,6 +89,7 @@ public class ColorLampFrag extends BaseFragment implements
 		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
 		mImageAddColor = (ImageView)this.findViewById(R.id.imageview_diy_addcolor);
 		mGridViewDIYColor.setAdapter(diyColorAdapter);
+		
 		mButtonLightNormal.setOnClickListener(this);
 		mButtonLightRainbow.setOnClickListener(this);
 		mButtonLightPusle.setOnClickListener(this);
@@ -196,7 +197,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onColorChangeEnd(int red, int green, int blue)
 	{
-		color = Color.argb(0, red, green, blue);
+		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
 		{ // 说明为白色
