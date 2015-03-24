@@ -120,7 +120,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 				animator.removeAllUpdateListeners();
 			}
 			animator = ValueAnimator.ofFloat(0, 360);
-			animator.setDuration(15000);
+			animator.setDuration(20000);
 			animator.setRepeatMode(ValueAnimator.RESTART);
 			animator.setRepeatCount(ValueAnimator.INFINITE);
 			animator.setInterpolator(new LinearInterpolator());

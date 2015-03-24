@@ -85,5 +85,5 @@
         android:background="@color/color_divider_line"
         android:layout_below="@+id/ok_del_layout"
         />
-
+    
 </RelativeLayout>
