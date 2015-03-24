@@ -127,11 +127,11 @@ public class ColorCircle extends RadioButton{
 
 	public void setWheelColorRes(int colorRes) {
 		int color = getContext().getResources().getColor(colorRes);
-		wheelPaint.setColor(color);
-		invalidate();
+		setWheelColor(color);
 	}
 
 	public void setWheelColor(int color) {
+		wheelColor = color;
 		wheelPaint.setColor(color);
 		invalidate();
 	}
@@ -142,11 +142,11 @@ public class ColorCircle extends RadioButton{
 
 	public void setStrokeColoRes(int colorRes) {
 		int color = getContext().getResources().getColor(colorRes);
-		strokePaint.setColor(color);
-		invalidate();
+		setStrokeColor(color);
 	}
 
 	public void setStrokeColor(int color) {
+		strokeColor = color;
 		strokePaint.setColor(color);
 		invalidate();
 	}
