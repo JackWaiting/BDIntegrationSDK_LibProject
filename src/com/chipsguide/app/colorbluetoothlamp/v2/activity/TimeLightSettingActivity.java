@@ -75,16 +75,18 @@ public class TimeLightSettingActivity extends BaseActivity {
 
 	private void initColorLayout() {
 		ColorSelectLayout colorSelectLayout = (ColorSelectLayout) findViewById(R.id.rg_color);
-		colorSelectLayout.setColorsRes(colorsRes);
 		colorSelectLayout.setOnColorCheckedChangeListener(new OnColorCheckedChangeListener() {
 			@Override
 			public void onColorChecked(int checkedColor, String colorStr) {
 				color = colorStr;
 			}
 		});
+		colorSelectLayout.setColorsRes(colorsRes);
 		if(alarmLightColor != null){
-			color = alarmLightColor.getColor();
-			colorSelectLayout.checkColor(Color.parseColor(color));
+			String color = alarmLightColor.getColor();
+			if(!TextUtils.isEmpty(color)){
+				colorSelectLayout.checkColor(Color.parseColor(color));
+			}
 		}
 	}
 
