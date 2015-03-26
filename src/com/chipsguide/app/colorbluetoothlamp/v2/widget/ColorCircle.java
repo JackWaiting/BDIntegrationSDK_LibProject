@@ -50,6 +50,8 @@ public class ColorCircle extends RadioButton{
 
 	private void init() {
 		setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+		//需要设置背景，否则在某些机型上不显示
+		setBackgroundColor(Color.TRANSPARENT);
 		wheelPaint = new Paint();
 		wheelPaint.setAntiAlias(true);
 		wheelPaint.setColor(wheelColor);
