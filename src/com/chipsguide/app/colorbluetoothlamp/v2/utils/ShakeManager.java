@@ -7,7 +7,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Vibrator;
-
+/**
+ * 摇一摇工具类
+ * @author chiemy
+ *
+ */
 public class ShakeManager implements SensorEventListener {
 	// 两次检测的时间间隔
 	private static final int UPTATE_INTERVAL_TIME = 2000;
@@ -22,6 +26,7 @@ public class ShakeManager implements SensorEventListener {
 	// 上次检测时间
 	private long lastUpdateTime;
 	private Vibrator vibrator;
+	private static final long [] VIBRATE_PATTERN = {100, 100, 100, 100}; //震动时间，停止时间，震动时间，……
 
 	// 构造器
 	private ShakeManager(Context c) {
@@ -108,12 +113,13 @@ public class ShakeManager implements SensorEventListener {
 				&& timeInterval > UPTATE_INTERVAL_TIME) {
 			lastUpdateTime = currentUpdateTime;
 			if (vibrate) {
-				vibrator.vibrate(new long[] { 100, 100}, -1);
+				vibrator.vibrate(VIBRATE_PATTERN, -1);
 			}
 			onShakeListener.onShake();
 		}
 	}
 
+	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
