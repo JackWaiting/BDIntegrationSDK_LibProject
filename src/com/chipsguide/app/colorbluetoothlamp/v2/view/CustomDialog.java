@@ -74,7 +74,7 @@ public class CustomDialog extends Dialog {
 		successIv = (ImageView) this.findViewById(R.id.iv_complete);
 		msgTv = (TextView) this.findViewById(R.id.tv_message);
 		msgTv.setText(msgText);
-		RotateAnimation anim = new RotateAnimation(359, 0,
+		RotateAnimation anim = new RotateAnimation(0, 359,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
 		anim.setInterpolator(new LinearInterpolator());
