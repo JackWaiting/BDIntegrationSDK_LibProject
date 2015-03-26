@@ -23,7 +23,7 @@
         <RadioButton
             android:id="@+id/rb_light"
             style="@style/bottom_nav_radioButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
@@ -33,7 +33,7 @@
         <RadioButton
             android:id="@+id/rb_music"
             style="@style/bottom_nav_radioButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/selector_rb_music"
@@ -42,7 +42,7 @@
         <RadioButton
             android:id="@+id/rb_shake"
             style="@style/bottom_nav_radioButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/selector_rb_shake"
