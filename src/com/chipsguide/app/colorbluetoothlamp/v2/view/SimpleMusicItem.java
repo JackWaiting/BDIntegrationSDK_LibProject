@@ -1,6 +1,8 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.view;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,11 +47,18 @@ public class SimpleMusicItem extends IMusicItemView {
 			durationTv.setText(StringFormatUtil.formatDuration(music.getDuration()));
 		}
 	}
-	
+	private AnimationDrawable anim;
 	public void setSelected(boolean playing) {
 		stateIv.setVisibility(View.VISIBLE);
 		if(playing){
-			stateIv.setBackgroundResource(R.anim.anim_playing);
+			Drawable drawable = stateIv.getBackground();
+			if(!(drawable instanceof AnimationDrawable)){
+				stateIv.setBackgroundResource(R.anim.anim_playing);
+				anim = (AnimationDrawable) stateIv.getBackground();
+			}
+			if(anim != null && !anim.isRunning()){
+				anim.start();
+			}
 		}else{
 			stateIv.setBackgroundResource(R.drawable.ic_music_playing);
 		}
