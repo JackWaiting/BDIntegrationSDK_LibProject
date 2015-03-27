@@ -105,6 +105,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
 		{
+			this.mBluetoothDeviceManager.setForeground(true);
 			bluetoothDeviceConnected = mBluetoothDeviceManager
 					.getBluetoothDeviceConnectedSpp();
 			mAdapter.setBluetooth(bluetoothDeviceConnected);
@@ -139,7 +140,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 
 		// a2dp连接中
 		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
-			createConnPD();
 			setText(R.string.audio_connectioning);
 			flog.d("A2DP_CONNECTING  a2dp连接中");
 			break;
@@ -273,7 +273,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void onBluetoothDeviceDiscoveryStarted()
 	{
-		createConnPD();
 	}
 
 	@Override
@@ -296,6 +295,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				{
 					if (this.listBluetooth != null)
 					{
+						createConnPD();
 						// 当点击连接的时候停止搜索
 						if (mBluetoothDeviceManager.isDiscovering())
 						{
@@ -349,6 +349,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				{
 					if (bluetoothDevice != null)
 					{
+						createConnPD();
 						// 当点击连接的时候停止搜索
 						if (mBluetoothDeviceManager.isDiscovering())
 						{
@@ -364,54 +365,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		}
 	}
 
-	/**
-	 * 加载动画
-	 */
-	public void createConnPD()
-	{
-		if (mConnectpd == null)
-		{
-			if (this.getParent() != null)
-			{
-				mConnectpd = new ConnectDialog(this.getParent(),
-						R.style.Dialog_Fullscreen);
-			} else
-			{
-				mConnectpd = new ConnectDialog(this, R.style.Dialog_Fullscreen);
-			}
-			showConnectPD();
-		} else
-		{
-			showConnectPD();
-		}
-	}
-
-	private void setText(int resId)
-	{
-		if (mConnectpd != null)
-		{
-			mConnectpd.setMessage(resId);
-		}
-
-	}
-
-	private void showConnectPD()
-	{
-		if (mConnectpd != null && !mConnectpd.isShowing())
-		{
-			mConnectpd.show();
-		}
-
-	}
-
-	public void dismissConnectPD()
-	{
-		if (mConnectpd != null && mConnectpd.isShowing())
-		{
-			mConnectpd.dismiss();
-			mConnectpd = null;
-		}
-	}
 	
 	Handler mHandler = new Handler()
 	{

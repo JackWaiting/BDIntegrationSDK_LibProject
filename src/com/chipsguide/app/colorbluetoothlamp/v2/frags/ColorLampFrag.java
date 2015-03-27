@@ -6,6 +6,12 @@ import java.util.List;
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -25,7 +31,7 @@ import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManag
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, LampListener, OnClickListener {
+		OnColorChangeListener, LampListener, OnClickListener,AnimationListener {
 
 	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
@@ -42,6 +48,9 @@ public class ColorLampFrag extends BaseFragment implements
 	private RadioButton mButtonLightCandle;
 	private GridView mGridViewDIYColor;
 	private ImageView mImageAddColor;
+	
+	private Animation shake;
+	private boolean isShake = false;
 	
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
@@ -90,6 +99,39 @@ public class ColorLampFrag extends BaseFragment implements
 		mImageAddColor = (ImageView)this.findViewById(R.id.imageview_diy_addcolor);
 		mGridViewDIYColor.setAdapter(diyColorAdapter);
 		
+		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);//加载动画资源文件
+		shake.setAnimationListener(this);
+		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+					long arg3)
+			{
+//				View view = (View)arg0.getItemAtPosition(position);
+			}
+		});
+		
+		mGridViewDIYColor.setOnItemLongClickListener(new OnItemLongClickListener()
+		{
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int position, long arg3)
+			{
+				View view = arg0.getChildAt(position);
+				if(!isShake)
+				{
+					view.startAnimation(shake);
+				}else
+				{
+					shake.cancel();
+				}
+				return false;
+			}
+		});
+		
+		
 		mButtonLightNormal.setOnClickListener(this);
 		mButtonLightRainbow.setOnClickListener(this);
 		mButtonLightPusle.setOnClickListener(this);
@@ -100,10 +142,13 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampOnCheckBox.setOnClickListener(this);
 		mImageAddColor.setOnClickListener(this);
 	}
+	
+	
 
 	@Override
 	public void onClick(View v)
 	{
+		shake.cancel();
 		if (v instanceof RadioButton)
 		{
 			effect(v);
@@ -184,14 +229,6 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onColorChange(int red, int green, int blue)
 	{
-		Color.RGBToHSV(red, green, blue, colorHSV);
-		if (colorHSV[0] == 0 && colorHSV[1] == 0)
-		{ // 说明为白色
-			float value = colorHSV[2];
-			int rank = (int) (value * 16); // 等级0-16
-			// TODO 调节等级
-			mLampManager.setBrightness(rank + 1);
-		}
 	}
 
 	@Override
@@ -275,6 +312,24 @@ public class ColorLampFrag extends BaseFragment implements
 			mButtonLightNormal.setChecked(true);
 			break;
 		}
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation)
+	{
+		isShake = false;
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation)
+	{
+		
+	}
+
+	@Override
+	public void onAnimationStart(Animation animation)
+	{
+		isShake = true;
 	}
 
 }
