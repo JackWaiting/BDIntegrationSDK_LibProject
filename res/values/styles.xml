@@ -62,6 +62,14 @@
         <item name="android:backgroundDimAmount">0.6</item> 
     </style>
     
+   <style name="full_screen">    
+    <item name="android:windowBackground">@android:color/transparent</item>    
+    <item name="android:windowNoTitle">true</item>    
+    <item name="android:windowFullscreen">true</item>  
+    <item name="android:windowIsTranslucent">true</item>       
+    <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>    
+  </style>
+    
     <style name="Dialog_Fullscreen_dim"
         parent="@style/Dialog_Fullscreen">
         <item name="android:windowIsTranslucent">true</item><!--半透明-->  

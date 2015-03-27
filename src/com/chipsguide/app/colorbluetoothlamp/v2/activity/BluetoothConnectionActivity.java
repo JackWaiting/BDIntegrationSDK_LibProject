@@ -20,7 +20,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManager
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
@@ -220,7 +219,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();
 			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
-					R.style.Dialog_Fullscreen);
+					R.style.full_screen);
 			toastDialog.show();
 			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;

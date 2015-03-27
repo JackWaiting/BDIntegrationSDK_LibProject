@@ -46,8 +46,8 @@ public class ColorLampFrag extends BaseFragment implements
 	private RadioButton mButtonLightPusle;
 	private RadioButton mButtonLightFlashing;
 	private RadioButton mButtonLightCandle;
-	private GridView mGridViewDIYColor;
-	private ImageView mImageAddColor;
+//	private GridView mGridViewDIYColor;
+//	private ImageView mImageAddColor;
 	
 	private Animation shake;
 	private boolean isShake = false;
@@ -94,42 +94,42 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);
 		
-		mGridViewDIYColor = (GridView)root.findViewById(R.id.gridview_diy_color);
-		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
-		mImageAddColor = (ImageView)this.findViewById(R.id.imageview_diy_addcolor);
-		mGridViewDIYColor.setAdapter(diyColorAdapter);
+//		mGridViewDIYColor = (GridView)root.findViewById(R.id.gridview_diy_color);
+//		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
+//		mImageAddColor = (ImageView)this.findViewById(R.id.imageview_diy_addcolor);
+//		mGridViewDIYColor.setAdapter(diyColorAdapter);
 		
 		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);//加载动画资源文件
 		shake.setAnimationListener(this);
-		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View v, int position,
-					long arg3)
-			{
-//				View view = (View)arg0.getItemAtPosition(position);
-			}
-		});
-		
-		mGridViewDIYColor.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View v,
-					int position, long arg3)
-			{
-				View view = arg0.getChildAt(position);
-				if(!isShake)
-				{
-					view.startAnimation(shake);
-				}else
-				{
-					shake.cancel();
-				}
-				return false;
-			}
-		});
+//		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
+//		{
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View v, int position,
+//					long arg3)
+//			{
+////				View view = (View)arg0.getItemAtPosition(position);
+//			}
+//		});
+//		
+//		mGridViewDIYColor.setOnItemLongClickListener(new OnItemLongClickListener()
+//		{
+//
+//			@Override
+//			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+//					int position, long arg3)
+//			{
+//				View view = arg0.getChildAt(position);
+//				if(!isShake)
+//				{
+//					view.startAnimation(shake);
+//				}else
+//				{
+//					shake.cancel();
+//				}
+//				return false;
+//			}
+//		});
 		
 		
 		mButtonLightNormal.setOnClickListener(this);
@@ -140,7 +140,7 @@ public class ColorLampFrag extends BaseFragment implements
 
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
-		mImageAddColor.setOnClickListener(this);
+//		mImageAddColor.setOnClickListener(this);
 	}
 	
 	
@@ -290,7 +290,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onLampRhythmChange(int rhythm)
 	{
-		flog.e("rhythm------" + rhythm);
+		flog.e("rhythm  " + rhythm);
 		switch (rhythm)
 		{
 		case BluetoothDeviceColorLampManager.Effect.NORMAL:
@@ -330,6 +330,12 @@ public class ColorLampFrag extends BaseFragment implements
 	public void onAnimationStart(Animation animation)
 	{
 		isShake = true;
+	}
+
+	@Override
+	public void onLampColor(int red, int green, int blue)
+	{
+		//mColorPicker.setColor(Color.rgb(red, green, blue));
 	}
 
 }
