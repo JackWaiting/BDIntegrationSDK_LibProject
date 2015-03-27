@@ -238,6 +238,10 @@ public class ColorLampFrag extends BaseFragment implements
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
 		{ // 说明为白色
+			float value = colorHSV[2];
+			int rank = (int) (value * 16); // 等级0-16
+			// TODO 调节等级
+			mLampManager.setBrightness(rank + 1);
 		} else
 		{
 			mLampManager.setColor(red, green, blue);
