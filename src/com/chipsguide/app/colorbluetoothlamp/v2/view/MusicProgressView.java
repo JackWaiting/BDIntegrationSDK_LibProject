@@ -93,9 +93,7 @@ public class MusicProgressView extends FrameLayout implements OnSeekArcChangeLis
 		if(TextUtils.isEmpty(url)){
 			return;
 		}
-		if(url.contains("http")){
-			imageLoader.displayImage(options, url, musicIv, 1, null);
-		}
+		imageLoader.displayImage(options, url, musicIv, 1, null);
 	}
 	
 	public void playStateChange(boolean playing) {

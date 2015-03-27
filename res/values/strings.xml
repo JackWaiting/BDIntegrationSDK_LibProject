@@ -76,7 +76,7 @@
     <string name="dismiss">Dismiss</string>
     <string name="time_up_">Time up!</string>
     <string name="current_setting">Current setting:</string>
-    <string name="loading_tf_music">Loading TF card music……%1$d%%</string>
+    <string name="loading_tf_music">Loading TF card music&#8230;%1$d%%</string>
     <string name="loading_tf_music_success">Load successfully!\n%1$d musics in total, loaded %2$d musics!</string>
     <string name="clear">Got it</string>
     <string name="enter_app">Enter&gt;&gt;</string>
@@ -89,7 +89,9 @@
     <string name="connect_toast">The application of related functions need to be connected with the Bluetooth to activate,\n whether it was a Bluetooth connection.</string>
     <string name="discon_connect">Do you want to disconnect？</string>
     <string name="bluetooth_discon_hint">The operation will disconnect the connection with the remote device.</string>
-    <string name="sleep_countdown">the countdown is going on...</string>
+    <string name="sleep_countdown">the countdown is going on&#8230;</string>
     <string name="bluetooth_disconnect">Bluetooth disconnect</string>
+    
+    <string name="buffering">Buffering&#8230;</string>
 
 </resources>
