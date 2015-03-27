@@ -102,7 +102,9 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	protected void initView() {
 		footer = new Footer4List(getActivity());
 		musicListLv = (ListView) findViewById(R.id.lv_musiclist);
-		musicListLv.addFooterView(footer);
+		if(getPlayType() != PlayType.Bluz){
+			musicListLv.addFooterView(footer);
+		}
 		musicListLv.setOnItemClickListener(this);
 		adapter = getAdapter();
 		if(adapter == null){
@@ -165,11 +167,14 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 				return;
 			}
 			adapter.setMusicList(new ArrayList<Music>());
+			if(dialog != null){
+				dialog.dismiss();
+				dialog = null;
+			}
 			dialog = new CustomDialog(getActivity(), R.style.Dialog_Fullscreen_dim);
 			String str = String.format(formatStr, 0);
 			dialog.setMessage(str);
 			dialog.show();
-			musicListLv.addFooterView(footer);
 			bluzDeviceManProxy.setOnBluetoothDeviceMuisicReadyListener(deviceMusicManagerReadyListener);
 			bluzDeviceManProxy.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
 		}else if(!isVisibleToUser && musicListLv != null){
@@ -200,7 +205,6 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 				
 				@Override
 				public void onLoadMusic(List<Music> musics, int prePosition) {
-					musicListLv.removeFooterView(footer);
 					adapter.setMusicList(musics);
 					selectedByTag(musics, filterTag);
 					loadFinished = true;
@@ -255,6 +259,15 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 			adapter.setSelected(prePosition);
 		}
 		adapter.setPlaying(playerManager.isPlaying());
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(dialog != null){
+			dialog.dismiss();
+			dialog = null;
+		}
 	}
 
 }

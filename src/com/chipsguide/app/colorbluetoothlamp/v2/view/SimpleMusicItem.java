@@ -16,7 +16,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 public class SimpleMusicItem extends IMusicItemView {
 	private ImageView stateIv;
 	private TextView artistTv, songNameTv, durationTv;
-	private AnimationDrawable anim;
 	
 	public SimpleMusicItem(Context context){
 		super(context);
@@ -26,8 +25,8 @@ public class SimpleMusicItem extends IMusicItemView {
 		artistTv = (TextView) findViewById(R.id.artist_tv);
 		durationTv = (TextView) findViewById(R.id.duration_tv);
 		durationTv.setVisibility(View.GONE);
-		Drawable drawable = stateIv.getDrawable();
-		anim = (AnimationDrawable) drawable;
+		//Drawable drawable = stateIv.getDrawable();
+		//anim = (AnimationDrawable) drawable;
 	}
 	
 	public void render(int index, final Music music, boolean blzDeviceMusic) {
@@ -48,20 +47,25 @@ public class SimpleMusicItem extends IMusicItemView {
 			durationTv.setText(StringFormatUtil.formatDuration(music.getDuration()));
 		}
 	}
-	
+	private AnimationDrawable anim;
 	public void setSelected(boolean playing) {
 		stateIv.setVisibility(View.VISIBLE);
 		if(playing){
-			anim.start();
+			Drawable drawable = stateIv.getBackground();
+			if(!(drawable instanceof AnimationDrawable)){
+				stateIv.setBackgroundResource(R.anim.anim_playing);
+				anim = (AnimationDrawable) stateIv.getBackground();
+			}
+			if(anim != null && !anim.isRunning()){
+				anim.start();
+			}
 		}else{
-			anim.stop();
+			stateIv.setBackgroundResource(R.drawable.ic_music_playing);
 		}
 	}
 	
 	public void disSelected() {
-		anim.stop();
 		stateIv.setVisibility(View.INVISIBLE);
 	}
-
 
 }

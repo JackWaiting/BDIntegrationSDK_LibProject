@@ -2,15 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
-     >
-     
-    <View 
+    android:orientation="vertical" >
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divider_line"
-        />
+        android:background="@color/color_divider_line" />
 
     <RelativeLayout
         android:id="@+id/repeate_layout"
@@ -26,56 +24,54 @@
             android:text="@string/repeate"
             android:textSize="@dimen/text_size_medium" />
 
-        <LinearLayout 
+        <LinearLayout
             android:id="@+id/layout_selected_days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/text_repeat"
             android:gravity="center"
-            android:orientation="horizontal"
-            >
-            
+            android:orientation="horizontal" >
         </LinearLayout>
     </RelativeLayout>
-    
-    <View 
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divider_line"
-        />
+        android:background="@color/color_divider_line" />
 
     <RelativeLayout
         android:id="@+id/light_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_btn_simple"
-        >
+        android:background="@drawable/selector_btn_simple" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/text_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/light"
-            android:textSize="@dimen/text_size_medium" 
-            android:padding="10dp" />
-        
-        <include 
+            android:textSize="@dimen/text_size_medium" />
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout
+            android:id="@+id/rg_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/layout_color_select"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text_light"
-            />
+            android:orientation="horizontal"
+           	android:gravity="center"
+             >
+        </com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout>
         
     </RelativeLayout>
-    
-    <View 
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divider_line"
-        />
+        android:background="@color/color_divider_line" />
 
     <RelativeLayout
         android:id="@+id/music_layout"
@@ -88,9 +84,9 @@
             android:id="@+id/myTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/music"
-            android:paddingLeft="5dp"
             android:layout_centerVertical="true"
+            android:paddingLeft="5dp"
+            android:text="@string/music"
             android:textSize="@dimen/text_size_medium" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
@@ -98,20 +94,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/myTextView1"
+            android:drawableRight="@drawable/ic_more"
+            android:gravity="right|center_vertical"
             android:text="@string/music"
             android:textColor="@color/color_dark_gray"
-            android:textSize="@dimen/text_size_secondary" 
-            android:layout_marginLeft="30dp"
-            android:gravity="right|center_vertical"
-            android:drawableRight="@drawable/ic_more"
-            />
+            android:textSize="@dimen/text_size_secondary" />
     </RelativeLayout>
-    
-    <View 
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divider_line"
-        />
+        android:background="@color/color_divider_line" />
 
 </LinearLayout>

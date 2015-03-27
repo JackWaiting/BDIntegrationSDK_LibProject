@@ -84,4 +84,14 @@
         <item >90min</item>
     </string-array>
     
+    <string-array name="colors">
+        <item >#ffffff</item>
+        <item >@color/color_orange</item>
+        <item >@color/color_pink</item>
+        <item >@color/color_purple</item>
+        <item >@color/color_green</item>
+        <item >@color/color_ching</item>
+        <item >@color/color_blue</item>
+    </string-array>
+    
 </resources>

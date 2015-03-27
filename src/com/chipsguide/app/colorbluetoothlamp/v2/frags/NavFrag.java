@@ -102,8 +102,6 @@ public class NavFrag extends BaseFragment {
 		public boolean onCheckResult(int status, boolean force,
 				VersionEntity entity) {
 			if (status != UpdateStatus.YES) {
-				
-			}else{
 				showToast(R.string.no_newversion);
 			}
 			return false;

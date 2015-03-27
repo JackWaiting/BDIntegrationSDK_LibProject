@@ -78,7 +78,7 @@
     <string name="current_setting">Current setting:</string>
     <string name="loading_tf_music">Loading TF card music……%1$d%%</string>
     <string name="loading_tf_music_success">Load successfully!\n%1$d musics in total, loaded %2$d musics!</string>
-    <string name="clear">Clear</string>
+    <string name="clear">Got it</string>
     <string name="enter_app">Enter&gt;&gt;</string>
     <string name="press_again_to_exist">Press again to exist!</string>
     <string name="audio_connectioning">Audio connectioning</string>
