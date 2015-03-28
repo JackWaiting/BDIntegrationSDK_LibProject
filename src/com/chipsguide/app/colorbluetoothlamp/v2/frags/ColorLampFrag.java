@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.GridViewDIYColorAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
@@ -339,7 +340,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onLampColor(int red, int green, int blue)
 	{
-		//mColorPicker.setColor(Color.rgb(red, green, blue));
+		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
 
 }
