@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <!-- 版本更新库相关 -->
-    <!-- 对话框标题 -->
-	<string name="UpdateTitle">發現新版本</string>
-	<!-- 对话框Message -->
-	<string name="UpdateMessage">發現新版本，立即更新?</string>
-	<!-- 对话框确认按钮文字 -->
-	<string name="UpdateNow">立即更新</string>
-	<!-- 对话框取消按钮文字 -->
-	<string name="NotNow">下次更新</string>
-	<!-- 通知栏内容文字 -->
-	<string name="AppUpdate">應用更新</string>
-	<!-- 下载完成 -->
-	<string name="DownloadFinished">下載完成</string>
-	<!-- 下载失败 -->
-	<string name="DownloadFailed">下載失敗</string>
-	<!-- 开始下载提示 -->
-	<string name="DownloadStart">下載開始</string>
-	<!-- 版本更新库结束 -->
-	
 	<string name="enter_app">進入應用&gt;&gt;</string>
 	
 	<string-array name="sleep_time">
@@ -55,7 +36,7 @@
     <string name="single_reapet">單曲循環</string>
     <string name="playlist">播放列表</string>
     <string name="hint_search_song">請輸入搜索內容</string>
-    <string name="text_loading">正在加載……</string>
+    <string name="text_loading">正在加載&#8230;</string>
     <string name="hint_loading_failed">加載失敗，請檢查網絡連接！</string>
     <string name="search_no_result">沒有搜索結果！</string>
     <string name="album_result">找專輯</string>
@@ -66,11 +47,11 @@
     <string name="toggle_light">開/關灯</string>
     <string name="play_pause">播放/暫停</string>
     <string name="next_song">下一曲</string>
-    <string name="loading_music">正在載入……</string>
+    <string name="loading_music">正在載入&#8230;</string>
     <string name="tf_card_has_plugin">TF卡已插入！</string>
     <string name="tf_card_has_plugout">TF卡已拔出！</string>
     <string name="keywords_cannot_be_null">搜索內容不能為空!</string>
-    <string name="check_new_version">正在檢測新版本……</string>
+    <string name="check_new_version">正在檢測新版本&#8230;</string>
     <string name="no_newversion">沒有新版本!</string>
     
     <string name="light_normal">無燈效</string>
@@ -111,7 +92,7 @@
     <string name="time_up_">時間到!</string>
     <string name="current_setting">當前設置:</string>
     
-    <string name="loading_tf_music">正在加載TF卡音樂，請稍後……%1$d%%</string>
+    <string name="loading_tf_music">正在加載TF卡音樂，請稍後&#8230;%1$d%%</string>
     <string name="loading_tf_music_success">加載成功!\n總共%1$d首歌曲, 加載了%2$d首歌曲!</string>
     <string name="clear">知道了</string>
     <string name="press_again_to_exist">再按一次退出應用!</string>
@@ -124,6 +105,8 @@
     <string name="connect_toast">此款應用相關功能需連接藍牙才能激活，\n是否現在進行藍牙連接。</string>
     <string name="discon_connect">斷開連接？</string>
     <string name="bluetooth_discon_hint">此操作將會斷開您與設備的連接：</string>
-    <string name="sleep_countdown">自動關燈倒計時中...</string>
+    <string name="sleep_countdown">自動關燈倒計時中&#8230;</string>
     <string name="bluetooth_disconnect">藍牙斷開</string>
+    
+    <string name="buffering">正在緩衝&#8230;</string>
 </resources>

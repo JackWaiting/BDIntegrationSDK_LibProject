@@ -727,15 +727,20 @@ public class PlayerManager {
 			BluetoothDeviceMusicSongEntity entity = deviceMusicManager
 					.getCurrentSong();
 			int index = entity.getIndex() - 1;
-			if (mPlayListener != null && index != currentPosition) {
-				currentPosition = index;
-				mPlayListener
-						.onMusicStart(entity.getIndex() + entity.getName());
-				mPlayListener.onMusicChange(entity.getIndex()
-						+ entity.getName());
+			if (mPlayListener != null) {
+				if(index != currentPosition){
+					currentPosition = index;
+					mPlayListener
+					.onMusicStart(entity.getIndex() + entity.getName());
+					mPlayListener.onMusicChange(entity.getIndex()
+							+ entity.getName());
+				}
 				mPlayListener.onLoopModeChanged(deviceMusicManager
 						.getCurrentLoopMode());
 			}
+		}else if(player != null){
+			//刷新下listener，为了获取现在是否在缓冲
+			player.setListener(localPlayerListener);
 		}
 	}
 

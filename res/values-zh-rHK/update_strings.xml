@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- 版本更新库相关 -->
+    <!-- 对话框标题 -->
+	<string name="UpdateTitle">發現新版本</string>
+	<!-- 对话框Message -->
+	<string name="UpdateMessage">發現新版本，立即更新?</string>
+	<!-- 对话框确认按钮文字 -->
+	<string name="UpdateNow">立即更新</string>
+	<!-- 对话框取消按钮文字 -->
+	<string name="NotNow">下次更新</string>
+	<!-- 通知栏内容文字 -->
+	<string name="AppUpdate">應用更新</string>
+	<!-- 下载完成 -->
+	<string name="DownloadFinished">下載完成</string>
+	<!-- 下载失败 -->
+	<string name="DownloadFailed">下載失敗</string>
+	<!-- 开始下载提示 -->
+	<string name="DownloadStart">下載開始</string>
+	<!-- 版本更新库结束 -->
+</resources>

@@ -309,7 +309,8 @@ public class MusicPlayerActivity extends BaseActivity{
 		@Override
 		public void onMusicBuffering(String musicSymbol, int percent) {
 			MusicPlayerActivity act = ref.get();
-			if (act != null) {
+			if (act != null && percent == 0) {
+				act.showToast(R.string.buffering);
 			}
 		}
 

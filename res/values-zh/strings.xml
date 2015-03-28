@@ -28,7 +28,7 @@
     <string name="single_reapet">单曲循环</string>
     <string name="playlist">播放列表</string>
     <string name="hint_search_song">请输入搜索内容</string>
-    <string name="text_loading">正在加载……</string>
+    <string name="text_loading">正在加载&#8230;</string>
     <string name="hint_loading_failed">加载失败，请检查网络连接！</string>
     <string name="search_no_result">没有搜索结果！</string>
     <string name="album_result">找专辑</string>
@@ -39,11 +39,11 @@
     <string name="toggle_light">开/关灯</string>
     <string name="play_pause">播放/暂停</string>
     <string name="next_song">下一曲</string>
-    <string name="loading_music">正在载入……</string>
+    <string name="loading_music">正在载入&#8230;</string>
     <string name="tf_card_has_plugin">TF卡已插入！</string>
     <string name="tf_card_has_plugout">TF卡已拔出！</string>
     <string name="keywords_cannot_be_null">搜索内容不能为空!</string>
-    <string name="check_new_version">正在检测新版本……</string>
+    <string name="check_new_version">正在检测新版本&#8230;</string>
     <string name="no_newversion">没有新版本!</string>
     
     <string name="light_normal">无灯效</string>
@@ -84,7 +84,7 @@
     <string name="time_up_">时间到!</string>
     <string name="current_setting">当前设置:</string>
     
-    <string name="loading_tf_music">正在加载TF卡音乐，请稍后……%1$d%%</string>
+    <string name="loading_tf_music">正在加载TF卡音乐，请稍后&#8230;%1$d%%</string>
     <string name="loading_tf_music_success">加载成功!\n总共%1$d首歌曲, 加载了%2$d首歌曲!</string>
     <string name="clear">知道了</string>
     <string name="enter_app">进入应用&gt;&gt;</string>
@@ -98,6 +98,8 @@
     <string name="connect_toast">此款应用相关功能需连接蓝牙才能激活，\n是否现在进行蓝牙连接。</string>
     <string name="discon_connect">断开连接？</string>
     <string name="bluetooth_discon_hint">此操作将会断开您与设备的连接：</string>
-    <string name="sleep_countdown">自动关灯倒计时中...</string>
+    <string name="sleep_countdown">自动关灯倒计时中&#8230;</string>
     <string name="bluetooth_disconnect">蓝牙断开</string>
+    
+    <string name="buffering">正在缓冲&#8230;</string>
 </resources>
