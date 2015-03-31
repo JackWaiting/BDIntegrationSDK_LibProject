@@ -23,15 +23,14 @@ import android.view.WindowManager;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
-import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
-import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.MusicCallback;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarm;
 import com.chipsguide.lib.timer.Alarms;
 import com.chipsguide.lib.timer.service.AlarmService;
@@ -116,12 +115,13 @@ public class AlarmAlertService extends AlarmService {
 		String ringTone = alarm.getAlarmTonePath();
 		if (!TextUtils.isEmpty(ringTone)) {
 			String[] arr = ringTone.split("\\|");
+			System.out.println(">>>>" + ringTone);
 			String type = arr[0];
 			PlayType playType = PlayType.valueOf(type);
 			if (playType == PlayType.Local) {
 				playLocalMusic(arr[2]);
 			} else {
-				Log.d("", arr[1]);
+				Log.d(">>>", arr[1]);
 				playBluzMusic(Integer.parseInt(arr[2]));
 			}
 		}
@@ -162,7 +162,10 @@ public class AlarmAlertService extends AlarmService {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * 播放蓝牙音乐
+	 * @param position
+	 */
 	private void playBluzMusic(final int position){
 		final PlayerManager playerManager = PlayerManager.getInstance(getApplicationContext());
 		playerManager.destroyLocalPlayer();
@@ -171,6 +174,7 @@ public class AlarmAlertService extends AlarmService {
 			@Override
 			public void onMusicManagerReady(
 					IBluetoothDeviceMusicManager manager, int mode) {
+				//选择歌曲无效？
 				manager.select(position);
 			}
 
@@ -178,6 +182,7 @@ public class AlarmAlertService extends AlarmService {
 			public void onMusicManagerReadyFailed(int mode) {
 			}
 		});
+		deviceMan.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
 	}
 
 	@Override
