@@ -54,6 +54,9 @@ public class SimpleMusicListAdapter extends IMusicListAdapter {
 	
 	@Override
 	public void setSelected(int position){
+		if(position > mList.size() - 1){
+			return;
+		}
 		if(preSelectedItem != null){
 			preSelectedItem.disSelected();
 		}
