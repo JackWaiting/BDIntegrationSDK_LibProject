@@ -186,6 +186,7 @@ public class PlayerManager {
 	 */
 	private void setPlayType(PlayType type) {
 		if(mType == PlayType.Local && player != null){
+			destroyBluzPlayer();
 			hasRecover = false;
 			preferenceUtil.savePhoneMusicCurrentDuration(player.getCurrentPlayPercent());
 		}
@@ -202,19 +203,10 @@ public class PlayerManager {
 	 */
 	private void selectePlayEngine(boolean play) {
 		if (mType == PlayType.Local || mType == PlayType.Net) {
-			if (deviceMusicManager != null) {
-				deviceMusicManager
-						.setOnBluetoothDeviceMusicLoopModeChangedListener(null);
-				deviceMusicManager
-						.setOnBluetoothDeviceMusicPlayStateChangedListener(null);
-				deviceMusicManager
-						.setOnBluetoothDeviceMusicSongChangedListener(null);
-				deviceMusicManager = null;
-			}
+			destroyBluzPlayer();
 			if(play){
 				BluetoothDeviceManagerProxy.changeToA2DPMode();
 			}
-			handler.removeCallbacks(progressRunnable);
 			if (player == null) {
 				player = LocalPlayer.getInstance(mContext);
 				player.setFadeVolumeWhenStartOrPause(true);
@@ -444,7 +436,7 @@ public class PlayerManager {
 	 * @param bltDeiviceMusicManager
 	 */
 	private void getBluzMusicList() {
-		if(cancelLoad){
+		if(cancelLoad || deviceMusicManager==null){
 			return;
 		}
 		int plistSize = mPlistEntitys.size() + startPosi;
@@ -1080,6 +1072,12 @@ public class PlayerManager {
 		cancelLoadBluetoothDeviceMusic();
 		handler.removeCallbacks(progressRunnable);
 		if (deviceMusicManager != null) {
+			deviceMusicManager
+					.setOnBluetoothDeviceMusicLoopModeChangedListener(null);
+			deviceMusicManager
+					.setOnBluetoothDeviceMusicPlayStateChangedListener(null);
+			deviceMusicManager
+					.setOnBluetoothDeviceMusicSongChangedListener(null);
 			if (isPlaying()) {
 				deviceMusicManager.pause();
 			}
