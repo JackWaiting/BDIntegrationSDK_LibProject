@@ -103,7 +103,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		if (getPlayType() == PlayType.Bluz) {
 			musicListLv.setOnScrollListener(scrollListener);
 		}
-		musicListLv.addFooterView(footer);
+		addFooterView();
 		musicListLv.setOnItemClickListener(this);
 		adapter = getAdapter();
 		if (adapter == null) {
@@ -112,8 +112,17 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		musicListLv.setAdapter(adapter);
 	}
 	
+	private boolean add;
 	protected void removeFooterView() {
+		add = false;
 		musicListLv.removeFooterView(footer);
+	}
+	
+	protected void addFooterView() {
+		if(!add){
+			add = true;
+			musicListLv.addFooterView(footer);
+		}
 	}
 
 	@Override

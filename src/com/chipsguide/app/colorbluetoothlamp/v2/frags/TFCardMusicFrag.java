@@ -55,6 +55,7 @@ public class TFCardMusicFrag extends SimpleMusicFrag implements SimpleMusicPlayL
 			if (bluzDeviceManProxy.isInMusicManagerMode() && loadFinished) {
 				return;
 			}
+			addFooterView();
 			adapter.setMusicList(new ArrayList<Music>());
 			if(loadAll){
 				showLoadingMusicDialog();
