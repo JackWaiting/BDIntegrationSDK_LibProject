@@ -38,7 +38,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
-		tf = BluetoothDeviceManagerProxy.getInstance(this).isPlugTFCard();
+		//tf = BluetoothDeviceManagerProxy.getInstance(this).isPlugTFCard();
 		soundPath = getIntent().getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
 	}
 
