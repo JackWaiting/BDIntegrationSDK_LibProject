@@ -490,8 +490,12 @@ public class BluetoothDeviceManagerProxy{
 			Log.d(TAG, ">>>Bluetooth Device Card Music Manager Ready");
 			deviceMusicManager = bluzDeviceMan
 					.getBluetoothDeviceCardMusicManager();
-			localMusicManagerlistener.onMusicManagerReady(deviceMusicManager,
-					deviceManagerMode);
+			if(deviceMusicManager == null){
+				localMusicManagerlistener.onMusicManagerReadyFailed(deviceManagerMode);
+			}else{
+				localMusicManagerlistener.onMusicManagerReady(deviceMusicManager,
+						deviceManagerMode);
+			}
 		}
 	};
 

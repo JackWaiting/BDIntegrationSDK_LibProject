@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -187,6 +188,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements OnItemClic
 	private OnDeviceMusicManagerReadyListener deviceMusicManagerReadyListener = new OnDeviceMusicManagerReadyListener() {
 		@Override
 		public void onMusicManagerReadyFailed(int mode) {
+			Log.e("SimpleMusicFrag", "onMusicManagerReadyFailed");
 		}
 		
 		@Override

@@ -1028,14 +1028,14 @@ public class PlayerManager {
 		}
 	}
 	public void destroyBluzPlayer(){
+		deviceMusicListhandler.removeCallbacks(runnable);
+		handler.removeCallbacks(progressRunnable);
 		if (deviceMusicManager != null) {
 			if (isPlaying()) {
 				deviceMusicManager.pause();
 			}
 			deviceMusicManager = null;
 		}
-		deviceMusicListhandler.removeCallbacks(runnable);
-		handler.removeCallbacks(progressRunnable);
 		if (mType == PlayType.Bluz) {
 			mType = null;
 		}
