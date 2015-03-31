@@ -3,4 +3,5 @@
     <issue id="FloatMath" severity="ignore" />
     <issue id="HandlerLeak" severity="ignore" />
     <issue id="InflateParams" severity="ignore" />
+    <issue id="NewApi" severity="ignore" />
 </lint>

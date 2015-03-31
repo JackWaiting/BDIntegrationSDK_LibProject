@@ -1,4 +1,6 @@
 <resources>
 
-   <dimen name="progress_padding">30dp</dimen>
+    <dimen name="progress_padding">30dp</dimen>
+    <dimen name="sleep_font_size">60dp</dimen>
+
 </resources>

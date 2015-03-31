@@ -75,8 +75,8 @@
             android:layout_height="wrap_content"
             android:button="@null"
             android:background="@drawable/selector_lamp_on_btn" />
-		<!-- <include 
-		    layout="@layout/layout_select_color"/> -->
+		<include 
+		    layout="@layout/layout_select_color"/>
     </LinearLayout>
 
 </LinearLayout>
