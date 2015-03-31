@@ -1,13 +1,9 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -21,29 +17,22 @@ import com.chipsguide.app.colorbluetoothlamp.v2.adapter.IMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SelectMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.MusicCallback;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.Footer4List;
-import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public abstract class SimpleMusicFrag extends BaseFragment implements
-		OnItemClickListener, SimpleMusicPlayListener {
+		OnItemClickListener, SimpleMusicPlayListener ,MusicCallback{
 	protected IMusicListAdapter adapter;
-	private PlayerManager playerManager;
+	protected PlayerManager playerManager;
 	private int prePosition = -1;
 	private boolean userClick;
-	private ListView musicListLv;
-	private BluetoothDeviceManagerProxy bluzDeviceManProxy;
+	protected ListView musicListLv;
 	private Footer4List footer;
 	protected String filterTag, formatStr, formatStrSuccess;
 	private OnItemSelectedListener mlistener;
-	private boolean loadFinished;
 
 	public interface OnItemSelectedListener {
 		void onItemSelected(SimpleMusicFrag frag, Music music, int position);
@@ -92,7 +81,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		int size = musics.size();
 		for (int i = 0; i < size; i++) {
 			Music music = musics.get(i);
-			if (getFilter(music).equals(filterTag)) {
+			if (getFilter(music).equals(tag)) {
 				adapter.setSelected(i);
 			}
 		}
@@ -104,7 +93,6 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		formatStrSuccess = getResources().getString(
 				R.string.loading_tf_music_success);
 		Context context = getActivity().getApplicationContext();
-		bluzDeviceManProxy = BluetoothDeviceManagerProxy.getInstance(context);
 		playerManager = PlayerManager.getInstance(context);
 	}
 
@@ -123,34 +111,40 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		}
 		musicListLv.setAdapter(adapter);
 	}
+	
+	protected void removeFooterView() {
+		musicListLv.removeFooterView(footer);
+	}
 
 	@Override
 	protected void initData() {
 		if (getPlayType() == PlayType.Local) {
-			playerManager.loadLocalMusic(new MusicCallback() {
-				@Override
-				public void onLoadCancel(int loaded, int total,
-						List<Music> loadedMusics) {
-				}
+			onLoadPlayList();
+		} 
+	}
+	/**
+	 * 在此方法内进行歌曲列表的加载
+	 */
+	public abstract void onLoadPlayList();
+	
+	@Override
+	public void onLoadMusic(List<Music> musics, int prePosition) {
+		adapter.setMusicList(musics);
+		adapter.setSelected(prePosition);
+		removeFooterView();
+		selectedByTag(musics, filterTag);
+	}
 
-				@Override
-				public void onLoadStart() {
-				}
+	@Override
+	public void onLoading(int loaded, int total) {
+	}
 
-				@Override
-				public void onLoading(int loaded, int total) {
-				}
+	@Override
+	public void onLoadStart() {
+	}
 
-				@Override
-				public void onLoadMusic(List<Music> musics, int prePosition) {
-					adapter.setMusicList(musics);
-					adapter.setSelected(prePosition);
-					musicListLv.removeFooterView(footer);
-					selectedByTag(musics, filterTag);
-				}
-			}, false);
-		} else if (getPlayType() == PlayType.Bluz) {
-		}
+	@Override
+	public void onLoadCancel(int loaded, int total, List<Music> loadedMusics) {
 	}
 
 	@Override
@@ -178,132 +172,6 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		startActivity(MusicPlayerActivity.class);
 	}
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		if (isVisibleToUser && bluzDeviceManProxy != null
-				&& getPlayType() == PlayType.Bluz) {
-			if (bluzDeviceManProxy.isInMusicManagerMode() && loadFinished) {
-				return;
-			}
-			adapter.setMusicList(new ArrayList<Music>());
-			//showLoadingMusicDialog();
-			bluzDeviceManProxy
-					.setOnBluetoothDeviceMuisicReadyListener(deviceMusicManagerReadyListener);
-			bluzDeviceManProxy
-					.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
-		} else if (!isVisibleToUser && musicListLv != null) {
-			//musicListLv.removeFooterView(footer);
-		}
-	}
-
-	private CustomDialog dialog;
-
-	private void showLoadingMusicDialog() {
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
-		dialog = new CustomDialog(getActivity(), R.style.Dialog_Fullscreen_dim);
-		dialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-			}
-		});
-		String str = String.format(formatStr, 0);
-		dialog.setMessage(str);
-		dialog.show();
-	}
-
-	
-	private IBluetoothDeviceMusicManager bluzMusicmanager;
-	private OnDeviceMusicManagerReadyListener deviceMusicManagerReadyListener = new OnDeviceMusicManagerReadyListener() {
-		@Override
-		public void onMusicManagerReadyFailed(int mode) {
-			Log.e("SimpleMusicFrag", "onMusicManagerReadyFailed");
-		}
-
-		@Override
-		public void onMusicManagerReady(IBluetoothDeviceMusicManager manager,
-				int mode) {
-			bluzMusicmanager = manager;
-			//loadAllBlzMusic(manager);
-			loadPageBlzMusic();
-		}
-	};
-	/**
-	 * 加载全部
-	 * @param manager
-	 */
-	private void loadAllBlzMusic(IBluetoothDeviceMusicManager manager) {
-		playerManager.loadBluetoothDeviceMusic(manager, new MusicCallback() {
-
-			public void onLoadStart() {
-			}
-
-			@Override
-			public void onLoading(int loaded, int total) {
-				String str = String.format(formatStr, (int) ((float) loaded
-						/ total * 100));
-				dialog.updateMessage(str);
-			}
-
-			@Override
-			public void onLoadMusic(List<Music> musics, int prePosition) {
-				adapter.setMusicList(musics);
-				selectedByTag(musics, filterTag);
-				loadFinished = true;
-				int size = musics.size();
-				String str = String.format(formatStrSuccess, size, size);
-				dialog.updateMessage(str);
-				dialog.dismiss(true, 3000);
-			}
-
-			public void onLoadCancel(int loaded, int total,
-					java.util.List<Music> loadedMusics) {
-
-			}
-
-		}, getActivity());
-	}
-
-	private List<Music> bluzMusics = new ArrayList<Music>();
-	private int startPosi;
-	private static final int EXPECT_SIZE = 10;
-	/**
-	 * 分页加载
-	 */
-	private void loadPageBlzMusic() {
-		playerManager.loadBluetoothDeviceMusic(startPosi, EXPECT_SIZE, bluzMusicmanager, new MusicCallback() {
-
-			public void onLoadStart() {
-			}
-
-			@Override
-			public void onLoading(int loaded, int total) {
-				
-			}
-
-			@Override
-			public void onLoadMusic(List<Music> musics, int prePosition) {
-				loadFinished = true;
-				bluzMusics.addAll(musics);
-				adapter.setMusicList(bluzMusics);
-				adapter.setSelected(prePosition);
-				startPosi = bluzMusics.size();
-				if (startPosi >= bluzMusicmanager.getSongSize()) {
-					musicListLv.removeFooterView(footer);
-				}
-				selectedByTag(musics, filterTag);
-			}
-
-			public void onLoadCancel(int loaded, int total,
-					java.util.List<Music> loadedMusics) {
-			}
-
-		}, getActivity());
-	}
-
 	private int lastItem;
 	/**
 	 * ListView滚动监听，实现加载更多
@@ -315,7 +183,7 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 				if (OnScrollListener.SCROLL_STATE_IDLE == scrollState
 						&& adapter != null
 						&& lastItem == adapter.getCount() + 1) {
-					loadPageBlzMusic();
+					onLoadPlayList();
 				}
 			}
 		}
@@ -368,15 +236,6 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 			adapter.setSelected(prePosition);
 		}
 		adapter.setPlaying(playerManager.isPlaying());
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
 	}
 
 }
