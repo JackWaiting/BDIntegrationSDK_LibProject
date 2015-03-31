@@ -103,7 +103,6 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		if (getPlayType() == PlayType.Bluz) {
 			musicListLv.setOnScrollListener(scrollListener);
 		}
-		addFooterView();
 		musicListLv.setOnItemClickListener(this);
 		adapter = getAdapter();
 		if (adapter == null) {
