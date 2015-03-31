@@ -16,6 +16,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SelectMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MyMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag.OnItemSelectedListener;
@@ -37,6 +38,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
+		tf = BluetoothDeviceManagerProxy.getInstance(this).isPlugTFCard();
 		soundPath = getIntent().getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
 	}
 
@@ -135,13 +137,13 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onItemSelected(SimpleMusicFrag frag, Music music) {
+	public void onItemSelected(SimpleMusicFrag frag, Music music, int position) {
 		switch (frag.getPlayType()) {
 		case Local:
 			soundPath = PlayType.Local.name() + "|" + music.getName() + "|" + music.getLocalPath();
 			break;
 		case Bluz:
-			soundPath = PlayType.Bluz.name() + "|" + music.getName();
+			soundPath = PlayType.Bluz.name() + "|" + music.getName() + "|" + position;
 			break;
 		default:
 			break;

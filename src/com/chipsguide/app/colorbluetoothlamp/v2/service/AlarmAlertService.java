@@ -23,10 +23,15 @@ import android.view.WindowManager;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
+import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.MusicCallback;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.timer.Alarm;
 import com.chipsguide.lib.timer.Alarms;
 import com.chipsguide.lib.timer.service.AlarmService;
@@ -117,6 +122,7 @@ public class AlarmAlertService extends AlarmService {
 				playLocalMusic(arr[2]);
 			} else {
 				Log.d("", arr[1]);
+				playBluzMusic(Integer.parseInt(arr[2]));
 			}
 		}
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
@@ -155,6 +161,23 @@ public class AlarmAlertService extends AlarmService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void playBluzMusic(final int position){
+		final PlayerManager playerManager = PlayerManager.getInstance(getApplicationContext());
+		playerManager.destroyLocalPlayer();
+		BluetoothDeviceManagerProxy deviceMan = BluetoothDeviceManagerProxy.getInstance(getApplicationContext());
+		deviceMan.setOnBluetoothDeviceMuisicReadyListener(new OnDeviceMusicManagerReadyListener(){
+			@Override
+			public void onMusicManagerReady(
+					IBluetoothDeviceMusicManager manager, int mode) {
+				manager.select(position);
+			}
+
+			@Override
+			public void onMusicManagerReadyFailed(int mode) {
+			}
+		});
 	}
 
 	@Override
