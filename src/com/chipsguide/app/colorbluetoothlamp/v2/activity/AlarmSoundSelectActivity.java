@@ -16,7 +16,6 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SelectMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MyMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag.OnItemSelectedListener;

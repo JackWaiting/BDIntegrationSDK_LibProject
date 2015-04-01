@@ -6,11 +6,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Vibrator;
+
 /**
  * 摇一摇工具类
+ * 
  * @author chiemy
- *
+ * 
  */
 public class ShakeManager implements SensorEventListener {
 	// 两次检测的时间间隔
@@ -26,7 +30,9 @@ public class ShakeManager implements SensorEventListener {
 	// 上次检测时间
 	private long lastUpdateTime;
 	private Vibrator vibrator;
-	private static final long [] VIBRATE_PATTERN = {100, 100, 100, 100}; //震动时间，停止时间，震动时间，……
+	private static final long[] VIBRATE_PATTERN = { 100, 100, 100, 100 }; // 震动时间，停止时间，震动时间，……
+	private SoundPool soundPool;
+	private int soundID;
 
 	// 构造器
 	private ShakeManager(Context c) {
@@ -42,9 +48,9 @@ public class ShakeManager implements SensorEventListener {
 			sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		}
 	}
-	
-	public static ShakeManager getInstance(Context context){
-		if(instance == null){
+
+	public static ShakeManager getInstance(Context context) {
+		if (instance == null) {
 			instance = new ShakeManager(context);
 		}
 		return instance;
@@ -61,13 +67,23 @@ public class ShakeManager implements SensorEventListener {
 		this.vibrate = vibrate;
 	}
 
+	/*
+	 * 
+	 */
+	public void setSoundRes(int resId) {
+		// 参数：1.同时播放的最大数量 2.类型 3.质量（暂时无效）
+		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 100);
+		// 参数:1.context 2.资源文件 3.优先级（暂时无效，为与将来兼容置为1）
+		soundID = soundPool.load(mContext, resId, 1);
+	}
+
 	/**
 	 * 开始接收晃动
 	 */
 	public void start() {
 		// 注册
 		if (sensor != null) {
-			//会造成UI卡顿，所以启动一个线程
+			// 会造成UI卡顿，所以启动一个线程
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -83,6 +99,9 @@ public class ShakeManager implements SensorEventListener {
 	 */
 	public void stop() {
 		sensorManager.unregisterListener(this);
+		if(soundPool != null){
+			soundPool.release();
+		}
 	}
 
 	/**
@@ -99,7 +118,8 @@ public class ShakeManager implements SensorEventListener {
 	 */
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER || onShakeListener == null) {
+		if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER
+				|| onShakeListener == null) {
 			return;
 		}
 		long currentUpdateTime = System.currentTimeMillis();
@@ -115,7 +135,14 @@ public class ShakeManager implements SensorEventListener {
 			if (vibrate) {
 				vibrator.vibrate(VIBRATE_PATTERN, -1);
 			}
-			onShakeListener.onShake();
+			if(soundID > 0){
+				// 1、Map中取值 2、左声道 3、右声道 4、优先级 5、重播次数（0不循环，-1无限循环）
+				// 6、播放速度(0.5-2, 1是正常速度)
+				soundPool.play(soundID, 1, 1, 1, 0, 1);
+			}
+			if(onShakeListener != null){
+				onShakeListener.onShake();
+			}
 		}
 	}
 
