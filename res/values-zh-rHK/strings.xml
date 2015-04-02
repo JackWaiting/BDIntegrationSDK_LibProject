@@ -110,4 +110,6 @@
     <string name="bluetooth_disconnect">藍牙斷開</string>
     
     <string name="buffering">正在緩衝&#8230;</string>
+    
+    <string name="exception_exit">很抱歉,程序出現異常,即將退出。</string>
 </resources>

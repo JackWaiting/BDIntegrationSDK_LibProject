@@ -123,11 +123,13 @@ public class ColorLampFrag extends BaseFragment implements
 			public boolean onItemLongClick(AdapterView<?> arg0, View v,
 					int position, long arg3)
 			{
-				View view = arg0.getChildAt(position);
 				if(!isShake)
 				{
 					diyColorAdapter.setVisility(true);
-					view.startAnimation(shake);
+					for(int i=0;i<arg0.getCount();i++)
+					{
+						arg0.getChildAt(i).startAnimation(shake);
+					}
 				}else
 				{
 					diyColorAdapter.setVisility(false);
@@ -171,6 +173,7 @@ public class ColorLampFrag extends BaseFragment implements
 			if(colors.size()>=4)
 			{
 				//超出范围
+				
 			}else
 			{
 				colors.add(color);

@@ -102,4 +102,5 @@
     <string name="bluetooth_disconnect">蓝牙断开</string>
     
     <string name="buffering">正在缓冲&#8230;</string>
+    <string name="exception_exit">很抱歉,程序出现异常,即将退出。</string>
 </resources>
