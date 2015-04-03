@@ -136,7 +136,7 @@ public class ShakeManager implements SensorEventListener {
 				vibrator.vibrate(VIBRATE_PATTERN, -1);
 			}
 			if(soundID > 0){
-				// 1、Map中取值 2、左声道 3、右声道 4、优先级 5、重播次数（0不循环，-1无限循环）
+				// 1.load方法返回值 2、左声道音量（0-1） 3、右声道音量 4、优先级 5、重播次数（0不循环，-1无限循环）
 				// 6、播放速度(0.5-2, 1是正常速度)
 				soundPool.play(soundID, 1, 1, 1, 0, 1);
 			}

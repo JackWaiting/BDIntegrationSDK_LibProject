@@ -115,7 +115,6 @@ public class AlarmAlertService extends AlarmService {
 		String ringTone = alarm.getAlarmTonePath();
 		if (!TextUtils.isEmpty(ringTone)) {
 			String[] arr = ringTone.split("\\|");
-			System.out.println(">>>>" + ringTone);
 			String type = arr[0];
 			PlayType playType = PlayType.valueOf(type);
 			if (playType == PlayType.Local) {
