@@ -85,7 +85,7 @@ public class BluetoothDeviceManagerProxy{
 	 * 是否为第一次（连接成功后）模式变化
 	 */
 	public static boolean firstModeChange = true;
-
+	
 	private Context context;
 	private BluetoothDeviceManagerProxy(Context context){
 		this.context = context;
@@ -308,6 +308,54 @@ public class BluetoothDeviceManagerProxy{
 		}
 	}
 	
+	public interface OnDeviceUiChangedListener{
+		void onVolumeChanged(boolean firstCallback, int volume, boolean on);
+	}
+	public static class SimpleDeviceUiChangedListener implements OnDeviceUiChangedListener{
+		@Override
+		public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
+		}
+	}
+	private OnDeviceUiChangedListener mDeviceUiChangedListener;
+	/**
+	 * 添加设备UI相关变化监听，如音量
+	 * 注：退出界面时，调用removeDeviceUiChangedListener
+	 * @param listener
+	 */
+	public void setDeviceUiChangedListener(OnDeviceUiChangedListener listener) {
+		mDeviceUiChangedListener = listener;
+		if(mDeviceUiChangedListener != null){
+			mDeviceUiChangedListener.onVolumeChanged(true, currentVolume, true);
+		}
+	}
+	/**
+	 * 移除
+	 */
+	public void removeDeviceUiChangedListener() {
+		mDeviceUiChangedListener = null;
+	}
+	
+	
+	private int currentVolume;
+	/**
+	 * 调节设备音量
+	 * @param volume 百分比，0 - 32;
+	 */
+	public void adjustVolume(int volume) {
+		if(bluzDeviceMan != null && isConnected()){
+			volume = Math.min(100, volume);
+			volume = Math.max(0, volume);
+			currentVolume = volume;
+			bluzDeviceMan.setVolume(volume);
+		}
+	}
+	/*
+	 * 获取设备音量
+	 */
+	public int getCurrentVolume() {
+		return currentVolume;
+	}
+	
 	/**
 	 * 添加连接状态改变监听
 	 * 
@@ -366,12 +414,14 @@ public class BluetoothDeviceManagerProxy{
 				usbPlugFirstCallback = true;
 				deviceMusicManager = null;
 				firstModeChange = true;
+				volumeFirstCallback = true;
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
 		}
 	};
 
+	private boolean volumeFirstCallback = true;
 	/**
 	 * 
 	 */
@@ -409,7 +459,14 @@ public class BluetoothDeviceManagerProxy{
 		}
 
 		@Override
-		public void onBluetoothDeviceVolumeChanged(int arg0, boolean arg1) {
+		public void onBluetoothDeviceVolumeChanged(int volume, boolean on) {
+			currentVolume = volume;
+			if(volumeFirstCallback){
+				volumeFirstCallback = false;
+			}
+			if(mDeviceUiChangedListener != null){
+				mDeviceUiChangedListener.onVolumeChanged(volumeFirstCallback, volume, on);
+			}
 		}
 
 	};
@@ -428,8 +485,8 @@ public class BluetoothDeviceManagerProxy{
 		}
 	}
 
-	boolean cardPlugFirstCallback = true;
-	boolean usbPlugFirstCallback = true;
+	private boolean cardPlugFirstCallback = true;
+	private boolean usbPlugFirstCallback = true;
 	private OnBluetoothDeviceHotplugChangedListener hotplugChangedListener = new OnBluetoothDeviceHotplugChangedListener() {
 
 		@Override
@@ -520,6 +577,7 @@ public class BluetoothDeviceManagerProxy{
 				bluzDeviceMan.cancelDiscovery();
 			}
 		}
+		removeDeviceUiChangedListener();
 		bluzDeviceMan = null;
 		disconnected();
 		deviceMusicManager = null;
