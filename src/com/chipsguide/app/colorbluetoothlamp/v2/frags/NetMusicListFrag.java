@@ -295,7 +295,13 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 	@Override
 	public void onMusicPlayStateChange(boolean playing) {
 		currentPosition = playerManager.getCurrentPosition();
-		adapter.setSelected(currentPosition, playing);
+		Music music = playerManager.getCurrentMusic();
+		currentMusic = adapter.getItem(currentPosition);
+		if(music != null && currentMusic != null){
+			if(TextUtils.equals(music.getPath(), currentMusic.getPath())){
+				adapter.setSelected(currentPosition, playing);
+			}
+		}
 	}
 
 
