@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -103,7 +105,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			@Override
 			public void run() {
 				Looper.prepare();
-				Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, mContext.getResources().getString(R.string.exception_exit), Toast.LENGTH_LONG).show();
 				Looper.loop();
 			}
 		}.start();

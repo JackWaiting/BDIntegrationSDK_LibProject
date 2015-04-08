@@ -94,5 +94,6 @@
     
     <string name="buffering">Buffering&#8230;</string>
     <string name="switch_mode">Switched to %1$s</string>
-
+    <string name="exception_exit">I\'m sorry, the program is abnormal, will exit.</string>
+    
 </resources>

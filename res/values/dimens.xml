@@ -16,5 +16,7 @@
 
     <integer name="shake_min_degree">-10</integer>
     <integer name="shake_max_degree">10</integer>
+    
+    <dimen name="sleep_font_size">55dp</dimen>
 
 </resources>

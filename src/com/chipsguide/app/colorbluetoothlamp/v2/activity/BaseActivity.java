@@ -29,8 +29,8 @@ import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SlidingFragmentActivity implements OnClickListener{
 	private Toast mToast;
-	protected ConnectDialog mConnectpd = null;
 	MyLogger flog = MyLogger.fLog();
+	protected ConnectDialog mConnectpd = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -193,6 +193,55 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+	
+	/**
+	 * 加载动画
+	 */
+	public void createConnPD()
+	{
+		if (mConnectpd == null)
+		{
+			if (this.getParent() != null)
+			{
+				mConnectpd = new ConnectDialog(this.getParent(),
+						R.style.Dialog_Fullscreen);
+			} else
+			{
+				mConnectpd = new ConnectDialog(this, R.style.Dialog_Fullscreen);
+			}
+			showConnectPD();
+		} else
+		{
+			showConnectPD();
+		}
+	}
+
+	public void setText(int resId)
+	{
+		if (mConnectpd != null)
+		{
+			mConnectpd.setMessage(resId);
+		}
+
+	}
+
+	public void showConnectPD()
+	{
+		if (mConnectpd != null && !mConnectpd.isShowing())
+		{
+			mConnectpd.show();
+		}
+
+	}
+
+	public void dismissConnectPD()
+	{
+		if (mConnectpd != null && mConnectpd.isShowing())
+		{
+			mConnectpd.dismiss();
+			mConnectpd = null;
+		}
 	}
 	
 }

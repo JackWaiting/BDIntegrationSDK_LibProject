@@ -1,0 +1,1 @@
+package com.chipsguide.app.colorbluetoothlamp.v2.utils;import android.graphics.Color;public class ColorUtil {	public static int int2Color(int red ,int green ,int blue)	{		if(red < 0)		{			red = 256+red;		}		if(green < 0)		{			green = 256+green;		}		if(blue < 0)		{			blue = 256+blue;		}		return Color.rgb(red, green, blue);	}	}
