@@ -104,4 +104,5 @@
     <string name="buffering">正在缓冲&#8230;</string>
     <string name="switch_mode">已切换到%1$s</string>
     <string name="exception_exit">很抱歉,程序出现异常,即将退出。</string>
+    <string name="about">关于</string>
 </resources>

@@ -7,6 +7,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.AboutActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
@@ -69,11 +70,7 @@ public class NavFrag extends BaseFragment {
 			startActivity(SleepAssistantActivity.class);
 			break;
 		case 3:
-			//startActivity(VersionUpdateActivity.class);
-			if(checkNetwork(true)){
-				checeNewVersion();
-				showToast(R.string.check_new_version);
-			}
+			startActivity(AboutActivity.class);
 			break;
 		}
 		if(mNavItemClickListener != null){
@@ -89,24 +86,5 @@ public class NavFrag extends BaseFragment {
 	public void setOnItemClickListener(OnNavItemClickListener listener){
 		mNavItemClickListener = listener;
 	}
-	
-
-	private void checeNewVersion() {
-		UpdateAgent.setOnCheckUpdateListener(checkUpdateListener);
-		UpdateAgent.setNotifycationVisibility(true);
-		UpdateAgent.checkUpdate(CustomApplication.APP_SIGN, getActivity());
-	}
-
-	private OnCheckUpdateListener checkUpdateListener = new OnCheckUpdateListener() {
-		@Override
-		public boolean onCheckResult(int status, boolean force,
-				VersionEntity entity) {
-			if (status != UpdateStatus.YES) {
-				showToast(R.string.no_newversion);
-			}
-			return false;
-		}
-	};
-
 	
 }

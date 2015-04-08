@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/color_gray"
+    >
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightBtnVisibility="false"
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/about" >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:text="" />
+
+    <RelativeLayout
+        android:id="@+id/item_version_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_app_version"
+        android:background="@drawable/about_item_bg" 
+        android:padding="10dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_text_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version_update" 
+            android:textSize="@dimen/text_size_medium"
+            />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="" 
+            android:textSize="@dimen/text_size_secondary"
+            android:textColor="@color/color_dark_gray"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
