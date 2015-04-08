@@ -297,6 +297,8 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 		currentPosition = playerManager.getCurrentPosition();
 		Music music = playerManager.getCurrentMusic();
 		currentMusic = adapter.getItem(currentPosition);
+		//回调此方法，会标记与正在播放的专辑的歌曲处于同一位置的歌曲为播放状态。
+		//在此判断一下歌曲的地址是否相同，防止上述情况。（播放列表应该加一个标签，根据标签判断，后续再修改、优化）
 		if(music != null && currentMusic != null){
 			if(TextUtils.equals(music.getPath(), currentMusic.getPath())){
 				adapter.setSelected(currentPosition, playing);
