@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -25,6 +23,8 @@ import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.

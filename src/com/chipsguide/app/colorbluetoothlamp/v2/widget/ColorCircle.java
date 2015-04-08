@@ -1,7 +1,5 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.widget;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,6 +9,8 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.widget.RadioButton;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.R;
 
 public class ColorCircle extends RadioButton{
 	private static final int DEF_COLOR = Color.GRAY;
