@@ -67,10 +67,12 @@ public class ShakeManager implements SensorEventListener {
 		this.vibrate = vibrate;
 	}
 
+	private int resId;
 	/*
 	 * 
 	 */
 	public void setSoundRes(int resId) {
+		this.resId = resId;
 		// 参数：1.同时播放的最大数量 2.类型 3.质量（暂时无效）
 		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 100);
 		// 参数:1.context 2.资源文件 3.优先级（暂时无效，为与将来兼容置为1）
@@ -92,6 +94,7 @@ public class ShakeManager implements SensorEventListener {
 				}
 			}).start();
 		}
+		setSoundRes(resId);
 	}
 
 	/*
