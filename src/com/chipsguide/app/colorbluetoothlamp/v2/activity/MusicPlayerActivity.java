@@ -338,10 +338,11 @@ public class MusicPlayerActivity extends BaseActivity{
 		int res = PlayUtil.nextModeRes();
 		playmodeBtn.setImageResource(res);
 		int textRes = PlayUtil.getCurrentModeTextRes();
-		showToast(textRes);
 		playerManager.changePlaymode(PlayUtil.getModeWithRes(res));
 		PreferenceUtil.getIntance(getApplicationContext()).savePlayMode(
 				PlayUtil.getCurrentModeIndex());
+		
+		titleView.setToastText(String.format(getString(R.string.switch_mode), getString(textRes)));
 	}
 
 	@Override

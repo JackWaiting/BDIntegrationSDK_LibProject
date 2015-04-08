@@ -109,4 +109,5 @@
     <string name="bluetooth_disconnect">藍牙斷開</string>
     
     <string name="buffering">正在緩衝&#8230;</string>
+    <string name="switch_mode">已切換到%1$s</string>
 </resources>

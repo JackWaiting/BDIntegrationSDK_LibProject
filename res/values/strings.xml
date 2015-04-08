@@ -93,5 +93,6 @@
     <string name="bluetooth_disconnect">Bluetooth disconnect</string>
     
     <string name="buffering">Buffering&#8230;</string>
+    <string name="switch_mode">Switched to %1$s</string>
 
 </resources>

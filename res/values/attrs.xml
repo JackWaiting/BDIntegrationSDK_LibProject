@@ -7,6 +7,7 @@
         <attr name="text" format="string" />
         <attr name="rightBtnVisibility" format="boolean"/>
         <attr name="marque" format="boolean"></attr>
+        <attr name="showToastTv" format="boolean"></attr>
     </declare-styleable>
     <declare-styleable name="HeaderGridView">
         <attr name="customNumColumns" format="integer"></attr>
