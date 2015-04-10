@@ -96,5 +96,6 @@
     <string name="switch_mode">Switched to %1$s</string>
     <string name="exception_exit">I\'m sorry, the program is abnormal, will exit.</string>
     <string name="about">About</string>
+    <string name="reach_max_alarm_reminder">10 alarms at most, Can\'t add more!</string>
     
 </resources>

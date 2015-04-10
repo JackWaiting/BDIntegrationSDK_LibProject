@@ -103,7 +103,7 @@ public class TitleView extends FrameLayout {
 	private void initAnimation() {
 		set = new AnimationSet(true);
 		TranslateAnimation animIn = getTransAnim(0, 1, 400, 0);
-		TranslateAnimation animOut = getTransAnim(0, -1, 400, 1400);
+		TranslateAnimation animOut = getTransAnim(0, -1, 400, 400 + holdTime);
 		set.addAnimation(animIn);
 		set.addAnimation(animOut);
 	}
@@ -116,6 +116,16 @@ public class TitleView extends FrameLayout {
 		transAnim.setFillEnabled(true);  
 		transAnim.setFillAfter(true);
 		return transAnim;
+	}
+	
+	private long holdTime = 1000;
+	/**
+	 * 设置提示停留时间
+	 * @param timeMillions
+	 */
+	public void setHoldTime(long timeMillions) {
+		holdTime = timeMillions;
+		initAnimation();
 	}
 	
 	/*
