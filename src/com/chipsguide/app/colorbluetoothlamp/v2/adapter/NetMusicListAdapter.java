@@ -80,6 +80,9 @@ public class NetMusicListAdapter extends IMusicListAdapter{
 
 	@Override
 	public Music getItem(int position) {
+		if(position > getCount() - 1){
+			return null;
+		}
 		return musics.get(position);
 	}
 

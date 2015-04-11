@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:background="#55000000"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+             >
 			
             <RadioButton
                 android:id="@+id/readioButton_button_light_normal"

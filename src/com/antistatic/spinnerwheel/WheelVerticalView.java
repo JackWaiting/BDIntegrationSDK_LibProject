@@ -27,6 +27,7 @@ package com.antistatic.spinnerwheel;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.util.AttributeSet;
@@ -143,6 +144,11 @@ public class WheelVerticalView extends AbstractWheelView {
             int c2 = Math.round( c2f ) << 24;
             int c3 = Math.round( c3f ) << 24;
 
+          //添加
+            c1 = 0x33000000;
+            c2 = 0x33000000;
+            c3 = 0x33000000;
+            
             int[] colors =      {0, c3, c2, c1, 0xff000000, 0xff000000, c1, c2, c3, 0};
             //int[] colors =      {0, c3, c2, c1, Color.parseColor("#FFFAFA"), Color.parseColor("#FFFAFA"), c1, c2, c3, 0};
             float[] positions = {0, p3, p3, p1,     p1,         p2,     p2, p4, p4, 1};

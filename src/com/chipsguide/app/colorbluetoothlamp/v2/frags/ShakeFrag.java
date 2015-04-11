@@ -31,6 +31,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	protected void initBase() {
 		Context context = getActivity().getApplicationContext();
 		shakeUtil = ShakeManager.getInstance(getActivity());
+		shakeUtil.setSoundRes(R.raw.shake);
 		shakeUtil.setOnShakeListener(this);
 		playerManager = PlayerManager.getInstance(context);
 		mLampManager = LampManager.getInstance(getActivity());

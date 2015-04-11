@@ -37,6 +37,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
+		//tf = BluetoothDeviceManagerProxy.getInstance(this).isPlugTFCard();
 		soundPath = getIntent().getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
 	}
 
@@ -119,11 +120,22 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onPageSelected(int arg0) {
+	public void onPageSelected(int posi) {
+		topNavRg.check(posi == 0 ? R.id.rb_my_music : R.id.rb_tf_card_music);
 	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		switch (checkedId) {
+		case R.id.rb_my_music:
+			viewPager.setCurrentItem(0);
+			break;
+		case R.id.rb_tf_card_music:
+			viewPager.setCurrentItem(1);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -135,13 +147,13 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onItemSelected(SimpleMusicFrag frag, Music music) {
+	public void onItemSelected(SimpleMusicFrag frag, Music music, int position) {
 		switch (frag.getPlayType()) {
 		case Local:
 			soundPath = PlayType.Local.name() + "|" + music.getName() + "|" + music.getLocalPath();
 			break;
 		case Bluz:
-			soundPath = PlayType.Bluz.name() + "|" + music.getName();
+			soundPath = PlayType.Bluz.name() + "|" + music.getName() + "|" + position;
 			break;
 		default:
 			break;

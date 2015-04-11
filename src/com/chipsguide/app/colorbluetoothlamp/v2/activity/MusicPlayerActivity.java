@@ -4,11 +4,11 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -27,6 +27,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.SimpleDeviceUiChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
@@ -40,10 +41,11 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
+import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
-public class MusicPlayerActivity extends BaseActivity{
+public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDeviceConnectionStateChangedListener{
 	public static final String EXTRA_MODE_TO_BE = "mode_to_be";
 	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; // 将要切换的模式
 	private PlayerManager playerManager;
@@ -60,14 +62,17 @@ public class MusicPlayerActivity extends BaseActivity{
 	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
 	private SeekBar volumeSeekBar;
-	private AudioManager audioManager;
+	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private static final int VOLUME_FACTOR = 1;
+	private static final int MAX_VOLUME = 32;
+	private int currentVolume;
 
 	private List<View> views = new ArrayList<View>();
 
 	@Override
 	public void initBase() {
-		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		blzDeviceProxy = BluetoothDeviceManagerProxy.getInstance(getApplicationContext());
+		blzDeviceProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 		modeTobe = getIntent().getIntExtra(EXTRA_MODE_TO_BE, modeTobe);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		int index = PreferenceUtil.getIntance(getApplicationContext())
@@ -107,8 +112,7 @@ public class MusicPlayerActivity extends BaseActivity{
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				if(fromUser){
-					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							progress / VOLUME_FACTOR, 0);
+					setVolume(progress/VOLUME_FACTOR);
 				}
 			}
 		});
@@ -118,11 +122,25 @@ public class MusicPlayerActivity extends BaseActivity{
 	}
 
 	private void initVolume() {
-		int maxVolume = audioManager
-				.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		volumeSeekBar.setMax(maxVolume * VOLUME_FACTOR);
-		volumeSeekBar.setProgress(audioManager
-				.getStreamVolume(AudioManager.STREAM_MUSIC) * VOLUME_FACTOR);
+		if(!blzDeviceProxy.isConnected()){
+			findViewById(R.id.volume_layout).setVisibility(View.INVISIBLE);
+			return;
+		}
+		findViewById(R.id.volume_layout).setVisibility(View.VISIBLE);
+		blzDeviceProxy.setDeviceUiChangedListener(new SimpleDeviceUiChangedListener(){
+			@Override
+			public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
+				currentVolume = volume;
+				volumeSeekBar.setProgress(volume);
+			}
+		});
+		volumeSeekBar.setMax(MAX_VOLUME * VOLUME_FACTOR);
+		volumeSeekBar.setProgress(blzDeviceProxy.getCurrentVolume() * VOLUME_FACTOR);
+	}
+	
+	
+	private void setVolume(int volume) {
+		blzDeviceProxy.adjustVolume(volume);
 	}
 
 	private void initPagerView() {
@@ -177,7 +195,6 @@ public class MusicPlayerActivity extends BaseActivity{
 	private void initForType() {
 		PlayType type = PlayerManager.getPlayType();
 		if (type != null && type == PlayType.Net) {
-
 		} else if (type != null && type == PlayType.Bluz) {
 			progressLayout.setSeekable(false);
 		} else if (type == null) {
@@ -338,10 +355,11 @@ public class MusicPlayerActivity extends BaseActivity{
 		int res = PlayUtil.nextModeRes();
 		playmodeBtn.setImageResource(res);
 		int textRes = PlayUtil.getCurrentModeTextRes();
-		showToast(textRes);
 		playerManager.changePlaymode(PlayUtil.getModeWithRes(res));
 		PreferenceUtil.getIntance(getApplicationContext()).savePlayMode(
 				PlayUtil.getCurrentModeIndex());
+		
+		titleView.setToastText(String.format(getString(R.string.switch_mode), getString(textRes)));
 	}
 
 	@Override
@@ -476,11 +494,16 @@ public class MusicPlayerActivity extends BaseActivity{
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_VOLUME_UP:
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					keyCode == KeyEvent.KEYCODE_VOLUME_UP ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER,
-					0);
-			volumeSeekBar.setProgress(audioManager
-					.getStreamVolume(AudioManager.STREAM_MUSIC) * VOLUME_FACTOR);
+			if(!blzDeviceProxy.isConnected()){
+				return super.onKeyDown(keyCode, event);
+			}
+			if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+				currentVolume = Math.min(MAX_VOLUME, ++currentVolume);
+			}else{
+				currentVolume = Math.max(0, --currentVolume);
+			}
+			//volumeSeekBar.setProgress(currentVolume * VOLUME_FACTOR);
+			setVolume(currentVolume);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -489,9 +512,16 @@ public class MusicPlayerActivity extends BaseActivity{
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		blzDeviceProxy.removeDeviceUiChangedListener();
 		if (register) {
 			unregisterReceiver(bluzBroadcaseReceiver);
 		}
+	}
+
+	@Override
+	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice arg0,
+			int state) {
+		initVolume();
 	}
 
 }

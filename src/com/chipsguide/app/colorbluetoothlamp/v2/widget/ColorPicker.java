@@ -47,9 +47,8 @@ public class ColorPicker extends View {
 	/**
 	 * Customizable display parameters (in percents)
 	 */
-	private final int paramOuterPadding = 3; // 弧形的外
-	private final int paramInnerPadding = 7; // distance between value slider
-												// wheel and inner color wheel
+	private final int paramOuterPadding = 3; // 弧形的外边距占控件的百分比
+	private final int paramInnerPadding = 7; // 弧形内边距占控件的百分比
 	private final int paramValueSliderWidth = 2; // width of the value slider
 
 	private Paint colorWheelPaint;
@@ -103,8 +102,10 @@ public class ColorPicker extends View {
 		init();
 	}
 
+	private int offset; //弧形两侧的图片距离弧形底部的距离
 	private void init() {
-
+		offset = PixelUtil.dp2px(25, getContext());
+		
 		colorPointerPaint = new Paint();
 		colorPointerPaint.setStyle(Style.FILL);
 		colorPointerPaint.setARGB(200, 255, 255, 255);
@@ -223,7 +224,6 @@ public class ColorPicker extends View {
 	}
 
 	private void drawDrawable(Canvas canvas) {
-		int offset = PixelUtil.dp2px(25, getContext());
 		canvas.save();
 		canvas.translate(getWidth() / 2 + thumbRadius, getHeight() / 2 + offset);
 		sun.draw(canvas);
@@ -282,6 +282,9 @@ public class ColorPicker extends View {
 		valueSliderPath.arcTo(outerWheelRect, 180, 180);
 		valueSliderPath.arcTo(innerWheelRect, 0, -180);
 
+		minValidateTouchArcRadius = innerWheelRadius - padding;
+		maxValidateTouchArcRadius = outerWheelRadius + padding;
+		yMaxTouchValidateRange = (getHeight() / 2 + padding + offset);
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -329,32 +332,20 @@ public class ColorPicker extends View {
 		case MotionEvent.ACTION_DOWN:
 			if(isTouchArc(x, y)){
 				downOnArc = true;
+				updateArc(x, y);
 				return true;
 			}else if(isTouchColorWheel(x, y)){
 				downOnWheel = true;
+				updateWheelColor(x, y);
 				return true;
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
-
-			int cx = x - getWidth() / 2;
-			int cy = y - getHeight() / 2;
-			double d = Math.sqrt(cx * cx + cy * cy);
-
 			if (downOnWheel && isTouchColorWheel(x, y)) {
-
-				colorHSV[0] = (float) (Math.toDegrees(Math.atan2(cy, cx)) + 180f);
-				colorHSV[1] = Math.max(0f,
-						Math.min(1f, (float) (d / colorWheelRadius)));
-
-				invalidate();
+				updateWheelColor(x, y);
 				return true;
-			} else if (downOnArc && y <= getHeight() / 2) {
-				cy = Math.abs(cy);
-				colorHSV[2] = (float) Math.max(0,
-						Math.min(1, 1 - Math.atan2(cy, cx) / Math.PI));
-				updateThumbPosition();
-				invalidate();
+			} else if (downOnArc && y <= yMaxTouchValidateRange) {
+				updateArc(x, y);
 				return true;
 			}
 
@@ -374,11 +365,44 @@ public class ColorPicker extends View {
 		}
 		return super.onTouchEvent(event);
 	}
+	
+	/**
+	 * 更新色盘
+	 * @param x 点击x坐标
+	 * @param y 点击y坐标
+	 */
+	private void updateWheelColor(int x, int y) {
+		int cx = x - getWidth() / 2;
+		int cy = y - getHeight() / 2;
+		double d = Math.hypot(cx, cy);
+		colorHSV[0] = (float) (Math.toDegrees(Math.atan2(cy, cx)) + 180f);
+		colorHSV[1] = Math.max(0f,
+				Math.min(1f, (float) (d / colorWheelRadius)));
+		invalidate();
+	}
+	/**
+	 * 更新进度
+	 * @param x 点击x坐标
+	 * @param y 点击y坐标
+	 */
+	private void updateArc(int x, int y) {
+		int cx = x - getWidth() / 2;
+		int cy = y - getHeight() / 2;
+		cy = Math.min(0, cy);
+		cy = Math.abs(cy);
+		colorHSV[2] = (float) Math.max(0,
+				Math.min(1, 1 - Math.atan2(cy, cx) / Math.PI));
+		updateThumbPosition();
+		invalidate();
+	}
 
+	private int minValidateTouchArcRadius; // 最小有效点击半径
+	private int maxValidateTouchArcRadius; // 最大有效点击半径
+	private int yMaxTouchValidateRange; // y轴上点击的有效范围
 	private boolean isTouchArc(int x, int y) {
 		double d = getTouchRadius(x, y);
-		if (y <= getHeight() / 2 && d >= (innerWheelRadius - padding)
-				&& d <= (outerWheelRadius + padding)) {
+		if (y <= yMaxTouchValidateRange && d >= minValidateTouchArcRadius
+				&& d <= maxValidateTouchArcRadius) {
 			return true;
 		}
 		return false;
@@ -395,7 +419,7 @@ public class ColorPicker extends View {
 	private double getTouchRadius(int x, int y) {
 		int cx = x - getWidth() / 2;
 		int cy = y - getHeight() / 2;
-		return Math.sqrt(cx * cx + cy * cy);
+		return Math.hypot(cx, cy);
 	}
 
 	public void setColor(int color) {

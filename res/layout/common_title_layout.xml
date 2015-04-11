@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
     android:background="@color/color_title_bg"
-    >
-    
+    android:clipChildren="false" >
+
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/title_tv"
+        style="@style/text_marquee_forever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@android:color/white"
-        style="@style/text_marquee_forever"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/left_btn"
@@ -22,10 +21,9 @@
         android:layout_alignBottom="@+id/right_btn"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/right_btn"
-        android:paddingRight="20dp"
-        android:paddingLeft="10dp"
         android:onClick="onClick"
-         />
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp" />
 
     <ImageView
         android:id="@+id/right_btn"
@@ -33,12 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
         android:onClick="onClick"
-        android:paddingRight="10dp"
+        android:paddingBottom="7dp"
         android:paddingLeft="10dp"
-        />
+        android:paddingRight="10dp"
+        android:paddingTop="7dp" />
 
     <ImageView
         android:id="@+id/line"
@@ -46,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/right_btn"
         android:background="@drawable/line_title"
-        android:scaleType="fitXY"
-        />
+        android:scaleType="fitXY" />
 
 </RelativeLayout>

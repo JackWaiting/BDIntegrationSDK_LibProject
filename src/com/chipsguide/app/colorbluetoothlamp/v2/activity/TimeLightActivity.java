@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,6 +30,11 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	private PopupWindow popupwindow;
 	private View addBtn;
 	private PreferenceUtil preference;
+	private TitleView titleView;
+	/**
+	 * 最多闹钟数
+	 */
+	private static final int MAX_ALARM_SIZE = 10;
 	
 	@Override
 	public int getLayoutId() {
@@ -44,7 +50,9 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 
 	@Override
 	public void initUI() {
-		TitleView titleView = (TitleView) findViewById(R.id.titleView);
+		titleView = (TitleView) findViewById(R.id.titleView);
+		titleView.setShowToastTv(true);
+		titleView.setHoldTime(2000);
 		titleView.setRightBtnImageRes(R.drawable.selector_add_btn);
 		ListView alarmLv = (ListView) findViewById(R.id.lv_alarm_list);
 		alarmListAdapter.setOnItemClickListener(this);
@@ -64,11 +72,15 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.right_btn:
-			Alarm alarm = new Alarm();
-			alarm.setAlarmTime(Calendar.getInstance());
-			alarm.setAlarmActive(true);
-			alarm.setAlarmTonePath("");
-			startLightSettingActivity(alarm);
+			if(maxSize){
+				titleView.setToastText(R.string.reach_max_alarm_reminder);
+			}else{
+				Alarm alarm = new Alarm();
+				alarm.setAlarmTime(Calendar.getInstance());
+				alarm.setAlarmActive(true);
+				alarm.setAlarmTonePath("");
+				startLightSettingActivity(alarm);
+			}
 			break;
 		case R.id.btn_ok:
 			popupwindow.dismiss();
@@ -118,10 +130,17 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		}
 	}
 	
+	private boolean maxSize;
 	@Override
 	protected void onResume() {
 		super.onResume();
-		alarmListAdapter.setAlarms(alarms.getAllAlarm());
+		List<Alarm> list = alarms.getAllAlarm();
+		alarmListAdapter.setAlarms(list);
+		if(list != null && list.size() >= MAX_ALARM_SIZE){
+			maxSize = true;
+		}else{
+			maxSize = false;
+		}
 	}
 
 	@Override

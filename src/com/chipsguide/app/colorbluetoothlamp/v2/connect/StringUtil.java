@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
-
 import android.bluetooth.BluetoothDevice;
+
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 
 public class StringUtil
 {

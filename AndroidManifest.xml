@@ -105,6 +105,10 @@
             android:name=".activity.AlarmSoundSelectActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.platomix.lib.playerengine.core.local.PlayerService" >
         </service>

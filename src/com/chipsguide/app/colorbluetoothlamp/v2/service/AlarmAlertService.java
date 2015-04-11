@@ -23,10 +23,14 @@ import android.view.WindowManager;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarm;
 import com.chipsguide.lib.timer.Alarms;
 import com.chipsguide.lib.timer.service.AlarmService;
@@ -116,7 +120,8 @@ public class AlarmAlertService extends AlarmService {
 			if (playType == PlayType.Local) {
 				playLocalMusic(arr[2]);
 			} else {
-				Log.d("", arr[1]);
+				Log.d(">>>", arr[1]);
+				playBluzMusic(Integer.parseInt(arr[2]));
 			}
 		}
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
@@ -155,6 +160,28 @@ public class AlarmAlertService extends AlarmService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * 播放蓝牙音乐
+	 * @param position
+	 */
+	private void playBluzMusic(final int position){
+		final PlayerManager playerManager = PlayerManager.getInstance(getApplicationContext());
+		playerManager.destroyLocalPlayer();
+		BluetoothDeviceManagerProxy deviceMan = BluetoothDeviceManagerProxy.getInstance(getApplicationContext());
+		deviceMan.setOnBluetoothDeviceMuisicReadyListener(new OnDeviceMusicManagerReadyListener(){
+			@Override
+			public void onMusicManagerReady(
+					IBluetoothDeviceMusicManager manager, int mode) {
+				//选择歌曲无效？
+				manager.select(position);
+			}
+
+			@Override
+			public void onMusicManagerReadyFailed(int mode) {
+			}
+		});
+		deviceMan.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
 	}
 
 	@Override

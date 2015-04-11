@@ -5,17 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:background="@color/color_gray"
+    android:clipChildren="false"
     >
-
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
-        android:id="@+id/titleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImg="@drawable/selector_btn_back"
-        app:rightImg="@drawable/selector_btn_player"
-        app:text="@string/music_play"
-        app:marque="false" >
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
     
     <RelativeLayout 
         android:layout_below="@+id/titleView"
@@ -23,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:visibility="invisible"
         >
         <ImageView 
             android:id="@+id/vol_decrease"
@@ -67,6 +59,18 @@
 	    layout="@layout/layout_player_control"
 	    android:layout_alignParentBottom="true"
 	    />
+    
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImg="@drawable/selector_btn_back"
+        app:rightImg="@drawable/selector_btn_player"
+        app:text="@string/music_play"
+        app:marque="false"
+        app:showToastTv="true"
+        >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
 
     <com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer
         android:id="@+id/playlist_layer"

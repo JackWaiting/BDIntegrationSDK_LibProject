@@ -32,5 +32,10 @@ public class MyMusicFrag extends SimpleMusicFrag {
 	public String getFilter(Music music) {
 		return music.getLocalPath();
 	}
-	
+
+	@Override
+	public void onLoadPlayList() {
+		playerManager.loadLocalMusic(this, false);
+	}
+
 }
