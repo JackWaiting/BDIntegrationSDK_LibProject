@@ -1,6 +1,9 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.utils;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -15,6 +18,9 @@ public class PreferenceUtil {
 	private static String SHAKE_OPTION = "shake_option";
 	private static String FIRST_TIME_ENTER_ALARM = "first_time_enter_alarm";
 	private static String FIRST_LAUNCH = "first_launch";
+	private static String COLORS = "colors";
+	private Set<String> set = new HashSet<String>();
+	
 	private static SharedPreferences sp;
 	private static PreferenceUtil settingPrefences;
 
@@ -92,4 +98,15 @@ public class PreferenceUtil {
 	public void setFirstLaunch(boolean firstLaunch) {
 		sp.edit().putBoolean(FIRST_LAUNCH, firstLaunch).commit();
 	}
+	
+	public void setColor(Set<String> set)
+	{
+		sp.edit().putStringSet(COLORS, set).commit();
+	}
+	
+	public Set<String> getColor()
+	{
+		return sp.getStringSet(COLORS, set);
+	}
+	
 }
