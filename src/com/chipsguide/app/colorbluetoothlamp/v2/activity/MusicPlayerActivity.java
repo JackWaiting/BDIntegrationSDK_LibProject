@@ -32,6 +32,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView;
@@ -41,6 +42,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
+import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
@@ -53,6 +55,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private SimpleMusicListAdapter mAdapter;
 	private int currentPosition;
 	private boolean userClick, update;
+	private LampManager mLampManager;
 
 	private TitleView titleView;
 	private ImageView playBtn, playmodeBtn;
@@ -80,6 +83,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		PlayUtil.setCurrentModeIndex(index);
 		PlaybackMode mode = PlayUtil.getModeWithIndex(index);
 		currentModeRes = PlayUtil.getModeImgRes(mode);
+		mLampManager = LampManager.getInstance(this);
 
 		mAdapter = new SimpleMusicListAdapter(this);
 		registBroadcase();
@@ -367,6 +371,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		switch (view.getId()) {
 		case R.id.left_btn:
 			finish();
+			mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
 			break;
 		case R.id.iv_play_state:
 			if (playerManager.isPlaying()) {

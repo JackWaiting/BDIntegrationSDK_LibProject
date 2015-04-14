@@ -77,9 +77,9 @@ public class ColorLampFrag extends BaseFragment implements
 		colors.clear();
 		Set<String> set = mPreference.getColor();
 		flog.e("set" + set);
-		if(set!=null)
+		if (set != null)
 		{
-			for(Iterator<String> iter = set.iterator();iter.hasNext();)
+			for (Iterator<String> iter = set.iterator(); iter.hasNext();)
 			{
 				colors.add(iter.next());
 			}
@@ -170,7 +170,7 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
 		mImageAddColor.setOnClickListener(this);
-		
+
 		diyColorAdapter.setList(colors);
 	}
 
@@ -191,17 +191,17 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (v.getId())
 		{
 		case R.id.imageview_diy_addcolor:
+			showToast("点击了添加颜色");
 			if (mPreference.getColor().size() >= 4)
 			{
 				// 超出范围
-
 			} else
 			{
-				if(color == -1)
+				if (color == -1)
 				{
 					showToast("请设置颜色");
 				}
-				colors.add(color+"");
+				colors.add(color + "");
 				mPreference.setColor(new HashSet<String>(colors));
 				diyColorAdapter.setList(colors);
 			}
@@ -318,6 +318,10 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
+			if (!colorState && !mButtonLightNormal.isChecked())
+			{
+				mButtonLightNormal.setChecked(true);
+			}
 		}
 	}
 
@@ -330,7 +334,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onLampRhythmChange(int rhythm)
 	{
-		flog.e("rhythm  " + rhythm);
+		flog.d("rhythm  " + rhythm);
 		switch (rhythm)
 		{
 		case BluetoothDeviceColorLampManager.Effect.NORMAL:
