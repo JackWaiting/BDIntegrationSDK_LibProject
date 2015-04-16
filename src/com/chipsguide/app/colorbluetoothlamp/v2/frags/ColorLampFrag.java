@@ -295,7 +295,6 @@ public class ColorLampFrag extends BaseFragment implements
 			} else
 			{
 				mLampManager.turnCommonOn();
-				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
 		case R.id.cb_lamp_on:
@@ -318,9 +317,13 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
-			if (!colorState && !mButtonLightNormal.isChecked())
+			if(!colorState)
 			{
-				mButtonLightNormal.setChecked(true);
+				mColorPicker.setColor(getResources().getColor(R.color.white));
+				if(!mButtonLightNormal.isChecked())
+				{
+					mButtonLightNormal.setChecked(true);	
+				}
 			}
 		}
 	}

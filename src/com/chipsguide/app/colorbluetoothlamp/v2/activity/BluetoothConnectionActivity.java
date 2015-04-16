@@ -101,6 +101,9 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
+		
+		//重新搜索
+		startDiscovery();
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
 		{
@@ -120,13 +123,18 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		switch (v.getId())
 		{
 		case R.id.imageview_button_searsh:
-			if (mBluetoothDeviceManager != null)
-			{
-				mBluetoothDeviceManager.startDiscovery();
-				createConnPD();
-				setText(0);
-			}
+			startDiscovery();
 			break;
+		}
+	}
+
+	private void startDiscovery()
+	{
+		if (mBluetoothDeviceManager != null)
+		{
+			mBluetoothDeviceManager.startDiscovery();
+			createConnPD();
+			setText(0);
 		}
 	}
 
@@ -206,6 +214,9 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			mAdapter.setBluetooth(bluetoothDevice);
 			mAdapter.setList(StringUtil.getListConnectMessage(
 					connectBluetoothDevices, listBluetooth));
+			
+			//连接成功后，跳转到主界面
+			startActivity(MainActivity.class);
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
