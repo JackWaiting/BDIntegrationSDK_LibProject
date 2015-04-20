@@ -86,7 +86,7 @@
     <string name="data_connectioning">Data connectioning</string>
     <string name="data_connectionend">Data connectioned</string>
     <string name="connectionend">Connection</string>
-    <string name="connect_toast">The application of related functions need to be connected with the Bluetooth to activate,\n whether it was a Bluetooth connection.</string>
+    <string name="connect_toast">The related functions of application need to connect with the Bluetooth\n Confirm whether the Bluetooth is connected.</string>
     <string name="discon_connect">Do you want to disconnect？</string>
     <string name="bluetooth_discon_hint">The operation will disconnect with the remote device.</string>
     <string name="sleep_countdown">the countdown is going on&#8230;</string>

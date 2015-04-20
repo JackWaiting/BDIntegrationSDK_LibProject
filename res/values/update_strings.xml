@@ -3,17 +3,17 @@
     <!-- 对话框标题 -->
 	<string name="UpdateTitle">New Version</string>
 	<!-- 对话框Message -->
-	<string name="UpdateMessage">New version found, Update now?</string>
+	<string name="UpdateMessage">New version is founded, Update right now?</string>
 	<!-- 对话框确认按钮文字 -->
-	<string name="UpdateNow">Update now</string>
+	<string name="UpdateNow">Update right now</string>
 	<!-- 对话框取消按钮文字 -->
-	<string name="NotNow">Not now</string>
+	<string name="NotNow">For later</string>
 	<!-- 通知栏内容文字 -->
-	<string name="AppUpdate">App Update</string>
+	<string name="AppUpdate">Update app</string>
 	<!-- 下载完成 -->
-	<string name="DownloadFinished">Download Finished</string>
+	<string name="DownloadFinished">Finished</string>
 	<!-- 下载失败 -->
-	<string name="DownloadFailed">Download Failed</string>
+	<string name="DownloadFailed">Failed to download</string>
 	<!-- 开始下载提示 -->
-	<string name="DownloadStart">Download start</string>
+	<string name="DownloadStart">start to download</string>
 </resources>
