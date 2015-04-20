@@ -60,9 +60,19 @@ public class NavFrag extends BaseFragment {
 			startActivity(BluetoothConnectionActivity.class);
 			break;
 		case 1:
+			if(!mSubject.getConnectState())
+			{
+				showToast(R.string.conn_ble);
+				return;
+			}
 			startActivity(TimeLightActivity.class);
 			break;
 		case 2:
+			if(!mSubject.getConnectState())
+			{
+				showToast(R.string.conn_ble);
+				return;
+			}
 			startActivity(SleepAssistantActivity.class);
 			break;
 		case 3:

@@ -184,62 +184,59 @@ public class MainActivity extends BaseActivity implements
 		}
 	}
 	
-	
 	/**
-	    * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-	    */
-		private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
-		/**
-		 * Bluetooth 设备可见时间，单位：秒。
-		 */
-		private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
-		
-		@Override
-		protected void onResume()
+    * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
+    */
+	private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
+	/**
+	 * Bluetooth 设备可见时间，单位：秒。
+	 */
+	private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (this.mBluetoothDeviceManager != null)
 		{
-			super.onResume();
-			if (this.mBluetoothDeviceManager != null)
-			{
-				this.mBluetoothDeviceManager.setForeground(true);
-			}
-			refreshBluetooth();
+			this.mBluetoothDeviceManager.setForeground(true);
 		}
-		
-		private void refreshBluetooth()
+		refreshBluetooth();
+	}
+	
+	private void refreshBluetooth()
+	{
+		if ((mBluetoothDeviceManager.isBluetoothSupported()) && (!mBluetoothDeviceManager.isBluetoothEnabled()))
 		{
-			if ((mBluetoothDeviceManager.isBluetoothSupported()) && (!mBluetoothDeviceManager.isBluetoothEnabled()))
-			{
-				turnOnBluetooth();
-			}
+			turnOnBluetooth();
 		}
-		
-		/**
-	    * 弹出系统弹框提示用户打开 Bluetooth
-	    */
-	   private void turnOnBluetooth()
-	   {
-	       // 请求打开 Bluetooth
-	       Intent requestBluetoothOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-	       // 设置 Bluetooth 设备可见时间
-	       requestBluetoothOn.putExtra( BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,BLUETOOTH_DISCOVERABLE_DURATION);
-	       // 请求开启 Bluetooth
-	       this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
-	   }
+	}
+	
+   /**
+    * 弹出系统弹框提示用户打开 Bluetooth
+    */
+    private void turnOnBluetooth()
+    {
+       // 请求打开 Bluetooth
+       Intent requestBluetoothOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+       // 设置 Bluetooth 设备可见时间
+       requestBluetoothOn.putExtra( BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,BLUETOOTH_DISCOVERABLE_DURATION);
+       // 请求开启 Bluetooth
+       this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
+    }
 
-		@Override
-		public void updateVolume()
-		{
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void updateConnectState(boolean isConnect)
-		{
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void updateVolume()
+	{
+		// TODO 固件音量
 		
+	}
 
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		// TODO 蓝牙连接状态
+		
+	}
 	
 }

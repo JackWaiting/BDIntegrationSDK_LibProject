@@ -5,15 +5,13 @@ import java.util.List;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 
-import android.app.Activity;
-
 /**
  * @author fiskz被观察者
  */
 public class MySubject implements Subject {
 	MyLogger flog = MyLogger.fLog();
 
-	private List<Activity> mActivityObservers;// 观察者集合
+	private List<Object> mActivityObservers;// 观察者集合
 	private boolean isConnectState;//蓝牙是否连接
 	private int mVolume = 0;//设备音量大小
 
@@ -32,7 +30,7 @@ public class MySubject implements Subject {
 	{
 		super();
 		isConnectState = false;
-		mActivityObservers = new ArrayList<Activity>();
+		mActivityObservers = new ArrayList<Object>();
 	}
 
 	public void setConnectState(boolean connectState)
@@ -60,7 +58,7 @@ public class MySubject implements Subject {
 	@Override
 	public void attach(Observer observer)
 	{
-		mActivityObservers.add((Activity) observer);
+		mActivityObservers.add(observer);
 		flog.d("观察者的大小： " + mActivityObservers.size());
 	}
 

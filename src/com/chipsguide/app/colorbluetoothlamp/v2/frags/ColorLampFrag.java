@@ -191,7 +191,6 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (v.getId())
 		{
 		case R.id.imageview_diy_addcolor:
-			showToast("点击了添加颜色");
 			if (mPreference.getColor().size() >= 4)
 			{
 				// 超出范围
