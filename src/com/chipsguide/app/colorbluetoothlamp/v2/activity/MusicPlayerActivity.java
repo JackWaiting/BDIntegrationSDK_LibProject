@@ -67,7 +67,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private SeekBar volumeSeekBar;
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private static final int VOLUME_FACTOR = 1;
-	private static final int MAX_VOLUME = 32;
+	private static final int MAX_VOLUME = 31;
 	private int currentVolume;
 
 	private List<View> views = new ArrayList<View>();
