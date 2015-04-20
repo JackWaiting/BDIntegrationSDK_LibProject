@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
@@ -26,11 +28,11 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
 
-
-public abstract class BaseActivity extends SlidingFragmentActivity implements OnClickListener{
+public abstract class BaseActivity extends SlidingFragmentActivity implements OnClickListener,Observer{
 	private Toast mToast;
 	MyLogger flog = MyLogger.fLog();
 	protected ConnectDialog mConnectpd = null;
+	protected MySubject mSubject;//被观察者
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 		initUI();
 		initData();
 		initListener();
+		
+		mSubject=MySubject.getSubject();
+		mSubject.attach(BaseActivity.this);//加入观察者
 	}
 	
 	// 设置布局文件

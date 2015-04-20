@@ -215,6 +215,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			mAdapter.setList(StringUtil.getListConnectMessage(
 					connectBluetoothDevices, listBluetooth));
 			
+			mSubject.setConnectState(true);
 			//连接成功后，跳转到主界面
 			startActivity(MainActivity.class);
 			break;
@@ -224,6 +225,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			dismissConnectPD();
 			mAdapter.setBluetooth(null);
 			mAdapter.notifyDataSetChanged();
+			mSubject.setConnectState(false);
 			break;
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
 		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
@@ -232,6 +234,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
 					R.style.full_screen);
 			toastDialog.show();
+			mSubject.setConnectState(false);
 			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;
 		}
@@ -275,7 +278,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			}
 		}
 		listBluetooth = StringUtil.removeDuplicateWithOrder(listBluetooth);
-		flog.e("listBluetooth " +listBluetooth.size());
+		flog.d("listBluetooth " +listBluetooth.size());
 		mAdapter.setList(StringUtil.getListConnectMessage(
 				connectBluetoothDevices, listBluetooth));
 	}
@@ -337,7 +340,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 					if (bluetoothDevice.getAddress().equals(
 							deviceConnected.getAddress()))
 					{
-						// // 断开蓝牙
+						// 断开蓝牙
 						 DisconnectBluetoothDialog diacoonctDialog = new DisconnectBluetoothDialog(BluetoothConnectionActivity.this,
 						 R.style.register_inform_style, mHandler,
 						 bluetoothDevice, this.mBluetoothDeviceManager);
@@ -391,5 +394,17 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		}
 
 	};
+
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		
+	}
+
+	@Override
+	public void updateVolume()
+	{
+		
+	}
 
 }

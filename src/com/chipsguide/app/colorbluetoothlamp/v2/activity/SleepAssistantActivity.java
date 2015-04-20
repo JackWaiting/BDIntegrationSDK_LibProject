@@ -281,4 +281,21 @@ public class SleepAssistantActivity extends BaseActivity implements
 		return super.onKeyDown(keyCode, event);
 	}
 
+	@Override
+	public void updateVolume()
+	{
+		
+	}
+
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		// TODO 蓝牙断开处理
+		if(!isConnect)
+		{
+			cancelSleep();
+			mSleepMode = false;
+		}
+	}
+	
 }

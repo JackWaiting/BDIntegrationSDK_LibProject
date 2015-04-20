@@ -225,6 +225,20 @@ public class MainActivity extends BaseActivity implements
 	       // 请求开启 Bluetooth
 	       this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
 	   }
+
+		@Override
+		public void updateVolume()
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void updateConnectState(boolean isConnect)
+		{
+			// TODO Auto-generated method stub
+			
+		}
 		
 
 	
