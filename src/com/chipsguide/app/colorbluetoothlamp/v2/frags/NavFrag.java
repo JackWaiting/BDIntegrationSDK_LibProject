@@ -12,11 +12,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActi
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
-import com.platomix.lib.update.bean.VersionEntity;
-import com.platomix.lib.update.core.UpdateAgent;
-import com.platomix.lib.update.listener.OnCheckUpdateListener;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;

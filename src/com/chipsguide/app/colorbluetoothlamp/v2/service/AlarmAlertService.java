@@ -81,10 +81,7 @@ public class AlarmAlertService extends AlarmService {
 			switch (which) {
 			case DialogInterface.BUTTON_NEGATIVE:
 				Alarms.getInstance(getApplicationContext()).releaseAllLock();
-				if (mediaPlayer != null) {
-					mediaPlayer.release();
-					mediaPlayer = null;
-				}
+				destroyPlayer();
 				break;
 			default:
 				break;
@@ -97,6 +94,10 @@ public class AlarmAlertService extends AlarmService {
 		super.onDestroy();
 		Log.d("", "onDestroy");
 		destroy = true;
+		destroyPlayer();
+	}
+	
+	private void destroyPlayer() {
 		if (mediaPlayer != null) {
 			mediaPlayer.release();
 			mediaPlayer = null;
@@ -123,6 +124,11 @@ public class AlarmAlertService extends AlarmService {
 				Log.d(">>>", arr[1]);
 				playBluzMusic(Integer.parseInt(arr[2]));
 			}
+		}else{
+			if (playerManager.isPlaying()) {
+				playerManager.pause();
+			}
+			destroyPlayer();
 		}
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 		Calendar calendar = alarm.getAlarmTime();
@@ -144,10 +150,7 @@ public class AlarmAlertService extends AlarmService {
 
 	private void playLocalMusic(String path) {
 		try {
-			if (mediaPlayer != null) {
-				mediaPlayer.release();
-				mediaPlayer = null;
-			}
+			destroyPlayer();
 			build();
 			mediaPlayer.setDataSource(path);
 			mediaPlayer.prepareAsync();
