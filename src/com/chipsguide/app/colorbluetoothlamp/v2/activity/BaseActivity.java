@@ -326,8 +326,6 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 			setText(R.string.connectionend);
 			dismissConnectPD();
 			mSubject.setConnectState(true);
-			//连接成功后，跳转到主界面
-			startActivity(MainActivity.class);
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
