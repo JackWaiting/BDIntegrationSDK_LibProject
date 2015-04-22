@@ -120,7 +120,10 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 	protected void addFooterView() {
 		if(!add){
 			add = true;
-			musicListLv.addFooterView(footer);
+			if(musicListLv != null)
+			{
+				musicListLv.addFooterView(footer);
+			}
 		}
 	}
 
