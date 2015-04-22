@@ -16,6 +16,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity implements
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 
 	private TextSwitcherTitleView titleView;
+	private PlayerManager playerManager;
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -83,6 +85,7 @@ public class MainActivity extends BaseActivity implements
 		alarms.setAllowInBack(true, AlarmAlertService.class);
 		alarms.activieAllEnable();
 		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
+		playerManager = PlayerManager.getInstance(getApplicationContext());
 	}
 
 	@Override
@@ -134,6 +137,7 @@ public class MainActivity extends BaseActivity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
+		playerManager.destoryAll();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
 		mSubject.destory();
@@ -237,7 +241,9 @@ public class MainActivity extends BaseActivity implements
 	public void updateConnectState(boolean isConnect)
 	{
 		// TODO 蓝牙连接状态
-		
+		if(!isConnect && playerManager.isPlaying()){
+			playerManager.pause();
+		}
 	}
 	
 }

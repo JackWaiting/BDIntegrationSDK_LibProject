@@ -572,7 +572,6 @@ public class BluetoothDeviceManagerProxy{
 	 * 释放蓝牙，播放器等资源
 	 */
 	public void destory() {
-		PlayerManager.getInstance(context).destoryAll();
 		changeToA2DPMode();
 		conStateListeners.clear();
 		if (bluzDeviceMan != null) {
