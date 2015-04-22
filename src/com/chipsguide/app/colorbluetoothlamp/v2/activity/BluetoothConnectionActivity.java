@@ -21,6 +21,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
@@ -38,6 +39,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	private CustomApplication application;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDevice bluetoothDeviceConnected;// 当前连接的蓝牙
+	private boolean background = false;
 
 	private ConnectDao dao;
 
@@ -97,7 +99,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
-		
+		background = false;
 		//重新搜索
 		startDiscovery();
 		connectBluetoothDevices = dao.selectAll();
@@ -110,6 +112,13 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		}
 		mAdapter.setList(StringUtil.getListConnectMessage(
 				connectBluetoothDevices, listBluetooth));
+	}
+	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		background = true;
 	}
 
 	@Override
@@ -170,6 +179,19 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				mAdapter.setBluetooth(null);
 				mAdapter.notifyDataSetChanged();
 			}
+			break;
+		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
+		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
+			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
+			dismissConnectPD();
+			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
+					R.style.full_screen);
+			if(!background)
+			{
+				toastDialog.show();
+			}
+			mSubject.setConnectState(false);
+			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;
 		}
 	}
