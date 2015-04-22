@@ -355,4 +355,9 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 		mConnectStateListener = connectStateListener;
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
 }
