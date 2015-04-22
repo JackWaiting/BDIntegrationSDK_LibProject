@@ -494,25 +494,25 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		}
 	};
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_VOLUME_UP:
-		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			if(!blzDeviceProxy.isConnected()){
-				return super.onKeyDown(keyCode, event);
-			}
-			if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-				currentVolume = Math.min(MAX_VOLUME, ++currentVolume);
-			}else{
-				currentVolume = Math.max(0, --currentVolume);
-			}
-			//volumeSeekBar.setProgress(currentVolume * VOLUME_FACTOR);
-			setVolume(currentVolume);
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		switch (keyCode) {
+//		case KeyEvent.KEYCODE_VOLUME_UP:
+//		case KeyEvent.KEYCODE_VOLUME_DOWN:
+//			if(!blzDeviceProxy.isConnected()){
+//				return super.onKeyDown(keyCode, event);
+//			}
+//			if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+//				currentVolume = Math.min(MAX_VOLUME, ++currentVolume);
+//			}else{
+//				currentVolume = Math.max(0, --currentVolume);
+//			}
+//			//volumeSeekBar.setProgress(currentVolume * VOLUME_FACTOR);
+//			setVolume(currentVolume);
+//			return true;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 
 	@Override
 	protected void onDestroy() {
