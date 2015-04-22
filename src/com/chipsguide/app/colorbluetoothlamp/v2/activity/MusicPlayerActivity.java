@@ -12,7 +12,6 @@ import android.content.IntentFilter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -68,7 +67,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private static final int VOLUME_FACTOR = 1;
 	private static final int MAX_VOLUME = 31;
-	private int currentVolume;
+//	private int currentVolume;
 
 	private List<View> views = new ArrayList<View>();
 
@@ -134,7 +133,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		blzDeviceProxy.setDeviceUiChangedListener(new SimpleDeviceUiChangedListener(){
 			@Override
 			public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
-				currentVolume = volume;
+//				currentVolume = volume;
 				volumeSeekBar.setProgress(volume);
 			}
 		});
@@ -494,7 +493,8 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		}
 	};
 
-	@Override
+	//手机音量健不能调节固件音量
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_VOLUME_UP:
@@ -512,7 +512,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
+	}*/
 
 	@Override
 	protected void onDestroy() {
