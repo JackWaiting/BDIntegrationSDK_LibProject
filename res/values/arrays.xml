@@ -29,7 +29,6 @@
         <item>儿童</item>
         <item>电台</item>
         <item>商业财经</item>
-        <item>IT科技</item>
         <item>健康养生</item>
         <item>其他</item>
     </string-array>
@@ -51,7 +50,6 @@
         <item>ximalaya_ertong</item>
         <item>ximalaya_diantai</item>
         <item>ximalaya_shangyecaijing</item>
-        <item>ximalaya_ITkeji</item>
         <item>ximalaya_jiankangyangsheng</item>
         <item>ximalaya_qita</item>
     </string-array>

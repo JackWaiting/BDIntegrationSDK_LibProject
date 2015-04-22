@@ -60,6 +60,7 @@ public class CloudMusicFrag extends BaseFragment implements OnItemClickListener,
 			Column column = new Column();
 			column.setId(ximalaya_codes[i]);
 			column.setName(ximalaya_names[i]);
+			column.setCode(ximalaya_codes[i]);
 			albumList.add(column);
 		}
 		adapter.setList(albumList);

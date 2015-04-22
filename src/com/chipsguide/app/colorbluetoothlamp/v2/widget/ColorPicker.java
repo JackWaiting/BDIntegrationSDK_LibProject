@@ -83,7 +83,7 @@ public class ColorPicker extends View {
 	private Drawable mThumb, sun, moon;
 	private int mThumbXPos, mThumbYPos;
 	private float thumbRadius;
-
+	
 	/** Currently selected color */
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
 
@@ -153,6 +153,7 @@ public class ColorPicker extends View {
 
 		padding = Math.max(thumbHalfWidth,
 				Math.max(sunHalfWidth, moonHalfWidth));
+		
 	}
 
 	@Override
@@ -164,10 +165,10 @@ public class ColorPicker extends View {
 		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
 		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
 		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
+		
 	}
 
-	@SuppressLint("DrawAllocation")
-	@Override
+	@SuppressLint("DrawAllocation") @Override
 	protected void onDraw(Canvas canvas) {
 
 		int centerX = getWidth() / 2;
@@ -190,6 +191,7 @@ public class ColorPicker extends View {
 		SweepGradient sweepGradient = new SweepGradient(centerX, centerY,
 				new int[] { Color.BLACK, Color.HSVToColor(hsv), Color.WHITE },
 				null);
+		
 		sweepGradient.setLocalMatrix(gradientRotationMatrix);
 		valueSliderPaint.setShader(sweepGradient);
 
@@ -234,11 +236,13 @@ public class ColorPicker extends View {
 		moon.draw(canvas);
 		canvas.restore();
 
+		canvas.save();
 		canvas.translate(getWidth() / 2 - mThumbXPos, getHeight() / 2
 				- mThumbYPos);
 		// canvas.drawCircle((float)mThumbXPos, (float)mThumbYPos, 30,
 		// valuePointerArrowPaint);
 		mThumb.draw(canvas);
+		canvas.restore();
 	}
 
 	private void updateThumbPosition() {
