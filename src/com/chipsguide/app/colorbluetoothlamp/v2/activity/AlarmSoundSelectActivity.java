@@ -159,4 +159,18 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 			break;
 		}
 	}
+
+	@Override
+	public void updateVolume()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

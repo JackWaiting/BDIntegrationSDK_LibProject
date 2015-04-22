@@ -1,8 +1,12 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +36,7 @@ import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManag
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, LampListener, OnClickListener,AnimationListener {
+		OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
 
 	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
@@ -49,14 +53,14 @@ public class ColorLampFrag extends BaseFragment implements
 	private RadioButton mButtonLightCandle;
 	private GridView mGridViewDIYColor;
 	private ImageView mImageAddColor;
-	
+
 	private Animation shake;
 	private boolean isShake = false;
-	
+
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
-	
-	private List<Integer> colors = new ArrayList<Integer>();
+
+	private List<String> colors = new ArrayList<String>();
 
 	@Override
 	protected void initBase()
@@ -65,6 +69,21 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampManager.init();
 		mLampManager.setLampListener(this);
 		mPreference = PreferenceUtil.getIntance(getActivity());
+		initColor();
+	}
+
+	private void initColor()
+	{
+		colors.clear();
+		Set<String> set = mPreference.getColor();
+		flog.e("set" + set);
+		if (set != null)
+		{
+			for (Iterator<String> iter = set.iterator(); iter.hasNext();)
+			{
+				colors.add(iter.next());
+			}
+		}
 	}
 
 	@Override
@@ -94,13 +113,15 @@ public class ColorLampFrag extends BaseFragment implements
 
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);
-		
-		mGridViewDIYColor = (GridView)root.findViewById(R.id.gridview_diy_color);
+
+		mGridViewDIYColor = (GridView) root
+				.findViewById(R.id.gridview_diy_color);
 		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
-		mImageAddColor = (ImageView)this.findViewById(R.id.imageview_diy_addcolor);
+		mImageAddColor = (ImageView) this
+				.findViewById(R.id.imageview_diy_addcolor);
 		mGridViewDIYColor.setAdapter(diyColorAdapter);
-		
-		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);//加载动画资源文件
+
+		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);// 加载动画资源文件
 		shake.setAnimationListener(this);
 		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -109,37 +130,37 @@ public class ColorLampFrag extends BaseFragment implements
 			public void onItemClick(AdapterView<?> arg0, View v, int position,
 					long arg3)
 			{
-				if(colors.size() > position)
+				if (colors.size() > position)
 				{
-					mLampManager.setColor(colors.get(position));
+					mLampManager.setColor(Integer.parseInt(colors.get(position)));
 				}
 			}
 		});
-		
-		mGridViewDIYColor.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View v,
-					int position, long arg3)
-			{
-				if(!isShake)
+		mGridViewDIYColor
+				.setOnItemLongClickListener(new OnItemLongClickListener()
 				{
-					diyColorAdapter.setVisility(true);
-					for(int i=0;i<arg0.getCount();i++)
+
+					@Override
+					public boolean onItemLongClick(AdapterView<?> arg0, View v,
+							int position, long arg3)
 					{
-						arg0.getChildAt(i).startAnimation(shake);
+						if (!isShake)
+						{
+							diyColorAdapter.setVisility(true);
+							for (int i = 0; i < arg0.getCount(); i++)
+							{
+								arg0.getChildAt(i).startAnimation(shake);
+							}
+						} else
+						{
+							diyColorAdapter.setVisility(false);
+							shake.cancel();
+						}
+						return false;
 					}
-				}else
-				{
-					diyColorAdapter.setVisility(false);
-					shake.cancel();
-				}
-				return false;
-			}
-		});
-		
-		
+				});
+
 		mButtonLightNormal.setOnClickListener(this);
 		mButtonLightRainbow.setOnClickListener(this);
 		mButtonLightPusle.setOnClickListener(this);
@@ -149,9 +170,9 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
 		mImageAddColor.setOnClickListener(this);
+
+		diyColorAdapter.setList(colors);
 	}
-	
-	
 
 	@Override
 	public void onClick(View v)
@@ -170,15 +191,20 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (v.getId())
 		{
 		case R.id.imageview_diy_addcolor:
-			if(colors.size()>=4)
+			if (mPreference.getColor().size() >= 4)
 			{
-				//超出范围
-				
-			}else
+				// 超出范围
+			} else
 			{
-				colors.add(color);
+				if (color == -1)
+				{
+					showToast("请设置颜色");
+				}
+				colors.add(color + "");
+				mPreference.setColor(new HashSet<String>(colors));
 				diyColorAdapter.setList(colors);
 			}
+			diyColorAdapter.setVisility(false);
 			break;
 		}
 	}
@@ -268,7 +294,6 @@ public class ColorLampFrag extends BaseFragment implements
 			} else
 			{
 				mLampManager.turnCommonOn();
-				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
 		case R.id.cb_lamp_on:
@@ -291,6 +316,14 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
+			if(!colorState)
+			{
+				mColorPicker.setColor(getResources().getColor(R.color.white));
+				if(!mButtonLightNormal.isChecked())
+				{
+					mButtonLightNormal.setChecked(true);	
+				}
+			}
 		}
 	}
 
@@ -303,7 +336,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onLampRhythmChange(int rhythm)
 	{
-		flog.e("rhythm  " + rhythm);
+		flog.d("rhythm  " + rhythm);
 		switch (rhythm)
 		{
 		case BluetoothDeviceColorLampManager.Effect.NORMAL:
@@ -336,7 +369,7 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onAnimationRepeat(Animation animation)
 	{
-		
+
 	}
 
 	@Override

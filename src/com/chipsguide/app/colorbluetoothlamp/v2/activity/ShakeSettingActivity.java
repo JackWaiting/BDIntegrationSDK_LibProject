@@ -41,5 +41,19 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		preferenceUtil.saveShakeOption(checkedId);
 	}
+
+	@Override
+	public void updateVolume()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -107,4 +107,5 @@
     <string name="about">关于</string>
     
     <string name="reach_max_alarm_reminder">最多10个闹钟，不能添加更多了!</string>
+    <string name="conn_ble">请连接蓝牙</string>
 </resources>
