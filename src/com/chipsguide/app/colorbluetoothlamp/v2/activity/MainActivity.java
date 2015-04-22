@@ -136,6 +136,7 @@ public class MainActivity extends BaseActivity implements
 		BluetoothDeviceManagerProxy.getInstance(this).destory();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
+		mSubject.destory();
 	}
 
 	private boolean forceUpdate;

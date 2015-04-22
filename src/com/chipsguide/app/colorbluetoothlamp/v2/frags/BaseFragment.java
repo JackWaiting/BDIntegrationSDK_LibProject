@@ -112,4 +112,10 @@ public abstract class BaseFragment extends Fragment implements Observer {
 		// TODO 是否连接
 		
 	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
 }
