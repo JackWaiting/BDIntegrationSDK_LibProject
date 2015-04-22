@@ -359,5 +359,6 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 	protected void onDestroy() {
 		super.onDestroy();
 		mSubject.deleteach(this);
+		mManagerProxy.removeOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 }
