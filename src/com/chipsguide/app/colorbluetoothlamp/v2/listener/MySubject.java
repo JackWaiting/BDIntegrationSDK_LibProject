@@ -88,5 +88,12 @@ public class MySubject implements Subject {
 			((Observer) mActivityObservers.get(i)).updateConnectState(isConnectState);
 		}
 	}
+	
+	public void destory() {
+		if(mActivityObservers != null){
+			mActivityObservers.clear();
+		}
+		mSubject = null;
+	}
 
 }

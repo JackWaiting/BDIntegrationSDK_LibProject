@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,33 +15,43 @@ import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Column;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class AlbumGridViewAdapter extends BaseAdapter {
 	private static final int DEF_NUM = 9;
 	
 	private Context mContext;
-	private List<Column> list = new ArrayList<Column>();
-	int[] images = { R.drawable.btn_album01_selector, R.drawable.btn_album02_selector, R.drawable.btn_album03_selector,
-			R.drawable.btn_album04_selector, R.drawable.btn_album05_selector, R.drawable.btn_album06_selector,
-			R.drawable.btn_album07_selector, R.drawable.btn_album08_selector, R.drawable.btn_album09_selector,
-			R.drawable.btn_album10_selector, R.drawable.btn_album11_selector, R.drawable.btn_album13_selector,
-			R.drawable.btn_album14_selector, R.drawable.btn_album15_selector, R.drawable.btn_album16_selector,
-			R.drawable.btn_album17_selector, R.drawable.btn_album18_selector, R.drawable.btn_album19_selector,
-			R.drawable.btn_album20_selector };
+	private List<Column> mList = new ArrayList<Column>();
 
 	private boolean isHide = true;
 	private int mLimited = 0;
-	private int headHeight;
+	private String[] ximalaya_codes;
 
-	public AlbumGridViewAdapter(Context context) {
-		this.mContext = context;
-		headHeight = PixelUtil.dp2px(50, context);
+	public AlbumGridViewAdapter(Context mContext) {
+		this.mContext = mContext;
+		ximalaya_codes = mContext.getResources().getStringArray(R.array.ximalaya_code);
 	}
 	
 	public void setList(List<Column> list) {
-		this.list = list;
-		this.mLimited = Math.min(DEF_NUM, list.size());
+		this.mList.clear();
+		int size = list.size();
+		int len = ximalaya_codes.length;
+		
+		for(int j = 0 ; j < len ; j++){ //按特定顺序排列
+			Column c = null;
+			for (int i = 0; i < size; i++) {
+				c = list.get(i);
+				String code = c.getCode().toLowerCase();
+				if(TextUtils.equals(ximalaya_codes[j], code)){
+					this.mList.add(c);
+					break;
+				}
+			}
+		}
+		if(mList.size() < size){
+			list.removeAll(mList);
+			mList.addAll(list);
+		}
+		this.mLimited = Math.min(DEF_NUM, mList.size());
 		this.notifyDataSetChanged();
 	}
 	
@@ -50,8 +61,8 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return list.get(position);
+	public Column getItem(int position) {
+		return mList.get(position);
 	}
 
 	@Override
@@ -64,8 +75,10 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		ViewHodler hodler = null;
 		if (convertView == null) {
 			hodler = new ViewHodler();
+			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/3 - 60);
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.album_grid_view_item, parent,false);
+			convertView.setLayoutParams(params);
 
 			hodler.iv_image = (ImageView) convertView
 					.findViewById(R.id.icon_iv);
@@ -74,12 +87,8 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		} else {
 			hodler = (ViewHodler) convertView.getTag();
 		}
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, (parent.getHeight() - headHeight)/ 3);
-		convertView.setLayoutParams(params);
 
-		hodler.iv_image.setImageResource(images[position % images.length]);
-
-		if (position == mLimited - 1) {
+		if (position == mLimited-1) {
 			if (isHide) {
 				hodler.iv_image.setImageResource(R.drawable.btn_album12_selector);
 			} else {
@@ -88,6 +97,17 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 			convertView.setOnClickListener(listener);
 		}else{
 			convertView.setClickable(false);
+			Column column = getItem(position);
+			convertView.setTag(R.id.attach_data, column);
+			String code = column.getCode();
+			if(!TextUtils.isEmpty(code)){
+				int resId = mContext.getResources().getIdentifier(code.toLowerCase(),"drawable", mContext.getPackageName());
+				if(resId != 0){
+					hodler.iv_image.setImageResource(resId);
+				}else{
+					hodler.iv_image.setImageResource(R.drawable.ximalaya_qita);
+				}
+			}
 		}
 		return convertView;
 	}
@@ -98,10 +118,10 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 			//listerner.onLoadMore(isHide);
 			if(isHide){
 				isHide = false;
-				mLimited = list.size() + 1;
+				mLimited = mList.size() + 1;
 			}else{
 				isHide = true;
-				mLimited = Math.min(DEF_NUM, list.size());
+				mLimited = Math.min(DEF_NUM, mList.size());
 			}
 			notifyDataSetChanged();
 		}
