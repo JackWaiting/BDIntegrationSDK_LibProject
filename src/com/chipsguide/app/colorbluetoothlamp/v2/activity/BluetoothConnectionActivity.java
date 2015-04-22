@@ -53,6 +53,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
+		setmConnectStateListener(BluetoothConnectionActivity.this);
 		dao = ConnectDao.getDao(this);
 	}
 
