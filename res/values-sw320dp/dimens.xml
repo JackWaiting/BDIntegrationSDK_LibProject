@@ -5,5 +5,6 @@
     
     <dimen name="round_padding">50dp</dimen>
     <dimen name="diy_round_color">50dp</dimen>
+     <dimen name="diy_round_size">18dp</dimen>
 
 </resources>
