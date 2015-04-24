@@ -125,6 +125,10 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		
 		//音乐律动选择框
 		CheckBox musicRhythmCb = (CheckBox) findViewById(R.id.cb_music_rhythm);
+		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
+		{
+			musicRhythmCb.setChecked(true);
+		}
 		musicRhythmCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
