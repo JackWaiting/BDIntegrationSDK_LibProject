@@ -13,37 +13,7 @@
         android:orientation="horizontal" 
         android:layout_marginTop="10dp"
         >
-
-        <RadioButton
-            android:id="@+id/rb_my_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_music_nav_left"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/my_music"
-            android:textColor="@color/selector_music_rg_text"
-             />
-
-        <RadioButton
-            android:id="@+id/rb_tf_card_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_music_nav_mid"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/tf_card_music"
-            android:textColor="@color/selector_music_rg_text" />
-
-        <RadioButton
-            android:id="@+id/rb_cloud_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_music_nav_right"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/cloud_music"
-            android:textColor="@color/selector_music_rg_text" />
+        
     </RadioGroup>
 
     <android.support.v4.view.ViewPager
