@@ -12,7 +12,6 @@ import android.content.IntentFilter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -129,6 +128,13 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		musicRhythmCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked)
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
+				}else
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
+				}
 			}
 		});
 		
@@ -383,7 +389,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		switch (view.getId()) {
 		case R.id.left_btn:
 			finish();
-			mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
 			break;
 		case R.id.iv_play_state:
 			if (playerManager.isPlaying()) {
