@@ -25,7 +25,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.NetworkState;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.google.gson.Gson;
@@ -332,16 +331,6 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements On
 			flog.d("DISCONNECTED  断开连接");
 			dismissConnectPD();
 			mSubject.setConnectState(false);
-			break;
-		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
-		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
-			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
-			dismissConnectPD();
-			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
-					R.style.full_screen);
-			toastDialog.show();
-			mSubject.setConnectState(false);
-			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;
 		}
 	}

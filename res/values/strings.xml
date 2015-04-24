@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">iLight</string>
+    <string name="language">eu</string>
     <string name="no_network">No network!</string>
     <string name="bluetooth_conn">Bluetooth Connect</string>
     <string name="time_light">Timing Lights</string>
@@ -13,7 +14,7 @@
     <string name="music">Music</string>
     <string name="shake_setting">Settings</string>
     <string name="my_music">My Music</string>
-    <string name="tf_card_music">TF Card Music</string>
+    <string name="tf_card_music">TF Music</string>
     <string name="cloud_music">Cloud Music</string>
     <string name="edit">Edit</string>
     <string name="file_not_exist_or_damaged">The file is damaged or doesn\'t exist!</string>
@@ -98,5 +99,6 @@
     <string name="about">About</string>
     <string name="reach_max_alarm_reminder">10 alarms at most, Can\'t add more!</string>
     <string name="conn_ble">Please connect to Bluetooth</string>
+    <string name="music_rhythm">Music rhythm</string>
     
 </resources>

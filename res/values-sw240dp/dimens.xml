@@ -1,5 +1,6 @@
 <resources>
 
     <dimen name="round_padding">30dp</dimen>
+    <dimen name="diy_round_color">40dp</dimen>
 
 </resources>

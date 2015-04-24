@@ -18,5 +18,7 @@
     <integer name="shake_max_degree">10</integer>
     
     <dimen name="sleep_font_size">55dp</dimen>
+    <dimen name="diy_round_color">40dp</dimen>
+    <dimen name="nav_rb_bg_corner_radius">5dp</dimen>
 
 </resources>

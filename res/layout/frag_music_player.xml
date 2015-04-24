@@ -4,59 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tv_duration2"
-        >
-        
+        android:layout_above="@+id/tv_duration2" >
     </android.support.v4.view.ViewPager>
-    
+
     <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
         android:id="@+id/tv_duration2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_above="@+id/pageIndicator"
+        android:gravity="center_horizontal"
         android:text="00:00/00:00" />
-	
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator 
+
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator
         android:id="@+id/pageIndicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:fillColor="@color/color_blue"
-        app:pageColor="@color/color_dark_gray"
-        android:padding="5dp"
         android:layout_above="@+id/info_layout"
-        />
-    
-	<RelativeLayout 
-	    android:id="@+id/info_layout"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="5dp"
-	    android:layout_alignParentBottom="true"
-	    >
-	    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
-	        style="@style/text_marquee_forever"
-	        android:id="@+id/tv_music_name"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:textSize="20sp"
-	        />
-	    
-	    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView 
-	        android:id="@+id/tv_artist"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:layout_below="@+id/tv_music_name"
-	        android:textSize="16sp"
-	        android:textColor="@android:color/darker_gray"
-	        />
-	    
-	</RelativeLayout>
+        android:padding="5dp"
+        android:visibility="invisible"
+        app:fillColor="@color/color_blue"
+        app:pageColor="@color/color_dark_gray" />
+
+    <RelativeLayout
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp" >
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/tv_music_name"
+            style="@style/text_marquee_forever"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:visibility="invisible"
+             />
+
+        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+            android:id="@+id/tv_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_music_name"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" 
+            android:visibility="invisible"/>
+
+        <CheckBox
+            android:id="@+id/cb_music_rhythm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/music_rhythm"
+            android:button="@drawable/selector_cb_music_rhythm"
+            android:background="@drawable/cb_bg"
+            android:padding="5dp"
+            android:drawablePadding="5dp"
+            android:textColor="@color/selector_music_rhythm_cb_text"
+             />
+    </RelativeLayout>
 
 </RelativeLayout>

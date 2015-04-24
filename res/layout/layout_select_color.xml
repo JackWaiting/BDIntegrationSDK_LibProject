@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal" >
 
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView
+        android:id="@+id/color_r"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/diy_round_color"
+        android:layout_weight="1"
+        android:background="#00000000" />
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView
+        android:id="@+id/color_g"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/diy_round_color"
+        android:layout_weight="1"
+        android:background="#00000000" />
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView
+        android:id="@+id/color_b"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/diy_round_color"
+        android:layout_weight="1"
+        android:background="#00000000" />
+    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView
+        android:id="@+id/color_y"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/diy_round_color"
+        android:layout_weight="1"
+        android:background="#00000000" />
+
+    <!--
     <GridView
         android:id="@+id/gridview_diy_color"
         android:layout_width="0dp"
@@ -29,5 +55,6 @@
             android:src="@drawable/ic_diy_add_color" 
             android:background="@drawable/round_bg"/>
     </LinearLayout>
+    -->
 
 </LinearLayout>

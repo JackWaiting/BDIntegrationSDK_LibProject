@@ -2,5 +2,6 @@
 
     <dimen name="progress_padding">30dp</dimen>
     <dimen name="sleep_font_size">60dp</dimen>
+    <dimen name="diy_round_color">65dp</dimen>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="enter_app">進入應用&gt;&gt;</string>
+	<string name="language">zh_rTW</string>
 	
 	<string-array name="sleep_time">
         <item >10分鍾</item>
@@ -114,4 +115,6 @@
     <string name="about">關於</string>
     <string name="reach_max_alarm_reminder">最多10個鬧鐘，不能添加更多了!</string>
     <string name="conn_ble">請連接藍牙</string>
+    
+    <string name="music_rhythm">音樂律動</string>
 </resources>

@@ -4,13 +4,18 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -19,6 +24,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
+import com.platomix.lib.update.util.AppInfoUtil;
 
 public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		OnCheckedChangeListener {
@@ -31,7 +38,8 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	private MyPagerAdapter adapter;
 	private boolean tf;
-	
+	private boolean zh;
+
 	public static MusicFrag newInstance(boolean tf) {
 		MusicFrag frag = new MusicFrag();
 		Bundle bundle = new Bundle();
@@ -42,6 +50,9 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	@Override
 	protected void initBase() {
+		AppInfoUtil appUtil = AppInfoUtil.getInstance(getActivity()
+				.getApplicationContext());
+		zh = appUtil.isZh();
 		playListener = new MyPlayListener(this);
 		manager = PlayerManager.getInstance(getActivity()
 				.getApplicationContext());
@@ -52,16 +63,19 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		return R.layout.frag_music;
 	}
 
+	private List<Fragment> fragments;
 	@Override
 	protected void initView() {
 		tf = getArguments().getBoolean(TF);
-		List<Fragment> fragments = new ArrayList<Fragment>();
-		findViewById(R.id.rb_tf_card_music).setVisibility(tf ? View.VISIBLE : View.GONE);
+		fragments = new ArrayList<Fragment>();
 		fragments.add(new MyMusicFrag());
-		if(tf){
+		if (tf) {
 			fragments.add(new TFCardMusicFrag());
 		}
-		fragments.add(new CloudMusicFrag());
+		if (zh) {
+			fragments.add(new CloudMusicFrag());
+		}
+
 		adapter = new MyPagerAdapter(getChildFragmentManager());
 		adapter.setList(fragments);
 
@@ -70,8 +84,41 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		viewPager.setAdapter(adapter);
 		viewPager.setOnPageChangeListener(this);
 		topNavRg = (RadioGroup) findViewById(R.id.rg_top_nav);
+		initTopNav();
 		topNavRg.setOnCheckedChangeListener(this);
-		topNavRg.check(R.id.rb_my_music);
+	}
+
+	private void initTopNav() {
+		int size = fragments.size();
+		int textRes[] = {R.string.my_music, R.string.tf_card_music, R.string.cloud_music};
+		int rbDrawables[] = new int[size];
+		if(size == 1){
+			rbDrawables[0] = R.drawable.nav_rb_bg_singl;
+		}else if(size == 2){
+			rbDrawables[0] = R.drawable.nav_rb_bg_left;
+			rbDrawables[1] = R.drawable.nav_rb_bg_right;
+			if(zh){
+				textRes[1] = R.string.cloud_music;
+			}
+		}else if(size == 3){
+			rbDrawables[0] = R.drawable.nav_rb_bg_left;
+			rbDrawables[1] = R.drawable.nav_rb_bg_mid;
+			rbDrawables[2] = R.drawable.nav_rb_bg_right;
+		}
+		int screenSize = getResources().getDisplayMetrics().widthPixels;
+		int width = (int)(screenSize / Math.max(size + 0.5, 3));
+		int padding = PixelUtil.dp2px(5, getActivity());
+		for (int i = 0; i < size; i++) {
+			RadioButton tempButton = (RadioButton) LayoutInflater.from(getActivity()).inflate(R.layout.music_nav_rb, topNavRg, false);
+			tempButton.setBackgroundResource(rbDrawables[i]);
+			tempButton.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+			tempButton.setPadding(0, padding, 0, padding);
+			tempButton.setText(textRes[i]);
+			tempButton.setId(i);
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT);
+			topNavRg.addView(tempButton, params);
+		}
+		topNavRg.check(0);
 	}
 
 	@Override
@@ -80,6 +127,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	private class MyPagerAdapter extends FragmentPagerAdapter {
 		private List<Fragment> fragments = new ArrayList<Fragment>();
+
 		public MyPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -105,7 +153,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		public int getCount() {
 			return fragments.size();
 		}
-		
+
 	}
 
 	public void updateUI(boolean isPlaying) {
@@ -115,7 +163,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		onMusicPlayingStateChange(isPlaying);
 		onMusicChange(null, null);
 	}
-	
+
 	public void setCurrentItem(int item) {
 		viewPager.setCurrentItem(item);
 	}
@@ -186,7 +234,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			}
 		}
 	}
-	
+
 	private void onMusicChange(PlayType oldType, PlayType newType) {
 		int size = adapter.getFragments().size();
 		for (int i = 0; i < size; i++) {
@@ -222,35 +270,19 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	@Override
 	public void onPageSelected(int item) {
-		int checkedId = R.id.rb_my_music;
-		switch (item) {
-		case 0:
-			break;
-		case 1:
-			checkedId = R.id.rb_tf_card_music;
-			if (!tf) {
-				checkedId = R.id.rb_cloud_music;
-			}
-			break;
-		case 2:
-			checkedId = R.id.rb_cloud_music;
-			break;
-		default:
-			break;
-		}
-		topNavRg.check(checkedId);
+		topNavRg.check(item);
 	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		int item = 0;
 		switch (checkedId) {
-		case R.id.rb_my_music:
+		case 0:
 			break;
-		case R.id.rb_tf_card_music:
+		case 1:
 			item = 1;
 			break;
-		case R.id.rb_cloud_music:
+		case 2:
 			item = 2;
 			if (!tf) {
 				item = 1;
