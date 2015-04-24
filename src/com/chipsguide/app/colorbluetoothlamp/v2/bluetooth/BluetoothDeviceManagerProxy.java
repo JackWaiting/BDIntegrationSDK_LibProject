@@ -358,7 +358,9 @@ public class BluetoothDeviceManagerProxy{
 	
 	/**
 	 * 添加连接状态改变监听
-	 * 
+	 * 如果添加的类为Activity、Fragment或其中的非静态内部类，<br>
+	 * 那么在Activity、Fragment销毁时，一定要调用{@link BluetoothDeviceManagerProxy#removeOnBluetoothDeviceConnectionStateChangedListener(OnBluetoothDeviceConnectionStateChangedListener)}}
+	 * 将其移除，否则会引起内存泄露
 	 * @param listener
 	 */
 	public void addOnBluetoothDeviceConnectionStateChangedListener(

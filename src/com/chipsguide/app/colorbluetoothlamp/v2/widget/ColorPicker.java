@@ -168,9 +168,8 @@ public class ColorPicker extends View {
 		
 	}
 
-	@SuppressLint("DrawAllocation") @Override
+	@Override
 	protected void onDraw(Canvas canvas) {
-
 		int centerX = getWidth() / 2;
 		int centerY = getHeight() / 2;
 
@@ -185,16 +184,6 @@ public class ColorPicker extends View {
 		// canvas.drawPath(colorViewPath, colorViewPaint);
 
 		// drawing value slider
-
-		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
-
-		SweepGradient sweepGradient = new SweepGradient(centerX, centerY,
-				new int[] { Color.BLACK, Color.HSVToColor(hsv), Color.WHITE },
-				null);
-		
-		sweepGradient.setLocalMatrix(gradientRotationMatrix);
-		valueSliderPaint.setShader(sweepGradient);
-
 		canvas.drawPath(valueSliderPath, valueSliderPaint);
 
 		// drawing color wheel pointer
@@ -255,7 +244,6 @@ public class ColorPicker extends View {
 
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
-
 		int centerX = width / 2;
 		int centerY = height / 2;
 
@@ -283,12 +271,20 @@ public class ColorPicker extends View {
 		colorViewPath.arcTo(outerWheelRect, 270, -180);
 		colorViewPath.arcTo(innerWheelRect, 90, 180);
 
+		valueSliderPath.reset();
 		valueSliderPath.arcTo(outerWheelRect, 180, 180);
 		valueSliderPath.arcTo(innerWheelRect, 0, -180);
 
 		minValidateTouchArcRadius = innerWheelRadius - padding;
 		maxValidateTouchArcRadius = outerWheelRadius + padding;
 		yMaxTouchValidateRange = (getHeight() / 2 + padding + offset);
+		
+		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
+		sweepGradient = new SweepGradient(centerX, centerY,
+				new int[] { Color.BLACK, Color.HSVToColor(hsv), Color.WHITE },
+				null);
+		sweepGradient.setLocalMatrix(gradientRotationMatrix);
+		valueSliderPaint.setShader(sweepGradient);
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -454,7 +450,22 @@ public class ColorPicker extends View {
 			super.onRestoreInstanceState(state);
 		}
 	}
-
+	
+	SweepGradient sweepGradient;
+	@Override
+	public void invalidate() {
+		int centerX = getWidth() / 2;
+		int centerY = getHeight() / 2;
+		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
+		sweepGradient = new SweepGradient(centerX, centerY,
+				new int[] { Color.BLACK, Color.HSVToColor(hsv), Color.WHITE },
+				null);
+		
+		sweepGradient.setLocalMatrix(gradientRotationMatrix);
+		valueSliderPaint.setShader(sweepGradient);
+		super.invalidate();
+	}
+	
 	private OnColorChangeListener mColorChangelistener;
 
 	public void setOnColorChangeListener(OnColorChangeListener listener) {
