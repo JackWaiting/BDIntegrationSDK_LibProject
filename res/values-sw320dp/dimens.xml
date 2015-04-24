@@ -4,5 +4,6 @@
     <dimen name="sleep_font_size">40dp</dimen>
     
     <dimen name="round_padding">50dp</dimen>
+    <dimen name="diy_round_color">50dp</dimen>
 
 </resources>

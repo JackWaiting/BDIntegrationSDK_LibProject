@@ -57,6 +57,10 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		tf = getArguments().getBoolean(TF);
 		List<Fragment> fragments = new ArrayList<Fragment>();
 		findViewById(R.id.rb_tf_card_music).setVisibility(tf ? View.VISIBLE : View.GONE);
+		if(!getActivity().getResources().getString(R.string.language).startsWith("zh"))
+		{
+			findViewById(R.id.rb_cloud_music).setVisibility(View.GONE);
+		}
 		fragments.add(new MyMusicFrag());
 		if(tf){
 			fragments.add(new TFCardMusicFrag());
@@ -228,12 +232,18 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			break;
 		case 1:
 			checkedId = R.id.rb_tf_card_music;
-			if (!tf) {
-				checkedId = R.id.rb_cloud_music;
+			if(getActivity().getResources().getString(R.string.language).startsWith("zh"))
+			{
+				if (!tf) {
+					checkedId = R.id.rb_cloud_music;
+				}
 			}
 			break;
 		case 2:
-			checkedId = R.id.rb_cloud_music;
+			if(getActivity().getResources().getString(R.string.language).startsWith("zh"))
+			{
+				checkedId = R.id.rb_cloud_music;
+			}
 			break;
 		default:
 			break;
@@ -251,9 +261,12 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			item = 1;
 			break;
 		case R.id.rb_cloud_music:
-			item = 2;
-			if (!tf) {
-				item = 1;
+			if(getActivity().getResources().getString(R.string.language).equals("zh"))
+			{
+				item = 2;
+				if (!tf) {
+					item = 1;
+				}
 			}
 			break;
 		default:

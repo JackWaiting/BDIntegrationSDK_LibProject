@@ -2,6 +2,7 @@
 <resources>
     
 	<string name="enter_app">進入應用&gt;&gt;</string>
+	<string name="language">zh_rHK</string>
 	
 	<string-array name="sleep_time">
         <item >10分鍾</item>
