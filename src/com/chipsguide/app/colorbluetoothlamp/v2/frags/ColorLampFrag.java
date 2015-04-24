@@ -1,46 +1,32 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.adapter.GridViewDIYColorAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
+import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
+		OnColorChangeListener, LampListener, OnClickListener {
+//		OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
 
-	private PreferenceUtil mPreference;
+//	private PreferenceUtil mPreference;
 	private LampManager mLampManager;
-	private GridViewDIYColorAdapter diyColorAdapter;
+//	private GridViewDIYColorAdapter diyColorAdapter;
 
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
@@ -51,16 +37,20 @@ public class ColorLampFrag extends BaseFragment implements
 	private RadioButton mButtonLightPusle;
 	private RadioButton mButtonLightFlashing;
 	private RadioButton mButtonLightCandle;
-	private GridView mGridViewDIYColor;
-	private ImageView mImageAddColor;
+//	private GridView mGridViewDIYColor;
+//	private ImageView mImageAddColor;
 
+	private ColorImageView mColorImageViewr;
+	private ColorImageView mColorImageViewg;
+	private ColorImageView mColorImageViewb;
+	private ColorImageView mColorImageViewy;
 	private Animation shake;
-	private boolean isShake = false;
+//	private boolean isShake = false;
 
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
 
-	private List<String> colors = new ArrayList<String>();
+//	private List<String> colors = new ArrayList<String>();
 
 	@Override
 	protected void initBase()
@@ -68,23 +58,23 @@ public class ColorLampFrag extends BaseFragment implements
 		mLampManager = LampManager.getInstance(getActivity());
 		mLampManager.init();
 		mLampManager.setLampListener(this);
-		mPreference = PreferenceUtil.getIntance(getActivity());
-		initColor();
+//		mPreference = PreferenceUtil.getIntance(getActivity());
+//		initColor();
 	}
 
-	private void initColor()
-	{
-		colors.clear();
-		Set<String> set = mPreference.getColor();
-		flog.e("set" + set);
-		if (set != null)
-		{
-			for (Iterator<String> iter = set.iterator(); iter.hasNext();)
-			{
-				colors.add(iter.next());
-			}
-		}
-	}
+//	private void initColor()
+//	{
+//		colors.clear();
+//		Set<String> set = mPreference.getColor();
+//		flog.e("set" + set);
+//		if (set != null)
+//		{
+//			for (Iterator<String> iter = set.iterator(); iter.hasNext();)
+//			{
+//				colors.add(iter.next());
+//			}
+//		}
+//	}
 
 	@Override
 	protected int getLayoutId()
@@ -113,53 +103,66 @@ public class ColorLampFrag extends BaseFragment implements
 
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);
+		
+		mColorImageViewr = (ColorImageView) this.findViewById(R.id.color_r);
+		mColorImageViewg = (ColorImageView) this.findViewById(R.id.color_g);
+		mColorImageViewb = (ColorImageView) this.findViewById(R.id.color_b);
+		mColorImageViewy = (ColorImageView) this.findViewById(R.id.color_y);
+		mColorImageViewr.setImageviewColor(getResources().getColor(R.color.color_r));
+		mColorImageViewg.setImageviewColor(getResources().getColor(R.color.color_g));
+		mColorImageViewb.setImageviewColor(getResources().getColor(R.color.color_b));
+		mColorImageViewy.setImageviewColor(getResources().getColor(R.color.color_y));
+		
+		mColorImageViewr.setOnClickListener(this);
+		mColorImageViewg.setOnClickListener(this);
+		mColorImageViewb.setOnClickListener(this);
+		mColorImageViewy.setOnClickListener(this);
+//		mGridViewDIYColor = (GridView) root
+//				.findViewById(R.id.gridview_diy_color);
+//		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
+//		mImageAddColor = (ImageView) this
+//				.findViewById(R.id.imageview_diy_addcolor);
+//		mGridViewDIYColor.setAdapter(diyColorAdapter);
 
-		mGridViewDIYColor = (GridView) root
-				.findViewById(R.id.gridview_diy_color);
-		diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
-		mImageAddColor = (ImageView) this
-				.findViewById(R.id.imageview_diy_addcolor);
-		mGridViewDIYColor.setAdapter(diyColorAdapter);
+//		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);// 加载动画资源文件
+//		shake.setAnimationListener(this);
+//		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
+//		{
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View v, int position,
+//					long arg3)
+//			{
+//				if (colors.size() > position)
+//				{
+//					mLampManager.setColor(Integer.parseInt(colors.get(position)));
+//				}
+//			}
+//		});
 
-		shake = AnimationUtils.loadAnimation(getActivity(), R.anim.color_shake);// 加载动画资源文件
-		shake.setAnimationListener(this);
-		mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View v, int position,
-					long arg3)
-			{
-				if (colors.size() > position)
-				{
-					mLampManager.setColor(Integer.parseInt(colors.get(position)));
-				}
-			}
-		});
-
-		mGridViewDIYColor
-				.setOnItemLongClickListener(new OnItemLongClickListener()
-				{
-
-					@Override
-					public boolean onItemLongClick(AdapterView<?> arg0, View v,
-							int position, long arg3)
-					{
-						if (!isShake)
-						{
-							diyColorAdapter.setVisility(true);
-							for (int i = 0; i < arg0.getCount(); i++)
-							{
-								arg0.getChildAt(i).startAnimation(shake);
-							}
-						} else
-						{
-							diyColorAdapter.setVisility(false);
-							shake.cancel();
-						}
-						return false;
-					}
-				});
+//		mGridViewDIYColor
+//				.setOnItemLongClickListener(new OnItemLongClickListener()
+//				{
+//
+//					@Override
+//					public boolean onItemLongClick(AdapterView<?> arg0, View v,
+//							int position, long arg3)
+//					{
+//						if (!isShake)
+//						{
+//							diyColorAdapter.setVisility(true);
+//							for (int i = 0; i < arg0.getCount(); i++)
+//							{
+//								arg0.getChildAt(i).startAnimation(shake);
+//							}
+//						} else
+//						{
+//							diyColorAdapter.setVisility(false);
+//							shake.cancel();
+//						}
+//						return false;
+//					}
+//				});
 
 		mButtonLightNormal.setOnClickListener(this);
 		mButtonLightRainbow.setOnClickListener(this);
@@ -169,45 +172,66 @@ public class ColorLampFrag extends BaseFragment implements
 
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
-		mImageAddColor.setOnClickListener(this);
+//		mImageAddColor.setOnClickListener(this);
 
-		diyColorAdapter.setList(colors);
+//		diyColorAdapter.setList(colors);
 	}
 
 	@Override
 	public void onClick(View v)
 	{
-		shake.cancel();
+//		shake.cancel();
 		if (v instanceof RadioButton)
 		{
 			effect(v);
 		}
 		checkedbox(v.getId());
-		addColor(v);
+		ColorImageView(v.getId());
+//		addColor(v);
 	}
-
-	private void addColor(View v)
+	
+	private void ColorImageView(int id)
 	{
-		switch (v.getId())
+		switch (id)
 		{
-		case R.id.imageview_diy_addcolor:
-			if (mPreference.getColor().size() >= 4)
-			{
-				// 超出范围
-			} else
-			{
-				if (color == -1)
-				{
-					showToast("请设置颜色");
-				}
-				colors.add(color + "");
-				mPreference.setColor(new HashSet<String>(colors));
-				diyColorAdapter.setList(colors);
-			}
-			diyColorAdapter.setVisility(false);
+		case R.id.color_r:
+			mLampManager.setColor(getResources().getColor(R.color.color_r));
+			break;
+		case R.id.color_g:
+			mLampManager.setColor(getResources().getColor(R.color.color_g));
+			break;
+		case R.id.color_b:
+			mLampManager.setColor(getResources().getColor(R.color.color_b));
+			break;
+		case R.id.color_y:
+			mLampManager.setColor(getResources().getColor(R.color.color_y));
 			break;
 		}
 	}
+
+
+//	private void addColor(View v)
+//	{
+//		switch (v.getId())
+//		{
+//		case R.id.imageview_diy_addcolor:
+//			if (mPreference.getColor().size() >= 4)
+//			{
+//				// 超出范围
+//			} else
+//			{
+//				if (color == -1)
+//				{
+//					showToast("请设置颜色");
+//				}
+//				colors.add(color + "");
+//				mPreference.setColor(new HashSet<String>(colors));
+//				diyColorAdapter.setList(colors);
+//			}
+//			diyColorAdapter.setVisility(false);
+//			break;
+//		}
+//	}
 
 	private void effect(View v)
 	{
@@ -374,23 +398,23 @@ public class ColorLampFrag extends BaseFragment implements
 		}
 	}
 
-	@Override
-	public void onAnimationEnd(Animation animation)
-	{
-		isShake = false;
-	}
-
-	@Override
-	public void onAnimationRepeat(Animation animation)
-	{
-
-	}
-
-	@Override
-	public void onAnimationStart(Animation animation)
-	{
-		isShake = true;
-	}
+//	@Override
+//	public void onAnimationEnd(Animation animation)
+//	{
+//		isShake = false;
+//	}
+//
+//	@Override
+//	public void onAnimationRepeat(Animation animation)
+//	{
+//
+//	}
+//
+//	@Override
+//	public void onAnimationStart(Animation animation)
+//	{
+//		isShake = true;
+//	}
 
 	@Override
 	public void onLampColor(int red, int green, int blue)

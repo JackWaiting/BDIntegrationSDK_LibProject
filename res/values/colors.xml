@@ -23,5 +23,10 @@
     
     <color name="press_blue">#DDF0FE</color>
     
-     <color name="color_round">#88000000</color>
+    <color name="color_round">#88000000</color>
+    
+    <color name="color_r">#ff0000</color>
+    <color name="color_g">#00ff00</color>
+    <color name="color_b">#0000ff</color>
+    <color name="color_y">#ffff01</color>
 </resources>

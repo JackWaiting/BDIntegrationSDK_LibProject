@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="enter_app">進入應用&gt;&gt;</string>
+	<string name="language">zh_rTW</string>
 	
 	<string-array name="sleep_time">
         <item >10分鍾</item>
