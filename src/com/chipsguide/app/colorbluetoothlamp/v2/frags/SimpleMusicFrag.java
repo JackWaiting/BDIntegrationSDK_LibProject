@@ -108,7 +108,9 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 		if (adapter == null) {
 			adapter = new SimpleMusicListAdapter(getActivity());
 		}
+		musicListLv.addFooterView(footer);
 		musicListLv.setAdapter(adapter);
+		musicListLv.removeFooterView(footer);
 	}
 	
 	private boolean add;
