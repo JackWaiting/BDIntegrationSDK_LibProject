@@ -294,6 +294,7 @@ public class ColorLampFrag extends BaseFragment implements
 			} else
 			{
 				mLampManager.turnCommonOn();
+				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
 		case R.id.cb_lamp_on:
@@ -312,25 +313,38 @@ public class ColorLampFrag extends BaseFragment implements
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
 	{
 		flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
+		backChange(colorState, OnorOff,true);
+	}
+
+	@Override
+	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
+	{
+		backChange(colorState, OnorOff,false);
+	}
+	
+	/**
+	 * @param colorState彩灯开关
+	 * @param OnorOff总开关
+	 * @param isWhite是否打开白灯
+	 */
+	private void backChange(boolean colorState, boolean OnorOff,boolean isWhite)
+	{
 		if (mLampCheckBox != null && mLampOnCheckBox != null)
 		{
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
 			if(!colorState)
 			{
-				mColorPicker.setColor(getResources().getColor(R.color.white));
+				if(isWhite)
+				{
+					mColorPicker.setColor(getResources().getColor(R.color.white));
+				}
 				if(!mButtonLightNormal.isChecked())
 				{
 					mButtonLightNormal.setChecked(true);	
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
-	{
-		onLampStateInqiryBackChange(colorState, OnorOff);
 	}
 
 	@Override
