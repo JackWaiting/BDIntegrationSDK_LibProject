@@ -12,10 +12,14 @@ import android.content.IntentFilter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -119,6 +123,15 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 				}
 			}
 		});
+		
+		//音乐律动选择框
+		CheckBox musicRhythmCb = (CheckBox) findViewById(R.id.cb_music_rhythm);
+		musicRhythmCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			}
+		});
+		
 		initVolume();
 		initForType();
 		updateUI(true);
@@ -159,7 +172,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		spectrumLayout = new MusicSpectrumView(this);
 		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
-		views.add(spectrumLayout);
+		//views.add(spectrumLayout);
 
 		ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setAdapter(new MyPagerAdapter());
