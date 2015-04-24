@@ -168,8 +168,8 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				mAdapter.setList(StringUtil.getListConnectMessage(
 						connectBluetoothDevices, listBluetooth));
 			}
-			//连接成功后，跳转到主界面
-			startActivity(MainActivity.class);
+			//连接成功后，返回到主界面
+			finish();
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
