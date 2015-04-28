@@ -171,6 +171,8 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 					forSearchEntity(response);
 				}
 			} else {
+				footer.hideProgressBar();
+				footer.setText(R.string.hint_loading_failed);
 			}
 		}
 	};
@@ -193,9 +195,12 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 					if (currentPage >= totalPage) {
 						musicListLv.removeFooterView(footer);
 					}
+					return;
 				}
 			}
 		}
+		footer.hideProgressBar();
+		footer.setText(R.string.hint_loading_failed);
 	}
 
 	private void forSearchEntity(String response) {
