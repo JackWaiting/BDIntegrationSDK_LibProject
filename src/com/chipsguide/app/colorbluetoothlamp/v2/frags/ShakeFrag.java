@@ -103,12 +103,9 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			}
 			break;
 		case R.id.rb_next_song:
-			if(playerManager.isPlaying()){
-				playerManager.next();
-			}
+			playerManager.next();
 			break;
 		}
-		Log.d("ShakeFrag", "摇一摇>>" + text);
 	}
 	
 	private void startShakeAnim() {
