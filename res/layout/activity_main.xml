@@ -3,15 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main"
+    android:clipChildren="false"
      >
-
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView
-        android:id="@+id/titleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" 
-        >
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView>
 
     <LinearLayout
         android:id="@+id/content_layout"
@@ -21,4 +14,13 @@
         android:orientation="vertical" >
     </LinearLayout>
 
+    <com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" 
+        android:clipChildren="false"
+        >
+    </com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView>
+    
 </RelativeLayout>

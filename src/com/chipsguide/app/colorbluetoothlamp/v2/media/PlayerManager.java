@@ -334,7 +334,7 @@ public class PlayerManager {
 		player.getLocalPlaylist(2000, new LoadMusicCallback() {
 			@Override
 			public void onLoadMusic(List<PlaylistEntity> list) {
-				mMusicList = new ArrayList<Music>();
+				List<Music> mList = new ArrayList<Music>();
 				for (int i = 0; i < list.size(); i++) {
 					PlaylistEntity entity = list.get(i);
 					Music music = new Music();
@@ -344,12 +344,15 @@ public class PlayerManager {
 					music.setName(entity.getTitle());
 					music.setLocalPath(entity.getUrl());
 					music.setPath(entity.getUrl());
-					mMusicList.add(music);
+					mList.add(music);
 				}
 				int position = preferenceUtil.getPhoneMusicPosition();
-				currentPosition = Math.min(position, mMusicList.size() - 1);
-				selectePlayEngine(autoPlay);
-				callback.onLoadMusic(mMusicList, position);
+				if(position >= 0 || autoPlay){ //如果上次播放过或者需要自动播放
+					mMusicList = mList;
+					currentPosition = Math.min(position, mMusicList.size() - 1);
+					selectePlayEngine(autoPlay);
+				}
+				callback.onLoadMusic(mList, position);
 			}
 		});
 	}

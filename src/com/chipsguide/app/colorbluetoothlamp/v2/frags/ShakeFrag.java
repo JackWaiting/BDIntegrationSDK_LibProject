@@ -1,7 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -94,6 +95,10 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			mLampManager.LampOnorOff();
 			break;
 		case R.id.rb_player_toggle:
+			if(playerManager.getCurrentPosition() == -1){
+				showTitleToast(R.string.no_play_content);
+				return;
+			}
 			if(playerManager.isPlaying()){
 				playerManager.pause();
 			}else{
@@ -103,8 +108,23 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			}
 			break;
 		case R.id.rb_next_song:
+			if(playerManager.getCurrentPosition() == -1){
+				showTitleToast(R.string.no_play_content);
+				return;
+			}
 			playerManager.next();
 			break;
+		}
+	}
+	/**
+	 * 显示标题栏提示
+	 * @param resId
+	 */
+	private void showTitleToast(int resId) {
+		Activity activity = getActivity();
+		if(activity instanceof MainActivity){
+			MainActivity act = (MainActivity) activity;
+			act.showTitleToast(resId);
 		}
 	}
 	

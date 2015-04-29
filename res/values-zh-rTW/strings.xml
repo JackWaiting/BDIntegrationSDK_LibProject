@@ -117,4 +117,5 @@
     <string name="conn_ble">請連接藍牙</string>
     
     <string name="music_rhythm">音樂律動</string>
+    <string name="no_play_content">沒有播放內容!</string>
 </resources>
