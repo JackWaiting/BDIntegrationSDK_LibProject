@@ -1,5 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -229,6 +230,31 @@ public class MainActivity extends BaseActivity implements
        // 请求开启 Bluetooth
        this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
     }
+    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		// requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
+		if (requestCode == REQUEST_CODE_BLUETOOTH_ON)
+		{
+			switch (resultCode)
+			{
+			// 点击确认按钮
+			case Activity.RESULT_OK:
+			{
+				// TODO 用户选择开启 Bluetooth，Bluetooth 会被开启
+			}
+				break;
+			// 点击取消按钮或点击返回键
+			case Activity.RESULT_CANCELED:
+			{
+				// TODO 用户拒绝打开 Bluetooth, Bluetooth 不会被开启
+				finish();
+			}
+				break;
+			}
+		}
+	}
 
 	@Override
 	public void updateVolume()
