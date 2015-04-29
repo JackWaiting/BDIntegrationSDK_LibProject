@@ -63,7 +63,7 @@ public class NavFrag extends BaseFragment {
 			if(!mSubject.getConnectState())
 			{
 				showToast(R.string.conn_ble);
-				return;
+				//return;
 			}
 			startActivity(TimeLightActivity.class);
 			break;
