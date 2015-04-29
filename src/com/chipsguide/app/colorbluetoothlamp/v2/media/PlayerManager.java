@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -329,7 +330,6 @@ public class PlayerManager {
 	 * @param autoPlay 加载完后是否自动播放，如果为true则从上次的位置开始播放
 	 */
 	public void loadLocalMusic(final MusicCallback callback, final boolean autoPlay) {
-		setPlayType(PlayType.Local);
 		LocalPlayer player = LocalPlayer.getInstance(mContext);
 		player.getLocalPlaylist(2000, new LoadMusicCallback() {
 			@Override
@@ -347,6 +347,9 @@ public class PlayerManager {
 					mList.add(music);
 				}
 				int position = preferenceUtil.getPhoneMusicPosition();
+				if(autoPlay){
+					setPlayType(PlayType.Local);
+				}
 				if(position >= 0 || autoPlay){ //如果上次播放过或者需要自动播放
 					mMusicList = mList;
 					currentPosition = Math.min(position, mMusicList.size() - 1);

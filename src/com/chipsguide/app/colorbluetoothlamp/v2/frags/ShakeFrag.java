@@ -86,7 +86,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	@Override
 	public void onShake() {
 		startShakeAnim();
-		String text = getTextFromId(currentSetId);
+		//String text = getTextFromId(currentSetId);
 		switch(currentSetId){
 		case R.id.rb_random_color:
 			mLampManager.randomColor();
