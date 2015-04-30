@@ -13,12 +13,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -35,6 +34,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView;
@@ -49,7 +49,7 @@ import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnec
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
-public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDeviceConnectionStateChangedListener{
+public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDeviceConnectionStateChangedListener,LampListener{
 	public static final String EXTRA_MODE_TO_BE = "mode_to_be";
 	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; // 将要切换的模式
 	private PlayerManager playerManager;
@@ -67,6 +67,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
 	private SeekBar volumeSeekBar;
+	private CheckBox musicRhythmCb;//音乐律动选择框
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private static final int VOLUME_FACTOR = 1;
 	private static final int MAX_VOLUME = 31;
@@ -86,6 +87,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		PlaybackMode mode = PlayUtil.getModeWithIndex(index);
 		currentModeRes = PlayUtil.getModeImgRes(mode);
 		mLampManager = LampManager.getInstance(this);
+		mLampManager.addOnBluetoothDeviceLampListener(this);
 
 		mAdapter = new SimpleMusicListAdapter(this);
 		registBroadcase();
@@ -123,16 +125,18 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 			}
 		});
 		
-		//音乐律动选择框
-		CheckBox musicRhythmCb = (CheckBox) findViewById(R.id.cb_music_rhythm);
+		musicRhythmCb = (CheckBox) findViewById(R.id.cb_music_rhythm);
 		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
 		{
 			musicRhythmCb.setChecked(true);
 		}
-		musicRhythmCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		musicRhythmCb.setOnClickListener(new OnClickListener()
+		{
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked)
+			public void onClick(View v)
+			{
+				if(musicRhythmCb.isChecked())
 				{
 					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
 				}else
@@ -540,6 +544,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	protected void onDestroy() {
 		super.onDestroy();
 		blzDeviceProxy.removeDeviceUiChangedListener();
+		mLampManager.removeOnBluetoothDeviceLampListener(this);
 		if (register) {
 			unregisterReceiver(bluzBroadcaseReceiver);
 		}
@@ -549,6 +554,19 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice arg0,
 			int state) {
 		initVolume();
+	}
+	
+	@Override
+	public void onLampRhythmChange(int rhythm)
+	{
+		// TODO 更新音乐律动
+		if(rhythm == BluetoothDeviceColorLampManager.Effect.RHYTHM)
+		{
+			musicRhythmCb.setChecked(true);
+		}else
+		{
+			musicRhythmCb.setChecked(false);
+		}
 	}
 
 	@Override
@@ -560,6 +578,28 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 
 	@Override
 	public void updateConnectState(boolean isConnect)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onLampColor(int red, int green, int blue)
 	{
 		// TODO Auto-generated method stub
 		

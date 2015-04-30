@@ -19,6 +19,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
@@ -142,6 +143,7 @@ public class MainActivity extends BaseActivity implements
 		stopService(alarmAlertService);
 		alarms.cancel(true);
 		mSubject.destory();
+		LampManager.getInstance(this).destory();
 	}
 
 	private boolean forceUpdate;

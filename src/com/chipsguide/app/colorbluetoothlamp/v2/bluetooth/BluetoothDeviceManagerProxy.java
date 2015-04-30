@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
-import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
@@ -67,7 +66,7 @@ public class BluetoothDeviceManagerProxy{
 	 * 连接状态监听集合
 	 */
 	private List<OnBluetoothDeviceConnectionStateChangedListener> conStateListeners;
-
+	
 	/**
 	 * 蓝牙设备卡音乐管理类
 	 */
@@ -386,7 +385,7 @@ public class BluetoothDeviceManagerProxy{
 					device, state);
 		}
 	}
-
+	
 	/**
 	 * 断开蓝牙连接
 	 */
