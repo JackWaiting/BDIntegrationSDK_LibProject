@@ -50,6 +50,7 @@ public class ColorLampFrag extends BaseFragment implements
 
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
+	private boolean hmcolor = false;//是否是手动控制颜色的变化。
 
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 
@@ -312,6 +313,7 @@ public class ColorLampFrag extends BaseFragment implements
 			{
 				rank = 15;
 			}
+			hmcolor = true;
 			mLampManager.setBrightness(rank + 1);
 		} else
 		{
@@ -371,7 +373,7 @@ public class ColorLampFrag extends BaseFragment implements
 			mLampOnCheckBox.setChecked(OnorOff);
 			if (!colorState)
 			{
-				if (isWhite)
+				if (isWhite || !hmcolor )
 				{
 					mColorPicker.setColor(getResources()
 							.getColor(R.color.white));
@@ -382,6 +384,7 @@ public class ColorLampFrag extends BaseFragment implements
 				}
 			}
 		}
+		hmcolor = false;
 	}
 
 	@Override
