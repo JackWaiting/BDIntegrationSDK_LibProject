@@ -43,10 +43,9 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 	}
 
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

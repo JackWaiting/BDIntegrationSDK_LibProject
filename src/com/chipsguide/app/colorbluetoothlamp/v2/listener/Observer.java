@@ -1,1 +1,1 @@
-package com.chipsguide.app.colorbluetoothlamp.v2.listener;/** * @author fiskz *观察者 */public interface Observer {	/**	 * 更新音量	 */	public void updateVolume();	/**	 * 更新蓝牙连接状态	 */	public void updateConnectState(boolean isConnect);	}
+package com.chipsguide.app.colorbluetoothlamp.v2.listener;/** * @author fiskz *观察者 */public interface Observer {	/**	 * 更新音量	 */	public void updateVolume(int volume);	/**	 * 更新蓝牙连接状态	 */	public void updateConnectState(boolean isConnect);	}

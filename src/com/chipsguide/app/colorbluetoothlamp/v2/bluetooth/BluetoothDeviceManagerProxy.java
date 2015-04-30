@@ -10,6 +10,8 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
@@ -21,7 +23,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePlugglable;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceUsbMusicManager;
 
-public class BluetoothDeviceManagerProxy{
+public class BluetoothDeviceManagerProxy implements Observer{
 	public static final String TAG = "BluetoothDeviceManagerProxy";
 	public static BluetoothDeviceManagerProxy proxy;
 	/**
@@ -84,12 +86,15 @@ public class BluetoothDeviceManagerProxy{
 	 * 是否为第一次（连接成功后）模式变化
 	 */
 	public static boolean firstModeChange = true;
+	protected MySubject mSubject;//被观察者
 	
 	private Context context;
 	private BluetoothDeviceManagerProxy(Context context){
 		this.context = context;
 		getBluetoothDeviceManager();
 		conStateListeners = new ArrayList<OnBluetoothDeviceConnectionStateChangedListener>();
+		mSubject=MySubject.getSubject();
+		mSubject.attach(BluetoothDeviceManagerProxy.this);//加入观察者
 	}
 	public static BluetoothDeviceManagerProxy getInstance(Context context){
 		if(proxy == null){
@@ -462,6 +467,7 @@ public class BluetoothDeviceManagerProxy{
 		@Override
 		public void onBluetoothDeviceVolumeChanged(int volume, boolean on) {
 			currentVolume = volume;
+			mSubject.setVolume(currentVolume, on);
 			if(volumeFirstCallback){
 				volumeFirstCallback = false;
 			}
@@ -586,6 +592,18 @@ public class BluetoothDeviceManagerProxy{
 		disconnected();
 		deviceMusicManager = null;
 		proxy = null;
+	}
+	@Override
+	public void updateVolume(int volume)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void updateConnectState(boolean isConnect)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

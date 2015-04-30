@@ -282,9 +282,9 @@ public class SleepAssistantActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override

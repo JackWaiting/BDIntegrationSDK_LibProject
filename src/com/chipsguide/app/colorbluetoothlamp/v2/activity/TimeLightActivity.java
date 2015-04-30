@@ -151,7 +151,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	}
 
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO Auto-generated method stub
 		

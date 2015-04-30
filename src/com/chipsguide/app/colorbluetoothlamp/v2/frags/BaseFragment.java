@@ -100,7 +100,7 @@ public abstract class BaseFragment extends Fragment implements Observer {
 	}
 	
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO 固件音量
 		

@@ -159,9 +159,9 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 			break;
 		}
 	}
-
+	
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO Auto-generated method stub
 		

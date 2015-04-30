@@ -265,13 +265,14 @@ public class MainActivity extends BaseActivity implements
 			}
 		}
 	}
-
+	
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
-		// TODO 固件音量
+		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void updateConnectState(boolean isConnect)

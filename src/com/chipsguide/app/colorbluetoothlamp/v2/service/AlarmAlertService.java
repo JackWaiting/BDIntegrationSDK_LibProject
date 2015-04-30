@@ -214,7 +214,7 @@ public class AlarmAlertService extends AlarmService implements Observer{
 	}
 
 	@Override
-	public void updateVolume() {
+	public void updateVolume(int volume) {
 	}
 	
 	@Override

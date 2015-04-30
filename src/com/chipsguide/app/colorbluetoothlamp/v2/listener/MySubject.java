@@ -52,7 +52,7 @@ public class MySubject implements Subject {
 	public void setVolume(int volume, boolean mute)
 	{
 		this.mVolume = volume;
-		noticeVolume();
+		noticeVolume(mVolume);
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class MySubject implements Subject {
 	}
 
 	@Override
-	public void noticeVolume()
+	public void noticeVolume(int volume)
 	{
 		// TODO 更新音量
 		for (int i = 0; i < mActivityObservers.size(); i++)
 		{
-			((Observer) mActivityObservers.get(i)).updateVolume();
+			((Observer) mActivityObservers.get(i)).updateVolume(volume);
 		}
 	}
 

@@ -570,10 +570,9 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	}
 
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

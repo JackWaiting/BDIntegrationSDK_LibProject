@@ -89,7 +89,7 @@ public class AlarmSoundActivity extends BaseActivity {
 	}
 
 	@Override
-	public void updateVolume()
+	public void updateVolume(int volume)
 	{
 		// TODO Auto-generated method stub
 		
