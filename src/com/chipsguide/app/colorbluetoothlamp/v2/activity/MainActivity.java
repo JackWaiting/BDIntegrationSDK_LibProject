@@ -95,6 +95,7 @@ public class MainActivity extends BaseActivity implements
 		titleView = (TextSwitcherTitleView) findViewById(R.id.titleView);
 		titleView.setOnClickListener(this);
 		titleView.setTitleText(R.string.color_lamp);
+		titleView.setShowToastTv(true);
 
 		MainFragment mainFrag = new MainFragment();
 		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
@@ -190,6 +191,13 @@ public class MainActivity extends BaseActivity implements
 			cancelToast();
 			super.onBackPressed();
 		}
+	}
+	/**
+	 * 显示顶部提示
+	 * @param resId
+	 */
+	public void showTitleToast(int resId){
+		titleView.setToastText(resId);
 	}
 	
 	/**

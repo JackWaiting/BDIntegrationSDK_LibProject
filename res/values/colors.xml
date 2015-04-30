@@ -15,11 +15,11 @@
     <color name="color_dialog_bag">#f0f0f0</color>
     <color name="color_red">#ff0010</color>
     
-    <color name="color_orange">#fdb42c</color>
-    <color name="color_pink">#fe2330</color>
-    <color name="color_purple">#af46d3</color>
-    <color name="color_green">#47df6d</color>
-    <color name="color_ching">#27b9d5</color>
+    <color name="color_orange">#ffb500</color>
+    <color name="color_pink">#e03d80</color>
+    <color name="color_purple">#b03de0</color>
+    <color name="color_green">#3de168</color>
+    <color name="color_ching">#14b9d7</color>
     
     <color name="press_blue">#DDF0FE</color>
     
