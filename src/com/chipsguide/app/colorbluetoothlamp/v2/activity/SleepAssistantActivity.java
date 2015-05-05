@@ -15,10 +15,12 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.FormatHelper;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class SleepAssistantActivity extends BaseActivity implements
 		OnCheckedChangeListener {
@@ -40,6 +42,8 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private PlayerManager playerManager;
 	private LampManager mLampManager;
 	private AudioManager mAudioManager;
+	private CustomApplication application;
+	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private int current;// 当前音量
 	private int max;// 最大音量
 	private MyCount mCount;
@@ -68,6 +72,8 @@ public class SleepAssistantActivity extends BaseActivity implements
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		mLampManager = LampManager.getInstance(getApplicationContext());
 		sleep_time = getResources().getStringArray(R.array.sleep_time);
+		application = (CustomApplication) getApplication();
+		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 	}
 
 	@Override
@@ -220,15 +226,30 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			if ((millis == cl * i))
 			{
-				flog.d("音量为：" + (current / TIME_GAP) * i + " i: " + i
-						+ " current: " + current);
-				// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
-				if (current < TIME_GAP && TIME_GAP < max)
+				if(mSubject.getConnectState())
 				{
-					current = TIME_GAP;
+					current = mSubject.getVolume();
+					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
+					if (current < TIME_GAP && TIME_GAP < max)
+					{
+						current = TIME_GAP;
+					}
+					if(mBluetoothDeviceManager!=null)
+					{
+						mBluetoothDeviceManager.setVolume((current / TIME_GAP) * i);
+					}
+				}else
+				{
+					flog.d("音量为：" + (current / TIME_GAP) * i + " i: " + i
+							+ " current: " + current);
+					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
+					if (current < TIME_GAP && TIME_GAP < max)
+					{
+						current = TIME_GAP;
+					}
+					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+							(current / TIME_GAP) * i, 0);
 				}
-				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-						(current / TIME_GAP) * i, 0);
 			}
 		}
 	}
