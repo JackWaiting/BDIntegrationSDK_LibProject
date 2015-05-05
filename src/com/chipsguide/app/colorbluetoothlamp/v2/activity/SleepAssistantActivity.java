@@ -267,6 +267,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 			cancelSleep();
 			playerManager.pause();
 			mLampManager.lampOff();
+			finish();
 		}
 
 		@Override
