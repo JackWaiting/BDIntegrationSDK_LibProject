@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,11 +25,11 @@ import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicMan
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 import com.platomix.lib.playerengine.api.Playlist;
-import com.platomix.lib.playerengine.core.AudioHelper;
 import com.platomix.lib.playerengine.core.PlayerListener;
 import com.platomix.lib.playerengine.core.local.LoadMusicCallback;
 import com.platomix.lib.playerengine.core.local.LocalPlayer;
 import com.platomix.lib.playerengine.core.local.PlaylistEntity;
+import com.platomix.lib.playerengine.util.AudioHelper;
 
 /**
  * 播放器管理类
