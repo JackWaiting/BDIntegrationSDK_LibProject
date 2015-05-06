@@ -306,15 +306,15 @@ public class ColorLampFrag extends BaseFragment implements
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
 		{ // 说明为白色
 			float value = colorHSV[2];
-			int rank = (int) (value * 16); // 等级0-16
+			int rank = (int) (value * 15); // 等级0-15
 			// TODO 调节等级
 			//白灯等级为1-16
-			if(rank>=16)
-			{
-				rank = 15;
-			}
+//			if(rank>=16)
+//			{
+//				rank = 15;
+//			}
 			hmcolor = true;
-			mLampManager.setBrightness(rank + 1);
+			mLampManager.setBrightness(rank+1);
 		} else
 		{
 			mLampManager.setColor(red, green, blue);
@@ -443,6 +443,17 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 		super.onDestroy();
 		mLampManager.removeOnBluetoothDeviceLampListener(this);
+	}
+
+	@Override
+	public void onLampBrightness(int brightness)
+	{
+		//转化为颜色会有一些误差的存在
+		colorHSV[0] = 0;
+		colorHSV[1] = 0;
+		colorHSV[2] = ((float)(brightness-1))/15;
+		// TODO 白灯更新
+		mColorPicker.setColor(Color.HSVToColor(colorHSV));
 	}
 
 }
