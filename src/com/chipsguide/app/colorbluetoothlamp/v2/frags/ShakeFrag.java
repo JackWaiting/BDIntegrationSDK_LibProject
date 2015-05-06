@@ -95,24 +95,27 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			mLampManager.LampOnorOff();
 			break;
 		case R.id.rb_player_toggle:
-			if(playerManager.getCurrentPosition() == -1){
-				showTitleToast(R.string.no_play_content);
-				return;
+			int position1 = playerManager.getCurrentPosition();
+			if(position1 == -1){
+				//showTitleToast(R.string.no_play_content);
+				//return;
 			}
 			if(playerManager.isPlaying()){
 				playerManager.pause();
 			}else{
-				int position = playerManager.getCurrentPosition();
-				position = Math.max(0, position);
-				playerManager.skipTo(position);
+				position1 = Math.max(0, position1);
+				playerManager.skipTo(position1);
 			}
 			break;
 		case R.id.rb_next_song:
-			if(playerManager.getCurrentPosition() == -1){
-				showTitleToast(R.string.no_play_content);
-				return;
+			int position = playerManager.getCurrentPosition();
+			if(position == -1){
+				//showTitleToast(R.string.no_play_content);
+				position = Math.max(0, position);
+				playerManager.skipTo(position);
+			}else{
+				playerManager.next();
 			}
-			playerManager.next();
 			break;
 		}
 	}
