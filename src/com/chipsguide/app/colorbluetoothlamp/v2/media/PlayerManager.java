@@ -327,8 +327,40 @@ public class PlayerManager {
 	 * 加载本地歌曲列表
 	 * @param callback 歌曲列表回调
 	 * @param autoPlay 加载完后是否自动播放，如果为true则从上次的位置开始播放
+	 * @param loadPlaylist 是否加载此播放列表到PlayerManager中
 	 */
 	public void loadLocalMusic(final MusicCallback callback, final boolean autoPlay) {
+		getLocalMusics(new MusicCallback() {
+			@Override
+			public void onLoading(int loaded, int total) {
+				callback.onLoading(loaded, total);
+			}
+			
+			@Override
+			public void onLoadStart() {
+				callback.onLoadStart();
+			}
+			
+			@Override
+			public void onLoadMusic(List<Music> musics, int prePosition) {
+				int position = preferenceUtil.getPhoneMusicPosition();
+				setPlayType(PlayType.Local);
+				mMusicList = musics;
+				currentPosition = Math.min(position, mMusicList.size() - 1);
+				selectePlayEngine(autoPlay);
+				callback.onLoadMusic(musics, position);
+			}
+			
+			@Override
+			public void onLoadCancel(int loaded, int total, List<Music> loadedMusics) {
+				callback.onLoadCancel(loaded, total, loadedMusics);
+			}
+		});
+	}
+	/**
+	 * 仅获取手机音乐不做其他操作
+	 */
+	public void getLocalMusics(final MusicCallback callback) {
 		LocalPlayer player = LocalPlayer.getInstance(mContext);
 		player.getLocalPlaylist(2000, new LoadMusicCallback() {
 			@Override
@@ -345,16 +377,7 @@ public class PlayerManager {
 					music.setPath(entity.getUrl());
 					mList.add(music);
 				}
-				int position = preferenceUtil.getPhoneMusicPosition();
-				if(autoPlay){
-					setPlayType(PlayType.Local);
-				}
-				if(position >= 0 || autoPlay){ //如果上次播放过或者需要自动播放
-					mMusicList = mList;
-					currentPosition = Math.min(position, mMusicList.size() - 1);
-					selectePlayEngine(autoPlay);
-				}
-				callback.onLoadMusic(mList, position);
+				callback.onLoadMusic(mList, -1);
 			}
 		});
 	}

@@ -16,7 +16,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SelectMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
-import com.chipsguide.app.colorbluetoothlamp.v2.frags.MyMusicFrag;
+import com.chipsguide.app.colorbluetoothlamp.v2.frags.SelectMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag.OnItemSelectedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.TFCardMusicFrag;
@@ -59,8 +59,8 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 				}
 			}
 		}
-		MyMusicFrag myMusicFrag = MyMusicFrag.getInstance(this, tag, new SelectMusicListAdapter(this), this);
-		fragments.add(myMusicFrag);
+		SelectMusicFrag selectMusicFrag = SelectMusicFrag.getInstance(this, tag, this);
+		fragments.add(selectMusicFrag);
 		if (tf) {
 			TFCardMusicFrag cardMusicFrag = TFCardMusicFrag.getInstance(this, tag, new SelectMusicListAdapter(this), this);
 			fragments.add(cardMusicFrag);
