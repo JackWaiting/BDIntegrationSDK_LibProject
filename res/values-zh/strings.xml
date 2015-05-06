@@ -111,4 +111,5 @@
     <string name="conn_ble">请连接蓝牙</string>
     <string name="music_rhythm">音乐律动</string>
     <string name="no_play_content">没有播放内容！</string>
+    <string name="search_lamp">搜索蓝牙灯</string>
 </resources>

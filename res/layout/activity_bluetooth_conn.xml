@@ -17,14 +17,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ImageView
+        <Button
             android:id="@+id/imageview_button_searsh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:paddingBottom="40dp"
             android:scaleType="centerInside"
-            android:src="@drawable/selector_btn_searsh" />
+            android:drawableTop="@drawable/selector_btn_searsh"
+            android:text="@string/search_lamp"
+            android:background="@null" />
 
         <ListView
             android:id="@+id/listview_bluetoothdevice_list"

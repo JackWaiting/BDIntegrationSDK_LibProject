@@ -10,7 +10,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -29,7 +29,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,
 		ConnectStateListener {
 
-	private ImageView mImageViewButtonSearsh;
+	private Button mButtonSearsh;
 	private ListView mListView;
 	private List<BluetoothDevice> mListBluetoothDevices = new ArrayList<BluetoothDevice>(); // 新搜索的蓝牙列表
 	private ArrayList<ConnectInfo> connectBluetoothDevices;// 已经连接成功后的蓝牙列表
@@ -62,12 +62,12 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void initUI()
 	{
-		mImageViewButtonSearsh = (ImageView) this
+		mButtonSearsh = (Button) this
 				.findViewById(R.id.imageview_button_searsh);
 		mListView = (ListView) this
 				.findViewById(R.id.listview_bluetoothdevice_list);
 
-		mImageViewButtonSearsh.setOnClickListener(this);
+		mButtonSearsh.setOnClickListener(this);
 		mListView.setOnItemClickListener(this);
 	}
 
