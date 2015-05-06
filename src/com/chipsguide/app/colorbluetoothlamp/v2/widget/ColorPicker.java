@@ -431,6 +431,15 @@ public class ColorPicker extends View {
 	public int getColor() {
 		return Color.HSVToColor(colorHSV);
 	}
+	/**
+	 * 设置亮度0-1
+	 * @param brightness
+	 */
+	public void setBrightness(float brightness) {
+		colorHSV[2] = Math.min(brightness, 1);
+		updateThumbPosition();
+		invalidate();
+	}
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
