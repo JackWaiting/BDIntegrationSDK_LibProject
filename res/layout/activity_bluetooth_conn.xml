@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+   <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImg="@drawable/selector_btn_back"
         app:rightImg="@drawable/selector_btn_player"
         app:text="@string/bluetooth_conn" >
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
-
+ 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
