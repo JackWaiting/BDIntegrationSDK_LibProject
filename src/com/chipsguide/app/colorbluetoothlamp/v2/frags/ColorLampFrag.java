@@ -51,6 +51,8 @@ public class ColorLampFrag extends BaseFragment implements
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
 	private boolean hmcolor = false;//是否是手动控制颜色的变化。
+	//是白色吗 
+	private boolean isWhiteFlag = false;//滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 
@@ -309,11 +311,8 @@ public class ColorLampFrag extends BaseFragment implements
 			int rank = (int) (value * 15); // 等级0-15
 			// TODO 调节等级
 			//白灯等级为1-16
-//			if(rank>=16)
-//			{
-//				rank = 15;
-//			}
 			hmcolor = true;
+			isWhiteFlag = true;
 			mLampManager.setBrightness(rank+1);
 		} else
 		{
@@ -448,12 +447,17 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onLampBrightness(int brightness)
 	{
-		//转化为颜色会有一些误差的存在
-		colorHSV[0] = 0;
-		colorHSV[1] = 0;
-		colorHSV[2] = ((float)(brightness-1))/15;
-		// TODO 白灯更新
-		mColorPicker.setColor(Color.HSVToColor(colorHSV));
+		if(!isWhiteFlag)
+		{
+			//转化为颜色会有一些误差的存在
+			float[] colorHSV = new float[] { 0f, 0f, 1f };
+			colorHSV[2] = brightness / 16f;
+			int color = Color.HSVToColor(colorHSV);
+			mColorPicker.setColor(color);
+		}else
+		{
+			isWhiteFlag = false;
+		}
 	}
 
 }
