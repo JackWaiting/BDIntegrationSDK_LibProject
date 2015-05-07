@@ -63,7 +63,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	public void initUI()
 	{
 		mButtonSearsh = (Button) this
-				.findViewById(R.id.imageview_button_searsh);
+				.findViewById(R.id.button_searsh);
 		mListView = (ListView) this
 				.findViewById(R.id.listview_bluetoothdevice_list);
 
@@ -125,7 +125,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		super.onClick(v);
 		switch (v.getId())
 		{
-		case R.id.imageview_button_searsh:
+		case R.id.button_searsh:
 			startDiscovery();
 			break;
 		}

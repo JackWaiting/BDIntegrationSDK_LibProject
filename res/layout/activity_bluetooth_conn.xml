@@ -18,7 +18,7 @@
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/imageview_button_searsh"
+            android:id="@+id/button_searsh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -32,7 +32,7 @@
             android:id="@+id/listview_bluetoothdevice_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/imageview_button_searsh"
+            android:layout_above="@id/button_searsh"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:divider="@color/color_divider_line"
