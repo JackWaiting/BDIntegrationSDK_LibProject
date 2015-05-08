@@ -50,7 +50,7 @@ import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnec
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
-public class MusicPlayerActivity extends BaseActivity {
+public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDeviceConnectionStateChangedListener{
 	public static final String EXTRA_MODE_TO_BE = "mode_to_be";
 	private int modeTobe = BluetoothDeviceManager.Mode.A2DP; // 将要切换的模式
 	private PlayerManager playerManager;
@@ -78,6 +78,7 @@ public class MusicPlayerActivity extends BaseActivity {
 	@Override
 	public void initBase() {
 		blzDeviceProxy = BluetoothDeviceManagerProxy.getInstance(getApplicationContext());
+		blzDeviceProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 		modeTobe = getIntent().getIntExtra(EXTRA_MODE_TO_BE, modeTobe);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		int index = PreferenceUtil.getIntance(getApplicationContext())
