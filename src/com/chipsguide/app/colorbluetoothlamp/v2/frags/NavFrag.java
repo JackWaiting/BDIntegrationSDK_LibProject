@@ -12,11 +12,13 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActi
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
 
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
 	private String [] menuItemTitles;
+	private BluetoothDeviceManagerProxy bluzProxy;
 	
 	public interface OnNavItemClickListener{
 		void onItemClick(int position, String title);
@@ -25,6 +27,7 @@ public class NavFrag extends BaseFragment {
 	@Override
 	protected void initBase() {
 		menuItemTitles = getResources().getStringArray(R.array.menu_items);
+		bluzProxy = BluetoothDeviceManagerProxy.getInstance(getActivity());
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class NavFrag extends BaseFragment {
 			startActivity(BluetoothConnectionActivity.class);
 			break;
 		case 1:
-			if(!mSubject.getConnectState())
+			if(!bluzProxy.isConnected())
 			{
 				showToast(R.string.conn_ble);
 				return;
@@ -68,7 +71,7 @@ public class NavFrag extends BaseFragment {
 			startActivity(TimeLightActivity.class);
 			break;
 		case 2:
-			if(!mSubject.getConnectState())
+			if(!bluzProxy.isConnected())
 			{
 				showToast(R.string.conn_ble);
 				return;

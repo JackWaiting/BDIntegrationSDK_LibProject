@@ -14,6 +14,7 @@ import android.view.View;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnDeviceConnectedStateChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
@@ -22,6 +23,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.listener.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -45,6 +47,8 @@ public class MainActivity extends BaseActivity implements
 
 	private TextSwitcherTitleView titleView;
 	private PlayerManager playerManager;
+	private boolean background = false;
+	
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -120,6 +124,17 @@ public class MainActivity extends BaseActivity implements
 	public void initListener() {
 		alarmAlertService = new Intent(this, AlarmAlertService.class);
 		startService(alarmAlertService);
+		mManagerProxy.setDeviceConnectedStateChangedListener(new OnDeviceConnectedStateChangedListener()
+		{
+			
+			@Override
+			public void onConnectedChanged(boolean isConnected)
+			{
+				if(!isConnected && playerManager.isPlaying()){
+					playerManager.pause();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -153,7 +168,7 @@ public class MainActivity extends BaseActivity implements
 		playerManager.destoryAll();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
-		mSubject.destory();
+//		mSubject.destory();
 		LampManager.getInstance(this).destory();
 		mManagerProxy.removeOnBluetoothDeviceConnectionStateChangedListener(this);
 		releaseManager();
@@ -237,11 +252,20 @@ public class MainActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
+		background = false;
 		if (this.mBluetoothDeviceManager != null)
 		{
 			this.mBluetoothDeviceManager.setForeground(true);
 		}
 		refreshBluetooth();
+	}
+	
+	@Override
+	protected void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		background = true;
 	}
 	
 	private void refreshBluetooth()
@@ -287,23 +311,6 @@ public class MainActivity extends BaseActivity implements
 			}
 				break;
 			}
-		}
-	}
-	
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO 蓝牙连接状态
-		if(!isConnect && playerManager.isPlaying()){
-			playerManager.pause();
 		}
 	}
 	
@@ -373,14 +380,25 @@ public class MainActivity extends BaseActivity implements
 			flog.d("CONNECTED  连接成功");
 			setText(R.string.connectionend);
 			dismissConnectPD();
-			mSubject.setConnectState(true);
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
 			flog.d("DISCONNECTED  断开连接");
 			dismissConnectPD();
-			mSubject.setConnectState(false);
+			break;
+		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
+		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
+			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
+			dismissConnectPD();
+			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
+					R.style.full_screen);
+			if(!background)
+			{
+				toastDialog.show();
+			}
+			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;
 		}
+		
 	}
 }

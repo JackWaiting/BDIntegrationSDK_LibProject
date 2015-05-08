@@ -141,18 +141,5 @@ public class MusicListActivity extends BaseActivity {
 			}
 		}
 	}
-
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnDeviceConnectedStateChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.FormatHelper;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -44,6 +46,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private AudioManager mAudioManager;
 	private CustomApplication application;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
+	private BluetoothDeviceManagerProxy mManagerProxy;
 	private int current;// 当前音量
 	private int max;// 最大音量
 	private MyCount mCount;
@@ -74,6 +77,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		sleep_time = getResources().getStringArray(R.array.sleep_time);
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 	}
 
 	@Override
@@ -122,6 +126,20 @@ public class SleepAssistantActivity extends BaseActivity implements
 	@Override
 	public void initListener()
 	{
+		mManagerProxy.setDeviceConnectedStateChangedListener(new OnDeviceConnectedStateChangedListener()
+		{
+			
+			@Override
+			public void onConnectedChanged(boolean isConnected)
+			{
+				if(!isConnected)
+				{
+					cancelSleep();
+					mSleepMode = false;
+				}
+				
+			}
+		});
 	}
 
 	@Override
@@ -226,9 +244,9 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			if ((millis == cl * i))
 			{
-				if(mSubject.getConnectState())
+				if(mManagerProxy.isConnected())
 				{
-					current = mSubject.getVolume();
+					current = mManagerProxy.getCurrentVolume();
 					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
 					if (current < TIME_GAP && TIME_GAP < max)
 					{
@@ -302,22 +320,4 @@ public class SleepAssistantActivity extends BaseActivity implements
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO 蓝牙断开处理
-		if(!isConnect)
-		{
-			cancelSleep();
-			mSleepMode = false;
-		}
-	}
-	
 }

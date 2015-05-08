@@ -149,17 +149,4 @@ public class SearchActivity extends BaseActivity implements
 	public void onPageSelected(int arg0) {
 		navRg.check(arg0 == 0 ? R.id.rb_album : R.id.rb_music);
 	}
-
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 }

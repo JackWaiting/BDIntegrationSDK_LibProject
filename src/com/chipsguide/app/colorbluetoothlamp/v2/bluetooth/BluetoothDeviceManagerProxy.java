@@ -10,8 +10,6 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
@@ -23,7 +21,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePlugglable;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceUsbMusicManager;
 
-public class BluetoothDeviceManagerProxy implements Observer{
+public class BluetoothDeviceManagerProxy{
 	public static final String TAG = "BluetoothDeviceManagerProxy";
 	public static BluetoothDeviceManagerProxy proxy;
 	/**
@@ -86,15 +84,12 @@ public class BluetoothDeviceManagerProxy implements Observer{
 	 * 是否为第一次（连接成功后）模式变化
 	 */
 	public static boolean firstModeChange = true;
-	protected MySubject mSubject;//被观察者
 	
 	private Context context;
 	private BluetoothDeviceManagerProxy(Context context){
 		this.context = context;
 		getBluetoothDeviceManager();
 		conStateListeners = new ArrayList<OnBluetoothDeviceConnectionStateChangedListener>();
-		mSubject=MySubject.getSubject();
-		mSubject.attach(BluetoothDeviceManagerProxy.this);//加入观察者
 	}
 	public static BluetoothDeviceManagerProxy getInstance(Context context){
 		if(proxy == null){
@@ -315,12 +310,25 @@ public class BluetoothDeviceManagerProxy implements Observer{
 	public interface OnDeviceUiChangedListener{
 		void onVolumeChanged(boolean firstCallback, int volume, boolean on);
 	}
+	
+	public interface OnDeviceConnectedStateChangedListener{
+		void onConnectedChanged(boolean connected);
+	}
+	
 	public static class SimpleDeviceUiChangedListener implements OnDeviceUiChangedListener{
 		@Override
 		public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
 		}
 	}
+	
+	public static class SimpleDeviceConnectStateChangedListener implements OnDeviceConnectedStateChangedListener{
+		@Override
+		public void onConnectedChanged(boolean isConnect) {
+		}
+	}
+	
 	private OnDeviceUiChangedListener mDeviceUiChangedListener;
+	private OnDeviceConnectedStateChangedListener mDeviceConnectedStateChangedListener;
 	/**
 	 * 添加设备UI相关变化监听，如音量
 	 * 注：退出界面时，调用removeDeviceUiChangedListener
@@ -332,11 +340,30 @@ public class BluetoothDeviceManagerProxy implements Observer{
 			mDeviceUiChangedListener.onVolumeChanged(true, currentVolume, true);
 		}
 	}
+	
+	/**
+	 * 添加设备连接变化
+	 * 注：退出界面时，调用removeDeviceConnectedStateChangedListener
+	 * @param listener
+	 */
+	public void setDeviceConnectedStateChangedListener(OnDeviceConnectedStateChangedListener listener) {
+		mDeviceConnectedStateChangedListener = listener;
+		if(mDeviceConnectedStateChangedListener != null){
+			mDeviceConnectedStateChangedListener.onConnectedChanged(connected);
+		}
+	}
 	/**
 	 * 移除
 	 */
 	public void removeDeviceUiChangedListener() {
 		mDeviceUiChangedListener = null;
+	}
+	
+	/**
+	 * 移除
+	 */
+	public void removeDeviceConnectedStateChangedListener() {
+		mDeviceConnectedStateChangedListener = null;
 	}
 	
 	
@@ -424,6 +451,9 @@ public class BluetoothDeviceManagerProxy implements Observer{
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
+			if(mDeviceConnectedStateChangedListener != null){
+				mDeviceConnectedStateChangedListener.onConnectedChanged(connected);
+			}
 		}
 	};
 
@@ -467,7 +497,6 @@ public class BluetoothDeviceManagerProxy implements Observer{
 		@Override
 		public void onBluetoothDeviceVolumeChanged(int volume, boolean on) {
 			currentVolume = volume;
-			mSubject.setVolume(currentVolume, on);
 			if(volumeFirstCallback){
 				volumeFirstCallback = false;
 			}
@@ -592,18 +621,6 @@ public class BluetoothDeviceManagerProxy implements Observer{
 		disconnected();
 		deviceMusicManager = null;
 		proxy = null;
-	}
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 }

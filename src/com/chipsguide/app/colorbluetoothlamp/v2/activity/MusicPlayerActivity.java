@@ -570,19 +570,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	}
 
 	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
 	{
 		// TODO Auto-generated method stub
