@@ -308,9 +308,13 @@ public class ColorLampFrag extends BaseFragment implements
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
 		{ // 说明为白色
 			float value = colorHSV[2];
-			int rank = (int) (value * 15); // 等级0-15
+			int rank = (int) (value * 16); // 等级1-16
 			// TODO 调节等级
 			//白灯等级为1-16
+			if(rank >= 16)
+			{
+				rank = 15;
+			}
 			hmcolor = true;
 			isWhiteFlag = true;
 			mLampManager.setBrightness(rank+1);

@@ -145,6 +145,18 @@ public class MainActivity extends BaseActivity implements
 		alarms.cancel(true);
 		mSubject.destory();
 		LampManager.getInstance(this).destory();
+		releaseManager();
+	}
+	
+	private void releaseManager()
+	{
+		if (mBluetoothDeviceManager != null)
+		{
+			mBluetoothDeviceManager.setOnBluetoothDeviceConnectionStateChangedListener(null);
+			mBluetoothDeviceManager.setOnBluetoothDeviceGlobalUIChangedListener(null);
+			mBluetoothDeviceManager.release();
+			mBluetoothDeviceManager = null;
+		}
 	}
 
 	private boolean forceUpdate;
@@ -189,6 +201,7 @@ public class MainActivity extends BaseActivity implements
 			preTime = currentTime;
 		}else{
 			cancelToast();
+			releaseManager();
 			super.onBackPressed();
 		}
 	}
@@ -282,5 +295,7 @@ public class MainActivity extends BaseActivity implements
 			playerManager.pause();
 		}
 	}
+	
+	
 	
 }

@@ -100,6 +100,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	{
 		super.onResume();
 		background = false;
+//		startDiscovery();
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
 		{
