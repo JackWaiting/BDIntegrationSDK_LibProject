@@ -2,6 +2,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -17,10 +18,12 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
+import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -30,12 +33,15 @@ import com.platomix.lib.update.listener.OnCheckUpdateListener;
 
 public class MainActivity extends BaseActivity implements
 		OnNavItemClickListener, OnMainPageChangeListener,
-		DialogInterface.OnClickListener {
+		DialogInterface.OnClickListener,
+		OnBluetoothDeviceConnectionStateChangedListener{
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
 	private Alarms alarms;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
+	private BluetoothDeviceManagerProxy mManagerProxy;
+	private BluetoothConnectionActivity mBluetoothConnectionActivity;
 
 	private TextSwitcherTitleView titleView;
 	private PlayerManager playerManager;
@@ -88,6 +94,10 @@ public class MainActivity extends BaseActivity implements
 		alarms.activieAllEnable();
 		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
 		playerManager = PlayerManager.getInstance(getApplicationContext());
+		
+		mBluetoothConnectionActivity = new BluetoothConnectionActivity();
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
+		mManagerProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
 	@Override
@@ -145,6 +155,7 @@ public class MainActivity extends BaseActivity implements
 		alarms.cancel(true);
 		mSubject.destory();
 		LampManager.getInstance(this).destory();
+		mManagerProxy.removeOnBluetoothDeviceConnectionStateChangedListener(this);
 		releaseManager();
 	}
 	
@@ -296,6 +307,80 @@ public class MainActivity extends BaseActivity implements
 		}
 	}
 	
-	
-	
+	@Override
+	public void onBluetoothDeviceConnectionStateChanged(
+			BluetoothDevice bluetoothDevice, int state)
+	{
+		if(mBluetoothConnectionActivity != null)
+		{
+			((ConnectStateListener)mBluetoothConnectionActivity).onBluetoothDeviceConnectionState(bluetoothDevice, state);
+		}
+		switch (state)
+		{
+		// a2dp连接中
+		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
+			setText(R.string.audio_connectioning);
+			flog.d("A2DP_CONNECTING  a2dp连接中");
+			break;
+
+		// a2dp连接失败
+		case BluetoothDeviceManager.ConnectionState.A2DP_FAILURE:
+			flog.d("A2DP_FAILURE  a2dp连接失败");
+			dismissConnectPD();
+			break;
+
+		// a2dp配对
+		case BluetoothDeviceManager.ConnectionState.A2DP_PAIRING:
+			flog.d("A2DP_PAIRING  a2dp配对中");
+			break;
+
+		// a2dp连接
+		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTED:
+			flog.d("A2DP_CONNECTED  a2dp连接成功");
+			setText(R.string.audio_connectionend);
+			break;
+
+		// a2dp断开
+		case BluetoothDeviceManager.ConnectionState.A2DP_DISCONNECTED:
+			flog.d("A2DP_DISCONNECTED  a2dp断开");
+			break;
+
+		// spp连接中
+		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTING:
+			flog.d("SPP_CONNECTING  spp连接中");
+			setText(R.string.data_connectioning);
+			break;
+
+		// /spp连接成功
+		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTED:
+			flog.d("SPP_CONNECTED spp连接成功");
+			setText(R.string.data_connectionend);
+			break;
+
+		// spp断开
+		case BluetoothDeviceManager.ConnectionState.SPP_DISCONNECTED:
+			flog.d("SPP_DISCONNECTED  spp断开");
+			break;
+
+		// spp连接失败
+		case BluetoothDeviceManager.ConnectionState.SPP_FAILURE:
+			flog.d("SPP_FAILURE  spp连接失败");
+			dismissConnectPD();
+			break;
+
+		// 连接
+		case BluetoothDeviceManager.ConnectionState.CONNECTED:
+			flog.d("CONNECTED  连接成功");
+			setText(R.string.connectionend);
+			dismissConnectPD();
+			mSubject.setConnectState(true);
+			break;
+		// 断开
+		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
+			flog.d("DISCONNECTED  断开连接");
+			dismissConnectPD();
+			mSubject.setConnectState(false);
+			break;
+		}
+	}
 }

@@ -14,12 +14,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.BluetoothDeivcesListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.listener.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
@@ -55,7 +55,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
-		setmConnectStateListener(BluetoothConnectionActivity.this);
 		dao = ConnectDao.getDao(this);
 	}
 
