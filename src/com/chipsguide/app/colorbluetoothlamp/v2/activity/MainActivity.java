@@ -2,7 +2,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -19,13 +18,10 @@ import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -35,19 +31,16 @@ import com.platomix.lib.update.listener.OnCheckUpdateListener;
 
 public class MainActivity extends BaseActivity implements
 		OnNavItemClickListener, OnMainPageChangeListener,
-		DialogInterface.OnClickListener,
-		OnBluetoothDeviceConnectionStateChangedListener{
+		DialogInterface.OnClickListener{
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
 	private Alarms alarms;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDeviceManagerProxy mManagerProxy;
-	private BluetoothConnectionActivity mBluetoothConnectionActivity;
 
 	private TextSwitcherTitleView titleView;
 	private PlayerManager playerManager;
-	private boolean background = false;
 	
 	@Override
 	public int getLayoutId() {
@@ -99,9 +92,7 @@ public class MainActivity extends BaseActivity implements
 		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		
-		mBluetoothConnectionActivity = new BluetoothConnectionActivity();
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
-		mManagerProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
 	@Override
@@ -168,9 +159,7 @@ public class MainActivity extends BaseActivity implements
 		playerManager.destoryAll();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
-//		mSubject.destory();
 		LampManager.getInstance(this).destory();
-		mManagerProxy.removeOnBluetoothDeviceConnectionStateChangedListener(this);
 		releaseManager();
 	}
 	
@@ -252,7 +241,6 @@ public class MainActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
-		background = false;
 		if (this.mBluetoothDeviceManager != null)
 		{
 			this.mBluetoothDeviceManager.setForeground(true);
@@ -260,13 +248,6 @@ public class MainActivity extends BaseActivity implements
 		refreshBluetooth();
 	}
 	
-	@Override
-	protected void onPause()
-	{
-		// TODO Auto-generated method stub
-		super.onPause();
-		background = true;
-	}
 	
 	private void refreshBluetooth()
 	{
@@ -314,91 +295,4 @@ public class MainActivity extends BaseActivity implements
 		}
 	}
 	
-	@Override
-	public void onBluetoothDeviceConnectionStateChanged(
-			BluetoothDevice bluetoothDevice, int state)
-	{
-		if(mBluetoothConnectionActivity != null)
-		{
-			((ConnectStateListener)mBluetoothConnectionActivity).onBluetoothDeviceConnectionState(bluetoothDevice, state);
-		}
-		switch (state)
-		{
-		// a2dp连接中
-		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
-			setText(R.string.audio_connectioning);
-			flog.d("A2DP_CONNECTING  a2dp连接中");
-			break;
-
-		// a2dp连接失败
-		case BluetoothDeviceManager.ConnectionState.A2DP_FAILURE:
-			flog.d("A2DP_FAILURE  a2dp连接失败");
-			dismissConnectPD();
-			break;
-
-		// a2dp配对
-		case BluetoothDeviceManager.ConnectionState.A2DP_PAIRING:
-			flog.d("A2DP_PAIRING  a2dp配对中");
-			break;
-
-		// a2dp连接
-		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTED:
-			flog.d("A2DP_CONNECTED  a2dp连接成功");
-			setText(R.string.audio_connectionend);
-			break;
-
-		// a2dp断开
-		case BluetoothDeviceManager.ConnectionState.A2DP_DISCONNECTED:
-			flog.d("A2DP_DISCONNECTED  a2dp断开");
-			break;
-
-		// spp连接中
-		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTING:
-			flog.d("SPP_CONNECTING  spp连接中");
-			setText(R.string.data_connectioning);
-			break;
-
-		// /spp连接成功
-		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTED:
-			flog.d("SPP_CONNECTED spp连接成功");
-			setText(R.string.data_connectionend);
-			break;
-
-		// spp断开
-		case BluetoothDeviceManager.ConnectionState.SPP_DISCONNECTED:
-			flog.d("SPP_DISCONNECTED  spp断开");
-			break;
-
-		// spp连接失败
-		case BluetoothDeviceManager.ConnectionState.SPP_FAILURE:
-			flog.d("SPP_FAILURE  spp连接失败");
-			dismissConnectPD();
-			break;
-
-		// 连接
-		case BluetoothDeviceManager.ConnectionState.CONNECTED:
-			flog.d("CONNECTED  连接成功");
-			setText(R.string.connectionend);
-			dismissConnectPD();
-			break;
-		// 断开
-		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
-			flog.d("DISCONNECTED  断开连接");
-			dismissConnectPD();
-			break;
-		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
-		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
-			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
-			dismissConnectPD();
-			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
-					R.style.full_screen);
-			if(!background)
-			{
-				toastDialog.show();
-			}
-			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
-			break;
-		}
-		
-	}
 }
