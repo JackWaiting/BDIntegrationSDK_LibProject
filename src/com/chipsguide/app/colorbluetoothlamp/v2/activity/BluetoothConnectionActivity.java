@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -361,7 +359,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 					{
 						// 断开蓝牙
 						 DisconnectBluetoothDialog diacoonctDialog = new DisconnectBluetoothDialog(BluetoothConnectionActivity.this,
-						 R.style.register_inform_style, mHandler,
+						 R.style.register_inform_style,
 						 bluetoothDevice, this.mBluetoothDeviceManager);
 						 diacoonctDialog.show();
 					} else
@@ -396,23 +394,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			}
 		}
 	}
-
-	
-	Handler mHandler = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			super.handleMessage(msg);
-			switch (msg.what)
-			{
-			case 01:
-				bluetoothDeviceConnected = null;
-				break;
-			}
-		}
-
-	};
 	
 	public void onDestroy() 
 	{
