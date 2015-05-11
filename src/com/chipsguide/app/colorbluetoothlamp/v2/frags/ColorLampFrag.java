@@ -450,7 +450,7 @@ public class ColorLampFrag extends BaseFragment implements
 			float[] colorHSV = new float[] { 0f, 0f, 1f };
 			colorHSV[2] = brightness / 16f;
 			int color = Color.HSVToColor(colorHSV);
-			if(mLampManager.isColorLamp())
+			if(!mLampManager.isColorLamp())
 			{
 				mColorPicker.setColor(color);
 			}
