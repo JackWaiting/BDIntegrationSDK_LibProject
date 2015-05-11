@@ -557,7 +557,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	}
 	
 	@Override
-	public void onLampRhythmChange(int rhythm ,int red ,int green , int blue)
+	public void onLampRhythmChange(int rhythm)
 	{
 		// TODO 更新音乐律动
 		if(rhythm == BluetoothDeviceColorLampManager.Effect.RHYTHM)

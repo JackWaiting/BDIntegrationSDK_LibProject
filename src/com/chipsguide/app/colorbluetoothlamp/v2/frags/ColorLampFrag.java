@@ -242,6 +242,24 @@ public class ColorLampFrag extends BaseFragment implements
 	// break;
 	// }
 	// }
+	
+	// @Override
+		// public void onAnimationEnd(Animation animation)
+		// {
+		// isShake = false;
+		// }
+		//
+		// @Override
+		// public void onAnimationRepeat(Animation animation)
+		// {
+		//
+		// }
+		//
+		// @Override
+		// public void onAnimationStart(Animation animation)
+		// {
+		// isShake = true;
+		// }
 
 	private void effect(View v)
 	{
@@ -391,7 +409,7 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	public void onLampRhythmChange(int rhythm ,int red,int green ,int blue)
+	public void onLampRhythmChange(int rhythm)
 	{
 		flog.d("rhythm  " + rhythm);
 		switch (rhythm)
@@ -415,26 +433,7 @@ public class ColorLampFrag extends BaseFragment implements
 			mButtonLightNormal.setChecked(true);
 			break;
 		}
-//		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
-
-	// @Override
-	// public void onAnimationEnd(Animation animation)
-	// {
-	// isShake = false;
-	// }
-	//
-	// @Override
-	// public void onAnimationRepeat(Animation animation)
-	// {
-	//
-	// }
-	//
-	// @Override
-	// public void onAnimationStart(Animation animation)
-	// {
-	// isShake = true;
-	// }
 
 	@Override
 	public void onLampColor(int red, int green, int blue)
@@ -451,7 +450,10 @@ public class ColorLampFrag extends BaseFragment implements
 			float[] colorHSV = new float[] { 0f, 0f, 1f };
 			colorHSV[2] = brightness / 16f;
 			int color = Color.HSVToColor(colorHSV);
-			mColorPicker.setColor(color);
+			if(mLampManager.isColorLamp())
+			{
+				mColorPicker.setColor(color);
+			}
 		}else
 		{
 			isWhiteFlag = false;
