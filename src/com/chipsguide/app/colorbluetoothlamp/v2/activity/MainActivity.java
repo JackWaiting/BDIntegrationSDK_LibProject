@@ -216,7 +216,6 @@ public class MainActivity extends BaseActivity implements
 			preTime = currentTime;
 		}else{
 			cancelToast();
-			releaseManager();
 			super.onBackPressed();
 		}
 	}

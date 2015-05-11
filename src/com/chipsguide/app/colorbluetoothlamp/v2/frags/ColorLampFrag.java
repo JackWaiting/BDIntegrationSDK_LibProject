@@ -391,7 +391,7 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	public void onLampRhythmChange(int rhythm)
+	public void onLampRhythmChange(int rhythm ,int red,int green ,int blue)
 	{
 		flog.d("rhythm  " + rhythm);
 		switch (rhythm)
@@ -415,6 +415,7 @@ public class ColorLampFrag extends BaseFragment implements
 			mButtonLightNormal.setChecked(true);
 			break;
 		}
+//		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
 
 	// @Override
@@ -442,13 +443,6 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	public void onDestroy()
-	{
-		super.onDestroy();
-		mLampManager.removeOnBluetoothDeviceLampListener(this);
-	}
-
-	@Override
 	public void onLampBrightness(int brightness)
 	{
 		if(!isWhiteFlag)
@@ -462,6 +456,13 @@ public class ColorLampFrag extends BaseFragment implements
 		{
 			isWhiteFlag = false;
 		}
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		mLampManager.removeOnBluetoothDeviceLampListener(this);
 	}
 
 }
