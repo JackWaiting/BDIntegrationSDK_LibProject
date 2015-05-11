@@ -239,7 +239,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			dismissConnectPD();
 			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
 					R.style.full_screen);
-			if(!background)
+			if(!background && CustomApplication.isToastDisconn)
 			{
 				toastDialog.show();
 			}

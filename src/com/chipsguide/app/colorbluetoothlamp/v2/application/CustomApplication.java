@@ -18,6 +18,8 @@ public class CustomApplication extends Application {
 	
 	//提示第一次进入，判断蓝牙是否连接
 	public static boolean isFirstConnect = true;
+	//提醒断开连接进入设置下连接
+	public static boolean isToastDisconn = true;
 
 	@Override
 	public void onCreate()
