@@ -18,6 +18,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManager
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
@@ -38,6 +39,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDevice bluetoothDeviceConnected;// 当前连接的蓝牙
 	private BluetoothDeviceManagerProxy mManagerProxy;
+	private PlayerManager mPlayerManager;
 
 	private ConnectDao dao;
 	
@@ -56,6 +58,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
 		dao = ConnectDao.getDao(this);
+		mPlayerManager = PlayerManager.getInstance(this);
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 	}
 
@@ -231,6 +234,11 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			{
 				mAdapter.setBluetooth(null);
 				mAdapter.notifyDataSetChanged();
+			}
+			//断开如果正在播放停止音乐
+			if(mPlayerManager.isPlaying())
+			{
+				mPlayerManager.pause();
 			}
 			dismissConnectPD();
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
