@@ -10,7 +10,8 @@ public class CustomApplication extends Application {
 	/**
 	 * 蓝牙地址过滤
 	 */
-	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
+//	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
+	public static final String MAC_ADDRESS_FILTER_PREFIX = "";
 	/**
 	 * 蓝牙设备管理类
 	 */
@@ -25,7 +26,7 @@ public class CustomApplication extends Application {
 	public void onCreate()
 	{
 		super.onCreate();
-		CrashHandler.getInstance().init(this);
+//		CrashHandler.getInstance().init(this);
 	}
 
 	/**
