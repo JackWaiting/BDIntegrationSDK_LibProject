@@ -926,7 +926,10 @@ public class PlayerManager {
 				int currentDuration, int duration) {
 			if (!url.equals(preUrl)) {
 				preUrl = url;
-				getCurrentMusic().setDuration(duration);
+				if(getCurrentMusic() != null)
+				{
+					getCurrentMusic().setDuration(duration);
+				}
 				saveToRecentPlayDao(url);
 			}
 			if (mPlayListener != null) {
