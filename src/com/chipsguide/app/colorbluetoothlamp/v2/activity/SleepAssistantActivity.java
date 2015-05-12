@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +49,8 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDeviceManagerProxy mManagerProxy;
 	private int current;// 当前音量
-	private int max;// 最大音量
+	private int max = 31;// 最大音量
+	private int beforeCurrent = 0;
 	private MyCount mCount;
 	private int mColorTextDown;
 	private int mColorTextNor;
@@ -70,14 +72,13 @@ public class SleepAssistantActivity extends BaseActivity implements
 		mColorTextDown = getResources().getColor(R.color.color_blue);
 		mColorTextNor = getResources().getColor(R.color.white);
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		current = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		mLampManager = LampManager.getInstance(getApplicationContext());
 		sleep_time = getResources().getStringArray(R.array.sleep_time);
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
+		current = mManagerProxy.getCurrentVolume();
 	}
 
 	@Override
@@ -171,6 +172,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 						.formatLongToTimeMinuteStr((long) time * 60000));
 				mCount.start();
 				mSleepMode = true;
+				beforeCurrent = current;
 			}
 			break;
 		}
@@ -244,10 +246,10 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			if ((millis == cl * i))
 			{
+				//连接时减小硬件端音量
 				if(mManagerProxy.isConnected())
 				{
-					current = mManagerProxy.getCurrentVolume();
-					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
+					// 如果分段的段数超过了音量最大可以加上这个，最大音量为31
 					if (current < TIME_GAP && TIME_GAP < max)
 					{
 						current = TIME_GAP;
@@ -257,7 +259,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 						mBluetoothDeviceManager.setVolume((current / TIME_GAP) * i);
 					}
 				}else
-				{
+				{//减小手机音量，目前不可执行，因为断开后，进不去睡眠助手
 					flog.d("音量为：" + (current / TIME_GAP) * i + " i: " + i
 							+ " current: " + current);
 					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
@@ -285,6 +287,15 @@ public class SleepAssistantActivity extends BaseActivity implements
 			cancelSleep();
 			playerManager.pause();
 			mLampManager.lampOff();
+			new Handler().postDelayed(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					mBluetoothDeviceManager.setVolume(beforeCurrent);
+				}
+			}, 2000);
 			finish();
 		}
 
