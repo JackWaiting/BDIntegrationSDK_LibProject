@@ -594,8 +594,10 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	@Override
 	public void onLampBrightness(int brightness)
 	{
-		// TODO Auto-generated method stub
-		
+		if(musicRhythmCb != null)
+		{
+			musicRhythmCb.setChecked(false);
+		}
 	}
 
 }
