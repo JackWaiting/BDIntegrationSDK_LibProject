@@ -48,7 +48,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private CustomApplication application;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDeviceManagerProxy mManagerProxy;
-	private int current;// 当前音量
+	private int currentVolume;// 当前音量
 	private int max = 31;// 最大音量
 	private int beforeCurrent = 0;
 	private MyCount mCount;
@@ -78,7 +78,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
-		current = mManagerProxy.getCurrentVolume();
+		currentVolume = mManagerProxy.getCurrentVolume();
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 						.formatLongToTimeMinuteStr((long) time * 60000));
 				mCount.start();
 				mSleepMode = true;
-				beforeCurrent = current;
+				beforeCurrent = currentVolume;
 			}
 			break;
 		}
@@ -242,7 +242,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	private void setSleepSound(long millis)
 	{
 		int cl = (time * 60) / TIME_GAP;
-		for (int i = 1; i <= TIME_GAP; i++)
+		for (int i = TIME_GAP; i >= 0 ; i--)
 		{
 			if ((millis == cl * i))
 			{
@@ -250,26 +250,27 @@ public class SleepAssistantActivity extends BaseActivity implements
 				if(mManagerProxy.isConnected())
 				{
 					// 如果分段的段数超过了音量最大可以加上这个，最大音量为31
-					if (current < TIME_GAP && TIME_GAP < max)
+					if (currentVolume < TIME_GAP && TIME_GAP < max)
 					{
-						current = TIME_GAP;
+						currentVolume = TIME_GAP;
 					}
 					if(mBluetoothDeviceManager!=null)
 					{
-						mBluetoothDeviceManager.setVolume((current / TIME_GAP) * i);
+						mBluetoothDeviceManager.setVolume((currentVolume / TIME_GAP) * i);
 					}
 				}else
 				{//减小手机音量，目前不可执行，因为断开后，进不去睡眠助手
-					flog.d("音量为：" + (current / TIME_GAP) * i + " i: " + i
-							+ " current: " + current);
+					flog.d("音量为：" + (currentVolume / TIME_GAP) * i + " i: " + i
+							+ " current: " + currentVolume);
 					// 如果分段的段数超过了音量最大可以加上这个，最大音量为15
-					if (current < TIME_GAP && TIME_GAP < max)
+					if (currentVolume < TIME_GAP && TIME_GAP < max)
 					{
-						current = TIME_GAP;
+						currentVolume = TIME_GAP;
 					}
 					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							(current / TIME_GAP) * i, 0);
+							(currentVolume / TIME_GAP) * i, 0);
 				}
+				break;
 			}
 		}
 	}
