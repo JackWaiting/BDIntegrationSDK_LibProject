@@ -862,7 +862,10 @@ public class PlayerManager {
 	}
 
 	private void showToast(int id) {
-		Toast.makeText(mContext, id, Toast.LENGTH_SHORT).show();
+		if(mContext!= null && id != 0)
+		{
+			Toast.makeText(mContext, id, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	/**
