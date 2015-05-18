@@ -311,6 +311,9 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void onBluetoothDeviceDiscoveryStarted()
 	{
+		mListBluetoothDevices.clear();
+		connectBluetoothDevices.clear();
+		listBluetooth.clear();
 	}
 
 	@Override
