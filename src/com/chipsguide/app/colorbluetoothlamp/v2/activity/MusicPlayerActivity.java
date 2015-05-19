@@ -39,7 +39,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView.SimpleSeekArcChangeListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicSpectrumView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
@@ -64,7 +63,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private SlidingLayer playListLayer;
 	private ListView playListLv;
 	private MusicProgressView progressLayout;
-	private MusicSpectrumView spectrumLayout;
+//	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
 	private SeekBar volumeSeekBar;
 	private CheckBox musicRhythmCb;//音乐律动选择框
@@ -183,8 +182,8 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 								.getProgress() / 1000 * 1000));
 					}
 				});
-		spectrumLayout = new MusicSpectrumView(this);
-		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
+//		spectrumLayout = new MusicSpectrumView(this);
+//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
 		//views.add(spectrumLayout);
 
@@ -254,7 +253,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if (update && !force) {
 			return;
 		}
-		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
+//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		update = true;
 		Music currentMusic = playerManager.getCurrentMusic();
 		currentPosition = playerManager.getCurrentPosition();
