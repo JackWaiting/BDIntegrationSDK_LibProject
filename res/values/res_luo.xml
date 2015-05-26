@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- string -->
+    <string name="text_download">下载</string>
+    <string name="text_like">喜爱</string>
+    <string name="no_network_con">网络无连接!</string>
+    <string name="retry">重试</string>
+    
+    <!-- color -->
+    <color name="progress_bg_color">#b4b4b4</color>
+    <color name="progress_secondary_color">#607ED70D</color>
+    <color name="progress_pro_color">#7ED70D</color>
+    <color name="player_control_bg">#323232</color>
+    <color name="alpha_60_black">#99000000</color>
+    <color name="comman_bg_color">#f2f2f2</color>
+    <color name="green">#7FD80C</color>
+    
+</resources>

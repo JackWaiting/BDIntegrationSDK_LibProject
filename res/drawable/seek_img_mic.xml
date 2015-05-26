@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 背景图 -->
+    <item android:id="@android:id/background">
+        <shape>
+            <gradient
+                android:endColor="@color/progress_bg_color"
+                android:startColor="@color/progress_bg_color" />
+        </shape>
+    </item>
+    <!-- 全部能量图 -->
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <gradient
+                    android:endColor="@color/progress_bg_color"
+                    android:startColor="@color/progress_bg_color" />
+            </shape>
+        </clip>
+    </item>
+    <!-- 进和能量图    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:endColor="@color/progress_pro_color"
+                    android:startColor="@color/progress_pro_color" />
+            </shape>
+        </clip>
+    </item>-->
+ 
+
+</layer-list>

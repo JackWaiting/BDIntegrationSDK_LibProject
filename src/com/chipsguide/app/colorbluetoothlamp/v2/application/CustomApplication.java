@@ -6,7 +6,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
-	public static final String APP_SIGN = "ColorBluetoothLamp_V2";
+	public static final String APP_SIGN = "ColorBluetoothLamp_V2";//标识
 	/**
 	 * 蓝牙地址过滤
 	 */
@@ -25,7 +25,7 @@ public class CustomApplication extends Application {
 	public void onCreate()
 	{
 		super.onCreate();
-		CrashHandler.getInstance().init(this);
+//		CrashHandler.getInstance().init(this);
 	}
 
 	/**
