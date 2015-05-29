@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -30,11 +31,9 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 public class ColorLampFrag extends BaseFragment implements
 OnColorChangeListener, LampListener, OnClickListener {
 	// OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
-
 	// private PreferenceUtil mPreference;
 	private LampManager mLampManager;
 	// private GridViewDIYColorAdapter diyColorAdapter;
-
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
 	private CheckBox mLampOnCheckBox;
@@ -51,6 +50,8 @@ OnColorChangeListener, LampListener, OnClickListener {
 	private ColorImageView mColorImageViewg;
 	private ColorImageView mColorImageViewb;
 	private ColorImageView mColorImageViewy;
+	
+	private LinearLayout mLayoutSeekbar;
 	private Animation shake;
 	// private boolean isShake = false;
 
@@ -60,7 +61,6 @@ OnColorChangeListener, LampListener, OnClickListener {
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
-	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private SeekBar mSeekBarHeating;
 	private int mSeekBarNum;
 	// private List<String> colors = new ArrayList<String>();
@@ -99,7 +99,7 @@ OnColorChangeListener, LampListener, OnClickListener {
 
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);//颜色盘开关
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);//灯的开关
-
+		mLayoutSeekbar=(LinearLayout)this.findViewById(R.id.layout_seekbar);//冷暖白的进度条
 		mColorImageViewr = (ColorImageView) this.findViewById(R.id.color_r);//红
 		mColorImageViewg = (ColorImageView) this.findViewById(R.id.color_g);//绿
 		mColorImageViewb = (ColorImageView) this.findViewById(R.id.color_b);//蓝
@@ -364,11 +364,24 @@ OnColorChangeListener, LampListener, OnClickListener {
 			isWhiteFlag = false;
 		}
 	}
-
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		mLampManager.removeOnBluetoothDeviceLampListener(this);
+	}
+
+
+//是否白灯
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+		System.out.println("判断是否白灯88888888filament+="+filament);
+	if(filament){
+		mLayoutSeekbar.setVisibility(View.VISIBLE);
+		
+	}else{
+		mLayoutSeekbar.setVisibility(View.INVISIBLE);
+	}
+		
 	}
 
 

@@ -8,7 +8,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 public class CustomApplication extends Application {
 	public static final String APP_SIGN = "ColorBluetoothLamp_V2";//标识
 	/**
-	 * 蓝牙地址过滤
+	 * 蓝牙地址过滤C9:7
 	 */
 	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
 	/**

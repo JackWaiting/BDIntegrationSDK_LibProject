@@ -61,28 +61,28 @@ public class ColorPicker extends View {
 
 	private Paint valuePointerPaint;//绘制指针的值
 
-	private RectF outerWheelRect;
-	private RectF innerWheelRect;
+	private RectF outerWheelRect;//外弧形矩形
+	private RectF innerWheelRect;//内弧形矩形
 
-	private Path colorViewPath;
-	private Path valueSliderPath;
+	private Path colorViewPath;  //色盘
+	private Path valueSliderPath;//拖动条
 
-	private Bitmap colorWheelBitmap;
+	private Bitmap colorWheelBitmap;//色盘位图
 
-	private int valueSliderWidth;
-	private int innerPadding;
+	private int valueSliderWidth;//拖动条长
+	private int innerPadding;//边距
 	private int outerPadding;
 
-	private int outerWheelRadius;
+	private int outerWheelRadius;//半径
 	private int innerWheelRadius;
 	private int colorWheelRadius;
 	private int padding;
 
-	private Matrix gradientRotationMatrix;
+	private Matrix gradientRotationMatrix;//渐变旋转矩阵
 
 	private Drawable mThumb, sun, moon;
 	private int mThumbXPos, mThumbYPos;
-	private float thumbRadius;
+	private float thumbRadius;//滑动的半径
 	
 	/** Currently selected color */
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };

@@ -605,4 +605,10 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		
 	}
 
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
