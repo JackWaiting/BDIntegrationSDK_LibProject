@@ -14,7 +14,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
-
+//左边布局
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
 	private String [] menuItemTitles;

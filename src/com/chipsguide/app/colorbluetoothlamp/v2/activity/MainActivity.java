@@ -35,12 +35,15 @@ public class MainActivity extends BaseActivity implements
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
-	private Alarms alarms;
+	private Alarms alarms;//闹钟
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDeviceManagerProxy mManagerProxy;
 
 	private TextSwitcherTitleView titleView;
 	private PlayerManager playerManager;
+	
+	
+	
 	
 	@Override
 	public int getLayoutId() {
@@ -52,7 +55,7 @@ public class MainActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
 			FragmentTransaction transaction = fragManager.beginTransaction();
-			navFrag = new NavFrag();
+			navFrag = new NavFrag();//左边的Fragment替换到左的布局
 			transaction.replace(R.id.menu_frame, navFrag);
 			transaction.commit();
 		} else {
@@ -61,7 +64,7 @@ public class MainActivity extends BaseActivity implements
 		}
 		navFrag.setOnItemClickListener(this);
 	}
-
+	//设置滑动的样式效果
 	private void initBehindSlidingMenu() {
 		SlidingMenu sm = getSlidingMenu();
 		sm.setFadeEnabled(false);
@@ -83,9 +86,9 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
-		checeNewVersion();
+		checeNewVersion();//版本跟新
 		fragManager = getSupportFragmentManager();
-		initBehindSlidingMenu();
+		initBehindSlidingMenu();//设置滑动的样式效果
 		alarms = Alarms.getInstance(getApplicationContext());
 		alarms.setAllowInBack(true, AlarmAlertService.class);
 		alarms.activieAllEnable();
@@ -101,8 +104,7 @@ public class MainActivity extends BaseActivity implements
 		titleView.setOnClickListener(this);
 		titleView.setTitleText(R.string.color_lamp);
 		titleView.setShowToastTv(true);
-
-		MainFragment mainFrag = new MainFragment();
+		MainFragment mainFrag = new MainFragment();//右边替换布局的Fragment
 		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
 				.commit();
 	}
@@ -176,7 +178,7 @@ public class MainActivity extends BaseActivity implements
 
 	private boolean forceUpdate;
 
-	private void checeNewVersion() {
+	private void checeNewVersion() {//更新
 		UpdateAgent.setOnCheckUpdateListener(checkUpdateListener);
 		UpdateAgent.setDialogButtonClickListener(this);
 		UpdateAgent.setNotifycationVisibility(true);

@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-
+//右布局的Fragment
 public class MainFragment extends BaseFragment implements OnCheckedChangeListener, OnPageChangeListener{
 	private ViewPager viewPager;
 	private RadioGroup bottomNavRg;

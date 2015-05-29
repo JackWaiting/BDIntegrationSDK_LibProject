@@ -24,7 +24,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-
+//蓝牙连接
 public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,OnBluetoothDeviceConnectionStateChangedListener {
 

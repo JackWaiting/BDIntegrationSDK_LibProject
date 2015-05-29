@@ -579,7 +579,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
 	{
 		// TODO Auto-generated method stub
-		
+		   
 	}
 
 
@@ -597,6 +597,18 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		{
 			musicRhythmCb.setChecked(false);
 		}
+	}
+
+	@Override
+	public void OnLampSeekBarNum(int SeekBarNum) {
+	
+		
+	}
+
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
