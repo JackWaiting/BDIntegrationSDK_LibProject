@@ -352,15 +352,21 @@ OnColorChangeListener, LampListener, OnClickListener {
 	//设置灯的亮度
 	@Override
 	public void onLampBrightness(int brightness) {
-		if (!isWhiteFlag) {//非白灯
-			// 转化为颜色会有一些误差的存在
-			float[] colorHSV = new float[] { 0f, 0f, 1f };
-			colorHSV[2] = brightness / 16f;
-			int color = Color.HSVToColor(colorHSV);
-			if (!mLampManager.isColorLamp()) {//非彩灯
-				mColorPicker.setColor(color);//设置
+		//转化为颜色会有一些误差的存在
+		if(!isWhiteFlag)
+		{
+			if(!mLampManager.isColorLamp())
+			{
+				if(brightness == 1)
+				{
+					mColorPicker.setBrightness(0,CustomApplication.lampMax);
+					return;
+				}
+				mColorPicker.setBrightness(brightness,CustomApplication.lampMax);
 			}
-		} else {
+			
+		}else
+		{
 			isWhiteFlag = false;
 		}
 	}

@@ -435,10 +435,11 @@ public class ColorPicker extends View {
 	 * 设置亮度0-1
 	 * @param brightness
 	 */
-	public void setBrightness(float brightness) {
-		colorHSV[2] = Math.min(brightness, 1);
-		updateThumbPosition();
-		invalidate();
+	public void setBrightness(float brightness,float max) {
+		float[] colorHSV = new float[] { 0f, 0f, 1f };
+		colorHSV[2] = brightness / max;
+		int color = Color.HSVToColor(colorHSV);
+		setColor(color);
 	}
 
 	@Override

@@ -20,12 +20,13 @@ public class CustomApplication extends Application {
 	public static boolean isFirstConnect = true;
 	//提醒断开连接进入设置下连接
 	public static boolean isToastDisconn = true;
+	public static float lampMax =16f;//白灯亮度最大值
 
 	@Override
 	public void onCreate()
 	{
 		super.onCreate();
-//		CrashHandler.getInstance().init(this);
+		CrashHandler.getInstance().init(this);
 	}
 
 	/**
