@@ -1,78 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
-        <RadioGroup
-            android:id="@+id/radiogroup_rhythm_effect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#55000000"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="2dp" >
-
-            <RadioButton
-                android:id="@+id/readioButton_button_light_normal"
-                style="@style/radiobutton_light_effect"
-                android:checked="true"
-                android:drawableTop="@drawable/select_button_lignt_normal"
-                android:text="@string/light_normal"
-                android:textSize="@dimen/font_size" />
-
-            <RadioButton
-                android:id="@+id/readioButton_button_light_rainbow"
-                style="@style/radiobutton_light_effect"
-                android:drawableTop="@drawable/select_button_lignt_rainbow"
-                android:text="@string/light_rainbow"
-                android:textSize="@dimen/font_size" />
-
-            <RadioButton
-                android:id="@+id/readioButton_button_light_pulse"
-                style="@style/radiobutton_light_effect"
-                android:drawableTop="@drawable/select_button_lignt_pulse"
-                android:text="@string/light_pulse"
-                android:textSize="@dimen/font_size" />
-
-            <RadioButton
-                android:id="@+id/readioButton_button_light_flashing"
-                style="@style/radiobutton_light_effect"
-                android:drawableTop="@drawable/select_button_lignt_flashing"
-                android:text="@string/light_flashing"
-                android:textSize="@dimen/font_size" />
-
-            <RadioButton
-                android:id="@+id/readioButton_button_light_candle"
-                style="@style/radiobutton_light_effect"
-                android:drawableTop="@drawable/select_button_lignt_candle"
-                android:text="@string/light_candle"
-                android:textSize="@dimen/font_size" />
-        </RadioGroup>
-    </LinearLayout>
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        layout="@layout/layout_colorpicker" />
-
-    <LinearLayout 
         android:id="@+id/layout_seekbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lyout_cb_lamp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="40dp"
-        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal" 
-        android:visibility="invisible"
+   
         >
 
         <TextView
@@ -91,31 +33,114 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-     android:progressDrawable="@drawable/bar_bg" 
             android:max="255"
             android:maxHeight="5dp"
             android:minHeight="5dp"
+            android:progressDrawable="@drawable/bar_bg"
             android:thumb="@drawable/dot_vol"
             android:thumbOffset="10dp" />
-
-     
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <RadioGroup
+                android:id="@+id/radiogroup_rhythm_effect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#55000000"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="2dp" >
+
+                <RadioButton
+                    android:id="@+id/readioButton_button_light_normal"
+                    style="@style/radiobutton_light_effect"
+                    android:checked="true"
+                    android:drawableTop="@drawable/select_button_lignt_normal"
+                    android:text="@string/light_normal"
+                    android:textSize="@dimen/font_size" />
+
+                <RadioButton
+                    android:id="@+id/readioButton_button_light_rainbow"
+                    style="@style/radiobutton_light_effect"
+                    android:drawableTop="@drawable/select_button_lignt_rainbow"
+                    android:text="@string/light_rainbow"
+                    android:textSize="@dimen/font_size" />
+
+                <RadioButton
+                    android:id="@+id/readioButton_button_light_pulse"
+                    style="@style/radiobutton_light_effect"
+                    android:drawableTop="@drawable/select_button_lignt_pulse"
+                    android:text="@string/light_pulse"
+                    android:textSize="@dimen/font_size" />
+
+                <RadioButton
+                    android:id="@+id/readioButton_button_light_flashing"
+                    style="@style/radiobutton_light_effect"
+                    android:drawableTop="@drawable/select_button_lignt_flashing"
+                    android:text="@string/light_flashing"
+                    android:textSize="@dimen/font_size" />
+
+                <RadioButton
+                    android:id="@+id/readioButton_button_light_candle"
+                    style="@style/radiobutton_light_effect"
+                    android:drawableTop="@drawable/select_button_lignt_candle"
+                    android:text="@string/light_candle"
+                    android:textSize="@dimen/font_size" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.8"
+            layout="@layout/layout_colorpicker" />
+
+        <LinearLayout
+            android:id="@+id/lyout_"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_lamp_on_btn"
+                android:button="@null"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyout_cb_lamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="vertical" >
 
         <CheckBox
             android:id="@+id/cb_lamp_on"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:background="@drawable/selector_lamp_on_btn"
             android:button="@null" />
 
         <include layout="@layout/layout_select_color" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
