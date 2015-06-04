@@ -244,7 +244,6 @@ public class ColorPicker extends View {
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		int centerX = width / 2;
 		int centerY = height / 2;
-		flog.e("width--->"+width+"  height--->" + height);
 		innerPadding = (int) (paramInnerPadding * width / 100);
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
