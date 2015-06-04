@@ -40,10 +40,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class ColorPicker extends View {
-
+	MyLogger flog = MyLogger.fLog();
 	/**
 	 * Customizable display parameters (in percents)
 	 */
@@ -162,10 +163,7 @@ public class ColorPicker extends View {
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 		int size = Math.min(widthSize, heightSize);
 		setMeasuredDimension(size, size);
-		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
-		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
-		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
-		
+		radius();
 	}
 
 	@Override
@@ -246,7 +244,6 @@ public class ColorPicker extends View {
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		int centerX = width / 2;
 		int centerY = height / 2;
-
 		innerPadding = (int) (paramInnerPadding * width / 100);
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
@@ -285,6 +282,15 @@ public class ColorPicker extends View {
 				null);
 		sweepGradient.setLocalMatrix(gradientRotationMatrix);
 		valueSliderPaint.setShader(sweepGradient);
+		
+		radius();
+	}
+
+	private void radius()
+	{
+		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
+		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
+		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
