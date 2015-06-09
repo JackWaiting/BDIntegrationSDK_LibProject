@@ -1,1 +1,0 @@
-package com.chipsguide.app.colorbluetoothlamp.v2.listener;public interface MusicRhythmListener {	void onMusicPagePosition(int position);}

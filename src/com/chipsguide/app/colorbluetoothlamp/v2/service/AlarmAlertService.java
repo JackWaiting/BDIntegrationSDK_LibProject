@@ -24,10 +24,9 @@ import android.view.WindowManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnDeviceConnectedStateChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerReadyListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -37,14 +36,13 @@ import com.chipsguide.lib.timer.Alarm;
 import com.chipsguide.lib.timer.Alarms;
 import com.chipsguide.lib.timer.service.AlarmService;
 
-public class AlarmAlertService extends AlarmService implements Observer{
+public class AlarmAlertService extends AlarmService{
 	private MediaPlayer mediaPlayer;
 	private AlarmLightColorDAO lightColorDao;
 	private LampManager mLampManager;
 	protected boolean destroy;
 	private PlayerManager playerManager;
 	private AlertDialog ad;
-	private MySubject mSubject;
 	private BluetoothDeviceManagerProxy bluzProxy;
 
 	@Override
@@ -55,8 +53,6 @@ public class AlarmAlertService extends AlarmService implements Observer{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mSubject = MySubject.getSubject();
-		mSubject.attach(this);
 		bluzProxy = BluetoothDeviceManagerProxy.getInstance(getApplicationContext());
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		initAlertListener();
@@ -65,6 +61,18 @@ public class AlarmAlertService extends AlarmService implements Observer{
 	private void initAlertListener() {
 		mLampManager = LampManager.getInstance(getApplicationContext());
 		lightColorDao = AlarmLightColorDAO.getDao(getApplicationContext());
+		bluzProxy.setDeviceConnectedStateChangedListener(new OnDeviceConnectedStateChangedListener()
+		{
+			
+			@Override
+			public void onConnectedChanged(boolean isConnect)
+			{
+				// TODO Auto-generated method stub
+				if(!isConnect){
+					stopSelf();
+				}
+			}
+		});
 	}
 
 	private void showDialog(String time) {
@@ -102,10 +110,10 @@ public class AlarmAlertService extends AlarmService implements Observer{
 		Log.d("", "onDestroy");
 		destroy = true;
 		destroyPlayer();
-		mSubject.deleteach(this);
 		if (ad != null) {
 			ad.dismiss();
 		}
+		bluzProxy.removeDeviceConnectedStateChangedListener();
 	}
 	
 	private void destroyPlayer() {
@@ -211,17 +219,6 @@ public class AlarmAlertService extends AlarmService implements Observer{
 			playerManager.pause();
 		}
 		onAlert(list);
-	}
-
-	@Override
-	public void updateVolume() {
-	}
-	
-	@Override
-	public void updateConnectState(boolean isConnect) {
-		if(!isConnect){
-			stopSelf();
-		}
 	}
 
 }

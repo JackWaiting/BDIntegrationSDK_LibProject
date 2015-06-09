@@ -47,19 +47,5 @@ public class AlbumListActivity extends BaseActivity {
 	public int getLayoutId() {
 		return R.layout.activity_album_list_layout;
 	}
-
-	@Override
-	public void updateVolume()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

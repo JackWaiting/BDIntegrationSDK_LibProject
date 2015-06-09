@@ -40,49 +40,50 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class ColorPicker extends View {
-
+	MyLogger flog = MyLogger.fLog();
 	/**
 	 * Customizable display parameters (in percents)
 	 */
 	private final int paramOuterPadding = 3; // 弧形的外边距占控件的百分比
 	private final int paramInnerPadding = 7; // 弧形内边距占控件的百分比
-	private final int paramValueSliderWidth = 2; // width of the value slider
+	private final int paramValueSliderWidth = 2; // width of the value slider 滑动条
 
-	private Paint colorWheelPaint;
-	private Paint valueSliderPaint;
+	private Paint colorWheelPaint;//绘制色盘
+	private Paint valueSliderPaint;//绘制拖动条
 
-	private Paint colorViewPaint;
+	private Paint colorViewPaint;//绘制颜色
 
-	private Paint colorPointerPaint;
-	private RectF colorPointerCoords;
+	private Paint colorPointerPaint;//绘制颜色指针
+	private RectF colorPointerCoords;//绘制颜色指针坐标
 
-	private Paint valuePointerPaint;
+	private Paint valuePointerPaint;//绘制指针的值
 
-	private RectF outerWheelRect;
-	private RectF innerWheelRect;
+	private RectF outerWheelRect;//外弧形矩形
+	private RectF innerWheelRect;//内弧形矩形
 
-	private Path colorViewPath;
-	private Path valueSliderPath;
+	private Path colorViewPath;  //色盘
+	private Path valueSliderPath;//拖动条
 
-	private Bitmap colorWheelBitmap;
+	private Bitmap colorWheelBitmap;//色盘位图
 
-	private int valueSliderWidth;
-	private int innerPadding;
+	private int valueSliderWidth;//拖动条长
+	private int innerPadding;//边距
 	private int outerPadding;
 
-	private int outerWheelRadius;
+	private int outerWheelRadius;//半径
 	private int innerWheelRadius;
 	private int colorWheelRadius;
 	private int padding;
 
-	private Matrix gradientRotationMatrix;
+	private Matrix gradientRotationMatrix;//渐变旋转矩阵
 
 	private Drawable mThumb, sun, moon;
 	private int mThumbXPos, mThumbYPos;
-	private float thumbRadius;
+	private float thumbRadius;//滑动的半径
 	
 	/** Currently selected color */
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
@@ -162,10 +163,7 @@ public class ColorPicker extends View {
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 		int size = Math.min(widthSize, heightSize);
 		setMeasuredDimension(size, size);
-		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
-		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
-		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
-		
+		radius();
 	}
 
 	@Override
@@ -246,7 +244,6 @@ public class ColorPicker extends View {
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		int centerX = width / 2;
 		int centerY = height / 2;
-
 		innerPadding = (int) (paramInnerPadding * width / 100);
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
@@ -285,6 +282,15 @@ public class ColorPicker extends View {
 				null);
 		sweepGradient.setLocalMatrix(gradientRotationMatrix);
 		valueSliderPaint.setShader(sweepGradient);
+		
+		radius();
+	}
+
+	private void radius()
+	{
+		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
+		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
+		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -435,10 +441,11 @@ public class ColorPicker extends View {
 	 * 设置亮度0-1
 	 * @param brightness
 	 */
-	public void setBrightness(float brightness) {
-		colorHSV[2] = Math.min(brightness, 1);
-		updateThumbPosition();
-		invalidate();
+	public void setBrightness(float brightness,float max) {
+		float[] colorHSV = new float[] { 0f, 0f, 1f };
+		colorHSV[2] = brightness / max;
+		int color = Color.HSVToColor(colorHSV);
+		setColor(color);
 	}
 
 	@Override

@@ -5,31 +5,30 @@ import java.util.List;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity.ConnectStateListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.BluetoothDeivcesListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectDao;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.ConnectInfo;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
+import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-
+//蓝牙连接
 public class BluetoothConnectionActivity extends BaseActivity implements
-		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,
-		ConnectStateListener {
+		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,OnBluetoothDeviceConnectionStateChangedListener {
 
-	private ImageView mImageViewButtonSearsh;
+	private Button mButtonSearsh;
 	private ListView mListView;
 	private List<BluetoothDevice> mListBluetoothDevices = new ArrayList<BluetoothDevice>(); // 新搜索的蓝牙列表
 	private ArrayList<ConnectInfo> connectBluetoothDevices;// 已经连接成功后的蓝牙列表
@@ -39,9 +38,12 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	private CustomApplication application;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDevice bluetoothDeviceConnected;// 当前连接的蓝牙
-	private boolean background = false;
+	private BluetoothDeviceManagerProxy mManagerProxy;
+	private PlayerManager mPlayerManager;
 
 	private ConnectDao dao;
+	
+	private boolean background = false;
 
 	@Override
 	public int getLayoutId()
@@ -55,19 +57,20 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
-		setmConnectStateListener(BluetoothConnectionActivity.this);
 		dao = ConnectDao.getDao(this);
+		mPlayerManager = PlayerManager.getInstance(this);
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 	}
 
 	@Override
 	public void initUI()
 	{
-		mImageViewButtonSearsh = (ImageView) this
-				.findViewById(R.id.imageview_button_searsh);
+		mButtonSearsh = (Button) this
+				.findViewById(R.id.button_searsh);
 		mListView = (ListView) this
 				.findViewById(R.id.listview_bluetoothdevice_list);
 
-		mImageViewButtonSearsh.setOnClickListener(this);
+		mButtonSearsh.setOnClickListener(this);
 		mListView.setOnItemClickListener(this);
 	}
 
@@ -93,6 +96,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void initListener()
 	{
+		mManagerProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
 	@Override
@@ -100,8 +104,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	{
 		super.onResume();
 		background = false;
-		//重新搜索
-		startDiscovery();
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
 		{
@@ -113,13 +115,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		mAdapter.setList(StringUtil.getListConnectMessage(
 				connectBluetoothDevices, listBluetooth));
 	}
-	
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		background = true;
-	}
 
 	@Override
 	public void onClick(View v)
@@ -127,7 +122,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		super.onClick(v);
 		switch (v.getId())
 		{
-		case R.id.imageview_button_searsh:
+		case R.id.button_searsh:
 			startDiscovery();
 			break;
 		}
@@ -144,11 +139,64 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onBluetoothDeviceConnectionState(
+	public void onBluetoothDeviceConnectionStateChanged(
 			BluetoothDevice bluetoothDevice, int state)
 	{
 		switch (state)
 		{
+		
+		// a2dp连接中
+		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
+			setText(R.string.audio_connectioning);
+			flog.d("A2DP_CONNECTING  a2dp连接中");
+			break;
+
+		// a2dp连接失败
+		case BluetoothDeviceManager.ConnectionState.A2DP_FAILURE:
+			flog.d("A2DP_FAILURE  a2dp连接失败");
+			dismissConnectPD();
+			break;
+
+		// a2dp配对
+		case BluetoothDeviceManager.ConnectionState.A2DP_PAIRING:
+			flog.d("A2DP_PAIRING  a2dp配对中");
+			break;
+
+		// a2dp连接
+		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTED:
+			flog.d("A2DP_CONNECTED  a2dp连接成功");
+			setText(R.string.audio_connectionend);
+			break;
+
+		// a2dp断开
+		case BluetoothDeviceManager.ConnectionState.A2DP_DISCONNECTED:
+			flog.d("A2DP_DISCONNECTED  a2dp断开");
+			break;
+
+		// spp连接中
+		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTING:
+			flog.d("SPP_CONNECTING  spp连接中");
+			setText(R.string.data_connectioning);
+			break;
+
+		// /spp连接成功
+		case BluetoothDeviceManager.ConnectionState.SPP_CONNECTED:
+			flog.d("SPP_CONNECTED spp连接成功");
+			setText(R.string.data_connectionend);
+			break;
+			
+			// spp断开
+		case BluetoothDeviceManager.ConnectionState.SPP_DISCONNECTED:
+			flog.d("SPP_DISCONNECTED  spp断开");
+			break;
+
+		// spp连接失败
+		case BluetoothDeviceManager.ConnectionState.SPP_FAILURE:
+			flog.d("SPP_FAILURE  spp连接失败");
+			dismissConnectPD();
+			break;
+
+			
 		// 连接
 		case BluetoothDeviceManager.ConnectionState.CONNECTED:
 			flog.d("CONNECTED  连接成功");
@@ -157,17 +205,25 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			if (bluetoothDevice.getAddress().startsWith(
 					CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
 			{
-				dao.insert(bluetoothDevice);
+				if(dao != null)
+				{
+					dao.insert(bluetoothDevice);
+				}
 			}
 			listBluetooth.remove(bluetoothDevice);
-
-			connectBluetoothDevices = dao.selectAll();
+			
+			if(dao != null)
+			{
+				connectBluetoothDevices = dao.selectAll();
+			}
 			if(mAdapter!=null)
 			{
 				mAdapter.setBluetooth(bluetoothDevice);
 				mAdapter.setList(StringUtil.getListConnectMessage(
 						connectBluetoothDevices, listBluetooth));
 			}
+			setText(R.string.connectionend);
+			dismissConnectPD();
 			//连接成功后，返回到主界面
 			finish();
 			break;
@@ -179,21 +235,34 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				mAdapter.setBluetooth(null);
 				mAdapter.notifyDataSetChanged();
 			}
-			break;
+			//断开如果正在播放停止音乐
+			if(mPlayerManager.isPlaying())
+			{
+				mPlayerManager.pause();
+			}
+			dismissConnectPD();
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
 		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();
 			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
 					R.style.full_screen);
-			if(!background)
+			if(!background && CustomApplication.isToastDisconn)
 			{
 				toastDialog.show();
 			}
-			mSubject.setConnectState(false);
 			// 提示，由于系统原因或者未知原因，应用内无法连接蓝牙，请自行在系统中连接设备，回到应用即可。
 			break;
+				
 		}
+	}
+	
+	@Override
+	protected void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		background = true;
 	}
 
 	@Override
@@ -242,6 +311,9 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void onBluetoothDeviceDiscoveryStarted()
 	{
+		mListBluetoothDevices.clear();
+		connectBluetoothDevices.clear();
+		listBluetooth.clear();
 	}
 
 	@Override
@@ -298,7 +370,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 					{
 						// 断开蓝牙
 						 DisconnectBluetoothDialog diacoonctDialog = new DisconnectBluetoothDialog(BluetoothConnectionActivity.this,
-						 R.style.register_inform_style, mHandler,
+						 R.style.register_inform_style,
 						 bluetoothDevice, this.mBluetoothDeviceManager);
 						 diacoonctDialog.show();
 					} else
@@ -333,36 +405,10 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			}
 		}
 	}
-
 	
-	Handler mHandler = new Handler()
+	public void onDestroy() 
 	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			super.handleMessage(msg);
-			switch (msg.what)
-			{
-			case 01:
-				bluetoothDeviceConnected = null;
-				break;
-			}
-		}
-
-	};
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		
+		super.onDestroy();
+		mManagerProxy.removeDeviceConnectedStateChangedListener();
 	}
-
-	@Override
-	public void updateVolume()
-	{
-		
-	}
-	
-	
-
 }

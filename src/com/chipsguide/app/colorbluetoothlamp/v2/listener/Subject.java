@@ -1,1 +1,0 @@
-package com.chipsguide.app.colorbluetoothlamp.v2.listener;/** * @author fiskz *被观察者接口 */public interface Subject {	public void attach(Observer observer);//添加观察者	public void deleteach(Observer observer);//删除观察者	public void noticeVolume();//通知音量变化	public void noticeConnectState(boolean isConnect);//通知连接状态的变化}

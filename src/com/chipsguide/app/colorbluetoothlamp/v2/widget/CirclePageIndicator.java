@@ -38,8 +38,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.MusicRhythmListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 
 /**
  * Draws circles (one for each view). The current view position is filled and
@@ -66,7 +64,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
 	private float mLastMotionX = -1;
 	private int mActivePointerId = INVALID_POINTER;
 	private boolean mIsDragging;
-	private LampManager lampManager;
 
 	public CirclePageIndicator(Context context) {
 		this(context, null);
@@ -74,7 +71,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
 	public CirclePageIndicator(Context context, AttributeSet attrs) {
 		this(context, attrs, R.attr.vpiCirclePageIndicatorStyle);
-		lampManager = LampManager.getInstance(context);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -466,10 +462,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
 		if (mListener != null) {
 			mListener.onPageSelected(position);
-		}
-		if(lampManager instanceof MusicRhythmListener)
-		{
-			((MusicRhythmListener) lampManager).onMusicPagePosition(position);
 		}
 	}
 

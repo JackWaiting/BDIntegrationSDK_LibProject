@@ -89,7 +89,7 @@
     <string name="loading_tf_music_success">加载成功!\n总共%1$d首歌曲, 加载了%2$d首歌曲!</string>
     <string name="clear">知道了</string>
     <string name="enter_app">进入应用&gt;&gt;</string>
-    <string name="press_again_to_exist">再按一次推出应用!</string>
+    <string name="press_again_to_exist">再按一次退出应用!</string>
     
     <string name="audio_connectioning">音频连接中</string>
 	<string name="audio_connectionend">音频已连接</string>
@@ -111,4 +111,5 @@
     <string name="conn_ble">请连接蓝牙</string>
     <string name="music_rhythm">音乐律动</string>
     <string name="no_play_content">没有播放内容！</string>
+    <string name="search_lamp">搜索蓝牙灯</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,12 +13,14 @@ import android.view.View;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnDeviceConnectedStateChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag.OnNavItemClickListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TextSwitcherTitleView;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarms;
@@ -28,15 +31,20 @@ import com.platomix.lib.update.listener.OnCheckUpdateListener;
 
 public class MainActivity extends BaseActivity implements
 		OnNavItemClickListener, OnMainPageChangeListener,
-		DialogInterface.OnClickListener {
+		DialogInterface.OnClickListener{
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
-	private Alarms alarms;
+	private Alarms alarms;//闹钟
 	private BluetoothDeviceManager mBluetoothDeviceManager;
+	private BluetoothDeviceManagerProxy mManagerProxy;
 
 	private TextSwitcherTitleView titleView;
 	private PlayerManager playerManager;
+	
+	
+	
+	
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -47,7 +55,7 @@ public class MainActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
 			FragmentTransaction transaction = fragManager.beginTransaction();
-			navFrag = new NavFrag();
+			navFrag = new NavFrag();//左边的Fragment替换到左的布局
 			transaction.replace(R.id.menu_frame, navFrag);
 			transaction.commit();
 		} else {
@@ -56,7 +64,7 @@ public class MainActivity extends BaseActivity implements
 		}
 		navFrag.setOnItemClickListener(this);
 	}
-
+	//设置滑动的样式效果
 	private void initBehindSlidingMenu() {
 		SlidingMenu sm = getSlidingMenu();
 		sm.setFadeEnabled(false);
@@ -78,14 +86,16 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
-		checeNewVersion();
+		checeNewVersion();//版本跟新
 		fragManager = getSupportFragmentManager();
-		initBehindSlidingMenu();
+		initBehindSlidingMenu();//设置滑动的样式效果
 		alarms = Alarms.getInstance(getApplicationContext());
 		alarms.setAllowInBack(true, AlarmAlertService.class);
 		alarms.activieAllEnable();
 		mBluetoothDeviceManager = ((CustomApplication)getApplicationContext()).getBluetoothDeviceManager();
 		playerManager = PlayerManager.getInstance(getApplicationContext());
+		
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 	}
 
 	@Override
@@ -94,8 +104,7 @@ public class MainActivity extends BaseActivity implements
 		titleView.setOnClickListener(this);
 		titleView.setTitleText(R.string.color_lamp);
 		titleView.setShowToastTv(true);
-
-		MainFragment mainFrag = new MainFragment();
+		MainFragment mainFrag = new MainFragment();//右边替换布局的Fragment
 		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
 				.commit();
 	}
@@ -108,6 +117,17 @@ public class MainActivity extends BaseActivity implements
 	public void initListener() {
 		alarmAlertService = new Intent(this, AlarmAlertService.class);
 		startService(alarmAlertService);
+		mManagerProxy.setDeviceConnectedStateChangedListener(new OnDeviceConnectedStateChangedListener()
+		{
+			
+			@Override
+			public void onConnectedChanged(boolean isConnected)
+			{
+				if(!isConnected && playerManager.isPlaying()){
+					playerManager.pause();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -141,12 +161,24 @@ public class MainActivity extends BaseActivity implements
 		playerManager.destoryAll();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
-		mSubject.destory();
+		LampManager.getInstance(this).destory();
+		releaseManager();
+	}
+	
+	private void releaseManager()
+	{
+		if (mBluetoothDeviceManager != null)
+		{
+			mBluetoothDeviceManager.setOnBluetoothDeviceConnectionStateChangedListener(null);
+			mBluetoothDeviceManager.setOnBluetoothDeviceGlobalUIChangedListener(null);
+			mBluetoothDeviceManager.release();
+			mBluetoothDeviceManager = null;
+		}
 	}
 
 	private boolean forceUpdate;
 
-	private void checeNewVersion() {
+	private void checeNewVersion() {//更新
 		UpdateAgent.setOnCheckUpdateListener(checkUpdateListener);
 		UpdateAgent.setDialogButtonClickListener(this);
 		UpdateAgent.setNotifycationVisibility(true);
@@ -217,6 +249,7 @@ public class MainActivity extends BaseActivity implements
 		refreshBluetooth();
 	}
 	
+	
 	private void refreshBluetooth()
 	{
 		if ((mBluetoothDeviceManager.isBluetoothSupported()) && (!mBluetoothDeviceManager.isBluetoothEnabled()))
@@ -237,20 +270,29 @@ public class MainActivity extends BaseActivity implements
        // 请求开启 Bluetooth
        this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
     }
-
+    
 	@Override
-	public void updateVolume()
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		// TODO 固件音量
-		
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO 蓝牙连接状态
-		if(!isConnect && playerManager.isPlaying()){
-			playerManager.pause();
+		// requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
+		if (requestCode == REQUEST_CODE_BLUETOOTH_ON)
+		{
+			switch (resultCode)
+			{
+			// 点击确认按钮
+			case Activity.RESULT_OK:
+			{
+				// TODO 用户选择开启 Bluetooth，Bluetooth 会被开启
+			}
+				break;
+			// 点击取消按钮或点击返回键
+			case Activity.RESULT_CANCELED:
+			{
+				// TODO 用户拒绝打开 Bluetooth, Bluetooth 不会被开启
+				finish();
+			}
+				break;
+			}
 		}
 	}
 	

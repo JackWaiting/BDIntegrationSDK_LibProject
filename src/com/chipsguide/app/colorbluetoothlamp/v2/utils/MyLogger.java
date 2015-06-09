@@ -19,6 +19,7 @@ public class MyLogger {
 	private static MyLogger flog;
 	//在这里可以定义自己的日志输入，和其他的日志并不冲突
 	private static final String FISKZ = "@fiskz@ ";
+	private static final String OSMAN = "@osmanxiong@ ";
 
 	private MyLogger(String name)
 	{
@@ -56,6 +57,15 @@ public class MyLogger {
 		return flog;
 	}
 
+	
+	public static MyLogger xLog()
+	{
+		if (flog == null)
+		{
+			flog = new MyLogger(OSMAN);
+		}
+		return flog;
+	}
 	/**
 	 * Get The Current Function Name
 	 * 

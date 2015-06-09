@@ -150,18 +150,4 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		startLightSettingActivity(alarm);
 	}
 
-	@Override
-	public void updateVolume()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }

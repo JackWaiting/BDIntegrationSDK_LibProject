@@ -58,7 +58,10 @@ public class TFCardMusicFrag extends SimpleMusicFrag implements SimpleMusicPlayL
 			if(!loadAll){
 				addFooterView();
 			}
-			adapter.setMusicList(new ArrayList<Music>());
+			if(adapter !=null)
+			{
+				adapter.setMusicList(new ArrayList<Music>());
+			}
 			if(loadAll){
 				showLoadingMusicDialog();
 			}

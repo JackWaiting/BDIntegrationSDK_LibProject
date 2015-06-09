@@ -11,25 +11,19 @@ import android.view.ViewGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 
-public abstract class BaseFragment extends Fragment implements Observer {
+public abstract class BaseFragment extends Fragment{
 	MyLogger flog = MyLogger.fLog();
 	
 	protected View root;
 	private BaseActivity attachAct;
-	protected MySubject mSubject;//被观察者
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initBase();
-		
-		mSubject=MySubject.getSubject();
-		mSubject.attach(BaseFragment.this);//加入观察者
 	}
 	
 	@Override
@@ -99,23 +93,4 @@ public abstract class BaseFragment extends Fragment implements Observer {
 		attachAct.hideInputMethod(null);
 	}
 	
-	@Override
-	public void updateVolume()
-	{
-		// TODO 固件音量
-		
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO 是否连接
-		
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		mSubject.deleteach(this);
-	}
 }
