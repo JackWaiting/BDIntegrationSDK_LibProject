@@ -1,12 +1,16 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
@@ -19,16 +23,17 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
+import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
+import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-		OnColorChangeListener, LampListener, OnClickListener {
+OnColorChangeListener, LampListener, OnClickListener {
 	// OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
-
 	// private PreferenceUtil mPreference;
 	private LampManager mLampManager;
 	// private GridViewDIYColorAdapter diyColorAdapter;
-
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
 	private CheckBox mLampOnCheckBox;
@@ -45,53 +50,38 @@ public class ColorLampFrag extends BaseFragment implements
 	private ColorImageView mColorImageViewg;
 	private ColorImageView mColorImageViewb;
 	private ColorImageView mColorImageViewy;
+	
+	private LinearLayout mLayoutSeekbar;
 	private Animation shake;
 	// private boolean isShake = false;
 
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
-	private boolean hmcolor = false;//是否是手动控制颜色的变化。
-	//是白色吗 
-	private boolean isWhiteFlag = false;//滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
+	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
+	// 是白色吗
+	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
-	private BluetoothDeviceManagerProxy blzDeviceProxy;
-
+	private SeekBar mSeekBarHeating;
+	private int mSeekBarNum;
 	// private List<String> colors = new ArrayList<String>();
 
 	@Override
-	protected void initBase()
-	{
+	protected void initBase() {
 		mLampManager = LampManager.getInstance(getActivity());
-		mLampManager.init();
-		mLampManager.addOnBluetoothDeviceLampListener(this);
-		// mPreference = PreferenceUtil.getIntance(getActivity());
-		// initColor();
+		mLampManager.init();//蓝牙连接准备
+		mLampManager.addOnBluetoothDeviceLampListener(this);//灯效监听状态
 	}
 
-	// private void initColor()
-	// {
-	// colors.clear();
-	// Set<String> set = mPreference.getColor();
-	// flog.e("set" + set);
-	// if (set != null)
-	// {
-	// for (Iterator<String> iter = set.iterator(); iter.hasNext();)
-	// {
-	// colors.add(iter.next());
-	// }
-	// }
-	// }
+
 
 	@Override
-	protected int getLayoutId()
-	{
+	protected int getLayoutId() {
 		return R.layout.frag_color_lamp;
 	}
 
 	@Override
-	protected void initView()
-	{
-		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);
+	protected void initView() {
+		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);//色盘。亮度
 		mColorPicker.setOnColorChangeListener(this);
 
 		mButtonGroupRhythm = (RadioGroup) root
@@ -107,13 +97,13 @@ public class ColorLampFrag extends BaseFragment implements
 		mButtonLightCandle = (RadioButton) root
 				.findViewById(R.id.readioButton_button_light_candle);
 
-		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);
-		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);
-
-		mColorImageViewr = (ColorImageView) this.findViewById(R.id.color_r);
-		mColorImageViewg = (ColorImageView) this.findViewById(R.id.color_g);
-		mColorImageViewb = (ColorImageView) this.findViewById(R.id.color_b);
-		mColorImageViewy = (ColorImageView) this.findViewById(R.id.color_y);
+		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);//颜色盘开关
+		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);//灯的开关
+		mLayoutSeekbar=(LinearLayout)this.findViewById(R.id.layout_seekbar);//冷暖白的进度条
+		mColorImageViewr = (ColorImageView) this.findViewById(R.id.color_r);//红
+		mColorImageViewg = (ColorImageView) this.findViewById(R.id.color_g);//绿
+		mColorImageViewb = (ColorImageView) this.findViewById(R.id.color_b);//蓝
+		mColorImageViewy = (ColorImageView) this.findViewById(R.id.color_y);//黄
 		mColorImageViewr.setImageviewColor(getResources().getColor(
 				R.color.color_r));
 		mColorImageViewg.setImageviewColor(getResources().getColor(
@@ -127,84 +117,68 @@ public class ColorLampFrag extends BaseFragment implements
 		mColorImageViewg.setOnClickListener(this);
 		mColorImageViewb.setOnClickListener(this);
 		mColorImageViewy.setOnClickListener(this);
-		// mGridViewDIYColor = (GridView) root
-		// .findViewById(R.id.gridview_diy_color);
-		// diyColorAdapter = new GridViewDIYColorAdapter(getActivity());
-		// mImageAddColor = (ImageView) this
-		// .findViewById(R.id.imageview_diy_addcolor);
-		// mGridViewDIYColor.setAdapter(diyColorAdapter);
-
-		// shake = AnimationUtils.loadAnimation(getActivity(),
-		// R.anim.color_shake);// 加载动画资源文件
-		// shake.setAnimationListener(this);
-		// mGridViewDIYColor.setOnItemClickListener(new OnItemClickListener()
-		// {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> arg0, View v, int position,
-		// long arg3)
-		// {
-		// if (colors.size() > position)
-		// {
-		// mLampManager.setColor(Integer.parseInt(colors.get(position)));
-		// }
-		// }
-		// });
-
-		// mGridViewDIYColor
-		// .setOnItemLongClickListener(new OnItemLongClickListener()
-		// {
-		//
-		// @Override
-		// public boolean onItemLongClick(AdapterView<?> arg0, View v,
-		// int position, long arg3)
-		// {
-		// if (!isShake)
-		// {
-		// diyColorAdapter.setVisility(true);
-		// for (int i = 0; i < arg0.getCount(); i++)
-		// {
-		// arg0.getChildAt(i).startAnimation(shake);
-		// }
-		// } else
-		// {
-		// diyColorAdapter.setVisility(false);
-		// shake.cancel();
-		// }
-		// return false;
-		// }
-		// });
-
 		mButtonLightNormal.setOnClickListener(this);
 		mButtonLightRainbow.setOnClickListener(this);
 		mButtonLightPusle.setOnClickListener(this);
 		mButtonLightFlashing.setOnClickListener(this);
 		mButtonLightCandle.setOnClickListener(this);
-
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
-		// mImageAddColor.setOnClickListener(this);
 
-		// diyColorAdapter.setList(colors);
+		mSeekBarHeating = (SeekBar) findViewById(R.id.seekbar_white);
+		mSeekBarHeating.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			// 停止拖动的值传给设备
+			public void onStopTrackingTouch(SeekBar arg0) {
+				Log.d("TAG", "mSeekBarNum-->" + mSeekBarNum);
+				mLampManager.setColdAndWarmWhite(mSeekBarNum);
+				System.out.println("打印停止拖动的值++++++++++" + mSeekBarNum);
+
+			}
+
+			// 开始拖动
+			public void onStartTrackingTouch(SeekBar arg0) {
+
+			}
+
+			// 拖动中
+			public void onProgressChanged(SeekBar seekBar,
+					int progress, boolean fromUser) {
+				if (!fromUser) {
+					return;
+				}
+				mSeekBarNum = progress;
+				System.out.println("打印当前拖动的值++++++++++" + mSeekBarNum);
+
+			}
+		});
+
 	}
 
-	@Override
-	public void onClick(View v)
+	// 刷新seekbar
+	private void refresh(int mSeekBarNum) {
+		mSeekBarHeating.setProgress(mSeekBarNum);
+	}
+
+	@Override// TODO 更新暖灯
+	public void OnLampSeekBarNum(int mSeekBarNum)
 	{
+
+		refresh(mSeekBarNum);
+	}
+	@Override
+	public void onClick(View v) {
 		// shake.cancel();
-		if (v instanceof RadioButton)
-		{
-			effect(v);
+		if (v instanceof RadioButton) {
+			effect(v);	//设置灯效
 		}
-		checkedbox(v.getId());
-		ColorImageView(v.getId());
+		checkedbox(v.getId());//开关
+		ColorImageView(v.getId());//设置颜色
 		// addColor(v);
 	}
 
-	private void ColorImageView(int id)
-	{
-		switch (id)
-		{
+	private void ColorImageView(int id) {
+		switch (id) {
 		case R.id.color_r:
 			mLampManager.setColor(getResources().getColor(R.color.color_r));
 			break;
@@ -219,34 +193,9 @@ public class ColorLampFrag extends BaseFragment implements
 			break;
 		}
 	}
-
-	// private void addColor(View v)
-	// {
-	// switch (v.getId())
-	// {
-	// case R.id.imageview_diy_addcolor:
-	// if (mPreference.getColor().size() >= 4)
-	// {
-	// // 超出范围
-	// } else
-	// {
-	// if (color == -1)
-	// {
-	// showToast("请设置颜色");
-	// }
-	// colors.add(color + "");
-	// mPreference.setColor(new HashSet<String>(colors));
-	// diyColorAdapter.setList(colors);
-	// }
-	// diyColorAdapter.setVisility(false);
-	// break;
-	// }
-	// }
-
-	private void effect(View v)
-	{
-		switch (v.getId())
-		{
+	//设置灯效
+	private void effect(View v) {
+		switch (v.getId()) {
 		case R.id.readioButton_button_light_normal:
 			flog.d("normal");
 			mEffect = BluetoothDeviceColorLampManager.Effect.NORMAL;
@@ -273,19 +222,17 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	@Override
-	protected void initData()
-	{
+	protected void initData() {
 	}
 
 	// 目前是根据a2dp来判断是否连接上的，用spp判断目前还存在问题
 	// 现在的问题是spp还没有连接上就开始获取了，所以，获取的是null
+	//刷新界面，要弹出连接蓝牙提示框
 	@Override
-	public void onResume()
-	{
+	public void onResume() {
 		super.onResume();
 		if (CustomApplication.isFirstConnect
-				&& (mLampManager.getBluetoothDevice() == null))
-		{
+				&& (mLampManager.getBluetoothDevice() == null)) {
 			ToastIsConnectDialog toastDialog = new ToastIsConnectDialog(
 					getActivity());
 			toastDialog.show();
@@ -296,70 +243,57 @@ public class ColorLampFrag extends BaseFragment implements
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
 
 	@Override
-	public void onColorChange(int red, int green, int blue)
-	{
+	public void onColorChange(int red, int green, int blue) {
 	}
 
-	@Override
-	public void onColorChangeEnd(int red, int green, int blue)
-	{
+	@Override//颜色变化end
+	public void onColorChangeEnd(int red, int green, int blue) {
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
-		if (colorHSV[0] == 0 && colorHSV[1] == 0)
-		{ // 说明为白色
+		if (colorHSV[0] == 0 && colorHSV[1] == 0) { // 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
 			// TODO 调节等级
-			//白灯等级为1-16
-			if(rank >= 16)
-			{
+			// 白灯等级为1-16
+			if (rank >= 16) {
 				rank = 15;
 			}
 			hmcolor = true;
 			isWhiteFlag = true;
-			mLampManager.setBrightness(rank+1);
-		} else
-		{
+			mLampManager.setBrightness(rank + 1);
+		} else {
 			mLampManager.setColor(red, green, blue);
 		}
 	}
 
-	private void checkedbox(int id)
-	{
-		switch (id)
-		{
+	private void checkedbox(int id) {
+		switch (id) {
 		case R.id.cb_lamp_active:
-			if (mLampCheckBox.isChecked())
-			{
-				mLampManager.turnColorOn();
-			} else
-			{
-				mLampManager.turnCommonOn();
+			if (mLampCheckBox.isChecked()) {
+				mLampManager.turnColorOn();//选中彩灯开
+			} else {
+				mLampManager.turnCommonOn();//未选中普通灯开  色值白色
 				mColorPicker.setColor(getResources().getColor(R.color.white));
 			}
 			break;
-		case R.id.cb_lamp_on:
-			if (mLampOnCheckBox.isChecked())
-			{
+		case R.id.cb_lamp_on: //灯的开关
+			if (mLampOnCheckBox.isChecked()) {
 				mLampManager.lampOn();
-			} else
-			{
+			} else {
 				mLampManager.lampOff();
 			}
 			break;
 		}
 	}
-
+//查询 和回调
+	
 	@Override
-	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
-	{
+	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff) {
 		flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 		backChange(colorState, OnorOff, true);
 	}
-
 	@Override
-	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
-	{
+	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff) {
 		backChange(colorState, OnorOff, false);
 	}
 
@@ -368,34 +302,27 @@ public class ColorLampFrag extends BaseFragment implements
 	 * @param OnorOff总开关
 	 * @param isWhite是否打开白灯
 	 */
-	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite)
-	{
-		if (mLampCheckBox != null && mLampOnCheckBox != null)
-		{
+	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite) {
+		if (mLampCheckBox != null && mLampOnCheckBox != null) {
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
-			if (!colorState)
-			{
-				if (isWhite || !hmcolor )
-				{
+			if (!colorState) {//非彩灯
+				if (isWhite || !hmcolor) {//白或者非自定义颜色，设置白色
 					mColorPicker.setColor(getResources()
 							.getColor(R.color.white));
 				}
-				if (!mButtonLightNormal.isChecked())
-				{
+				if (!mButtonLightNormal.isChecked()) {
 					mButtonLightNormal.setChecked(true);
 				}
 			}
 		}
 		hmcolor = false;
 	}
-
+	//灯效变化
 	@Override
-	public void onLampRhythmChange(int rhythm)
-	{
+	public void onLampRhythmChange(int rhythm) {
 		flog.d("rhythm  " + rhythm);
-		switch (rhythm)
-		{
+		switch (rhythm) {
 		case BluetoothDeviceColorLampManager.Effect.NORMAL:
 			mButtonLightNormal.setChecked(true);
 			break;
@@ -417,51 +344,51 @@ public class ColorLampFrag extends BaseFragment implements
 		}
 	}
 
-	// @Override
-	// public void onAnimationEnd(Animation animation)
-	// {
-	// isShake = false;
-	// }
-	//
-	// @Override
-	// public void onAnimationRepeat(Animation animation)
-	// {
-	//
-	// }
-	//
-	// @Override
-	// public void onAnimationStart(Animation animation)
-	// {
-	// isShake = true;
-	// }
-
+	//设置灯的颜色
 	@Override
-	public void onLampColor(int red, int green, int blue)
-	{
+	public void onLampColor(int red, int green, int blue) {
 		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
-
+	//设置灯的亮度
 	@Override
-	public void onDestroy()
-	{
-		super.onDestroy();
-		mLampManager.removeOnBluetoothDeviceLampListener(this);
-	}
-
-	@Override
-	public void onLampBrightness(int brightness)
-	{
+	public void onLampBrightness(int brightness) {
+		//转化为颜色会有一些误差的存在
 		if(!isWhiteFlag)
 		{
-			//转化为颜色会有一些误差的存在
-			float[] colorHSV = new float[] { 0f, 0f, 1f };
-			colorHSV[2] = brightness / 16f;
-			int color = Color.HSVToColor(colorHSV);
-			mColorPicker.setColor(color);
+			if(!mLampManager.isColorLamp())
+			{
+				if(brightness == 1)
+				{
+					mColorPicker.setBrightness(0,CustomApplication.lampMax);
+					return;
+				}
+				mColorPicker.setBrightness(brightness,CustomApplication.lampMax);
+			}
+			
 		}else
 		{
 			isWhiteFlag = false;
 		}
 	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mLampManager.removeOnBluetoothDeviceLampListener(this);
+	}
+
+
+//是否白灯
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+		System.out.println("判断是否白灯88888888filament+="+filament);
+	if(filament){
+		mLayoutSeekbar.setVisibility(View.VISIBLE);
+		
+	}else{
+		mLayoutSeekbar.setVisibility(View.INVISIBLE);
+	}
+		
+	}
+
 
 }

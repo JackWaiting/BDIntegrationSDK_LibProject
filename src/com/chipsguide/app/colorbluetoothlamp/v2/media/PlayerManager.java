@@ -232,7 +232,10 @@ public class PlayerManager {
 			if (play) {
 				player.skipTo(currentPosition);
 			}else if(mPlayListener != null && currentPosition >= 0){
-				mPlayListener.onMusicChange(mMusicList.get(currentPosition).getPath());
+				if(mMusicList.size()>0)
+				{
+					mPlayListener.onMusicChange(mMusicList.get(currentPosition).getPath());
+				}
 			}
 			int m = preferenceUtil.getPlayMode();
 			PlaybackMode mode = PlayUtil.getModeWithIndex(m);
@@ -859,7 +862,10 @@ public class PlayerManager {
 	}
 
 	private void showToast(int id) {
-		Toast.makeText(mContext, id, Toast.LENGTH_SHORT).show();
+		if(mContext!= null && id != 0)
+		{
+			Toast.makeText(mContext, id, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	/**
@@ -926,7 +932,10 @@ public class PlayerManager {
 				int currentDuration, int duration) {
 			if (!url.equals(preUrl)) {
 				preUrl = url;
-				getCurrentMusic().setDuration(duration);
+				if(getCurrentMusic() != null)
+				{
+					getCurrentMusic().setDuration(duration);
+				}
 				saveToRecentPlayDao(url);
 			}
 			if (mPlayListener != null) {

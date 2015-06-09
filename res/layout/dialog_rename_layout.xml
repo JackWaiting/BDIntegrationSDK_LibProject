@@ -20,7 +20,7 @@
 		    android:id="@+id/edittext_tag"
 		    android:layout_width="match_parent"
 		    android:layout_height="50dp"
-		    android:maxLength="8"/>
+		    android:maxLength="10"/>
         <ImageView 
             android:id="@+id/iamgeview_tag_btn"
             android:layout_width="40dp"

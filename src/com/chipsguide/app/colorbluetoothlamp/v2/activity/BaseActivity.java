@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.MySubject;
-import com.chipsguide.app.colorbluetoothlamp.v2.listener.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
@@ -29,16 +27,15 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SlidingFragmentActivity implements
-					OnClickListener,Observer{
+					OnClickListener{
 	private Toast mToast;
 	MyLogger flog = MyLogger.fLog();
 	protected ConnectDialog mConnectpd = null;
-	protected MySubject mSubject;//被观察者
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);//去标题
 		setContentView(getLayoutId());
 		setBehindContentView(R.layout.menu_frame);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
@@ -47,8 +44,6 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 		initData();
 		initListener();
 		
-		mSubject=MySubject.getSubject();
-		mSubject.attach(BaseActivity.this);//加入观察者
 	}
 	
 	// 设置布局文件
@@ -253,6 +248,5 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mSubject.deleteach(this);
 	}
 }

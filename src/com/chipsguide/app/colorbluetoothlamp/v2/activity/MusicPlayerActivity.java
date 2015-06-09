@@ -39,7 +39,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.StringFormatUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicProgressView.SimpleSeekArcChangeListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.MusicSpectrumView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
@@ -64,7 +63,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private SlidingLayer playListLayer;
 	private ListView playListLv;
 	private MusicProgressView progressLayout;
-	private MusicSpectrumView spectrumLayout;
+//	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
 	private SeekBar volumeSeekBar;
 	private CheckBox musicRhythmCb;//音乐律动选择框
@@ -183,8 +182,8 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 								.getProgress() / 1000 * 1000));
 					}
 				});
-		spectrumLayout = new MusicSpectrumView(this);
-		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
+//		spectrumLayout = new MusicSpectrumView(this);
+//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
 		//views.add(spectrumLayout);
 
@@ -254,7 +253,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if (update && !force) {
 			return;
 		}
-		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
+//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		update = true;
 		Music currentMusic = playerManager.getCurrentMusic();
 		currentPosition = playerManager.getCurrentPosition();
@@ -458,6 +457,25 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		super.onResume();
 		playerManager.setPlayListener(new MyPlayListener(this),
 				PlayerManager.getPlayType(), true);
+		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
+		{
+			musicRhythmCb.setChecked(true);
+		}
+		musicRhythmCb.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				if(musicRhythmCb.isChecked())
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
+				}else
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
+				}
+			}
+		});
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
@@ -570,19 +588,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	}
 
 	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff)
 	{
 		// TODO Auto-generated method stub
@@ -593,7 +598,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	public void onLampStateFeedBackChange(boolean colorState, boolean OnorOff)
 	{
 		// TODO Auto-generated method stub
-		
+		   
 	}
 
 
@@ -607,6 +612,20 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	@Override
 	public void onLampBrightness(int brightness)
 	{
+		if(musicRhythmCb != null)
+		{
+			musicRhythmCb.setChecked(false);
+		}
+	}
+
+	@Override
+	public void OnLampSeekBarNum(int SeekBarNum) {
+	
+		
+	}
+
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
 		// TODO Auto-generated method stub
 		
 	}

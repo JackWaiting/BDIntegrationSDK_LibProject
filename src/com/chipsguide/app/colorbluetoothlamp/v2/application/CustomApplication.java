@@ -6,9 +6,9 @@ import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
-	public static final String APP_SIGN = "ColorBluetoothLamp_V2";
+	public static final String APP_SIGN = "ColorBluetoothLamp_V2";//标识
 	/**
-	 * 蓝牙地址过滤
+	 * 蓝牙地址过滤C9:7
 	 */
 	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
 	/**
@@ -18,6 +18,9 @@ public class CustomApplication extends Application {
 	
 	//提示第一次进入，判断蓝牙是否连接
 	public static boolean isFirstConnect = true;
+	//提醒断开连接进入设置下连接
+	public static boolean isToastDisconn = true;
+	public static float lampMax =16f;//白灯亮度最大值
 
 	@Override
 	public void onCreate()

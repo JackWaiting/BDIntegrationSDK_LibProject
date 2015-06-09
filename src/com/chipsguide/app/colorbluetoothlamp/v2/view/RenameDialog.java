@@ -66,7 +66,13 @@ public class RenameDialog extends Dialog implements android.view.View.OnClickLis
 		mEdittextTag.setText(Stringtag);
 		if(Stringtag != null)
 		{
-			mEdittextTag.setSelection(Stringtag.length());//把光标移到最后
+			if(Stringtag.length() > 10)
+			{
+				mEdittextTag.setSelection(10);//把光标移到最后
+			}else
+			{
+				mEdittextTag.setSelection(Stringtag.length());//把光标移到最后
+			}
 		}
 	}
 

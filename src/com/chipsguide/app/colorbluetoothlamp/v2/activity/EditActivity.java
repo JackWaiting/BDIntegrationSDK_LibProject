@@ -139,18 +139,4 @@ public class EditActivity extends BaseActivity implements OnClickListener {
 			break;
 		}
 	}
-	
-	@Override
-	public void updateVolume(int volume)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateConnectState(boolean isConnect)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 }
