@@ -51,9 +51,11 @@ public class ColorPicker extends View {
 	private final int paramOuterPadding = 3; // 弧形的外边距占控件的百分比
 	private final int paramInnerPadding = 7; // 弧形内边距占控件的百分比
 	private final int paramValueSliderWidth = 2; // width of the value slider 滑动条
+	private static final int MAX = 165; //底部进度条最大值
 
 	private Paint colorWheelPaint;//绘制色盘
 	private Paint valueSliderPaint;//绘制拖动条
+	private Paint bottommSliderPaint;
 
 	private Paint colorViewPaint;//绘制颜色
 
@@ -65,8 +67,8 @@ public class ColorPicker extends View {
 	private RectF outerWheelRect;//外弧形矩形
 	private RectF innerWheelRect;//内弧形矩形
 
-	private Path colorViewPath;  //色盘
 	private Path valueSliderPath;//拖动条
+	private Path bottomSliderPath;
 
 	private Bitmap colorWheelBitmap;//色盘位图
 
@@ -81,8 +83,9 @@ public class ColorPicker extends View {
 
 	private Matrix gradientRotationMatrix;//渐变旋转矩阵
 
-	private Drawable mThumb, sun, moon;
+	private Drawable mThumb, secondThumb, sun, moon;
 	private int mThumbXPos, mThumbYPos;
+	private int secondThumbXPos, secondThumbYPos;
 	private float thumbRadius;//滑动的半径
 	
 	/** Currently selected color */
@@ -122,12 +125,17 @@ public class ColorPicker extends View {
 		valueSliderPaint = new Paint();
 		valueSliderPaint.setAntiAlias(true);
 		valueSliderPaint.setDither(true);
+		
+		bottommSliderPaint = new Paint();
+		bottommSliderPaint.setAntiAlias(true);
+		bottommSliderPaint.setDither(true);
+		bottommSliderPaint.setColor(Color.RED);
 
 		colorViewPaint = new Paint();
 		colorViewPaint.setAntiAlias(true);
 
-		colorViewPath = new Path();
 		valueSliderPath = new Path();
+		bottomSliderPath = new Path();
 
 		outerWheelRect = new RectF();
 		innerWheelRect = new RectF();
@@ -139,22 +147,21 @@ public class ColorPicker extends View {
 		int thumbHalfWidth = (int) mThumb.getIntrinsicWidth() / 2;
 		mThumb.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth,
 				thumbHalfheight);
+		secondThumb = mThumb;
 
-		sun = getResources().getDrawable(R.drawable.ic_bright);
-		int sunHalfHeight = (int) sun.getIntrinsicHeight() / 2;
-		int sunHalfWidth = (int) sun.getIntrinsicWidth() / 2;
-		sun.setBounds(-sunHalfWidth, -sunHalfHeight, sunHalfWidth,
-				sunHalfHeight);
+//		sun = getResources().getDrawable(R.drawable.ic_bright);
+//		int sunHalfHeight = (int) sun.getIntrinsicHeight() / 2;
+//		int sunHalfWidth = (int) sun.getIntrinsicWidth() / 2;
+//		sun.setBounds(-sunHalfWidth, -sunHalfHeight, sunHalfWidth,
+//				sunHalfHeight);
+//
+//		moon = getResources().getDrawable(R.drawable.ic_dark);
+//		int moonHalfHeight = (int) moon.getIntrinsicHeight() / 2;
+//		int moonHalfWidth = (int) moon.getIntrinsicWidth() / 2;
+//		moon.setBounds(-moonHalfWidth, -moonHalfHeight, moonHalfWidth,
+//				moonHalfHeight);
 
-		moon = getResources().getDrawable(R.drawable.ic_dark);
-		int moonHalfHeight = (int) moon.getIntrinsicHeight() / 2;
-		int moonHalfWidth = (int) moon.getIntrinsicWidth() / 2;
-		moon.setBounds(-moonHalfWidth, -moonHalfHeight, moonHalfWidth,
-				moonHalfHeight);
-
-		padding = Math.max(thumbHalfWidth,
-				Math.max(sunHalfWidth, moonHalfWidth));
-		
+		padding = thumbHalfWidth;
 	}
 
 	@Override
@@ -183,6 +190,7 @@ public class ColorPicker extends View {
 
 		// drawing value slider
 		canvas.drawPath(valueSliderPath, valueSliderPaint);
+		canvas.drawPath(bottomSliderPath, bottommSliderPaint);
 
 		// drawing color wheel pointer
 
@@ -213,22 +221,26 @@ public class ColorPicker extends View {
 	}
 
 	private void drawDrawable(Canvas canvas) {
-		canvas.save();
-		canvas.translate(getWidth() / 2 + thumbRadius, getHeight() / 2 + offset);
-		sun.draw(canvas);
-		canvas.restore();
+//		canvas.save();
+//		canvas.translate(getWidth() / 2 + thumbRadius, getHeight() / 2 + offset);
+//		sun.draw(canvas);
+//		canvas.restore();
 
-		canvas.save();
-		canvas.translate(getWidth() / 2 - thumbRadius, getHeight() / 2 + offset);
-		moon.draw(canvas);
-		canvas.restore();
+//		canvas.save();
+//		canvas.translate(getWidth() / 2 - thumbRadius, getHeight() / 2 + offset);
+//		moon.draw(canvas);
+//		canvas.restore();
 
 		canvas.save();
 		canvas.translate(getWidth() / 2 - mThumbXPos, getHeight() / 2
 				- mThumbYPos);
-		// canvas.drawCircle((float)mThumbXPos, (float)mThumbYPos, 30,
-		// valuePointerArrowPaint);
 		mThumb.draw(canvas);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(getWidth() / 2 + secondThumbXPos, getHeight() / 2
+				+ secondThumbYPos);
+		secondThumb.draw(canvas);
 		canvas.restore();
 	}
 
@@ -239,7 +251,33 @@ public class ColorPicker extends View {
 		mThumbXPos = (int) tipAngleX;
 		mThumbYPos = (int) tipAngleY;
 	}
+	
+	private void updateSecondThumbPosition(int x, int y){
+		float centerX = getWidth() / 2;
+		double arc = Math.atan2(Math.abs(getHeight() / 2 - y), Math.abs(getWidth() / 2 - x));
+		if(x <= centerX){
+			arc = Math.PI - arc;
+		}
+		updateSecondThumbPosition(arc, true);
+	}
+	
+	private void updateSecondThumbPosition(double radians, boolean fromUser){
+		radians = Math.min(Math.toRadians(165f), radians);
+		radians = Math.max(Math.toRadians(15f), radians);
+		secondArcRadians = radians;
+		
+		double tipAngleX = Math.cos(radians) * thumbRadius;
+		double tipAngleY = Math.sin(radians) * thumbRadius;
+		secondThumbXPos = (int) tipAngleX;
+		secondThumbYPos = (int) tipAngleY;
+		if(mSecondArcChangeListener != null){
+			mSecondArcChangeListener.onArcChanged(this, getSecondProgress(), fromUser);
+		}
+		postInvalidate();
+	}
 
+	private static final int SECOND_ARC_START_ANGLE = 15;
+	private static final int SECOND_ARC_SWEEP_ANGLE = 150;
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		int centerX = width / 2;
@@ -248,7 +286,7 @@ public class ColorPicker extends View {
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
 
-		outerWheelRadius = width / 2 - outerPadding - padding;
+		outerWheelRadius = centerX - outerPadding - padding;
 		innerWheelRadius = outerWheelRadius - valueSliderWidth;
 		colorWheelRadius = innerWheelRadius - innerPadding;
 
@@ -263,18 +301,20 @@ public class ColorPicker extends View {
 				colorWheelRadius * 2);
 
 		gradientRotationMatrix = new Matrix();
-		gradientRotationMatrix.preRotate(180, width / 2, height / 2);
-
-		colorViewPath.arcTo(outerWheelRect, 270, -180);
-		colorViewPath.arcTo(innerWheelRect, 90, 180);
+		gradientRotationMatrix.preRotate(180, centerX, centerY);
 
 		valueSliderPath.reset();
 		valueSliderPath.arcTo(outerWheelRect, 180, 180);
 		valueSliderPath.arcTo(innerWheelRect, 0, -180);
+		
+		bottomSliderPath.reset();
+		bottomSliderPath.arcTo(outerWheelRect, SECOND_ARC_START_ANGLE, SECOND_ARC_SWEEP_ANGLE);
+		bottomSliderPath.arcTo(innerWheelRect, SECOND_ARC_START_ANGLE + SECOND_ARC_SWEEP_ANGLE, -SECOND_ARC_SWEEP_ANGLE);
 
 		minValidateTouchArcRadius = innerWheelRadius - padding;
 		maxValidateTouchArcRadius = outerWheelRadius + padding;
-		yMaxTouchValidateRange = (getHeight() / 2 + padding + offset);
+		yMaxTouchValidateRange = (centerY + padding);
+		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 		
 		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
 		sweepGradient = new SweepGradient(centerX, centerY,
@@ -282,6 +322,15 @@ public class ColorPicker extends View {
 				null);
 		sweepGradient.setLocalMatrix(gradientRotationMatrix);
 		valueSliderPaint.setShader(sweepGradient);
+		
+		
+		Matrix bottomGradientMatrix = new Matrix();
+		bottomGradientMatrix.preRotate(270, centerX, centerY);
+		SweepGradient bottomSweepGradient = new SweepGradient(centerX, centerY,
+				new int[] {Color.WHITE , Color.parseColor("#fcbe7b")},
+				null);
+		bottomSweepGradient.setLocalMatrix(bottomGradientMatrix);
+		bottommSliderPaint.setShader(bottomSweepGradient);
 		
 		radius();
 	}
@@ -291,6 +340,8 @@ public class ColorPicker extends View {
 		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
 		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
 		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
+		
+		updateSecondThumbPosition(0, false);
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -328,6 +379,7 @@ public class ColorPicker extends View {
 
 	boolean downOnWheel = false;
 	boolean downOnArc = false;
+	boolean downOnSecondArc = false;
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -344,6 +396,10 @@ public class ColorPicker extends View {
 				downOnWheel = true;
 				updateWheelColor(x, y);
 				return true;
+			}else if(isTouchSecondArc(x, y)){
+				downOnSecondArc = true;
+				updateSecondThumbPosition(x, y);
+				return true;
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
@@ -353,20 +409,31 @@ public class ColorPicker extends View {
 			} else if (downOnArc && y <= yMaxTouchValidateRange) {
 				updateArc(x, y);
 				return true;
+			} else if(downOnSecondArc && y >= secondYMaxTouchValidateRange){
+				updateSecondThumbPosition(x, y);
+				return true;
 			}
 
 			break;
 		case MotionEvent.ACTION_UP:
-			downOnArc = false;
-			downOnWheel = false;
-			if (mColorChangelistener != null) {
-				int color = Color.HSVToColor(colorHSV);
-				//int alpha = Color.alpha(color);
-				int red = (color & 0xff0000) >> 16;
-				int green = (color & 0x00ff00) >> 8;
-				int blue = (color & 0x0000ff);
-				mColorChangelistener.onColorChangeEnd(red, green, blue);
+			if(downOnArc || downOnWheel){
+				downOnArc = false;
+				downOnWheel = false;
+				if (mColorChangelistener != null) {
+					int color = Color.HSVToColor(colorHSV);
+					//int alpha = Color.alpha(color);
+					int red = (color & 0xff0000) >> 16;
+					int green = (color & 0x00ff00) >> 8;
+					int blue = (color & 0x0000ff);
+					mColorChangelistener.onColorChangeEnd(red, green, blue);
+				}
+			}else if(downOnSecondArc){
+				downOnSecondArc = false;
+				if(mSecondArcChangeListener != null){
+					mSecondArcChangeListener.onStopTrackingTouch(this);
+				}
 			}
+			
 			break;
 		}
 		return super.onTouchEvent(event);
@@ -414,6 +481,16 @@ public class ColorPicker extends View {
 		return false;
 	}
 	
+	private int secondYMaxTouchValidateRange; // y轴上点击的有效范围
+	private boolean isTouchSecondArc(int x, int y) {
+		double d = getTouchRadius(x, y);
+		if (y >=  secondYMaxTouchValidateRange && d >= minValidateTouchArcRadius
+				&& d <= maxValidateTouchArcRadius) {
+			return true;
+		}
+		return false;
+	}
+	
 	private boolean isTouchColorWheel(int x , int y) {
 		double d = getTouchRadius(x, y);
 		if (d < colorWheelRadius) {
@@ -448,6 +525,32 @@ public class ColorPicker extends View {
 		setColor(color);
 	}
 
+	private int mMax = MAX;
+	/**
+	 * 设置底部进度条的最大值
+	 */
+	public void setMaxProgress(int max) {
+		mMax = max;
+	}
+	
+	private double secondArcRadians;
+	/**
+	 * 更新底部进度条
+	 */
+	public void setSecondProgress(int progress) {
+		progress = Math.min(progress, mMax);
+		progress = Math.max(progress, 0);
+		float ratio = (float)progress / mMax;
+		float degree = ratio * SECOND_ARC_SWEEP_ANGLE;
+		updateSecondThumbPosition(Math.toRadians(degree) , false);
+	}
+	
+	public int getSecondProgress() {
+		double degree = Math.toDegrees(secondArcRadians);
+		double ratio = (degree - SECOND_ARC_START_ANGLE) / SECOND_ARC_SWEEP_ANGLE;
+		return (int)(ratio * mMax + 0.5f);
+	}
+	
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		Bundle state = new Bundle();
@@ -487,11 +590,52 @@ public class ColorPicker extends View {
 	public void setOnColorChangeListener(OnColorChangeListener listener) {
 		mColorChangelistener = listener;
 	}
+	
+	private OnSecondArcChangeListener mSecondArcChangeListener;
+	/**
+	 * 设置底部进度条进度监听
+	 * @param listener
+	 */
+	public void setOnSecondArcListener(OnSecondArcChangeListener listener) {
+		mSecondArcChangeListener = listener;
+	}
 
 	public interface OnColorChangeListener {
+		/**
+		 * 颜色改变
+		 * @param red
+		 * @param green
+		 * @param blue
+		 */
 		void onColorChange(int red, int green, int blue);
 
+		/**
+		 * 颜色改变结束回调
+		 * @param red
+		 * @param green
+		 * @param blue
+		 */
 		void onColorChangeEnd(int red, int green, int blue);
+	}
+	
+	/**
+	 * 下边的进度条进度改变监听
+	 * @author chiemy
+	 *
+	 */
+	public interface OnSecondArcChangeListener{
+		/**
+		 * 停止调节
+		 * @param picker
+		 */
+		void onStopTrackingTouch(ColorPicker picker);
+		/**
+		 * 进度变化
+		 * @param picker
+		 * @param progress 进度
+		 * @param fromUser 是否为用户点击引起的变化
+		 */
+		void onArcChanged(ColorPicker picker, int progress, boolean fromUser);
 	}
 
 }
