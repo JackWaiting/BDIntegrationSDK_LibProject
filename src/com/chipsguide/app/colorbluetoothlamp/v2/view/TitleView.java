@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -19,25 +20,31 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class TitleView extends FrameLayout {
-	private ImageView rightBtn,leftBtn;
-	private TextView titleTv,toastTv;
+	private ImageView rightBtn, leftBtn;
+	private TextView titleTv, toastTv;
 	private boolean showToastTv;
 	private boolean hasAddToastTv;
 
 	public TitleView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		LayoutInflater.from(getContext()).inflate(R.layout.common_title_layout, this);
+		LayoutInflater.from(getContext()).inflate(R.layout.common_title_layout,
+				this);
 		rightBtn = (ImageView) findViewById(R.id.right_btn);
 		leftBtn = (ImageView) findViewById(R.id.left_btn);
 		titleTv = (TextView) findViewById(R.id.title_tv);
-		
-		TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.TitleView);
-		int leftImgRes = a.getResourceId(R.styleable.TitleView_leftImg, R.drawable.selector_btn_nav);
-		int rightImgRes = a.getResourceId(R.styleable.TitleView_rightImg, R.drawable.selector_btn_player);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.TitleView);
+		int leftImgRes = a.getResourceId(R.styleable.TitleView_leftImg,
+				R.drawable.selector_btn_nav);
+		int rightImgRes = a.getResourceId(R.styleable.TitleView_rightImg,
+				R.drawable.selector_btn_player);
 		String text = a.getString(R.styleable.TitleView_text);
-		boolean visible = a.getBoolean(R.styleable.TitleView_rightBtnVisibility, true);
+		boolean visible = a.getBoolean(
+				R.styleable.TitleView_rightBtnVisibility, true);
 		boolean marque = a.getBoolean(R.styleable.TitleView_marque, true);
-		boolean showToastTv = a.getBoolean(R.styleable.TitleView_showToastTv, false);
+		boolean showToastTv = a.getBoolean(R.styleable.TitleView_showToastTv,
+				false);
 		setShowToastTv(showToastTv);
 		titleTv.setFocusable(marque);
 		setRightBtnVisibility(visible);
@@ -45,14 +52,19 @@ public class TitleView extends FrameLayout {
 		setLeftBtnImageRes(leftImgRes);
 		setTitleText(text);
 		a.recycle();
-		
+
 		setClipChildren(false);
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
 	}
 	
 	public void setRightBtnImageRes(int resId) {
 		rightBtn.setImageResource(resId);
 	}
-	
+
 	public void setRightBtnVisibility(boolean visible) {
 		rightBtn.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 	}
@@ -60,90 +72,114 @@ public class TitleView extends FrameLayout {
 	public void setLiftBtnVisibility(boolean visible) {
 		leftBtn.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 	}
-	
-	public void setLeftBtnImageRes(int resId){
+
+	public void setLeftBtnImageRes(int resId) {
 		leftBtn.setImageResource(resId);
 	}
-	
-	public void setTitleText(String text){
+
+	public void setTitleText(String text) {
 		titleTv.setText(text);
 	}
-	
-	public void setTitleText(int resId){
+
+	public void setTitleText(int resId) {
 		titleTv.setText(resId);
 	}
-	
+
 	public void setToastText(int resId) {
 		setToastText(getResources().getString(resId));
 	}
-	
+
 	public boolean isShowToastTv() {
 		return showToastTv;
 	}
-	
+
 	public void setShowToastTv(boolean showToastTv) {
 		this.showToastTv = showToastTv;
-		if(hasAddToastTv){
+		if (hasAddToastTv) {
 			return;
 		}
+		
 		hasAddToastTv = true;
 		toastTv = new MyTextView(getContext());
 		int padding = PixelUtil.dp2px(5, getContext());
-		toastTv.setPadding(PixelUtil.dp2px(20, getContext()), padding, 0, padding);
-		toastTv.setBackgroundColor(getResources().getColor(R.color.color_orange));
+		toastTv.setPadding(0, padding, 0, padding);
+		toastTv.setBackgroundColor(getResources()
+				.getColor(R.color.color_orange));
 		toastTv.setTextColor(Color.WHITE);
 		toastTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.BOTTOM;
 		addView(toastTv, 0, params);
+		toastTv.setVisibility(View.GONE);
 		setClipChildren(false);
 	}
-	
+
 	private AnimationSet set;
+
 	private void initAnimation() {
 		set = new AnimationSet(true);
 		TranslateAnimation animIn = getTransAnim(0, 1, 400, 0);
 		TranslateAnimation animOut = getTransAnim(0, -1, 400, 400 + holdTime);
 		set.addAnimation(animIn);
 		set.addAnimation(animOut);
+		set.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				toastTv.setVisibility(View.VISIBLE);
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				toastTv.setVisibility(View.INVISIBLE);
+			}
+		});
 	}
-	
-	private TranslateAnimation getTransAnim(float fromY, float toY, long duration, long startOffset) {
+
+	private TranslateAnimation getTransAnim(float fromY, float toY,
+			long duration, long startOffset) {
 		int type = Animation.RELATIVE_TO_SELF;
-		TranslateAnimation transAnim = new TranslateAnimation(type, 0, type, 0, type, fromY, type, toY);
+		TranslateAnimation transAnim = new TranslateAnimation(type, 0, type, 0,
+				type, fromY, type, toY);
 		transAnim.setDuration(duration);
 		transAnim.setStartOffset(startOffset);
-		transAnim.setFillEnabled(true);  
+		transAnim.setFillEnabled(true);
 		transAnim.setFillAfter(true);
 		return transAnim;
 	}
-	
+
 	private long holdTime = 1000;
+
 	/**
 	 * 设置提示停留时间
+	 * 
 	 * @param timeMillions
 	 */
 	public void setHoldTime(long timeMillions) {
 		holdTime = timeMillions;
 		initAnimation();
 	}
-	
+
 	/*
 	 * 需要父类setClipChildren(false),否则不显示
 	 */
 	public void setToastText(String text) {
-		if(!showToastTv){
+		if (!showToastTv) {
 			return;
 		}
-		toastTv.setVisibility(View.VISIBLE);
 		toastTv.clearAnimation();
+		toastTv.setVisibility(View.INVISIBLE);
 		toastTv.setText(text);
-		if(set == null){
+		if (set == null) {
 			initAnimation();
 		}
 		toastTv.startAnimation(set);
 	}
-	
+
 	@Override
 	public void setOnClickListener(OnClickListener l) {
 		rightBtn.setOnClickListener(l);
