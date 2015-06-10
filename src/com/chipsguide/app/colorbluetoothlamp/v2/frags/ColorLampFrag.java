@@ -88,7 +88,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);//色盘。亮度
 		mColorPicker.setOnColorChangeListener(this);
 		mColorPicker.setOnSecondArcListener(this);//冷暖白的进度条的监听
-
+		
 		mButtonGroupRhythm = (RadioGroup) root
 				.findViewById(R.id.radiogroup_rhythm_effect);
 		mButtonLightNormal = (RadioButton) root
@@ -142,8 +142,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 			boolean fromUser) {
 		if(!fromUser){
 			return;
-		}
-		
+		}	
 		mSeekBarNum=progress;
 		System.out.println("打印当前拖动的值--------="+mSeekBarNum);
 
@@ -156,6 +155,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override
 	public void OnLampSeekBarNum(int SeekBarNum) {
 		refresh(mSeekBarNum);
+		System.out.println("回调里发送的值--------="+mSeekBarNum);
 	}
 
 	//是否白灯

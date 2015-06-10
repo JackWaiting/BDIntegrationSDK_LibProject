@@ -51,7 +51,7 @@ public class ColorPicker extends View {
 	private final int paramOuterPadding = 3; // 弧形的外边距占控件的百分比
 	private final int paramInnerPadding = 7; // 弧形内边距占控件的百分比
 	private final int paramValueSliderWidth = 2; // width of the value slider 滑动条
-	private static final int MAX = 255; //底部进度条最大值
+	private static final int MAX =255; //底部进度条最大值
 
 	private Paint colorWheelPaint;//绘制色盘
 	private Paint valueSliderPaint;//绘制拖动条
