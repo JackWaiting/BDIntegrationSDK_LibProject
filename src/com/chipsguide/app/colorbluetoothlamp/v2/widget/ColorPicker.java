@@ -40,11 +40,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class ColorPicker extends View {
-	MyLogger flog = MyLogger.fLog();
+	private static final int SECOND_ARC_START_ANGLE = 15;
+	private static final int SECOND_ARC_SWEEP_ANGLE = 150;
 	/**
 	 * Customizable display parameters (in percents)
 	 */
@@ -106,8 +106,12 @@ public class ColorPicker extends View {
 		init();
 	}
 
+	private static double MAX_RADIANS;
+	private static double MIN_RADIANS;
 	private int offset; //弧形两侧的图片距离弧形底部的距离
 	private void init() {
+		MAX_RADIANS = Math.toRadians(SECOND_ARC_START_ANGLE + SECOND_ARC_SWEEP_ANGLE);
+		MIN_RADIANS = Math.toRadians(SECOND_ARC_START_ANGLE);
 		offset = PixelUtil.dp2px(25, getContext());
 		
 		colorPointerPaint = new Paint();
@@ -255,7 +259,11 @@ public class ColorPicker extends View {
 		mThumbXPos = (int) tipAngleX;
 		mThumbYPos = (int) tipAngleY;
 	}
-	
+	/**
+	 * 更新底部进度条位置
+	 * @param x 手指所处的x点
+	 * @param y 手指所处的y点
+	 */
 	private void updateSecondThumbPosition(int x, int y){
 		float centerX = getWidth() / 2;
 		double arc = Math.atan2(Math.abs(getHeight() / 2 - y), Math.abs(getWidth() / 2 - x));
@@ -264,10 +272,14 @@ public class ColorPicker extends View {
 		}
 		updateSecondThumbPosition(arc, true);
 	}
-	
+	/**
+	 * 更新底部进度条位置
+	 * @param radians 弧度
+	 * @param fromUser 是否是用户点击引起的变化
+	 */
 	private void updateSecondThumbPosition(double radians, boolean fromUser){
-		radians = Math.min(Math.toRadians(165f), radians);
-		radians = Math.max(Math.toRadians(15f), radians);
+		radians = Math.min(MAX_RADIANS, radians);
+		radians = Math.max(MIN_RADIANS, radians);
 		secondArcRadians = radians;
 		
 		double tipAngleX = Math.cos(radians) * thumbRadius;
@@ -280,8 +292,6 @@ public class ColorPicker extends View {
 		postInvalidate();
 	}
 
-	private static final int SECOND_ARC_START_ANGLE = 15;
-	private static final int SECOND_ARC_SWEEP_ANGLE = 150;
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		int centerX = width / 2;
@@ -505,18 +515,32 @@ public class ColorPicker extends View {
 		return false;
 	}
 
+	/**
+	 * 点击点距离中心点的距离
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	private double getTouchRadius(int x, int y) {
 		int cx = x - getWidth() / 2;
 		int cy = y - getHeight() / 2;
 		return Math.hypot(cx, cy);
 	}
 
+	/**
+	 * 设置颜色
+	 * @param color
+	 */
 	public void setColor(int color) {
 		Color.colorToHSV(color, colorHSV);
 		updateThumbPosition();
 		invalidate();
 	}
 
+	/**
+	 * 获取当前颜色
+	 * @return
+	 */
 	public int getColor() {
 		return Color.HSVToColor(colorHSV);
 	}
