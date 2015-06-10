@@ -547,7 +547,7 @@ public class ColorPicker extends View {
 		progress = Math.min(progress, mMax);
 		progress = Math.max(progress, 0);
 		float ratio = (float)progress / mMax;
-		float degree = ratio * SECOND_ARC_SWEEP_ANGLE;
+		float degree = ratio * SECOND_ARC_SWEEP_ANGLE + SECOND_ARC_START_ANGLE;
 		updateSecondThumbPosition(Math.toRadians(degree) , false);
 	}
 	
