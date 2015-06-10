@@ -190,7 +190,9 @@ public class ColorPicker extends View {
 
 		// drawing value slider
 		canvas.drawPath(valueSliderPath, valueSliderPaint);
-		canvas.drawPath(bottomSliderPath, bottommSliderPaint);
+		if(isSecondProgressVisible){
+			canvas.drawPath(bottomSliderPath, bottommSliderPaint);
+		}
 
 		// drawing color wheel pointer
 
@@ -237,11 +239,13 @@ public class ColorPicker extends View {
 		mThumb.draw(canvas);
 		canvas.restore();
 		
-		canvas.save();
-		canvas.translate(getWidth() / 2 + secondThumbXPos, getHeight() / 2
-				+ secondThumbYPos);
-		secondThumb.draw(canvas);
-		canvas.restore();
+		if(isSecondProgressVisible){
+			canvas.save();
+			canvas.translate(getWidth() / 2 + secondThumbXPos, getHeight() / 2
+					+ secondThumbYPos);
+			secondThumb.draw(canvas);
+			canvas.restore();
+		}
 	}
 
 	private void updateThumbPosition() {
@@ -483,10 +487,12 @@ public class ColorPicker extends View {
 	
 	private int secondYMaxTouchValidateRange; // y轴上点击的有效范围
 	private boolean isTouchSecondArc(int x, int y) {
-		double d = getTouchRadius(x, y);
-		if (y >=  secondYMaxTouchValidateRange && d >= minValidateTouchArcRadius
-				&& d <= maxValidateTouchArcRadius) {
-			return true;
+		if(isSecondProgressVisible){
+			double d = getTouchRadius(x, y);
+			if (y >=  secondYMaxTouchValidateRange && d >= minValidateTouchArcRadius
+					&& d <= maxValidateTouchArcRadius) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -549,6 +555,15 @@ public class ColorPicker extends View {
 		double degree = Math.toDegrees(secondArcRadians);
 		double ratio = (degree - SECOND_ARC_START_ANGLE) / SECOND_ARC_SWEEP_ANGLE;
 		return (int)(ratio * mMax + 0.5f);
+	}
+	
+	private boolean isSecondProgressVisible;
+	/**
+	 * 设置底部进度条可见性
+	 */
+	public void setSecondProgressVisibility(boolean visible){
+		isSecondProgressVisible = visible;
+		invalidate();
 	}
 	
 	@Override
