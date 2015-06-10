@@ -5,43 +5,6 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/layout_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/lyout_cb_lamp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" 
-   android:visibility="invisible"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="7"
-            android:text="色温 :"
-            android:textColor="#FFDAB9"
-            android:textSize="14sp" />
-
-        <SeekBar
-            android:id="@+id/seekbar_white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:max="255"
-            android:maxHeight="5dp"
-            android:minHeight="5dp"
-            android:progressDrawable="@drawable/bar_bg"
-            android:thumb="@drawable/dot_vol"
-            android:thumbOffset="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -107,40 +70,25 @@
             layout="@layout/layout_colorpicker" />
 
         <LinearLayout
-            android:id="@+id/lyout_"
+            android:id="@+id/lyout_cb_lamp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
             android:layout_weight="1.5"
             android:gravity="center"
             android:orientation="vertical" >
 
             <CheckBox
+                android:id="@+id/cb_lamp_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_lamp_on_btn"
-                android:button="@null"
-                android:visibility="invisible" />
+                android:button="@null" 
+                      android:layout_marginBottom="5dp"
+                />
+
+            <include layout="@layout/layout_select_color" />
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lyout_cb_lamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <CheckBox
-            android:id="@+id/cb_lamp_on"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:background="@drawable/selector_lamp_on_btn"
-            android:button="@null" />
-
-        <include layout="@layout/layout_select_color" />
     </LinearLayout>
 
 </RelativeLayout>

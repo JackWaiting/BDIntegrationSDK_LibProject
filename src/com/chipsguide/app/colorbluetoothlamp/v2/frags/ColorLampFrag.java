@@ -1,6 +1,7 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,17 +23,20 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnSecondArcChangeListener;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
+import com.chipsguide.lib.timer.util.MyLog;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-OnColorChangeListener, LampListener, OnClickListener {
+OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	// OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
 	// private PreferenceUtil mPreference;
 	private LampManager mLampManager;
+	private String TAG="ColorLampFrag";
 	// private GridViewDIYColorAdapter diyColorAdapter;
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
@@ -50,7 +54,7 @@ OnColorChangeListener, LampListener, OnClickListener {
 	private ColorImageView mColorImageViewg;
 	private ColorImageView mColorImageViewb;
 	private ColorImageView mColorImageViewy;
-	
+
 	private LinearLayout mLayoutSeekbar;
 	private Animation shake;
 	// private boolean isShake = false;
@@ -61,7 +65,7 @@ OnColorChangeListener, LampListener, OnClickListener {
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
-	private SeekBar mSeekBarHeating;
+	//	private SeekBar mSeekBarHeating;
 	private int mSeekBarNum;
 	// private List<String> colors = new ArrayList<String>();
 
@@ -83,6 +87,7 @@ OnColorChangeListener, LampListener, OnClickListener {
 	protected void initView() {
 		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);//色盘。亮度
 		mColorPicker.setOnColorChangeListener(this);
+		mColorPicker.setOnSecondArcListener(this);//冷暖白的进度条的监听
 
 		mButtonGroupRhythm = (RadioGroup) root
 				.findViewById(R.id.radiogroup_rhythm_effect);
@@ -99,7 +104,6 @@ OnColorChangeListener, LampListener, OnClickListener {
 
 		mLampCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_active);//颜色盘开关
 		mLampOnCheckBox = (CheckBox) this.findViewById(R.id.cb_lamp_on);//灯的开关
-		mLayoutSeekbar=(LinearLayout)this.findViewById(R.id.layout_seekbar);//冷暖白的进度条
 		mColorImageViewr = (ColorImageView) this.findViewById(R.id.color_r);//红
 		mColorImageViewg = (ColorImageView) this.findViewById(R.id.color_g);//绿
 		mColorImageViewb = (ColorImageView) this.findViewById(R.id.color_b);//蓝
@@ -124,48 +128,47 @@ OnColorChangeListener, LampListener, OnClickListener {
 		mButtonLightCandle.setOnClickListener(this);
 		mLampCheckBox.setOnClickListener(this);
 		mLampOnCheckBox.setOnClickListener(this);
-
-		mSeekBarHeating = (SeekBar) findViewById(R.id.seekbar_white);
-		mSeekBarHeating.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-			// 停止拖动的值传给设备
-			public void onStopTrackingTouch(SeekBar arg0) {
-				Log.d("TAG", "mSeekBarNum-->" + mSeekBarNum);
-				mLampManager.setColdAndWarmWhite(mSeekBarNum);
-				System.out.println("打印停止拖动的值++++++++++" + mSeekBarNum);
-
-			}
-
-			// 开始拖动
-			public void onStartTrackingTouch(SeekBar arg0) {
-
-			}
-
-			// 拖动中
-			public void onProgressChanged(SeekBar seekBar,
-					int progress, boolean fromUser) {
-				if (!fromUser) {
-					return;
-				}
-				mSeekBarNum = progress;
-				System.out.println("打印当前拖动的值++++++++++" + mSeekBarNum);
-
-			}
-		});
-
 	}
 
-	// 刷新seekbar
+	@Override//停止拖动
+	public void onStopTrackingTouch(ColorPicker picker) {
+		MyLog.i(TAG, "冷暖白灯的mSeekBarNum-->"+mSeekBarNum);
+		mLampManager.setColdAndWarmWhite(mSeekBarNum);
+
+	}
+	@Override//拖动中
+	public void onArcChanged(ColorPicker picker, int progress,
+			boolean fromUser) {
+		if(!fromUser){
+			return;
+		}
+		mSeekBarNum=progress;
+		MyLog.i(TAG, "打印当前拖动的值");
+	}
+	// 刷新冷暖白条
 	private void refresh(int mSeekBarNum) {
-		mSeekBarHeating.setProgress(mSeekBarNum);
+		mColorPicker.setSecondProgress(mSeekBarNum);
 	}
 
-	@Override// TODO 更新暖灯
-	public void OnLampSeekBarNum(int mSeekBarNum)
-	{
-
+	@Override
+	public void OnLampSeekBarNum(int SeekBarNum) {
 		refresh(mSeekBarNum);
 	}
+
+	//是否白灯
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+				MyLog.i(TAG,"判断是否白灯filament-----+="+filament);
+		//			if(filament){
+		//				mLayoutSeekbar.setVisibility(View.VISIBLE);
+		//
+		//			}else{
+		//				mLayoutSeekbar.setVisibility(View.INVISIBLE);
+		//			}
+
+	}
+	
+
 	@Override
 	public void onClick(View v) {
 		// shake.cancel();
@@ -285,8 +288,8 @@ OnColorChangeListener, LampListener, OnClickListener {
 			break;
 		}
 	}
-//查询 和回调
-	
+	//查询 和回调
+
 	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff) {
 		flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
@@ -364,7 +367,7 @@ OnColorChangeListener, LampListener, OnClickListener {
 				}
 				mColorPicker.setBrightness(brightness,CustomApplication.lampMax);
 			}
-			
+
 		}else
 		{
 			isWhiteFlag = false;
@@ -375,18 +378,4 @@ OnColorChangeListener, LampListener, OnClickListener {
 		super.onDestroy();
 		mLampManager.removeOnBluetoothDeviceLampListener(this);
 	}
-//是否白灯
-	@Override
-	public void LampSupportColdAndWhite(boolean filament) {
-		System.out.println("判断是否白灯88888888filament+="+filament);
-	if(filament){
-		mLayoutSeekbar.setVisibility(View.VISIBLE);
-		
-	}else{
-		mLayoutSeekbar.setVisibility(View.INVISIBLE);
-	}
-		
-	}
-
-
 }
