@@ -457,6 +457,25 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		super.onResume();
 		playerManager.setPlayListener(new MyPlayListener(this),
 				PlayerManager.getPlayType(), true);
+		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
+		{
+			musicRhythmCb.setChecked(true);
+		}
+		musicRhythmCb.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				if(musicRhythmCb.isChecked())
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
+				}else
+				{
+					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
+				}
+			}
+		});
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
