@@ -14,7 +14,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal" 
-   
+   android:visibility="invisible"
         >
 
         <TextView

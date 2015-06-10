@@ -375,8 +375,6 @@ OnColorChangeListener, LampListener, OnClickListener {
 		super.onDestroy();
 		mLampManager.removeOnBluetoothDeviceLampListener(this);
 	}
-
-
 //是否白灯
 	@Override
 	public void LampSupportColdAndWhite(boolean filament) {
