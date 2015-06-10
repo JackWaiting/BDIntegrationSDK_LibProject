@@ -544,6 +544,8 @@ public class ColorPicker extends View {
 	 * 更新底部进度条
 	 */
 	public void setSecondProgress(int progress) {
+		
+		System.out.println("更新底部进度条progress-----="+progress);
 		progress = Math.min(progress, mMax);
 		progress = Math.max(progress, 0);
 		float ratio = (float)progress / mMax;

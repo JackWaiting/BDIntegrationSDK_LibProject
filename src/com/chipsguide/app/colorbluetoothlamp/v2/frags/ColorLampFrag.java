@@ -149,11 +149,12 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	}
 	// 刷新冷暖白条
 	private void refresh(int mSeekBarNum) {
+		System.out.println("刷新冷暖白条--------------"+mSeekBarNum);	
 		mColorPicker.setSecondProgress(mSeekBarNum);
 	}
 
 	@Override
-	public void OnLampSeekBarNum(int SeekBarNum) {
+	public void OnLampSeekBarNum(int mSeekBarNum) {
 		refresh(mSeekBarNum);
 		System.out.println("回调里发送的值--------="+mSeekBarNum);
 	}
