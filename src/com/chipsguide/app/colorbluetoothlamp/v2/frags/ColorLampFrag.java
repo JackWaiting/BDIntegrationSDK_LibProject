@@ -133,6 +133,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override//停止拖动
 	public void onStopTrackingTouch(ColorPicker picker) {
 		MyLog.i(TAG, "冷暖白灯的mSeekBarNum-->"+mSeekBarNum);
+		System.out.println("冷暖白灯的停止拖动mSeekBarNum-->"+mSeekBarNum);
 		mLampManager.setColdAndWarmWhite(mSeekBarNum);
 
 	}
@@ -142,8 +143,10 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		if(!fromUser){
 			return;
 		}
+		
 		mSeekBarNum=progress;
-		MyLog.i(TAG, "打印当前拖动的值");
+		System.out.println("打印当前拖动的值--------="+mSeekBarNum);
+
 	}
 	// 刷新冷暖白条
 	private void refresh(int mSeekBarNum) {
@@ -159,13 +162,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override
 	public void LampSupportColdAndWhite(boolean filament) {
 				MyLog.i(TAG,"判断是否白灯filament-----+="+filament);
-		//			if(filament){
-		//				mLayoutSeekbar.setVisibility(View.VISIBLE);
-		//
-		//			}else{
-		//				mLayoutSeekbar.setVisibility(View.INVISIBLE);
-		//			}
-
+						mColorPicker.setSecondProgressVisibility(filament);			
 	}
 	
 

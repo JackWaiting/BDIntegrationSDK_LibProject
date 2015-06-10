@@ -565,7 +565,7 @@ public class ColorPicker extends View {
 		isSecondProgressVisible = visible;
 		invalidate();
 	}
-	
+
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		Bundle state = new Bundle();
