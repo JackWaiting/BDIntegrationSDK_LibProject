@@ -328,7 +328,6 @@ public class ColorPicker extends View {
 		minValidateTouchArcRadius = innerWheelRadius - padding;
 		maxValidateTouchArcRadius = outerWheelRadius + padding;
 		yMaxTouchValidateRange = (centerY + padding);
-		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 		
 		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
 		sweepGradient = new SweepGradient(centerX, centerY,
@@ -347,6 +346,7 @@ public class ColorPicker extends View {
 		bottommSliderPaint.setShader(bottomSweepGradient);
 		
 		radius();
+		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 	}
 
 	private void radius()
