@@ -612,17 +612,17 @@ public class BluetoothDeviceManagerProxy{
 	public void destory() {
 		changeToA2DPMode();
 		conStateListeners.clear();
-		if (bluzDeviceMan != null) {
-			bluzDeviceMan.release();
-			if (bluzDeviceMan.isDiscovering()) {
-				bluzDeviceMan.cancelDiscovery();
-			}
-		}
 		removeDeviceUiChangedListener();
 		bluzDeviceMan = null;
 		disconnected();
 		deviceMusicManager = null;
 		proxy = null;
+		if (bluzDeviceMan != null) {
+			if (bluzDeviceMan.isDiscovering()) {
+				bluzDeviceMan.cancelDiscovery();
+			}
+			bluzDeviceMan.release();
+		}
 	}
 
 }
