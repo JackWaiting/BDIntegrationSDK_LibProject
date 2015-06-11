@@ -346,15 +346,15 @@ public class ColorPicker extends View {
 		bottommSliderPaint.setShader(bottomSweepGradient);
 		
 		radius();
-		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 	}
 
 	private void radius()
 	{
 		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
-		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
-		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
-		
+		double radians = Math.toRadians(180);
+		mThumbXPos = (int) (thumbRadius * Math.cos(radians));
+		mThumbYPos = (int) (thumbRadius * Math.sin(radians));
+		secondYMaxTouchValidateRange = (getHeight() / 2 + (int)(Math.sin(MIN_RADIANS)*thumbRadius));
 		updateSecondThumbPosition(secondArcRadians, false);
 	}
 
