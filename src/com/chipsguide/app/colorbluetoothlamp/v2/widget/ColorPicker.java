@@ -328,7 +328,6 @@ public class ColorPicker extends View {
 		minValidateTouchArcRadius = innerWheelRadius - padding;
 		maxValidateTouchArcRadius = outerWheelRadius + padding;
 		yMaxTouchValidateRange = (centerY + padding);
-		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 		
 		float[] hsv = new float[] { colorHSV[0], colorHSV[1], 1f };
 		sweepGradient = new SweepGradient(centerX, centerY,
@@ -347,6 +346,7 @@ public class ColorPicker extends View {
 		bottommSliderPaint.setShader(bottomSweepGradient);
 		
 		radius();
+		secondYMaxTouchValidateRange = (centerY + (int)(Math.sin(SECOND_ARC_START_ANGLE)*thumbRadius));
 	}
 
 	private void radius()
@@ -355,7 +355,7 @@ public class ColorPicker extends View {
 		mThumbXPos = (int) (thumbRadius * Math.cos(Math.toRadians(180)));
 		mThumbYPos = (int) (thumbRadius * Math.sin(Math.toRadians(180)));
 		
-		updateSecondThumbPosition(currentRadians, false);
+		updateSecondThumbPosition(secondArcRadians, false);
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -564,8 +564,6 @@ public class ColorPicker extends View {
 	}
 	
 	private double secondArcRadians;
-	
-	private double currentRadians;
 	/**
 	 * 更新底部进度条
 	 */
@@ -576,7 +574,6 @@ public class ColorPicker extends View {
 		progress = Math.max(progress, 0);
 		float ratio = (float)progress / mMax;
 		float degree = ratio * SECOND_ARC_SWEEP_ANGLE + SECOND_ARC_START_ANGLE;
-		currentRadians = Math.toRadians(degree);
 		updateSecondThumbPosition(Math.toRadians(degree) , false);
 	}
 	
