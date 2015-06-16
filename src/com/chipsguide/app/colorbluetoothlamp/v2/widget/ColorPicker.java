@@ -83,10 +83,11 @@ public class ColorPicker extends View {
 
 	private Matrix gradientRotationMatrix;//渐变旋转矩阵
 
-	private Drawable mThumb, secondThumb, sun, moon;
+	private Drawable mThumb, secondThumb, sun, moon, lamp1, lamp2;
 	private int mThumbXPos, mThumbYPos;
 	private int secondThumbXPos, secondThumbYPos;
 	private float thumbRadius;//滑动的半径
+	private int drawableHalfWidth;
 	
 	/** Currently selected color */
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
@@ -153,17 +154,31 @@ public class ColorPicker extends View {
 				thumbHalfheight);
 		secondThumb = mThumb;
 
-//		sun = getResources().getDrawable(R.drawable.ic_bright);
-//		int sunHalfHeight = (int) sun.getIntrinsicHeight() / 2;
-//		int sunHalfWidth = (int) sun.getIntrinsicWidth() / 2;
-//		sun.setBounds(-sunHalfWidth, -sunHalfHeight, sunHalfWidth,
-//				sunHalfHeight);
-//
-//		moon = getResources().getDrawable(R.drawable.ic_dark);
-//		int moonHalfHeight = (int) moon.getIntrinsicHeight() / 2;
-//		int moonHalfWidth = (int) moon.getIntrinsicWidth() / 2;
-//		moon.setBounds(-moonHalfWidth, -moonHalfHeight, moonHalfWidth,
-//				moonHalfHeight);
+		
+		sun = getResources().getDrawable(R.drawable.ic_lamp_coloradjust04);
+		drawableHalfWidth = sun.getIntrinsicWidth() / 2;
+		int sunHalfHeight = (int) drawableHalfWidth;
+		int sunHalfWidth = (int) sun.getIntrinsicWidth() / 2;
+		sun.setBounds(-sunHalfWidth, -sunHalfHeight, sunHalfWidth,
+				sunHalfHeight);
+
+		moon = getResources().getDrawable(R.drawable.ic_lamp_coloradjust03);
+		int moonHalfHeight = (int) moon.getIntrinsicHeight() / 2;
+		int moonHalfWidth = (int) moon.getIntrinsicWidth() / 2;
+		moon.setBounds(-moonHalfWidth, -moonHalfHeight, moonHalfWidth,
+				moonHalfHeight);
+		
+		lamp1 = getResources().getDrawable(R.drawable.ic_lamp_coloradjust01);
+		int lamp1HalfHeight = (int) lamp1.getIntrinsicHeight() / 2;
+		int lamp1HalfWidth = (int) lamp1.getIntrinsicWidth() / 2;
+		lamp1.setBounds(-lamp1HalfWidth, -lamp1HalfHeight, lamp1HalfWidth,
+				lamp1HalfHeight);
+		
+		lamp2 = getResources().getDrawable(R.drawable.ic_lamp_coloradjust02);
+		int lamp2HalfHeight = (int) lamp2.getIntrinsicHeight() / 2;
+		int lamp2HalfWidth = (int) lamp2.getIntrinsicWidth() / 2;
+		lamp2.setBounds(-lamp2HalfWidth, -lamp2HalfHeight, lamp2HalfWidth,
+				lamp2HalfHeight);
 
 		padding = thumbHalfWidth;
 	}
@@ -172,18 +187,12 @@ public class ColorPicker extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-		int size = Math.min(widthSize, heightSize);
-		setMeasuredDimension(size, size);
+		setMeasuredDimension(widthSize, heightSize);
 		radius();
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int centerX = getWidth() / 2;
-		int centerY = getHeight() / 2;
-
-		// drawing color wheel
-
 		canvas.drawBitmap(colorWheelBitmap, centerX - colorWheelRadius, centerY
 				- colorWheelRadius, null);
 
@@ -227,25 +236,39 @@ public class ColorPicker extends View {
 	}
 
 	private void drawDrawable(Canvas canvas) {
-//		canvas.save();
-//		canvas.translate(getWidth() / 2 + thumbRadius, getHeight() / 2 + offset);
-//		sun.draw(canvas);
-//		canvas.restore();
-
-//		canvas.save();
-//		canvas.translate(getWidth() / 2 - thumbRadius, getHeight() / 2 + offset);
-//		moon.draw(canvas);
-//		canvas.restore();
+		float distanceX1 = thumbRadius + drawableHalfWidth + padding;
+		float distanceY1 = centerY - drawableHalfWidth;
+		canvas.save();
+		canvas.translate(centerX + distanceX1, distanceY1);
+		sun.draw(canvas);
+		canvas.restore();
 
 		canvas.save();
-		canvas.translate(getWidth() / 2 - mThumbXPos, getHeight() / 2
+		canvas.translate(centerX - distanceX1, distanceY1);
+		moon.draw(canvas);
+		canvas.restore();
+
+		canvas.save();
+		canvas.translate(centerX - mThumbXPos, centerY
 				- mThumbYPos);
 		mThumb.draw(canvas);
 		canvas.restore();
 		
 		if(isSecondProgressVisible){
+			float distanceX2 = (float) (thumbRadius*Math.cos(MIN_RADIANS)) + drawableHalfWidth + padding;
+			float distanceY2 = (float) (thumbRadius*Math.sin(MIN_RADIANS)) + drawableHalfWidth + centerY;
 			canvas.save();
-			canvas.translate(getWidth() / 2 + secondThumbXPos, getHeight() / 2
+			canvas.translate(centerX - distanceX2, distanceY2);
+			lamp1.draw(canvas);
+			canvas.restore();
+			
+			canvas.save();
+			canvas.translate(centerX + distanceX2, distanceY2);
+			lamp2.draw(canvas);
+			canvas.restore();
+			
+			canvas.save();
+			canvas.translate(centerX + secondThumbXPos, centerY
 					+ secondThumbYPos);
 			secondThumb.draw(canvas);
 			canvas.restore();
@@ -265,8 +288,7 @@ public class ColorPicker extends View {
 	 * @param y 手指所处的y点
 	 */
 	private void updateSecondThumbPosition(int x, int y){
-		float centerX = getWidth() / 2;
-		double arc = Math.atan2(Math.abs(getHeight() / 2 - y), Math.abs(getWidth() / 2 - x));
+		double arc = Math.atan2(Math.abs(centerY - y), Math.abs(centerX - x));
 		if(x <= centerX){
 			arc = Math.PI - arc;
 		}
@@ -292,15 +314,17 @@ public class ColorPicker extends View {
 		postInvalidate();
 	}
 
+	private int centerX, centerY;
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
-		int centerX = width / 2;
-		int centerY = height / 2;
+		centerX = width / 2;
+		centerY = height / 2;
+		int min = Math.min(centerX, centerY);
 		innerPadding = (int) (paramInnerPadding * width / 100);
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
 
-		outerWheelRadius = centerX - outerPadding - padding;
+		outerWheelRadius = min - outerPadding - padding;
 		innerWheelRadius = outerWheelRadius - valueSliderWidth;
 		colorWheelRadius = innerWheelRadius - innerPadding;
 
@@ -340,7 +364,7 @@ public class ColorPicker extends View {
 		Matrix bottomGradientMatrix = new Matrix();
 		bottomGradientMatrix.preRotate(270, centerX, centerY);
 		SweepGradient bottomSweepGradient = new SweepGradient(centerX, centerY,
-				new int[] {Color.WHITE , Color.parseColor("#fcbe7b")},
+				new int[] {Color.WHITE , Color.parseColor("#f7ae00")},
 				null);
 		bottomSweepGradient.setLocalMatrix(bottomGradientMatrix);
 		bottommSliderPaint.setShader(bottomSweepGradient);
