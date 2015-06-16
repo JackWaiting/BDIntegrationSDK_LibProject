@@ -55,7 +55,8 @@ public class ColorPicker extends View {
 
 	private Paint colorWheelPaint;//绘制色盘
 	private Paint valueSliderPaint;//绘制拖动条
-	private Paint bottommSliderPaint;
+	private Paint bottommSliderPaint; // 底部进度条
+	private Paint arcShadowPaint, wheelShadowPaint;
 
 	private Paint colorViewPaint;//绘制颜色
 
@@ -66,6 +67,8 @@ public class ColorPicker extends View {
 
 	private RectF outerWheelRect;//外弧形矩形
 	private RectF innerWheelRect;//内弧形矩形
+	private RectF arcShadowRect;
+	private RectF wheelShadowRect;
 
 	private Path valueSliderPath;//拖动条
 	private Path bottomSliderPath;
@@ -134,7 +137,19 @@ public class ColorPicker extends View {
 		bottommSliderPaint = new Paint();
 		bottommSliderPaint.setAntiAlias(true);
 		bottommSliderPaint.setDither(true);
-		bottommSliderPaint.setColor(Color.RED);
+		
+		int shadowColor = Color.argb(50, 0, 0, 0);
+		arcShadowPaint = new Paint();
+		arcShadowPaint.setStyle(Style.STROKE);
+		arcShadowPaint.setAntiAlias(true);
+		arcShadowPaint.setDither(true);
+		arcShadowPaint.setColor(shadowColor);
+		
+		wheelShadowPaint = new Paint();
+		wheelShadowPaint.setStyle(Style.STROKE);
+		wheelShadowPaint.setAntiAlias(true);
+		wheelShadowPaint.setDither(true);
+		wheelShadowPaint.setColor(shadowColor);
 
 		colorViewPaint = new Paint();
 		colorViewPaint.setAntiAlias(true);
@@ -144,6 +159,8 @@ public class ColorPicker extends View {
 
 		outerWheelRect = new RectF();
 		innerWheelRect = new RectF();
+		arcShadowRect = new RectF();
+		wheelShadowRect = new RectF();
 
 		colorPointerCoords = new RectF();
 
@@ -193,6 +210,7 @@ public class ColorPicker extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.drawArc(wheelShadowRect, 0, 360, false, wheelShadowPaint);
 		canvas.drawBitmap(colorWheelBitmap, centerX - colorWheelRadius, centerY
 				- colorWheelRadius, null);
 
@@ -202,8 +220,10 @@ public class ColorPicker extends View {
 		// canvas.drawPath(colorViewPath, colorViewPaint);
 
 		// drawing value slider
+		canvas.drawArc(arcShadowRect, 1, -182, false, arcShadowPaint);
 		canvas.drawPath(valueSliderPath, valueSliderPaint);
 		if(isSecondProgressVisible){
+			canvas.drawArc(arcShadowRect, SECOND_ARC_START_ANGLE - 1, SECOND_ARC_SWEEP_ANGLE + 2, false, arcShadowPaint);
 			canvas.drawPath(bottomSliderPath, bottommSliderPaint);
 		}
 
@@ -323,10 +343,21 @@ public class ColorPicker extends View {
 		innerPadding = (int) (paramInnerPadding * width / 100);
 		outerPadding = (int) (paramOuterPadding * width / 100);
 		valueSliderWidth = (int) (paramValueSliderWidth * width / 100);
+		
+		arcShadowPaint.setStrokeWidth(valueSliderWidth + PixelUtil.dp2px(5, getContext()));
+		wheelShadowPaint.setStrokeWidth(valueSliderWidth + PixelUtil.dp2px(3, getContext()));
 
 		outerWheelRadius = min - outerPadding - padding;
 		innerWheelRadius = outerWheelRadius - valueSliderWidth;
 		colorWheelRadius = innerWheelRadius - innerPadding;
+		
+		int shdowRadius = innerWheelRadius + valueSliderWidth/2;
+		arcShadowRect.set(centerX - shdowRadius, centerY
+				- shdowRadius, centerX + shdowRadius, centerY
+				+ shdowRadius);
+		wheelShadowRect.set(centerX - colorWheelRadius, centerY
+				- colorWheelRadius, centerX + colorWheelRadius, centerY
+				+ colorWheelRadius);
 
 		outerWheelRect.set(centerX - outerWheelRadius, centerY
 				- outerWheelRadius, centerX + outerWheelRadius, centerY
@@ -607,7 +638,7 @@ public class ColorPicker extends View {
 		return (int)(ratio * mMax + 0.5f);
 	}
 	
-	private boolean isSecondProgressVisible;
+	private boolean isSecondProgressVisible = true;
 	/**
 	 * 设置底部进度条可见性
 	 */
