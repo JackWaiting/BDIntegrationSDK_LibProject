@@ -28,7 +28,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,OnBluetoothDeviceConnectionStateChangedListener {
 
-	private Button mButtonSearsh;
+	private Button mButtonSearsh;//搜索
 	private ListView mListView;
 	private List<BluetoothDevice> mListBluetoothDevices = new ArrayList<BluetoothDevice>(); // 新搜索的蓝牙列表
 	private ArrayList<ConnectInfo> connectBluetoothDevices;// 已经连接成功后的蓝牙列表
@@ -95,7 +95,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 
 	@Override
 	public void initListener()
-	{
+	{//连接状态改变的监听
 		mManagerProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
@@ -109,7 +109,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		{
 			this.mBluetoothDeviceManager.setForeground(true);
 			bluetoothDeviceConnected = mBluetoothDeviceManager
-					.getBluetoothDeviceConnectedSpp();
+					.getBluetoothDeviceConnectedSpp();//保持蓝牙连接
 			mAdapter.setBluetooth(bluetoothDeviceConnected);
 		}
 		mAdapter.setList(StringUtil.getListConnectMessage(

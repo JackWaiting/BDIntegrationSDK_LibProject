@@ -86,9 +86,9 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override
 	protected void initView() {
 		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);//色盘。亮度
-		mColorPicker.setOnColorChangeListener(this);
+		mColorPicker.setOnColorChangeListener(this);//颜色变化的监听
 		mColorPicker.setOnSecondArcListener(this);//冷暖白的进度条的监听
-		
+
 		mButtonGroupRhythm = (RadioGroup) root
 				.findViewById(R.id.radiogroup_rhythm_effect);
 		mButtonLightNormal = (RadioButton) root
@@ -156,16 +156,16 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override
 	public void OnLampSeekBarNum(int mSeekBarNum) {
 		refresh(mSeekBarNum);
-		System.out.println("回调里发送的值--------="+mSeekBarNum);
+		MyLog.i(TAG,"回调里发送的值--------="+mSeekBarNum);
 	}
 
 	//是否白灯
 	@Override
 	public void LampSupportColdAndWhite(boolean filament) {
-				MyLog.i(TAG,"判断是否白灯filament-----+="+filament);
-						mColorPicker.setSecondProgressVisibility(filament);			
+		MyLog.i(TAG,"判断是否白灯filament-----+="+filament);
+		mColorPicker.setSecondProgressVisibility(filament);			
 	}
-	
+
 
 	@Override
 	public void onClick(View v) {
@@ -260,8 +260,8 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 				rank = 15;
 			}
 			hmcolor = true;
-			isWhiteFlag = true;
-			mLampManager.setBrightness(rank + 1);
+			isWhiteFlag = true;//是白灯
+			mLampManager.setBrightness(rank + 1);//亮度
 		} else {
 			mLampManager.setColor(red, green, blue);
 		}
@@ -290,7 +290,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff) {
-		flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
+		MyLog.i(TAG,"colorstate " + colorState + " OnorOff " + OnorOff);
 		backChange(colorState, OnorOff, true);
 	}
 	@Override
@@ -313,7 +313,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 							.getColor(R.color.white));
 				}
 				if (!mButtonLightNormal.isChecked()) {
-					mButtonLightNormal.setChecked(true);
+					mButtonLightNormal.setChecked(true);//无灯效
 				}
 			}
 		}

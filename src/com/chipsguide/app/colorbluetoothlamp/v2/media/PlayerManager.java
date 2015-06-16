@@ -99,7 +99,7 @@ public class PlayerManager {
 		isPlayRecentMusic = false;
 		// change = checkMusicListIfIsChanged(musicList, type);
 		mMusicList = musicList;
-		currentPosition = Math.max(0, position);
+		currentPosition = Math.max(0, position);//当前的位置
 		if (type == null) {
 			playWithCurrentEngine(true);
 		} else {

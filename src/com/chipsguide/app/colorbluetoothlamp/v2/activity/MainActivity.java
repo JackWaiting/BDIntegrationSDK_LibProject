@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements
 	private BluetoothDeviceManager mBluetoothDeviceManager;
 	private BluetoothDeviceManagerProxy mManagerProxy;
 
-	private TextSwitcherTitleView titleView;
+	private TextSwitcherTitleView titleView;//自定义字体
 	private PlayerManager playerManager;
 	
 	
