@@ -19,6 +19,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManager
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
@@ -28,7 +29,6 @@ import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManag
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-import com.chipsguide.lib.timer.util.MyLog;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
@@ -130,43 +130,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		mLampOnCheckBox.setOnClickListener(this);
 	}
 
-	@Override//停止拖动
-	public void onStopTrackingTouch(ColorPicker picker) {
-		MyLog.i(TAG, "冷暖白灯的mSeekBarNum-->"+mSeekBarNum);
-		System.out.println("冷暖白灯的停止拖动mSeekBarNum-->"+mSeekBarNum);
-		mLampManager.setColdAndWarmWhite(mSeekBarNum);
-
-	}
-	@Override//拖动中
-	public void onArcChanged(ColorPicker picker, int progress,
-			boolean fromUser) {
-		if(!fromUser){
-			return;
-		}	
-		mSeekBarNum=progress;
-		System.out.println("打印当前拖动的值--------="+mSeekBarNum);
-
-	}
-	// 刷新冷暖白条
-	private void refresh(int mSeekBarNum) {
-		System.out.println("刷新冷暖白条--------------"+mSeekBarNum);	
-		mColorPicker.setSecondProgress(mSeekBarNum);
-	}
-
-	@Override
-	public void OnLampSeekBarNum(int mSeekBarNum) {
-		refresh(mSeekBarNum);
-		MyLog.i(TAG,"回调里发送的值--------="+mSeekBarNum);
-	}
-
-	//是否白灯
-	@Override
-	public void LampSupportColdAndWhite(boolean filament) {
-		MyLog.i(TAG,"判断是否白灯filament-----+="+filament);
-		mColorPicker.setSecondProgressVisibility(filament);			
-	}
-
-
 	@Override
 	public void onClick(View v) {
 		// shake.cancel();
@@ -239,6 +202,10 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 			toastDialog.show();
 			CustomApplication.isFirstConnect = false;
 		}
+	
+		mColorPicker.setSecondProgressVisibility(false); 	
+		
+		MyLog.i(TAG, "++++走了彩灯的刷新方法--CustomApplication.isFirstConnect=--"+CustomApplication.isFirstConnect+"+++mLampManager.getBluetoothDevice()++"+mLampManager.getBluetoothDevice());
 	}
 
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
@@ -350,9 +317,12 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	public void onLampColor(int red, int green, int blue) {
 		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
+	
+	
 	//设置灯的亮度
 	@Override
 	public void onLampBrightness(int brightness) {
+		MyLog.i(TAG,"灯的亮度值----+++---"+brightness);
 		//转化为颜色会有一些误差的存在
 		if(!isWhiteFlag)
 		{
@@ -371,9 +341,43 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 			isWhiteFlag = false;
 		}
 	}
+	
+	@Override//停止拖动
+	public void onStopTrackingTouch(ColorPicker picker) {
+		MyLog.i(TAG, "冷暖白灯的停止拖动mSeekBarNum-->"+mSeekBarNum);
+		mLampManager.setColdAndWarmWhite(mSeekBarNum);
+
+	}
+	@Override//拖动中
+	public void onArcChanged(ColorPicker picker, int progress,
+			boolean fromUser) {
+		if(!fromUser){
+			return;
+		}	
+		mSeekBarNum=progress;
+
+	}
+	// 刷新冷暖白条
+	private void refresh(int mSeekBarNum) {	
+		mColorPicker.setSecondProgress(mSeekBarNum);
+	}
+
+	@Override
+	public void OnLampSeekBarNum(int mSeekBarNum) {
+		refresh(mSeekBarNum);
+		MyLog.i(TAG,"回调里发送的值--------="+mSeekBarNum);
+	}
+	//是否白灯
+	@Override
+	public void LampSupportColdAndWhite(boolean filament) {
+		MyLog.i(TAG,"判断是否白灯filament-YYYYYYYYYYYYYYY----+="+filament);
+		mColorPicker.setSecondProgressVisibility(filament);			
+	}
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mLampManager.removeOnBluetoothDeviceLampListener(this);
+		mLampManager.removeOnBluetoothDeviceLampListener(this);	
+		MyLog.i(TAG, "==-----===--走了关闭的方法---====-----==--");
 	}
 }

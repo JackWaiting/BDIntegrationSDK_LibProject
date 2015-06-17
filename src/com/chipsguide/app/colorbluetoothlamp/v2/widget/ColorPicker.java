@@ -40,9 +40,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLog;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class ColorPicker extends View {
+	public  static String TAG = "ColorPicker";
+	
 	private static final int SECOND_ARC_START_ANGLE = 15;
 	private static final int SECOND_ARC_SWEEP_ANGLE = 150;
 	/**
@@ -116,18 +119,18 @@ public class ColorPicker extends View {
 		offset = PixelUtil.dp2px(25, getContext());
 		
 		colorPointerPaint = new Paint();
-		colorPointerPaint.setStyle(Style.FILL);
+		colorPointerPaint.setStyle(Style.FILL);//实心
 		colorPointerPaint.setARGB(200, 255, 255, 255);
 
 		valuePointerPaint = new Paint();
-		valuePointerPaint.setStyle(Style.STROKE);
-		valuePointerPaint.setStrokeWidth(2f);
+		valuePointerPaint.setStyle(Style.STROKE);//空心
+		valuePointerPaint.setStrokeWidth(2f);//外框宽度
 
 		colorWheelPaint = new Paint();
-		colorWheelPaint.setAntiAlias(true);
-		colorWheelPaint.setDither(true);
+		colorWheelPaint.setAntiAlias(true);//消除锯齿
+		colorWheelPaint.setDither(true);//防抖动
 
-		valueSliderPaint = new Paint();
+		valueSliderPaint = new Paint();//滑块
 		valueSliderPaint.setAntiAlias(true);
 		valueSliderPaint.setDither(true);
 		
@@ -147,7 +150,7 @@ public class ColorPicker extends View {
 
 		colorPointerCoords = new RectF();
 
-		mThumb = getResources().getDrawable(R.drawable.thumb);
+		mThumb = getResources().getDrawable(R.drawable.thumb);//圆点图片
 		int thumbHalfheight = (int) mThumb.getIntrinsicHeight() / 2;
 		int thumbHalfWidth = (int) mThumb.getIntrinsicWidth() / 2;
 		mThumb.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth,
@@ -187,8 +190,8 @@ public class ColorPicker extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-		setMeasuredDimension(widthSize, heightSize);
-		radius();
+		setMeasuredDimension(widthSize, heightSize);//设定自定义组建大小
+		radius();////设定进度条弧度
 	}
 
 	@Override
@@ -311,7 +314,7 @@ public class ColorPicker extends View {
 		if(mSecondArcChangeListener != null){
 			mSecondArcChangeListener.onArcChanged(this, getSecondProgress(), fromUser);
 		}
-		postInvalidate();
+		postInvalidate();//跟新iew
 	}
 
 	private int centerX, centerY;
@@ -372,14 +375,14 @@ public class ColorPicker extends View {
 		radius();
 	}
 
-	private void radius()
+	private void radius()//设定弧度
 	{
-		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);
+		thumbRadius = (outerWheelRadius - (outerWheelRadius - innerWheelRadius) / 2);//滑动的半径
 		double radians = Math.toRadians(180);
 		mThumbXPos = (int) (thumbRadius * Math.cos(radians));
 		mThumbYPos = (int) (thumbRadius * Math.sin(radians));
-		secondYMaxTouchValidateRange = (getHeight() / 2 + (int)(Math.sin(MIN_RADIANS)*thumbRadius));
-		updateSecondThumbPosition(secondArcRadians, false);
+		secondYMaxTouchValidateRange = (getHeight() / 2 + (int)(Math.sin(MIN_RADIANS)*thumbRadius)); //y轴上点击的有效范围
+		updateSecondThumbPosition(secondArcRadians, false);// 更新底部进度条位置
 	}
 
 	private Bitmap createColorWheelBitmap(int width, int height) {
@@ -568,6 +571,7 @@ public class ColorPicker extends View {
 	public int getColor() {
 		return Color.HSVToColor(colorHSV);
 	}
+	
 	/**
 	 * 设置亮度0-1
 	 * @param brightness
@@ -612,6 +616,7 @@ public class ColorPicker extends View {
 	 * 设置底部进度条可见性
 	 */
 	public void setSecondProgressVisibility(boolean visible){
+		MyLog.i(TAG, "设置底部进度条可见性+++---="+visible);
 		isSecondProgressVisible = visible;
 		invalidate();
 	}

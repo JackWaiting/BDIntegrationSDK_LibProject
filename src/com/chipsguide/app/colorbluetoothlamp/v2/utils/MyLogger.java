@@ -19,7 +19,7 @@ public class MyLogger {
 	private static MyLogger flog;
 	//在这里可以定义自己的日志输入，和其他的日志并不冲突
 	private static final String FISKZ = "@fiskz@ ";
-	private static final String OSMAN = "@osmanxiong@ ";
+	private static final String OSMAN = "@xiong@ ";
 
 	private MyLogger(String name)
 	{
