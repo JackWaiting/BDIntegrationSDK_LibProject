@@ -114,7 +114,13 @@ public class NetMusicListFrag extends BaseFragment implements OnSearchListener,
 		}
 		if (PlayType.Net == PlayerManager.getPlayType()) {
 			currentMusic = playerManager.getCurrentMusic();
-			adapter.setSelected(currentMusic.getPath(), playerManager.isPlaying());
+			if(currentMusic != null)
+			{
+				adapter.setSelected(currentMusic.getPath(), playerManager.isPlaying());
+			}else
+			{
+				adapter.setSelected(-1, false);
+			}
 		}else{
 			adapter.setSelected(-1, false);
 		}
