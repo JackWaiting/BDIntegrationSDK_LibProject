@@ -132,9 +132,12 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	}
 	
 	private void startShakeAnim() {
-		Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
-		shakeIv.clearAnimation();
-		shakeIv.startAnimation(anim);
+		if(getActivity()!=null)
+		{
+			Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
+			shakeIv.clearAnimation();
+			shakeIv.startAnimation(anim);
+		}
 	}
 	
 	private String getTextFromId(int id) {
