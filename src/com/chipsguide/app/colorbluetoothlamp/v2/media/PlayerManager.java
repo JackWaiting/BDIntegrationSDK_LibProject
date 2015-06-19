@@ -574,7 +574,7 @@ public class PlayerManager {
 			return null;
 		}
 		for (Music m : mMusicList) {
-			if (m.getPath().equals(symbol)) {
+			if (symbol.equals(m.getPath())) {
 				return m;
 			}
 		}
