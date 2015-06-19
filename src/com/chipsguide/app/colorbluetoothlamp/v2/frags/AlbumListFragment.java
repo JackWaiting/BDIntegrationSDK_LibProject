@@ -187,12 +187,16 @@ public class AlbumListFragment extends BaseFragment implements OnSearchListener{
 		if(albumlist != null){
 			albumlist.clear();
 		}
-		albumListLv.removeFooterView(footView);
-		albumListLv.addFooterView(footView);
-		footView.setText(R.string.text_loading);
-		footView.showProgressBar();
-		queryType = QUERY_TYPE_ALBUM_NAME;
-		extraData = keyWords;
-		getAlbumList(currentPage);
+		//如果albumListLv为null，是否需要更新
+		if(albumListLv != null)
+		{
+			albumListLv.removeFooterView(footView);
+			albumListLv.addFooterView(footView);
+			footView.setText(R.string.text_loading);
+			footView.showProgressBar();
+			queryType = QUERY_TYPE_ALBUM_NAME;
+			extraData = keyWords;
+			getAlbumList(currentPage);
+		}
 	}
 }
