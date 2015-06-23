@@ -118,5 +118,7 @@
     
     <string name="music_rhythm">音樂律動</string>
     <string name="no_play_content">沒有播放內容!</string>
+    <string name="choose_song">請選擇歌曲!</string>
     <string name="search_lamp">搜索藍牙燈</string>
+    <string name="timing_lights_toast">未設置定時開燈</string>
 </resources>

@@ -43,8 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:visibility="invisible"
-             />
+            android:visibility="invisible" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
             android:id="@+id/tv_artist"
@@ -53,22 +52,35 @@
             android:layout_below="@+id/tv_music_name"
             android:gravity="center"
             android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" 
-            android:visibility="invisible"/>
+            android:textSize="16sp"
+            android:visibility="invisible" />
 
-        <CheckBox
-            android:id="@+id/cb_music_rhythm"
+        <LinearLayout
+            android:id="@+id/linearlayout_rhythm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/music_rhythm"
-            android:button="@null"
-            android:drawableLeft="@drawable/selector_cb_music_rhythm"
-            android:background="@drawable/cb_bg"
-            android:padding="5dp"
-            android:drawablePadding="5dp"
-            android:textColor="@color/selector_music_rhythm_cb_text"
-             />
+            android:background="@drawable/cb_bg_inactive" >
+
+            <ImageView
+                android:id="@+id/imageview_anim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:focusable="false"
+                android:src="@drawable/ic_music_rhythm_close" />
+
+            <CheckBox
+                android:id="@+id/cb_music_rhythm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:text="@string/music_rhythm"
+                android:textColor="@color/selector_music_rhythm_cb_text" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

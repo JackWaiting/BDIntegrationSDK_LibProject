@@ -97,8 +97,8 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		case R.id.rb_player_toggle:
 			int position1 = playerManager.getCurrentPosition();
 			if(position1 == -1){
-				//showTitleToast(R.string.no_play_content);
-				//return;
+				showTitleToast(R.string.choose_song);
+				return;
 			}
 			if(playerManager.isPlaying()){
 				playerManager.pause();
@@ -110,7 +110,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		case R.id.rb_next_song:
 			int position = playerManager.getCurrentPosition();
 			if(position == -1){
-				//showTitleToast(R.string.no_play_content);
+				showTitleToast(R.string.choose_song);
 				position = Math.max(0, position);
 				playerManager.skipTo(position);
 			}else{

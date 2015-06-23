@@ -9,16 +9,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -63,14 +65,15 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private SlidingLayer playListLayer;
 	private ListView playListLv;
 	private MusicProgressView progressLayout;
-//	private MusicSpectrumView spectrumLayout;
 	private TextView musicNameTv, artistTv, durationTv;
 	private SeekBar volumeSeekBar;
 	private CheckBox musicRhythmCb;//音乐律动选择框
+	private LinearLayout mllayout;
+	private ImageView mAnimImageView;
 	private BluetoothDeviceManagerProxy blzDeviceProxy;
 	private static final int VOLUME_FACTOR = 1;
 	private static final int MAX_VOLUME = 31;
-//	private int currentVolume;
+	private AnimationDrawable anim;
 
 	private List<View> views = new ArrayList<View>();
 
@@ -123,33 +126,42 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 				}
 			}
 		});
-		
+		mllayout = (LinearLayout)this.findViewById(R.id.linearlayout_rhythm);
+		mllayout.setOnClickListener(this);
+		mAnimImageView = (ImageView)this.findViewById(R.id.imageview_anim);
 		musicRhythmCb = (CheckBox) findViewById(R.id.cb_music_rhythm);
 		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
 		{
 			musicRhythmCb.setChecked(true);
+			mllayout.setBackgroundResource(R.drawable.cb_bg_active);
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm);
+			setSelected(true);
 		}
-		musicRhythmCb.setOnClickListener(new OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				if(musicRhythmCb.isChecked())
-				{
-					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
-				}else
-				{
-					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
-				}
-			}
-		});
 		
 		initVolume();
 		initForType();
 		updateUI(true);
 	}
 
+	private void setSelected(boolean isThyhm)
+	{
+		if(isThyhm)
+		{
+			Drawable drawable = mAnimImageView.getDrawable();
+			if(!(drawable instanceof AnimationDrawable))
+			{
+				mAnimImageView.setImageResource(R.anim.anim_rhythm);
+				anim = (AnimationDrawable) mAnimImageView.getDrawable();
+			}
+			if(anim != null && !anim.isRunning())
+			{
+				anim.start();
+			}
+		}else
+		{
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm_close);
+		}
+	}
 	private void initVolume() {
 		if(!blzDeviceProxy.isConnected()){
 			findViewById(R.id.volume_layout).setVisibility(View.INVISIBLE);
@@ -159,7 +171,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		blzDeviceProxy.setDeviceUiChangedListener(new SimpleDeviceUiChangedListener(){
 			@Override
 			public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
-//				currentVolume = volume;
 				volumeSeekBar.setProgress(volume);
 			}
 		});
@@ -182,10 +193,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 								.getProgress() / 1000 * 1000));
 					}
 				});
-//		spectrumLayout = new MusicSpectrumView(this);
-//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		views.add(progressLayout);
-		//views.add(spectrumLayout);
 
 		ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setAdapter(new MyPagerAdapter());
@@ -253,7 +261,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if (update && !force) {
 			return;
 		}
-//		spectrumLayout.setAudioSessionId(playerManager.getAudioSessionId());
 		update = true;
 		Music currentMusic = playerManager.getCurrentMusic();
 		currentPosition = playerManager.getCurrentPosition();
@@ -420,6 +427,30 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		case R.id.hide_btn:
 			playListLayer.closeLayer(true);
 			break;
+		case R.id.cb_music_rhythm:
+			if(musicRhythmCb.isChecked())
+			{
+				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
+			}else
+			{
+				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
+			}
+			break;
+		case R.id.linearlayout_rhythm:
+			if(!musicRhythmCb.isChecked())
+			{
+				mllayout.setBackgroundResource(R.drawable.cb_bg_active);
+				mAnimImageView.setImageResource(R.drawable.ic_music_rhythm);
+				setSelected(true);
+				musicRhythmCb.setChecked(true);
+			}else
+			{
+				mllayout.setBackgroundResource(R.drawable.cb_bg_inactive);
+				mAnimImageView.setImageResource(R.drawable.ic_music_rhythm_close);
+				setSelected(false);
+				musicRhythmCb.setChecked(true);
+			}
+			break;
 		}
 	}
 
@@ -460,22 +491,11 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
 		{
 			musicRhythmCb.setChecked(true);
+			mllayout.setBackgroundResource(R.drawable.cb_bg_active);
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm);
+			setSelected(true);
 		}
-		musicRhythmCb.setOnClickListener(new OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				if(musicRhythmCb.isChecked())
-				{
-					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
-				}else
-				{
-					mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
-				}
-			}
-		});
+		musicRhythmCb.setOnClickListener(this);
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
@@ -537,27 +557,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		}
 	};
 
-	//手机音量健不能调节固件音量
-	/*@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_VOLUME_UP:
-		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			if(!blzDeviceProxy.isConnected()){
-				return super.onKeyDown(keyCode, event);
-			}
-			if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-				currentVolume = Math.min(MAX_VOLUME, ++currentVolume);
-			}else{
-				currentVolume = Math.max(0, --currentVolume);
-			}
-			//volumeSeekBar.setProgress(currentVolume * VOLUME_FACTOR);
-			setVolume(currentVolume);
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}*/
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -581,9 +580,15 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if(rhythm == BluetoothDeviceColorLampManager.Effect.RHYTHM)
 		{
 			musicRhythmCb.setChecked(true);
+			mllayout.setBackgroundResource(R.drawable.cb_bg_active);
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm);
+			setSelected(true);
 		}else
 		{
 			musicRhythmCb.setChecked(false);
+			mllayout.setBackgroundResource(R.drawable.cb_bg_inactive);
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm_close);
+			setSelected(false);
 		}
 	}
 
@@ -615,6 +620,8 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		if(musicRhythmCb != null)
 		{
 			musicRhythmCb.setChecked(false);
+			mllayout.setBackgroundResource(R.drawable.cb_bg_inactive);
+			mAnimImageView.setImageResource(R.drawable.ic_music_rhythm_close);
 		}
 	}
 

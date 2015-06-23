@@ -22,6 +22,17 @@
         >
     </ListView>
     
+    <TextView 
+        android:paddingTop="10dp"
+        android:id="@+id/textview_toast_notlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleView"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="@string/timing_lights_toast"
+        />
+    
     <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
         android:id="@+id/titleView"
         android:layout_width="match_parent"

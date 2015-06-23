@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.PopupWindow.OnDismissListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -31,6 +32,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	private View addBtn;
 	private PreferenceUtil preference;
 	private TitleView titleView;
+	private TextView mTextViewToas;
 	/**
 	 * 最多闹钟数
 	 */
@@ -58,6 +60,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		alarmListAdapter.setOnItemClickListener(this);
 		alarmLv.setAdapter(alarmListAdapter);
 		addBtn = findViewById(R.id.right_btn);
+		mTextViewToas = (TextView)this.findViewById(R.id.textview_toast_notlist);
 	}
 
 	@Override
@@ -125,7 +128,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		if(hasFocus){
 			boolean first = preference.isFirstEnterAlarm();
 			if(first){
-				showCaseview();
+//				showCaseview();
 			}
 		}
 	}
@@ -136,6 +139,13 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		super.onResume();
 		List<Alarm> list = alarms.getAllAlarm();
 		alarmListAdapter.setAlarms(list);
+		if(list.size() == 0)
+		{
+			mTextViewToas.setVisibility(View.VISIBLE);
+		}else
+		{
+			mTextViewToas.setVisibility(View.GONE);
+		}
 		if(list != null && list.size() >= MAX_ALARM_SIZE){
 			maxSize = true;
 		}else{

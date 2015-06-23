@@ -101,6 +101,8 @@
     <string name="conn_ble">Please connect to Bluetooth</string>
     <string name="music_rhythm">Music rhythm</string>
     <string name="no_play_content">No play content!</string>
+    <string name="choose_song">Choose a song!</string>
     <string name="search_lamp">Search Bluetooth lamp</string>
+    <string name="timing_lights_toast">Timing lights is not set</string>
     
 </resources>
