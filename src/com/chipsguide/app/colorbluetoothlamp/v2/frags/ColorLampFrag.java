@@ -33,11 +33,8 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
 OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
-	// OnColorChangeListener, LampListener, OnClickListener, AnimationListener {
-	// private PreferenceUtil mPreference;
 	private LampManager mLampManager;
 	private String TAG="ColorLampFrag";
-	// private GridViewDIYColorAdapter diyColorAdapter;
 	private ColorPicker mColorPicker;
 	private CheckBox mLampCheckBox;
 	private CheckBox mLampOnCheckBox;
@@ -47,8 +44,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	private RadioButton mButtonLightPusle;
 	private RadioButton mButtonLightFlashing;
 	private RadioButton mButtonLightCandle;
-	// private GridView mGridViewDIYColor;
-	// private ImageView mImageAddColor;
 
 	private ColorImageView mColorImageViewr;
 	private ColorImageView mColorImageViewg;
@@ -57,7 +52,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	private LinearLayout mLayoutSeekbar;
 	private Animation shake;
-	// private boolean isShake = false;
 
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
@@ -65,9 +59,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
-	//	private SeekBar mSeekBarHeating;
 	private int mSeekBarNum;
-	// private List<String> colors = new ArrayList<String>();
 
 	@Override
 	protected void initBase() {
@@ -75,8 +67,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		mLampManager.init();//蓝牙连接准备
 		mLampManager.addOnBluetoothDeviceLampListener(this);//灯效监听状态
 	}
-
-
 
 	@Override
 	protected int getLayoutId() {
@@ -132,13 +122,11 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	@Override
 	public void onClick(View v) {
-		// shake.cancel();
 		if (v instanceof RadioButton) {
 			effect(v);	//设置灯效
 		}
 		checkedbox(v.getId());//开关
 		ColorImageView(v.getId());//设置颜色
-		// addColor(v);
 	}
 
 	private void ColorImageView(int id) {
@@ -209,15 +197,36 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	}
 
 	private float[] colorHSV = new float[] { 0f, 0f, 1f };
-
+	private int red = 0;
+	private int green = 0;
+	private int blue = 0;
+	
 	@Override
 	public void onColorChange(int red, int green, int blue) {
+		if((red == green) && (green == blue) && (red==0))
+		{
+			return;
+		}
+		this.red = red;
+		this.green = green;
+		this.blue = blue;
 	}
 
 	@Override//颜色变化end
 	public void onColorChangeEnd(int red, int green, int blue) {
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
+		if((red == green) && (green == blue) && (red==0))
+		{
+			if(mLampManager.isColorLamp())
+			{
+				mLampManager.setColor(this.red,this.green,this.blue);
+			}else
+			{
+				mLampManager.setBrightness(1);//亮度
+			}
+			return ;
+		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0) { // 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
