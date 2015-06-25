@@ -6,9 +6,12 @@ import java.util.List;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
@@ -28,7 +31,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,OnBluetoothDeviceConnectionStateChangedListener {
 
-	private Button mButtonSearsh;//搜索
+	private ImageView mImageViewSearsh;//搜索
 	private ListView mListView;
 	private List<BluetoothDevice> mListBluetoothDevices = new ArrayList<BluetoothDevice>(); // 新搜索的蓝牙列表
 	private ArrayList<ConnectInfo> connectBluetoothDevices;// 已经连接成功后的蓝牙列表
@@ -40,6 +43,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	private BluetoothDevice bluetoothDeviceConnected;// 当前连接的蓝牙
 	private BluetoothDeviceManagerProxy mManagerProxy;
 	private PlayerManager mPlayerManager;
+	private RotateAnimation anim;
 
 	private ConnectDao dao;
 	
@@ -65,12 +69,12 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void initUI()
 	{
-		mButtonSearsh = (Button) this
+		mImageViewSearsh = (ImageView) this
 				.findViewById(R.id.button_searsh);
 		mListView = (ListView) this
 				.findViewById(R.id.listview_bluetoothdevice_list);
 
-		mButtonSearsh.setOnClickListener(this);
+		mImageViewSearsh.setOnClickListener(this);
 		mListView.setOnItemClickListener(this);
 	}
 
@@ -127,15 +131,37 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			break;
 		}
 	}
+	
+	@Override
+	public void onBluetoothDeviceDiscoveryFinished()
+	{
+		//搜索完毕
+		if(anim != null)
+		{
+			anim.cancel();
+		}
+		mImageViewSearsh.setImageResource(R.drawable.selector_btn_searsh);
+	}
 
 	private void startDiscovery()
 	{
 		if (mBluetoothDeviceManager != null)
 		{
 			mBluetoothDeviceManager.startDiscovery();
-			createConnPD();
-			setText(0);
+			mImageViewSearsh.setImageResource(R.drawable.img_bt_searching);
+			startAnim();
 		}
+	}
+	
+	private void startAnim()
+	{
+		anim = new RotateAnimation(0, 360,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		anim.setInterpolator(new LinearInterpolator());
+		anim.setRepeatCount(Animation.INFINITE);
+		anim.setDuration(2000);
+		mImageViewSearsh.startAnimation(anim);
 	}
 
 	@Override
@@ -266,12 +292,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onBluetoothDeviceDiscoveryFinished()
-	{
-		dismissConnectPD();
-	}
-
-	@Override
 	public void onBluetoothDeviceDiscoveryFound(BluetoothDevice bluetoothDevices)
 	{
 		flog.d("onBluetoothDeviceFound  扫描发现设备:"
@@ -311,6 +331,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void onBluetoothDeviceDiscoveryStarted()
 	{
+		//开始搜索
 		mListBluetoothDevices.clear();
 		connectBluetoothDevices.clear();
 		listBluetooth.clear();

@@ -17,15 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <Button
+        <ImageView
             android:id="@+id/button_searsh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:scaleType="centerInside"
-            android:drawableTop="@drawable/selector_btn_searsh"
-            android:text="@string/search_lamp"
+            android:src="@drawable/selector_btn_searsh"
             android:background="@null" />
 
         <ListView
