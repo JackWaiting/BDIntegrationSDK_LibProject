@@ -114,5 +114,5 @@
     <string name="choose_song">请选择歌曲!</string>
     <string name="search_lamp">搜索蓝牙灯</string>
     <string name="timing_lights_toast">未设置定时开灯</string>
-
+	<string name="select_sleep_time">请选择睡眠时间</string>
 </resources>

@@ -31,7 +31,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/color_blue"
-            android:text="10:00"
             android:textSize="@dimen/sleep_font_size" />
     </RelativeLayout>
 
@@ -98,7 +97,6 @@
                 android:id="@+id/readioButton_button_10"
                 style="@style/radiobutton_light_effect"
                 android:layout_marginLeft="0.5dp"
-                android:checked="true"
                 android:textColor="@color/color_blue"
                 android:textSize="16dp" />
 

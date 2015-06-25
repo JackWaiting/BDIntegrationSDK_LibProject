@@ -104,5 +104,6 @@
     <string name="choose_song">Choose a song!</string>
     <string name="search_lamp">Search Bluetooth lamp</string>
     <string name="timing_lights_toast">Timing lights is not set</string>
+    <string name="select_sleep_time">Please choose your sleep time</string>
     
 </resources>

@@ -52,6 +52,10 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	private LinearLayout mLayoutSeekbar;
 	private Animation shake;
+	private float[] colorHSV = new float[] { 0f, 0f, 1f };
+	private int red = 0;
+	private int green = 0;
+	private int blue = 0;
 
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
@@ -195,11 +199,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		
 		MyLog.i(TAG, "++++走了彩灯的刷新方法--CustomApplication.isFirstConnect=--"+CustomApplication.isFirstConnect+"+++mLampManager.getBluetoothDevice()++"+mLampManager.getBluetoothDevice());
 	}
-
-	private float[] colorHSV = new float[] { 0f, 0f, 1f };
-	private int red = 0;
-	private int green = 0;
-	private int blue = 0;
 	
 	@Override
 	public void onColorChange(int red, int green, int blue) {
@@ -214,6 +213,9 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	@Override//颜色变化end
 	public void onColorChangeEnd(int red, int green, int blue) {
+		flog.e("red --->"+ red);
+		flog.e("green --->"+ green);
+		flog.e("blue --->"+ blue);
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if((red == green) && (green == blue) && (red==0))
@@ -326,7 +328,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	public void onLampColor(int red, int green, int blue) {
 		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
 	}
-	
 	
 	//设置灯的亮度
 	@Override

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
@@ -110,6 +111,8 @@ public class SleepAssistantActivity extends BaseActivity implements
 				.findViewById(R.id.linearlayout_visibility_selector_time);
 
 		mSleepTimeRadiogroup.setOnCheckedChangeListener(this);
+		mSleepTimeRadiogroup.check(0);
+		mShowTimeTextView.setText("");
 		mConfirmationTextView.setOnClickListener(this);
 	}
 
@@ -156,6 +159,12 @@ public class SleepAssistantActivity extends BaseActivity implements
 				mSleepMode = false;
 			} else
 			{
+				
+				if(!(mSleepTimeRadiogroup.getCheckedRadioButtonId() > 0))
+				{
+					showToast(R.string.select_sleep_time);
+					return;
+				}
 				mConfirmationTextView.setText(getResources().getString(
 						R.string.confirmation_cancel));
 				mSleepTitleview.setLiftBtnVisibility(false);
@@ -180,6 +189,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 
 	private void cancelSleep()
 	{
+		mSleepTimeRadiogroup.check(0);
 		mConfirmationTextView.setText(getResources().getString(
 				R.string.confirmation));
 		mSleepTitleview.setLiftBtnVisibility(true);
@@ -190,7 +200,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		{
 			mCount.cancel();
 		}
-		mShowTimeTextView.setText("88:88");
+		mShowTimeTextView.setText("");
 	}
 
 	@Override
