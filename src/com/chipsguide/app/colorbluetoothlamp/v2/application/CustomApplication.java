@@ -2,7 +2,6 @@ package com.chipsguide.app.colorbluetoothlamp.v2.application;
 
 import android.app.Application;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
@@ -16,8 +15,6 @@ public class CustomApplication extends Application {
 	 */
 	private static BluetoothDeviceManager bluzDeviceMan;
 	
-	//提示第一次进入，判断蓝牙是否连接
-	public static boolean isFirstConnect = true;
 	//提醒断开连接进入设置下连接
 	public static boolean isToastDisconn = true;
 	public static float lampMax =16f;//白灯亮度最大值

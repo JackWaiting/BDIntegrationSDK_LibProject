@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 
@@ -19,11 +20,13 @@ public abstract class BaseFragment extends Fragment{
 	
 	protected View root;
 	private BaseActivity attachAct;
+	protected BluetoothDeviceManagerProxy bluzProxy;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initBase();
+		bluzProxy = BluetoothDeviceManagerProxy.getInstance(getActivity());
 	}
 	
 	@Override

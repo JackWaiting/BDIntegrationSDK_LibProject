@@ -64,12 +64,16 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
 	private int mSeekBarNum;
+	
+	private ToastIsConnectDialog toastDialog;
 
 	@Override
 	protected void initBase() {
 		mLampManager = LampManager.getInstance(getActivity());
 		mLampManager.init();//蓝牙连接准备
 		mLampManager.addOnBluetoothDeviceLampListener(this);//灯效监听状态
+		toastDialog = new ToastIsConnectDialog( getActivity() );
+
 	}
 
 	@Override
@@ -134,6 +138,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	}
 
 	private void ColorImageView(int id) {
+		dialogShow();
 		switch (id) {
 		case R.id.color_r:
 			mLampManager.setColor(getResources().getColor(R.color.color_r));
@@ -174,6 +179,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 			break;
 		}
 		// 当前的灯效和快慢速度
+		dialogShow();
 		mLampManager.setLampEffect(mEffect);
 	}
 
@@ -187,17 +193,17 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (CustomApplication.isFirstConnect
-				&& (mLampManager.getBluetoothDevice() == null)) {
-			ToastIsConnectDialog toastDialog = new ToastIsConnectDialog(
-					getActivity());
-			toastDialog.show();
-			CustomApplication.isFirstConnect = false;
-		}
-	
+		dialogShow();
 		mColorPicker.setSecondProgressVisibility(false); 	
-		
-		MyLog.i(TAG, "++++走了彩灯的刷新方法--CustomApplication.isFirstConnect=--"+CustomApplication.isFirstConnect+"+++mLampManager.getBluetoothDevice()++"+mLampManager.getBluetoothDevice());
+	}
+
+	private void dialogShow()
+	{
+		if(!bluzProxy.isConnected())
+		{
+			toastDialog.show();
+			return;
+		}
 	}
 	
 	@Override
@@ -216,6 +222,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		flog.e("red --->"+ red);
 		flog.e("green --->"+ green);
 		flog.e("blue --->"+ blue);
+		dialogShow();
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if((red == green) && (green == blue) && (red==0))
@@ -246,6 +253,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	}
 
 	private void checkedbox(int id) {
+		dialogShow();
 		switch (id) {
 		case R.id.cb_lamp_active:
 			if (mLampCheckBox.isChecked()) {

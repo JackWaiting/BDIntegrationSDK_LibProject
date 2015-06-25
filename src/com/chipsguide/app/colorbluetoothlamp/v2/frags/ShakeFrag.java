@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
@@ -28,7 +27,6 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	private ImageView shakeIv;
 	private TextView currentSetTv;
 	private int currentSetId;
-	private BluetoothDeviceManagerProxy bluzProxy;
 	
 	@Override
 	protected void initBase() {
@@ -38,7 +36,6 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		shakeUtil.setOnShakeListener(this);
 		playerManager = PlayerManager.getInstance(context);
 		mLampManager = LampManager.getInstance(getActivity());
-		bluzProxy = BluetoothDeviceManagerProxy.getInstance(getActivity());
 	}
 
 	@Override
