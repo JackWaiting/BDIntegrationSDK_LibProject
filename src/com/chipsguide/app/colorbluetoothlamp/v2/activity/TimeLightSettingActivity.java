@@ -41,7 +41,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 	private String[] repeatDays;
 	private int[] colorsRes = { android.R.color.white, R.color.color_orange,
 			R.color.color_pink, R.color.color_purple, R.color.color_green,
-			R.color.color_ching, R.color.color_blue};
+			R.color.color_ching, R.color.color_blue2};
 	private boolean[] checkedItems;
 	private boolean[] newCheckedItems;
 	private String color;
@@ -72,7 +72,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 		initColorLayout();
 		initSelectedDayLayout();
 	}
-
+	
 	private void initColorLayout() {
 		ColorSelectLayout colorSelectLayout = (ColorSelectLayout) findViewById(R.id.rg_color);
 		colorSelectLayout.setOnColorCheckedChangeListener(new OnColorCheckedChangeListener() {

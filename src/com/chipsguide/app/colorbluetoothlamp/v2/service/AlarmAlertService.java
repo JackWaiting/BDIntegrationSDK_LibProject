@@ -29,7 +29,9 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerRe
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.timer.Alarm;
@@ -44,6 +46,10 @@ public class AlarmAlertService extends AlarmService{
 	private PlayerManager playerManager;
 	private AlertDialog ad;
 	private BluetoothDeviceManagerProxy bluzProxy;
+	
+	private int[] colorsRes = { android.R.color.white, R.color.color_orange,
+			R.color.color_pink, R.color.color_purple, R.color.color_green,
+			R.color.color_ching, R.color.color_blue2};
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -127,7 +133,7 @@ public class AlarmAlertService extends AlarmService{
 	private void onAlert(List<Alarm> list) {
 		Alarm alarm = list.get(0);
 		AlarmLightColor lightcolor = lightColorDao.query(alarm.getId() + "");
-		int color = Color.parseColor(lightcolor.getColor());
+		int color = Color2Color(lightcolor.getColor());
 		int red = Color.red(color);
 		int green = Color.green(color);
 		int blue = Color.blue(color);
@@ -221,4 +227,34 @@ public class AlarmAlertService extends AlarmService{
 		onAlert(list);
 	}
 
+	private int Color2Color (String colors)
+	{
+		int checkedColor = Color.parseColor(colors);
+		String color = "";
+		if(getResources().getColor((colorsRes[1])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_18);
+		}
+		if(getResources().getColor((colorsRes[2])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_16);
+		}
+		if(getResources().getColor((colorsRes[3])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_8);
+		}
+		if(getResources().getColor((colorsRes[4])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_10);
+		}
+		if(getResources().getColor((colorsRes[5])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_6);
+		}
+		if(getResources().getColor((colorsRes[6])) == checkedColor)
+		{
+			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_2);
+		}
+		return Color.parseColor(color);
+	}
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorCircle;
 
 public class ColorSelectLayout extends RadioGroup {
@@ -121,17 +122,9 @@ public class ColorSelectLayout extends RadioGroup {
 					color = ((ColorCircle)child).getWheelColor();
 				}
 				if (listener != null) {
-					listener.onColorChecked(color, colorToString(color));
+					listener.onColorChecked(color, ColorUtil.colorToString(color));
 				}
 			}
 		});
-	}
-
-	private String colorToString(int color) {
-		String alpha = Integer.toHexString(Color.alpha(color));
-		String red = Integer.toHexString(Color.red(color));
-		String green = Integer.toHexString(Color.green(color));
-		String blue = Integer.toHexString(Color.blue(color));
-		return "#" + alpha + red + green + blue;
 	}
 }

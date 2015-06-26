@@ -1,5 +1,6 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
+import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
 import android.nfc.Tag;
 import android.util.Log;
@@ -16,10 +17,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLog;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
@@ -28,11 +31,13 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnSecondArcCh
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
+import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
-OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
+OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener,
+OnBluetoothDeviceConnectionStateChangedListener{
 	private LampManager mLampManager;
 	private String TAG="ColorLampFrag";
 	private ColorPicker mColorPicker;
@@ -141,16 +146,16 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		dialogShow();
 		switch (id) {
 		case R.id.color_r:
-			mLampManager.setColor(getResources().getColor(R.color.color_r));
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_12);
 			break;
 		case R.id.color_g:
-			mLampManager.setColor(getResources().getColor(R.color.color_g));
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_7);
 			break;
 		case R.id.color_b:
-			mLampManager.setColor(getResources().getColor(R.color.color_b));
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
 			break;
 		case R.id.color_y:
-			mLampManager.setColor(getResources().getColor(R.color.color_y));
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
 			break;
 		}
 	}
@@ -185,6 +190,7 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 
 	@Override
 	protected void initData() {
+		bluzProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 	}
 
 	// 目前是根据a2dp来判断是否连接上的，用spp判断目前还存在问题
@@ -195,15 +201,6 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 		super.onResume();
 		dialogShow();
 		mColorPicker.setSecondProgressVisibility(false); 	
-	}
-
-	private void dialogShow()
-	{
-		if(!bluzProxy.isConnected())
-		{
-			toastDialog.show();
-			return;
-		}
 	}
 	
 	@Override
@@ -379,6 +376,25 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	private void refresh(int mSeekBarNum) {	
 		mColorPicker.setSecondProgress(mSeekBarNum);
 	}
+	
+	@Override
+	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice arg0,
+			int state)
+	{
+		// TODO 连接状态
+		switch (state)
+		{	
+		// 连接
+		case BluetoothDeviceManager.ConnectionState.CONNECTED:
+			flog.d("CONNECTED  连接成功");
+			dialogcancel();
+			break;
+		// 断开
+		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
+			flog.d("DISCONNECTED  断开连接");
+			break;
+		}
+	}
 
 	@Override
 	public void OnLampSeekBarNum(int mSeekBarNum) {
@@ -390,6 +406,20 @@ OnColorChangeListener, LampListener, OnClickListener,OnSecondArcChangeListener {
 	public void LampSupportColdAndWhite(boolean filament) {
 		MyLog.i(TAG,"判断是否白灯filament-YYYYYYYYYYYYYYY----+="+filament);
 		mColorPicker.setSecondProgressVisibility(filament);			
+	}
+	
+	private void dialogShow()
+	{
+		if(!bluzProxy.isConnected())
+		{
+			toastDialog.show();
+			return;
+		}
+	}
+	
+	private void dialogcancel()
+	{
+		toastDialog.cancel();
 	}
 	
 	@Override
