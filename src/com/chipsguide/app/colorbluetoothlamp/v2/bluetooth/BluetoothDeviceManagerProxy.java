@@ -621,6 +621,8 @@ public class BluetoothDeviceManagerProxy{
 			if (bluzDeviceMan.isDiscovering()) {
 				bluzDeviceMan.cancelDiscovery();
 			}
+			bluzDeviceMan.setOnBluetoothDeviceConnectionStateChangedListener(null);
+			bluzDeviceMan.setOnBluetoothDeviceGlobalUIChangedListener(null);
 			bluzDeviceMan.release();
 		}
 	}

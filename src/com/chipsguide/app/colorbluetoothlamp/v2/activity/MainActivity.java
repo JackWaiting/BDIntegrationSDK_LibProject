@@ -158,23 +158,11 @@ public class MainActivity extends BaseActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		BluetoothDeviceManagerProxy.getInstance(this).destory();
 		playerManager.destoryAll();
 		stopService(alarmAlertService);
 		alarms.cancel(true);
 		LampManager.getInstance(this).destory();
-		releaseManager();
-	}
-	
-	private void releaseManager()
-	{
-		if (mBluetoothDeviceManager != null)
-		{
-			mBluetoothDeviceManager.setOnBluetoothDeviceConnectionStateChangedListener(null);
-			mBluetoothDeviceManager.setOnBluetoothDeviceGlobalUIChangedListener(null);
-			mBluetoothDeviceManager.release();
-			mBluetoothDeviceManager = null;
-		}
+		BluetoothDeviceManagerProxy.getInstance(this).destory();
 	}
 
 	private boolean forceUpdate;
