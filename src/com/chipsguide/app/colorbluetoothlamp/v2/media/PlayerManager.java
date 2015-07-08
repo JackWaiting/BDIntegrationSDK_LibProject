@@ -483,6 +483,10 @@ public class PlayerManager {
 					deviceMusicManager, bluzMusicList);
 			BluetoothDeviceMusicSongEntity entity = deviceMusicManager
 					.getCurrentSong();
+			if(entity == null)
+			{
+				return;
+			}
 			int index = entity.getIndex() - 1;
 			mCallback.onLoadMusic(musics, index);
 		}
@@ -798,6 +802,10 @@ public class PlayerManager {
 		if (mType == PlayType.Bluz && deviceMusicManager != null) {
 			BluetoothDeviceMusicSongEntity entity = deviceMusicManager
 					.getCurrentSong();
+			if(entity == null)
+			{
+				return;
+			}
 			int index = entity.getIndex() - 1;
 			if (mPlayListener != null) {
 				if(index != currentPosition){
@@ -1043,6 +1051,10 @@ public class PlayerManager {
 			if (deviceMusicManager != null) {
 				BluetoothDeviceMusicSongEntity entity = deviceMusicManager
 						.getCurrentSong();
+				if(entity == null)
+				{
+					return;
+				}
 				int duration = deviceMusicManager.getCurrentSongDuration();
 				int currentDuration = deviceMusicManager
 						.getCurrentSongCurrentPosition();

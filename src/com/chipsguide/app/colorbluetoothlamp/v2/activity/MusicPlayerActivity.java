@@ -543,6 +543,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 						BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
 				int oldMode = intent.getIntExtra(
 						BluetoothDeviceManagerProxy.EXTRA_OLD_MODE, -1);
+				flog.e("newmode -->" + newMode +"  oldMode ---> "+ oldMode);
 				int a2dpMode = BluetoothDeviceManager.Mode.A2DP;
 				int cardMode = BluetoothDeviceManager.Mode.CARD;
 				if (modeTobe == newMode) {

@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
@@ -135,6 +136,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 
 	@Override
 	public void onClick(View v) {
+		dialogShow();
 		if (v instanceof RadioButton) {
 			effect(v);	//设置灯效
 		}
@@ -143,7 +145,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	}
 
 	private void ColorImageView(int id) {
-		dialogShow();
 		switch (id) {
 		case R.id.color_r:
 			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_12);
@@ -152,10 +153,18 @@ OnBluetoothDeviceConnectionStateChangedListener{
 			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_7);
 			break;
 		case R.id.color_b:
-			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
+			mLampManager.sleep();
+//			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
 			break;
 		case R.id.color_y:
-			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
+			if(mLampManager.issupportOfflineAlarm())
+			{
+				Toast.makeText(getActivity(), "支持脱机闹钟", Toast.LENGTH_LONG).show();
+			}else
+			{
+				Toast.makeText(getActivity(), "不支持脱机闹钟", Toast.LENGTH_LONG).show();
+			}
+//			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
 			break;
 		}
 	}
@@ -184,7 +193,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 			break;
 		}
 		// 当前的灯效和快慢速度
-		dialogShow();
 		mLampManager.setLampEffect(mEffect);
 	}
 
@@ -250,7 +258,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	}
 
 	private void checkedbox(int id) {
-		dialogShow();
 		switch (id) {
 		case R.id.cb_lamp_active:
 			if (mLampCheckBox.isChecked()) {
