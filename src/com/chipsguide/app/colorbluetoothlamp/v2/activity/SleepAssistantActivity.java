@@ -306,6 +306,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 					mBluetoothDeviceManager.setVolume(beforeCurrent);
 				}
 			}, 2000);
+			mLampManager.sleep();
 			finish();
 		}
 

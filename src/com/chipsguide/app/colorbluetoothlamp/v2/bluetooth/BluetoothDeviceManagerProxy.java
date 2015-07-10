@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
@@ -62,6 +65,7 @@ public class BluetoothDeviceManagerProxy{
 	 * 已连接的蓝牙设备
 	 */
 	private BluetoothDevice connectedDevice;
+	private LampManager mLampManager;
 	/**
 	 * 连接状态监听集合
 	 */
@@ -84,12 +88,18 @@ public class BluetoothDeviceManagerProxy{
 	 * 是否为第一次（连接成功后）模式变化
 	 */
 	public static boolean firstModeChange = true;
-
+	/**
+	 * 播放管理器
+	 */
+	private PlayerManager playerManager;
+	
 	private Context context;
 	private BluetoothDeviceManagerProxy(Context context){
 		this.context = context;
 		getBluetoothDeviceManager();//获取蓝牙管理类
 		conStateListeners = new ArrayList<OnBluetoothDeviceConnectionStateChangedListener>();//初始化连接状态监听的集合
+		playerManager = PlayerManager.getInstance(context);
+		mLampManager = LampManager.getInstance(context);
 	}
 	//单列
 	public static BluetoothDeviceManagerProxy getInstance(Context context){
@@ -480,13 +490,23 @@ public class BluetoothDeviceManagerProxy{
 			case BluetoothDeviceManager.Mode.CARD:
 				bluzDeviceMan//卡模式管理类准备监听
 				.setOnBluetoothDeviceCardMusicManagerReadyListener(cardMusicReadyListener);
+				mLampManager.effect2normal(true);
 				break;
 			case BluetoothDeviceManager.Mode.USB:
 				bluzDeviceMan
 				.setOnBluetoothDeviceUsbMusicManagerReadyListener(usbMusicManagerReadyListener);
+				mLampManager.effect2normal(true);
 				break;
 			case BluetoothDeviceManager.Mode.A2DP:
 				deviceMusicManager = null;
+				break;
+			case BluetoothDeviceManager.Mode.LINE_IN:
+				if(playerManager.isPlaying())
+				{
+					playerManager.pause();
+				}
+				mLampManager.effect2normal(true);
+				context.startActivity(new Intent(context,MainActivity.class));
 				break;
 			default:
 				deviceMusicManager = null;
@@ -506,7 +526,6 @@ public class BluetoothDeviceManagerProxy{
 				mDeviceUiChangedListener.onVolumeChanged(volumeFirstCallback, volume, on);
 			}
 		}
-
 	};
 
 	private void sendModeChangeBroadcast(int newMode, int oldMode) {//通知模式改变

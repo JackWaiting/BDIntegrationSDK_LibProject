@@ -153,8 +153,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_7);
 			break;
 		case R.id.color_b:
-			mLampManager.sleep();
-//			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
 			break;
 		case R.id.color_y:
 			if(mLampManager.issupportOfflineAlarm())
