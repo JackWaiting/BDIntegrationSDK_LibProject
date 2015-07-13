@@ -69,6 +69,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 	@Override
 	public void initBase()
 	{
+		CustomApplication.addActivity(this);
 		mColorTextDown = getResources().getColor(R.color.color_blue);
 		mColorTextNor = getResources().getColor(R.color.white);
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);

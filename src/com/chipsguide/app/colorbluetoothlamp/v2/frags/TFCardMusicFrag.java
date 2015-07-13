@@ -17,7 +17,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class TFCardMusicFrag extends SimpleMusicFrag implements SimpleMusicPlayListener{
 	public static final String TAG = "bluz";
@@ -67,8 +66,6 @@ public class TFCardMusicFrag extends SimpleMusicFrag implements SimpleMusicPlayL
 			}
 			bluzDeviceManProxy
 					.setOnBluetoothDeviceMuisicReadyListener(deviceMusicManagerReadyListener);
-			bluzDeviceManProxy
-					.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
 		}
 	}
 	

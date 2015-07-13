@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.AlbumListFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 
@@ -15,6 +16,7 @@ public class AlbumListActivity extends BaseActivity {
 	
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		Intent intent = getIntent();
 		albumCode = intent.getStringExtra(EXTRA_ALBUM_CODE);
 		albumName = intent.getStringExtra(EXTRA_ALBUM_NAME);

@@ -93,6 +93,7 @@ public class MainActivity extends BaseActivity implements
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
+		CustomApplication.addActivity(this);
 	}
 
 	@Override

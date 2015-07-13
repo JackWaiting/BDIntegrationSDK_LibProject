@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.AlbumListFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NetMusicListFrag;
 
@@ -45,6 +46,7 @@ public class SearchActivity extends BaseActivity implements
 	public void initBase() {
 		fragments.add(new AlbumListFragment());
 		fragments.add(new NetMusicListFrag());
+		CustomApplication.addActivity(this);
 	}
 
 	@Override

@@ -163,7 +163,8 @@ OnBluetoothDeviceConnectionStateChangedListener{
 			{
 				Toast.makeText(getActivity(), "不支持脱机闹钟", Toast.LENGTH_LONG).show();
 			}
-//			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
+			BluetoothDeviceManagerProxy.changeToAlarm();
+			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
 			break;
 		}
 	}

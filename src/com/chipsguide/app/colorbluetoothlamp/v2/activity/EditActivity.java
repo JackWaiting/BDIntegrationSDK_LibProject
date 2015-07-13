@@ -33,6 +33,7 @@ public class EditActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void initBase()
 	{
+		CustomApplication.addActivity(this);
 		Intent intent = getIntent();
 		btname = intent.getStringExtra("btname");
 		address = intent.getStringExtra("address");

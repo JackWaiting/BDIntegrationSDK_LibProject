@@ -19,11 +19,14 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.platomix.lib.update.util.AppInfoUtil;
 
 public class MusicFrag extends BaseFragment implements OnPageChangeListener,
@@ -164,6 +167,20 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 	}
 
 	public void setCurrentItem(int item) {
+		flog.e("item -- >" +  item);
+		//line in 调试，这里有问题。
+		switch (item)
+		{
+//		case 0:
+//			topNavRg.check(item);
+//			break;
+		case 1:
+			topNavRg.check(item);
+			break;
+//		case 2:
+//			topNavRg.check(item);
+//			break;
+		}
 		viewPager.setCurrentItem(item);
 	}
 
@@ -274,20 +291,29 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		flog.e("onCheckedChanged-->" + checkedId);
 		int item = 0;
 		switch (checkedId) {
 		case 0:
+			CustomApplication.pageItem = item;
+			flog.e("item = 0");
+			BluetoothDeviceManagerProxy.changeToA2DPMode();
 			break;
 		case 1:
 			item = 1;
+			if( CustomApplication.getMode() != BluetoothDeviceManager.Mode.CARD)
+			{
+				bluzProxy
+				.getBluetoothDeviceMusicManager(BluetoothDeviceManager.Mode.CARD);
+			}
 			break;
 		case 2:
 			item = 2;
 			if (!tf) {
 				item = 1;
 			}
-			break;
-		default:
+			CustomApplication.pageItem = item;
+			BluetoothDeviceManagerProxy.changeToA2DPMode();
 			break;
 		}
 		viewPager.setCurrentItem(item);

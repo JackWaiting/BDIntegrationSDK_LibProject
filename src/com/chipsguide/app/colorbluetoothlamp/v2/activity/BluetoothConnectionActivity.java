@@ -58,6 +58,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void initBase()
 	{
+		CustomApplication.addActivity(this);
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);

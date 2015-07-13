@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout;
@@ -55,6 +56,7 @@ public class TimeLightSettingActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		week = getResources().getStringArray(R.array.week);
 		repeatDays = getResources().getStringArray(R.array.repeat_days);
 		alarms = Alarms.getInstance(getApplicationContext());

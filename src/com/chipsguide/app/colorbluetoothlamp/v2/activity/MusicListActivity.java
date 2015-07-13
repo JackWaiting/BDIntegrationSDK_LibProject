@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Album;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NetMusicListFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.listener.SimpleMusicPlayListener;
@@ -33,6 +34,7 @@ public class MusicListActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		manager = PlayerManager.getInstance(getApplicationContext());
 		mAlbum = (Album) getIntent().getSerializableExtra(EXTRA_ALBUM);
 		title = mAlbum.getName();

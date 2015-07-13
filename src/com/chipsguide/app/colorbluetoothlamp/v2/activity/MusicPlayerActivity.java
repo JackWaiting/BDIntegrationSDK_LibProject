@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.SimpleDeviceUiChangedListener;
@@ -93,6 +94,8 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 
 		mAdapter = new SimpleMusicListAdapter(this);
 		registBroadcase();
+		
+		CustomApplication.addActivity(this);
 	}
 
 	@Override

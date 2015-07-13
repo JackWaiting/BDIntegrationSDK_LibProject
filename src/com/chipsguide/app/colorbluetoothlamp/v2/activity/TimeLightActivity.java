@@ -19,6 +19,7 @@ import android.widget.PopupWindow.OnDismissListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.AlarmListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.lib.timer.Alarm;
@@ -45,6 +46,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		preference = PreferenceUtil.getIntance(getApplicationContext());
 		alarms = Alarms.getInstance(getApplicationContext());
 		alarmListAdapter = new AlarmListAdapter(this);

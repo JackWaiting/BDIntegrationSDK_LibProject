@@ -15,6 +15,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SelectMusicListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SelectMusicFrag;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.SimpleMusicFrag;
@@ -37,6 +38,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		//tf = BluetoothDeviceManagerProxy.getInstance(this).isPlugTFCard();
 		soundPath = getIntent().getStringExtra(AlarmSoundActivity.EXTRA_SOUND_PATH);
 	}

@@ -19,6 +19,7 @@ public class AboutActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 	}
 
 	@Override

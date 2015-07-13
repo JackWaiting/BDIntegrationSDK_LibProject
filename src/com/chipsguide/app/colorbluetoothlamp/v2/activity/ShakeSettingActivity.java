@@ -6,6 +6,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 
 public class ShakeSettingActivity extends BaseActivity implements OnClickListener{
@@ -21,6 +22,7 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		preferenceUtil = PreferenceUtil.getIntance(getApplicationContext());
 	}
 

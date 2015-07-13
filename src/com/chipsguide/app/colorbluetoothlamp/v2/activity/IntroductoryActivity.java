@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 
 public class IntroductoryActivity extends BaseActivity{
@@ -34,6 +35,7 @@ public class IntroductoryActivity extends BaseActivity{
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 	}
 
 	@Override

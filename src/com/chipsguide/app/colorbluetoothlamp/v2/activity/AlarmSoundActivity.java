@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 
 public class AlarmSoundActivity extends BaseActivity {
 	public static final String EXTRA_SOUND_PATH = "sound_path";
@@ -20,6 +21,7 @@ public class AlarmSoundActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
+		CustomApplication.addActivity(this);
 		soundPath = getIntent().getStringExtra(EXTRA_SOUND_PATH);
 	}
 

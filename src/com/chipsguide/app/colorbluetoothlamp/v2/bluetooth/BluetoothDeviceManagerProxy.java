@@ -13,6 +13,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
@@ -25,6 +26,9 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePluggl
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceUsbMusicManager;
 
 public class BluetoothDeviceManagerProxy{
+	
+	MyLogger flog = MyLogger.fLog();
+	
 	public static final String TAG = "BluetoothDeviceManagerProxy";
 	public static BluetoothDeviceManagerProxy proxy;
 	/**
@@ -315,6 +319,16 @@ public class BluetoothDeviceManagerProxy{
 				&& deviceManagerMode != BluetoothDeviceManager.Mode.A2DP) {
 			changeToA2DPInApp = true;
 			bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.A2DP);
+			Log.e(TAG, "changeToA2DPMode");
+		}
+	}
+	
+	/**
+	 * 改为
+	 */
+	public static void changeToAlarm() {
+		if (bluzDeviceMan != null) {
+			bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.ALARM);
 		}
 	}
 
@@ -485,28 +499,33 @@ public class BluetoothDeviceManagerProxy{
 
 		@Override
 		public void onBluetoothDeviceModeChanged(int mode) {
-			Log.d(TAG, ">>>mode change: mode == " + mode);
+			flog.e( ">>>mode change: mode == " + mode);
+			CustomApplication.setMode(mode);
 			switch (mode) {
 			case BluetoothDeviceManager.Mode.CARD:
 				bluzDeviceMan//卡模式管理类准备监听
 				.setOnBluetoothDeviceCardMusicManagerReadyListener(cardMusicReadyListener);
 				mLampManager.effect2normal(true);
+				mode2view();
 				break;
 			case BluetoothDeviceManager.Mode.USB:
 				bluzDeviceMan
 				.setOnBluetoothDeviceUsbMusicManagerReadyListener(usbMusicManagerReadyListener);
 				mLampManager.effect2normal(true);
+				mode2view();
 				break;
 			case BluetoothDeviceManager.Mode.A2DP:
 				deviceMusicManager = null;
+				mode2view();
 				break;
 			case BluetoothDeviceManager.Mode.LINE_IN:
+				deviceMusicManager = null;
 				if(playerManager.isPlaying())
 				{
 					playerManager.pause();
 				}
 				mLampManager.effect2normal(true);
-				context.startActivity(new Intent(context,MainActivity.class));
+				mode2view();
 				break;
 			default:
 				deviceMusicManager = null;
@@ -514,6 +533,14 @@ public class BluetoothDeviceManagerProxy{
 			}
 			sendModeChangeBroadcast(mode, deviceManagerMode);
 			deviceManagerMode = mode;
+		}
+
+		private void mode2view()
+		{
+			if(!(CustomApplication.getActivity() instanceof MainActivity))
+			{
+				context.startActivity(new Intent(context,MainActivity.class));
+			}
 		}
 
 		@Override
