@@ -431,6 +431,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	public void onDestroy() 
 	{
 		super.onDestroy();
+		dismissConnectPD();
 		mManagerProxy.removeDeviceConnectedStateChangedListener();
 	}
 }
