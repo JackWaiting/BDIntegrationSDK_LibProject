@@ -153,6 +153,7 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 		switch (frag.getPlayType()) {
 		case Local:
 			soundPath = PlayType.Local.name() + "|" + music.getName() + "|" + music.getLocalPath();
+			finish();
 			break;
 		case Bluz:
 			soundPath = PlayType.Bluz.name() + "|" + music.getName() + "|" + position;

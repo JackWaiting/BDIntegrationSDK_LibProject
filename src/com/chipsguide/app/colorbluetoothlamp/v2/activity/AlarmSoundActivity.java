@@ -56,6 +56,7 @@ public class AlarmSoundActivity extends BaseActivity {
 		case R.id.text_silent:
 			songLayout.setVisibility(View.INVISIBLE);
 			soundPath = "";
+			finish();
 			break;
 		case R.id.text_select:
 			Intent intent = new Intent(this, AlarmSoundSelectActivity.class);
@@ -76,6 +77,7 @@ public class AlarmSoundActivity extends BaseActivity {
 					if(arr != null && arr.length > 1){
 						songLayout.setVisibility(View.VISIBLE);
 						soundNameTv.setText(arr[1]);
+						finish();
 					}
 				}
 			}
