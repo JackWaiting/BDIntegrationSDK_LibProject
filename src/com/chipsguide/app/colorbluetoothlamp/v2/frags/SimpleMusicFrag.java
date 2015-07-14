@@ -215,6 +215,9 @@ public abstract class SimpleMusicFrag extends BaseFragment implements
 
 	@Override
 	public void onMusicPlayStateChange(boolean playing) {
+		if (adapter == null) {
+			adapter = getAdapter();
+		}
 		adapter.setPlaying(playing);
 	}
 
