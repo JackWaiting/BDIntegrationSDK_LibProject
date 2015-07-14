@@ -102,6 +102,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		startActivity(intent);
 	}
 	
+	@SuppressWarnings("unused")
 	private void showCaseview() {
 		int [] location = new int[2];
 		addBtn.getLocationInWindow(location);
