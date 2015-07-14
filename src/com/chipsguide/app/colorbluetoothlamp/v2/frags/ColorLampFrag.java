@@ -224,9 +224,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 
 	@Override//颜色变化end
 	public void onColorChangeEnd(int red, int green, int blue) {
-		flog.e("red --->"+ red);
-		flog.e("green --->"+ green);
-		flog.e("blue --->"+ blue);
 		dialogShow();
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
