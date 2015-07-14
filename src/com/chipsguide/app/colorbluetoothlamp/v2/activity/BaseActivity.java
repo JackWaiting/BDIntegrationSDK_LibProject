@@ -218,11 +218,17 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 		}
 	}
 
-	public void setText(int resId)
+	public void setText(final int resId)
 	{
 		if (mConnectpd != null)
 		{
-			mConnectpd.setMessage(resId);
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					mConnectpd.setMessage(resId);
+				}
+			});;
+			
 		}
 
 	}
