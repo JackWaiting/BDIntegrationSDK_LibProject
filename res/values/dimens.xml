@@ -19,6 +19,7 @@
     
     <dimen name="sleep_font_size">55dp</dimen>
     <dimen name="diy_round_color">35dp</dimen>
+    <dimen name="diy_round_size">18dp</dimen>
     <dimen name="nav_rb_bg_corner_radius">5dp</dimen>
 
 </resources>

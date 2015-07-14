@@ -339,7 +339,7 @@ public class BluetoothDeviceManagerProxy{
 	public interface OnDeviceConnectedStateChangedListener{
 		void onConnectedChanged(boolean connected);
 	}
-
+	
 	public static class SimpleDeviceUiChangedListener implements OnDeviceUiChangedListener{
 		@Override
 		public void onVolumeChanged(boolean firstCallback, int volume, boolean on) {
@@ -531,6 +531,7 @@ public class BluetoothDeviceManagerProxy{
 				deviceMusicManager = null;
 				break;
 			}
+			mOnModeChangedListener.onModeChanged(mode);
 			sendModeChangeBroadcast(mode, deviceManagerMode);
 			deviceManagerMode = mode;
 		}
@@ -659,6 +660,7 @@ public class BluetoothDeviceManagerProxy{
 		changeToA2DPMode();
 		conStateListeners.clear();
 		removeDeviceUiChangedListener();
+		removeModeChangedListener();
 		bluzDeviceMan = null;
 		disconnected();
 		deviceMusicManager = null;
@@ -673,4 +675,17 @@ public class BluetoothDeviceManagerProxy{
 		}
 	}
 
+	private OnModeChangedListener mOnModeChangedListener;
+	public interface OnModeChangedListener{
+		void onModeChanged(int mode);
+	}
+	
+	public void setOnModeChangedListener(OnModeChangedListener listener) {
+		mOnModeChangedListener = listener;
+	}
+	public void removeModeChangedListener()
+	{
+		mOnModeChangedListener = null;
+	}
+	
 }

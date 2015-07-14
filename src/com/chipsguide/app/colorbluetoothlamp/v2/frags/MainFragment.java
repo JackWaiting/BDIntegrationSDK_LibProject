@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,17 +15,18 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnModeChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 //右布局的Fragment
 public class MainFragment extends BaseFragment implements
-		OnCheckedChangeListener, OnPageChangeListener {
+		OnCheckedChangeListener, OnPageChangeListener,OnModeChangedListener {
 	private ViewPager viewPager;
 	private RadioGroup bottomNavRg;
 	private List<Fragment> fragments = new ArrayList<Fragment>();
 	private String[] pageTitle;
 	private OnMainPageChangeListener onMainPageChangeListener;
-
+	private BluetoothDeviceManagerProxy mManagerProxy;
 	public interface OnMainPageChangeListener {
 		void onMainPageChanged(int position, String title);
 	}
@@ -52,7 +49,8 @@ public class MainFragment extends BaseFragment implements
 		fragments.add(new ColorLampFrag());
 		fragments.add(new WrapMusicFrag());
 		fragments.add(new ShakeFrag());
-		registBroadcase();
+		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(getActivity());
+		mManagerProxy.setOnModeChangedListener(this);
 	}
 
 	@Override
@@ -152,47 +150,18 @@ public class MainFragment extends BaseFragment implements
 		}
 	}
 
-	private boolean register;
-
-	private void registBroadcase()
-	{
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(BluetoothDeviceManagerProxy.ACTION_TF_CARD_PLUG_CHANGED);
-		filter.addAction(BluetoothDeviceManagerProxy.ACTION_MODE_CHANGE);
-		getActivity().registerReceiver(bluzBroadcaseReceiver, filter);
-		register = true;
-	}
-
-	private BroadcastReceiver bluzBroadcaseReceiver = new BroadcastReceiver()
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			String action = intent.getAction();
-			if (BluetoothDeviceManagerProxy.ACTION_MODE_CHANGE.equals(action))
-			{
-				int newMode = intent.getIntExtra(
-						BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
-				if (newMode == BluetoothDeviceManager.Mode.CARD || newMode == BluetoothDeviceManager.Mode.A2DP)
-				{
-					viewPager.setCurrentItem(1, false);
-					bottomNavRg.check(R.id.rb_music);
-				} else if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
-				{
-					viewPager.setCurrentItem(0, false);
-					bottomNavRg.check(R.id.rb_light);
-				}
-			}
-		}
-	};
-
 	@Override
-	public void onDestroy()
+	public void onModeChanged(int newMode)
 	{
-		super.onDestroy();
-		if (register)
+		flog.e("newMode----》" + newMode);
+		if (newMode == BluetoothDeviceManager.Mode.CARD || newMode == BluetoothDeviceManager.Mode.A2DP)
 		{
-			getActivity().unregisterReceiver(bluzBroadcaseReceiver);
+			viewPager.setCurrentItem(1, false);
+			bottomNavRg.check(R.id.rb_music);
+		} else if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
+		{
+			viewPager.setCurrentItem(0, false);
+			bottomNavRg.check(R.id.rb_light);
 		}
 	}
 

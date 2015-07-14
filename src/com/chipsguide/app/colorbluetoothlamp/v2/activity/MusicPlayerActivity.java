@@ -553,9 +553,9 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 					return;
 				}
 				if (newMode != a2dpMode && oldMode == a2dpMode && oldMode != -1) {// 之前的模式是A2DP，新模式不是A2DP则结束
-					finish();
+//					finish();
 				} else if (newMode != cardMode && oldMode == cardMode) {// 之前的模式是卡模式，新模式不是卡模式则结束
-					finish();
+//					finish();
 				}
 			}
 		}

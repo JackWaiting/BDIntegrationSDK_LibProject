@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -87,6 +89,20 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		viewPager.setOnPageChangeListener(this);
 		topNavRg = (RadioGroup) findViewById(R.id.rg_top_nav);
 		initTopNav();
+		for(int i = 0;i<topNavRg.getChildCount();i++)
+		{
+			topNavRg.getChildAt(i).setOnClickListener(new OnClickListener()
+			{
+				
+				@Override
+				public void onClick(View v)
+				{
+					 int item = v.getId();
+					selectPage(item);
+				}
+			});
+		}
+		
 		topNavRg.setOnCheckedChangeListener(this);
 	}
 
@@ -155,6 +171,8 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		public int getCount() {
 			return fragments.size();
 		}
+		
+		
 
 	}
 
@@ -167,21 +185,15 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 	}
 
 	public void setCurrentItem(int item) {
-		flog.e("item -- >" +  item);
-		//line in 调试，这里有问题。
-		switch (item)
+		if(topNavRg != null)
 		{
-//		case 0:
-//			topNavRg.check(item);
-//			break;
-		case 1:
 			topNavRg.check(item);
-			break;
-//		case 2:
-//			topNavRg.check(item);
-//			break;
 		}
-		viewPager.setCurrentItem(item);
+		if(viewPager != null)
+		{
+			viewPager.setCurrentItem(item);
+			flog.e("setCurrentItem--->" + item);
+		}
 	}
 
 	private static class MyPlayListener extends PlayListener {
@@ -287,20 +299,16 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 	@Override
 	public void onPageSelected(int item) {
 		topNavRg.check(item);
+		selectPage(item);
 	}
 
-	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		flog.e("onCheckedChanged-->" + checkedId);
-		int item = 0;
-		switch (checkedId) {
+	private void selectPage(int item)
+	{
+		switch (item) {
 		case 0:
-			CustomApplication.pageItem = item;
-			flog.e("item = 0");
 			BluetoothDeviceManagerProxy.changeToA2DPMode();
 			break;
 		case 1:
-			item = 1;
 			if( CustomApplication.getMode() != BluetoothDeviceManager.Mode.CARD)
 			{
 				bluzProxy
@@ -308,15 +316,33 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			}
 			break;
 		case 2:
+			BluetoothDeviceManagerProxy.changeToA2DPMode();
+			break;
+		}
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		int item = 0;
+		switch (checkedId) {
+		case 0:
+			CustomApplication.pageItem = item;
+			break;
+		case 1:
+			item = 1;
+			CustomApplication.pageItem = item;
+			break;
+		case 2:
 			item = 2;
 			if (!tf) {
 				item = 1;
 			}
-			CustomApplication.pageItem = item;
-			BluetoothDeviceManagerProxy.changeToA2DPMode();
 			break;
 		}
+		topNavRg.check(item);
 		viewPager.setCurrentItem(item);
+		flog.e("item-->" + item);
+
 	}
 
 }
