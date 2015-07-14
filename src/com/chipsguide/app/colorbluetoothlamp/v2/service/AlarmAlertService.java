@@ -227,6 +227,8 @@ public class AlarmAlertService extends AlarmService{
 		onAlert(list);
 	}
 
+	private final String COLOR_WHITE = "#ffffffff";
+	private final String NEW_COLOR_WHITE = "#ffffff";
 	private int Color2Color (String colors)
 	{
 		int checkedColor = Color.parseColor(colors);
@@ -254,6 +256,10 @@ public class AlarmAlertService extends AlarmService{
 		if(getResources().getColor((colorsRes[6])) == checkedColor)
 		{
 			color = ColorUtil.int2color(BluetoothDeviceColorLampManager.Color.COLOR_2);
+		}
+		if(COLOR_WHITE.equals(colors))
+		{
+			color = NEW_COLOR_WHITE;
 		}
 		return Color.parseColor(color);
 	}
