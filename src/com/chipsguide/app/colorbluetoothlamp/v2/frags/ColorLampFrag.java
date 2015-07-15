@@ -208,7 +208,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	public void onResume() {
 		super.onResume();
 		dialogShow();
-		mColorPicker.setSecondProgressVisibility(false); 	
 	}
 	
 	@Override

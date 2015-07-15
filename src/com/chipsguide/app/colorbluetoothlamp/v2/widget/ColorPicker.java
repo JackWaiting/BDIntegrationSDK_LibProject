@@ -41,9 +41,11 @@ import android.view.View;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLog;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PixelUtil;
 
 public class ColorPicker extends View {
+	MyLogger flog = MyLogger.fLog();
 	public  static String TAG = "ColorPicker";
 	
 	private static final int SECOND_ARC_START_ANGLE = 15;
@@ -201,6 +203,8 @@ public class ColorPicker extends View {
 				lamp2HalfHeight);
 
 		padding = thumbHalfWidth;
+		
+		setSecondProgressVisibility(false);
 	}
 
 	@Override
@@ -244,6 +248,9 @@ public class ColorPicker extends View {
 
 		colorPointerCoords.set(pointerX, pointerY, pointerX + pointerRadius,
 				pointerY + pointerRadius);
+		flog.e("pointerX--> "+ pointerX + " pointerY-->" + pointerY);
+		flog.e("pointerX + pointerRadius--> "+ pointerX + pointerRadius );
+		flog.e("pointerY + pointerRadius--> "+ pointerY + pointerRadius);
 		canvas.drawOval(colorPointerCoords, colorPointerPaint);
 
 		drawDrawable(canvas);
@@ -425,7 +432,7 @@ public class ColorPicker extends View {
 		int colors[] = new int[colorCount + 1];
 		float hsv[] = new float[] { 0f, 1f, 1f };
 		for (int i = 0; i < colors.length; i++) {
-			hsv[0] = (i * colorAngleStep + 180) % 360;
+			hsv[0] = 360-(i * colorAngleStep) % 360;
 			colors[i] = Color.HSVToColor(hsv);
 		}
 		colors[colorCount] = colors[0];
@@ -520,7 +527,7 @@ public class ColorPicker extends View {
 		int cx = x - getWidth() / 2;
 		int cy = y - getHeight() / 2;
 		double d = Math.hypot(cx, cy);
-		colorHSV[0] = (float) (Math.toDegrees(Math.atan2(cy, cx)) + 180f);
+		colorHSV[0] = ( 360 - (float) (Math.toDegrees(Math.atan2(cy, cx)))) % 360;
 		colorHSV[1] = Math.max(0f,
 				Math.min(1f, (float) (d / colorWheelRadius)));
 		invalidate();
@@ -644,10 +651,10 @@ public class ColorPicker extends View {
 	
 	private boolean isSecondProgressVisible = true;
 	/**
-	 * 设置底部进度条可见性
+	 * 冷暖灯是否可见
 	 */
 	public void setSecondProgressVisibility(boolean visible){
-		MyLog.i(TAG, "设置底部进度条可见性+++---="+visible);
+		MyLog.i(TAG, "冷暖灯是否可见+++---="+visible);
 		isSecondProgressVisible = visible;
 		invalidate();
 	}
