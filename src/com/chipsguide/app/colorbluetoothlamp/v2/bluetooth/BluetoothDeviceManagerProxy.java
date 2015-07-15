@@ -501,6 +501,7 @@ public class BluetoothDeviceManagerProxy{
 		public void onBluetoothDeviceModeChanged(int mode) {
 			flog.e( ">>>mode change: mode == " + mode);
 			CustomApplication.setMode(mode);
+			connected = true;
 			switch (mode) {
 			case BluetoothDeviceManager.Mode.CARD:
 				bluzDeviceMan//卡模式管理类准备监听

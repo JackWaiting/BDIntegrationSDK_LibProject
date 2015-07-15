@@ -104,5 +104,6 @@
     <string name="choose_song">No Audio!</string>
     <string name="timing_lights_toast">No Timing Lights</string>
     <string name="select_sleep_time">Please choose your sleep time</string>
+    <string name="alarm_clock_title">Alarm clock</string>
     
 </resources>
