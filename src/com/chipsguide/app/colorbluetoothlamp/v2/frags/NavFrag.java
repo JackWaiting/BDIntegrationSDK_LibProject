@@ -10,13 +10,17 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.AboutActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.SleepAssistantActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SidebarNavListAdapter;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.WrapImageLoader;
 //左边布局
 public class NavFrag extends BaseFragment {
 	private OnNavItemClickListener mNavItemClickListener;
 	private String [] menuItemTitles;
+	private LampManager mLampManager;
 	
 	public interface OnNavItemClickListener{
 		void onItemClick(int position, String title);
@@ -25,6 +29,7 @@ public class NavFrag extends BaseFragment {
 	@Override
 	protected void initBase() {
 		menuItemTitles = getResources().getStringArray(R.array.menu_items);
+		mLampManager = LampManager.getInstance(getActivity());
 	}
 
 	@Override
@@ -65,7 +70,13 @@ public class NavFrag extends BaseFragment {
 				showToast(R.string.conn_ble);
 				return;
 			}
-			startActivity(TimeLightActivity.class);
+			if(mLampManager.issupportOfflineAlarm())
+			{
+				startActivity(TimeDeviceLightActivity.class);
+			}else
+			{
+				startActivity(TimeLightActivity.class);
+			}
 			break;
 		case 2:
 			if(!bluzProxy.isConnected())

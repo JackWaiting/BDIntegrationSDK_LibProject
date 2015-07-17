@@ -326,7 +326,7 @@ public class BluetoothDeviceManagerProxy{
 	/**
 	 * 改为
 	 */
-	public static void changeToAlarm() {
+	public void changeToAlarm() {
 		if (bluzDeviceMan != null) {
 			bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.ALARM);
 		}
@@ -532,7 +532,10 @@ public class BluetoothDeviceManagerProxy{
 				deviceMusicManager = null;
 				break;
 			}
-			mOnModeChangedListener.onModeChanged(mode);
+			if(mOnModeChangedListener != null)
+			{
+				mOnModeChangedListener.onModeChanged(mode);
+			}
 			sendModeChangeBroadcast(mode, deviceManagerMode);
 			deviceManagerMode = mode;
 		}
@@ -541,7 +544,8 @@ public class BluetoothDeviceManagerProxy{
 		{
 			if(!(CustomApplication.getActivity() instanceof MainActivity))
 			{
-				context.startActivity(new Intent(context,MainActivity.class));
+//				context.startActivity(new Intent(context,MainActivity.class));
+				CustomApplication.getActivity().finish();
 			}
 		}
 

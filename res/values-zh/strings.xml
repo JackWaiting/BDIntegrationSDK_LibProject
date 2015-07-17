@@ -115,4 +115,7 @@
     <string name="timing_lights_toast">未设置定时开灯</string>
 	<string name="select_sleep_time">请选择睡眠时间</string>
 	<string name="alarm_clock_title">闹钟</string>
+	<string name="alarmclock">闹钟</string>
+	<string name="alarmclock_snooze">延时</string>
+    <string name="alarmclock_turnoff">关闭</string>
 </resources>

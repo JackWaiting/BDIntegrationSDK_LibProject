@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,7 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 	private Toast mToast;
 	MyLogger flog = MyLogger.fLog();
 	protected ConnectDialog mConnectpd = null;
+	private AlertDialog mAlarmDialog = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -248,6 +250,24 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 		{
 			mConnectpd.dismiss();
 			mConnectpd = null;
+		}
+	}
+	
+	public void showAlarmDialog(AlertDialog adg)
+	{
+		mAlarmDialog = adg;
+		if (mAlarmDialog != null)
+		{
+			mAlarmDialog.show();
+		}
+	}
+
+	public void dismissAlarmDialog()
+	{
+		if (mAlarmDialog != null && mAlarmDialog.isShowing())
+		{
+			mAlarmDialog.dismiss();
+			flog.d("mAlarmDialog close");
 		}
 	}
 	

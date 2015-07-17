@@ -156,14 +156,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_1);
 			break;
 		case R.id.color_y:
-			if(mLampManager.issupportOfflineAlarm())
-			{
-				Toast.makeText(getActivity(), "支持脱机闹钟", Toast.LENGTH_LONG).show();
-			}else
-			{
-				Toast.makeText(getActivity(), "不支持脱机闹钟", Toast.LENGTH_LONG).show();
-			}
-			BluetoothDeviceManagerProxy.changeToAlarm();
 			mLampManager.setColor(BluetoothDeviceColorLampManager.Color.COLOR_14);
 			break;
 		}

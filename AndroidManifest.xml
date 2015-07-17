@@ -66,6 +66,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".activity.TimeDeviceLightActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.VersionUpdateActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -97,8 +101,16 @@
             android:name=".activity.TimeLightSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name=".activity.TimeDeviceLightSettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".activity.AlarmSoundActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.AlarmDeviceSoundActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
