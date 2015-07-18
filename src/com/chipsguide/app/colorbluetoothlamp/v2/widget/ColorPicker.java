@@ -236,7 +236,7 @@ public class ColorPicker extends View {
 
 		// drawing color wheel pointer
 
-		float hueAngle = (float) Math.toRadians(colorHSV[0]);
+		float hueAngle = 185.3f-(float) Math.toRadians(colorHSV[0]);
 		int colorPointX = (int) (-Math.cos(hueAngle) * colorHSV[1] * colorWheelRadius)
 				+ centerX;
 		int colorPointY = (int) (-Math.sin(hueAngle) * colorHSV[1] * colorWheelRadius)
