@@ -2,6 +2,6 @@
 
     <dimen name="round_padding">30dp</dimen>
     <dimen name="diy_round_color">45dp</dimen>
-     <dimen name="diy_round_size">15dp</dimen>
+     <dimen name="diy_round_size">13dp</dimen>
 
 </resources>
