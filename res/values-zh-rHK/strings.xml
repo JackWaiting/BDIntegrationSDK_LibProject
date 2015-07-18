@@ -126,4 +126,5 @@
    	<string name="alarmclock">鬧鐘</string>
    	<string name="alarmclock_snooze">延時</string>
     <string name="alarmclock_turnoff">關閉</string>
+    <string name="select_alarm_device_sound">設備鈴聲</string>
 </resources>

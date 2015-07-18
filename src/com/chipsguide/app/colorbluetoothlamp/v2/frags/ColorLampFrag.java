@@ -387,6 +387,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
 			flog.d("DISCONNECTED  断开连接");
+			mColorPicker.setSecondProgressVisibility(false);
 			break;
 		}
 	}
@@ -396,7 +397,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		refresh(mSeekBarNum);
 		MyLog.i(TAG,"回调里发送的值--------="+mSeekBarNum);
 	}
-	//是否白灯
+	//冷暖灯是否可见
 	@Override
 	public void LampSupportColdAndWhite(boolean filament) {
 		MyLog.i(TAG,"判断是否白灯filament-YYYYYYYYYYYYYYY----+="+filament);

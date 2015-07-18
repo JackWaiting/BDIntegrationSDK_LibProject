@@ -19,6 +19,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
+import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampAlarmListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout.OnColorCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
@@ -26,7 +27,7 @@ import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
-public class TimeDeviceLightSettingActivity extends BaseActivity {
+public class TimeDeviceLightSettingActivity extends BaseActivity implements LampAlarmListener{
 	public static final String EXTRA_ALARM = "alarm";
 	public static final int REQUEST_SELECT_SOUND = 1;
 
@@ -74,6 +75,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity {
 				.getBluetoothDeviceAlarmManager();
 		mLampManager = LampManager.getInstance(this);
 		mLampManager.getAlarmWithLight(mAlarmEntry.index);
+		mLampManager.addOnBluetoothDeviceLampAlarmListener(this);
 	}
 
 	@Override
@@ -195,8 +197,6 @@ public class TimeDeviceLightSettingActivity extends BaseActivity {
 					soundPath);
 			startActivityForResult(intent, REQUEST_SELECT_SOUND);
 			break;
-		default:
-			break;
 		}
 	}
 
@@ -248,8 +248,6 @@ public class TimeDeviceLightSettingActivity extends BaseActivity {
 				checkedItems = newCheckedItems.clone();
 				updateSelectedDayLayout(checkedItems);
 				break;
-			default:
-				break;
 			}
 		}
 	};
@@ -270,7 +268,6 @@ public class TimeDeviceLightSettingActivity extends BaseActivity {
 			mBluetoothDeviceAlarmManager.set(mAlarmEntry);
 		}
 		updateAlarm();
-
 	}
 
 	/**
@@ -307,5 +304,38 @@ public class TimeDeviceLightSettingActivity extends BaseActivity {
 	private void delAlarm()
 	{
 		mBluetoothDeviceAlarmManager.remove(mAlarmEntry);
+	}
+	
+	@Override
+	public void onLampAlarm(int alarmIndex, boolean isMute)
+	{
+		if(alarmIndex == mAlarmEntry.index)
+		{
+			if(isMute)
+			{
+				soundPath = 0;
+			}else
+			{
+				soundPath = 1;
+			}
+			updateMusicName();
+		}
+	}
+
+	@Override
+	public void onLampAlarmColor(int lampType,int r, int g, int b)
+	{
+		
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(mLampManager != null)
+		{
+			mLampManager.addOnBluetoothDeviceLampAlarmListener(this);
+		}
 	}
 }
