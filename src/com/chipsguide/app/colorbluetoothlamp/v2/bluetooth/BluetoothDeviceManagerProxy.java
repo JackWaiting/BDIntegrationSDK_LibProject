@@ -464,6 +464,10 @@ public class BluetoothDeviceManagerProxy{
 			switch (state) {
 			case BluetoothDeviceManager.ConnectionState.CONNECTED://保持连接
 				connected = true;
+				if(bluzDeviceMan != null)
+				{
+					bluzDeviceMan.setSystemTime();
+				}
 				// bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.A2DP);
 				break;
 			case BluetoothDeviceManager.ConnectionState.DISCONNECTED://断开连接

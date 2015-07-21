@@ -3,6 +3,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
 import android.nfc.Tag;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +67,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
+	private boolean isTouch = false;//是否处理色盘滑动中
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
@@ -211,6 +213,21 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+//		if (colorHSV[0] == 0 && colorHSV[1] == 0) { // 说明为白色
+//			float value = colorHSV[2];
+//			int rank = (int) (value * 16); // 等级1-16
+//			// TODO 调节等级
+//			// 白灯等级为1-16
+//			if (rank >= 16) {
+//				rank = 15;
+//			}
+//			hmcolor = true;
+//			isWhiteFlag = true;//是白灯
+//			mLampManager.setBrightness(rank + 1);//亮度
+//		} else {
+//			mLampManager.setColor(red, green, blue);
+//		}
+//		isTouch = true;
 	}
 
 	@Override//颜色变化end
@@ -243,6 +260,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		} else {
 			mLampManager.setColor(red, green, blue);
 		}
+		isTouch = false;
 	}
 
 	private void checkedbox(int id) {
@@ -325,8 +343,11 @@ OnBluetoothDeviceConnectionStateChangedListener{
 
 	//设置灯的颜色
 	@Override
-	public void onLampColor(int red, int green, int blue) {
-		mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
+	public void onLampColor(final int red, final int green, final int blue) {
+		if(!isTouch)
+		{
+			mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
+		}
 	}
 	
 	//设置灯的亮度

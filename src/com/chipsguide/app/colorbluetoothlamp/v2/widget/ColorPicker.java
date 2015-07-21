@@ -248,9 +248,6 @@ public class ColorPicker extends View {
 
 		colorPointerCoords.set(pointerX, pointerY, pointerX + pointerRadius,
 				pointerY + pointerRadius);
-		flog.e("pointerX--> "+ pointerX + " pointerY-->" + pointerY);
-		flog.e("pointerX + pointerRadius--> "+ pointerX + pointerRadius );
-		flog.e("pointerY + pointerRadius--> "+ pointerY + pointerRadius);
 		canvas.drawOval(colorPointerCoords, colorPointerPaint);
 
 		drawDrawable(canvas);

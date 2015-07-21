@@ -22,6 +22,8 @@ public class CustomApplication extends Application {
 
 	// 提醒断开连接进入设置下连接
 	public static boolean isToastDisconn = true;
+	//连接第一次是否更新色盘  以后都不更新色盘
+	public static boolean isUpdateColor = true;
 	public static float lampMax = 16f;// 白灯亮度最大值
 	
 	public static int pageItem = 0;//跳转到对应的page页面

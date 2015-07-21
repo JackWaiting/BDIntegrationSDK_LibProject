@@ -125,7 +125,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	
 	private AlertDialog createAlarmDialog()
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
 		builder.setTitle(R.string.alarmclock);
 		builder.setPositiveButton(R.string.alarmclock_snooze,
 				new DialogInterface.OnClickListener()
@@ -233,7 +233,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			// 蓝牙闹钟的状态
 			public void onBluetoothDeviceAlarmUIChanged(int state)
 			{
-				flog.d("当前闹钟状态--》" + state);
+				flog.e("当前闹钟状态--》" + state);
 				if (state == 1)
 				{
 					showAlarmDialog(createAlarmDialog());
@@ -348,7 +348,12 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			{
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String time = getItem(position).alarmEntry.hour+":" + getItem(position).alarmEntry.minute;
+			String minute = getItem(position).alarmEntry.minute+"";
+			if(minute.length() == 1)
+			{
+				minute = "0"+minute;
+			}
+			String time = getItem(position).alarmEntry.hour+":" + minute;
 			holder.time.setText(time);
 			holder.off.setChecked(getItem(position).alarmEntry.state);
 			holder.rl.setOnClickListener(new OnClickListener()

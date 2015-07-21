@@ -26,6 +26,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager.RingSource;
 
 public class TimeDeviceLightSettingActivity extends BaseActivity implements LampAlarmListener{
 	public static final String EXTRA_ALARM = "alarm";
@@ -210,6 +211,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			{
 				soundPath = data.getIntExtra(
 						AlarmSoundActivity.EXTRA_SOUND_PATH, 0);
+				flog.e("soundPath" +soundPath);
 				updateMusicName();
 			}
 		}
@@ -262,6 +264,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			mAlarmEntry.repeat[i] = newCheckedItems[i];
 		}
 		mAlarmEntry.state = true;
+		mAlarmEntry.ringType = RingSource.INTERNAL;
 		if (mBluetoothDeviceAlarmManager != null)
 		{
 			mBluetoothDeviceAlarmManager.remove(mAlarmEntry);
@@ -293,9 +296,11 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		int blue = Color.blue(alarmColor);
 		if(red == green && green == blue)
 		{
+			flog.e("setAlarmWithCommonLight");
 			mLampManager.setAlarmWithCommonLight(mAlarmEntry.index, 16, 0, isMute);
 		}else
 		{
+			flog.e("setAlarmWithColorLight");
 			mLampManager.setAlarmWithColorLight(mAlarmEntry.index, 0, 0, isMute, red,
 					green, blue);
 		}
@@ -309,6 +314,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	@Override
 	public void onLampAlarm(int alarmIndex, boolean isMute)
 	{
+		flog.e("alarmIndex-->" + alarmIndex+ "isMute-->"+ isMute);
 		if(alarmIndex == mAlarmEntry.index)
 		{
 			if(isMute)
@@ -335,7 +341,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		super.onDestroy();
 		if(mLampManager != null)
 		{
-			mLampManager.addOnBluetoothDeviceLampAlarmListener(this);
+			mLampManager.removeOnBluetoothDeviceLampAlarmListener(this);
 		}
 	}
 }
