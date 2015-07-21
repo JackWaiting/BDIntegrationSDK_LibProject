@@ -548,7 +548,6 @@ public class BluetoothDeviceManagerProxy{
 		{
 			if(!(CustomApplication.getActivity() instanceof MainActivity))
 			{
-//				context.startActivity(new Intent(context,MainActivity.class));
 				CustomApplication.getActivity().finish();
 			}
 		}

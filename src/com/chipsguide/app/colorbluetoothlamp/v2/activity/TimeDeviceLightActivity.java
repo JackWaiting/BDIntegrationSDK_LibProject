@@ -123,32 +123,6 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		}
 	}
 	
-	private AlertDialog createAlarmDialog()
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
-		builder.setTitle(R.string.alarmclock);
-		builder.setPositiveButton(R.string.alarmclock_snooze,
-				new DialogInterface.OnClickListener()
-		{
-			public void onClick(DialogInterface dialog, int which)
-			{
-				mBluetoothDeviceAlarmManager.delay();
-				dialog.dismiss();
-				finish();
-			}
-		});
-		builder.setNegativeButton(R.string.alarmclock_turnoff,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int which)
-					{
-						mBluetoothDeviceAlarmManager.turnOff();
-						dialog.dismiss();
-					}
-				});
-		AlertDialog dg = builder.create();
-		return dg;
-	}
 
 	@Override
 	public void onClick(View v)
@@ -221,9 +195,8 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			dialog.dismiss();
 		}
 	}
-	
-	
 
+	private AlertDialog dialog2;
 	private void initAlarmUiListener()
 	{
 		mBluetoothDeviceAlarmManager
@@ -233,16 +206,49 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			// 蓝牙闹钟的状态
 			public void onBluetoothDeviceAlarmUIChanged(int state)
 			{
-				flog.e("当前闹钟状态--》" + state);
+				flog.d("当前闹钟状态--》" + state);
 				if (state == 1)
 				{
-					showAlarmDialog(createAlarmDialog());
+//					showAlarmDialog(createAlarmDialog(mBluetoothDeviceAlarmManager));
+					dialog2 = createAlarmDialog();
+					dialog2.show();
 				} else
 				{
-					 dismissAlarmDialog();
+					if(dialog2 != null)
+					{
+						dialog2.dismiss();
+					}
+//					 dismissAlarmDialog();
 				}
 			}
 		});
+	}
+	
+	private AlertDialog createAlarmDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.alarmclock);
+		builder.setPositiveButton(R.string.alarmclock_snooze,
+				new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				mBluetoothDeviceAlarmManager.delay();
+				dialog.dismiss();
+				finish();
+			}
+		});
+		builder.setNegativeButton(R.string.alarmclock_turnoff,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						mBluetoothDeviceAlarmManager.turnOff();
+						dialog.dismiss();
+					}
+				});
+		AlertDialog dg = builder.create();
+		return dg;
 	}
 	
 	private BluetoothDeviceAlarmEntity creatNewAlarmEntry()

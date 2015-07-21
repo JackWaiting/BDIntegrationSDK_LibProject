@@ -1,5 +1,8 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
@@ -24,6 +27,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout.OnColorCheckedChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
+import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmRingEntity;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager.RingSource;
@@ -35,6 +39,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	private TextView musicNameTv;
 	private MyTimePickerView timePicker;
 	private AlarmLightColor alarmLightColor;
+	private ColorSelectLayout colorSelectLayout;
 
 	private String[] week;
 	private String[] repeatDays;
@@ -50,6 +55,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	private BluetoothDeviceAlarmEntity mAlarmEntry;
 	private BluetoothDeviceAlarmManager mBluetoothDeviceAlarmManager;
 	private BluetoothDeviceManager mBluetoothDeviceManager;
+	private List<BluetoothDeviceAlarmRingEntity> mInternalEntries = new ArrayList<BluetoothDeviceAlarmRingEntity>();
 
 	@Override
 	public int getLayoutId()
@@ -91,7 +97,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 
 	private void initColorLayout()
 	{
-		ColorSelectLayout colorSelectLayout = (ColorSelectLayout) findViewById(R.id.rg_color);
+		colorSelectLayout = (ColorSelectLayout) findViewById(R.id.rg_color);
 		colorSelectLayout
 				.setOnColorCheckedChangeListener(new OnColorCheckedChangeListener()
 				{
@@ -265,12 +271,33 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		}
 		mAlarmEntry.state = true;
 		mAlarmEntry.ringType = RingSource.INTERNAL;
+		mAlarmEntry.ringId = ringsong();
 		if (mBluetoothDeviceAlarmManager != null)
 		{
 			mBluetoothDeviceAlarmManager.remove(mAlarmEntry);
 			mBluetoothDeviceAlarmManager.set(mAlarmEntry);
 		}
 		updateAlarm();
+	}
+
+	private int ringsong()
+	{
+		mInternalEntries.clear();
+		if(mBluetoothDeviceAlarmManager != null)
+		{
+			for (BluetoothDeviceAlarmRingEntity entry : mBluetoothDeviceAlarmManager.getSupportRingList())
+			{
+				if (entry.source == RingSource.INTERNAL)
+				{
+					mInternalEntries.add(entry);
+				}
+			}
+		}
+		if(mAlarmEntry != null && mInternalEntries.size() != 0)
+		{
+			return mInternalEntries.get(0).id;
+		}
+		return 0;
 	}
 
 	/**
@@ -296,11 +323,9 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		int blue = Color.blue(alarmColor);
 		if(red == green && green == blue)
 		{
-			flog.e("setAlarmWithCommonLight");
 			mLampManager.setAlarmWithCommonLight(mAlarmEntry.index, 16, 0, isMute);
 		}else
 		{
-			flog.e("setAlarmWithColorLight");
 			mLampManager.setAlarmWithColorLight(mAlarmEntry.index, 0, 0, isMute, red,
 					green, blue);
 		}
@@ -314,7 +339,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	@Override
 	public void onLampAlarm(int alarmIndex, boolean isMute)
 	{
-		flog.e("alarmIndex-->" + alarmIndex+ "isMute-->"+ isMute);
+		flog.d("alarmIndex-->" + alarmIndex+ "isMute-->"+ isMute);
 		if(alarmIndex == mAlarmEntry.index)
 		{
 			if(isMute)
@@ -331,7 +356,36 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	@Override
 	public void onLampAlarmColor(int lampType,int r, int g, int b)
 	{
-		
+		switch (lampType)
+		{
+		case 1:
+			colorSelectLayout.checkColor(-1);
+			break;
+		case 2:
+			int colors = Color.rgb(r, g, b);
+			switch (colors)
+			{
+			case -56302:
+				colorSelectLayout.checkColor(-813055);
+				break;
+			case -1962234:
+				colorSelectLayout.checkColor(-33386);
+				break;
+			case -65358:
+				colorSelectLayout.checkColor(-4693505);
+				break;
+			case -7799040:
+				colorSelectLayout.checkColor(-16737692);
+				break;
+			case -15129019:
+				colorSelectLayout.checkColor(-12729098);
+				break;
+			case -16754177:
+				colorSelectLayout.checkColor(-15907384);
+				break;
+			}
+			break;
+		}
 	}
 	
 	@Override
