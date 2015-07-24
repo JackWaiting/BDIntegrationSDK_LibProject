@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -531,6 +532,13 @@ public class BluetoothDeviceManagerProxy{
 				}
 				mLampManager.effect2normal(true);
 				mode2view();
+				break;
+			case BluetoothDeviceManager.Mode.ALARM:
+				if(!(CustomApplication.getActivity() instanceof TimeDeviceLightActivity))
+				{
+					Intent intent = new Intent(CustomApplication.getActivity(),TimeDeviceLightActivity.class);
+					CustomApplication.getActivity().startActivity(intent);
+				}
 				break;
 			default:
 				deviceMusicManager = null;

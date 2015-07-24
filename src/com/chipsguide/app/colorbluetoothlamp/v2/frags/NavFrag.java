@@ -70,7 +70,7 @@ public class NavFrag extends BaseFragment {
 				showToast(R.string.conn_ble);
 				return;
 			}
-			if(!mLampManager.issupportOfflineAlarm())
+			if(mLampManager.issupportOfflineAlarm())
 			{
 				startActivity(TimeDeviceLightActivity.class);
 			}else

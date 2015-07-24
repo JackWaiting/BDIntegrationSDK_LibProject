@@ -67,10 +67,13 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 				.getBluetoothDeviceManager();
 		showLoadingMusicDialog();
 	}
-	
+
 	private CustomDialog dialog;
-	private void showLoadingMusicDialog() {
-		if (dialog != null) {
+
+	private void showLoadingMusicDialog()
+	{
+		if (dialog != null)
+		{
 			dialog.dismiss();
 			dialog = null;
 		}
@@ -105,6 +108,42 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	@Override
 	public void initListener()
 	{
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+		case R.id.left_btn:
+			finish();
+			break;
+		case R.id.right_btn:
+			if (maxSize)
+			{
+				titleView
+						.setToastText(R.string.reach_max_device_alarm_reminder);
+			} else
+			{
+				changeToAlarmSetting(creatNewAlarmEntry());
+			}
+			break;
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id)
+	{
+		changeToAlarmSetting(mAlarmEntriesList.get(position).getAlarmEntry());
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		refreshAlarmEntries();
+		notifyDataChanged();
 		if (mBluetoothDeviceManager != null)
 		{
 			mBluetoothDeviceManager
@@ -121,41 +160,8 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 						}
 					});
 		}
-	}
-	
-
-	@Override
-	public void onClick(View v)
-	{
-		switch (v.getId())
-		{
-		case R.id.left_btn:
-			finish();
-			break;
-		case R.id.right_btn:
-			if (maxSize)
-			{
-				titleView.setToastText(R.string.reach_max_device_alarm_reminder);
-			} else
-			{
-				changeToAlarmSetting(creatNewAlarmEntry());
-			}
-			break;
-		}
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-	{
-		changeToAlarmSetting(mAlarmEntriesList.get(position).getAlarmEntry());
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		refreshAlarmEntries();
-		notifyDataChanged();
-		if( mBluetoothDeviceAlarmManager != null && mManagerProxy.getBluetoothManagerMode() != BluetoothDeviceManager.Mode.ALARM)
+		if (mBluetoothDeviceAlarmManager != null
+				&& mManagerProxy.getBluetoothManagerMode() != BluetoothDeviceManager.Mode.ALARM)
 		{
 			finish();
 		}
@@ -164,7 +170,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	// 刷新闹钟个数
 	public void refreshAlarmEntries()
 	{
-		if(mBluetoothDeviceAlarmManager != null)
+		if (mBluetoothDeviceAlarmManager != null)
 		{
 			mAlarmEntriesList.clear();
 			for (BluetoothDeviceAlarmEntity entry : mBluetoothDeviceAlarmManager
@@ -194,54 +200,56 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	private void notifyDataChanged()
 	{
 		mAlarmClockAdapter.notifyDataSetChanged();
-		if(dialog  != null)
+		if (dialog != null)
 		{
 			dialog.dismiss();
 		}
 	}
 
-	private AlertDialog dialog2;
 	private void initAlarmUiListener()
 	{
-		mBluetoothDeviceAlarmManager
-		.setOnBluetoothDeviceAlarmUIChangedListener(new OnBluetoothDeviceAlarmUIChangedListener()
+		if(mBluetoothDeviceAlarmManager != null)
 		{
-			@Override
-			// 蓝牙闹钟的状态
-			public void onBluetoothDeviceAlarmUIChanged(int state)
+			final AlertDialog dialog = createAlarmDialog();
+			mBluetoothDeviceAlarmManager
+			.setOnBluetoothDeviceAlarmUIChangedListener(new OnBluetoothDeviceAlarmUIChangedListener()
 			{
-				flog.d("当前闹钟状态--》" + state);
-				if (state == 1)
+				@Override
+				// 蓝牙闹钟的状态
+				public void onBluetoothDeviceAlarmUIChanged(int state)
 				{
-//					showAlarmDialog(createAlarmDialog(mBluetoothDeviceAlarmManager));
-					dialog2 = createAlarmDialog();
-					dialog2.show();
-				} else
-				{
-					if(dialog2 != null)
+					flog.e((CustomApplication.getActivity() instanceof TimeDeviceLightActivity));
+					if((CustomApplication.getActivity() instanceof TimeDeviceLightActivity))
 					{
-						dialog2.dismiss();
+						if (state == 1)
+						{
+							// showAlarmDialog(createAlarmDialog());
+							dialog.show();
+						} else
+						{
+							// dismissAlarmDialog();
+							dialog.dismiss();
+						}
 					}
-//					 dismissAlarmDialog();
 				}
-			}
-		});
+			});
+		}
 	}
-	
+
 	private AlertDialog createAlarmDialog()
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.alarmclock);
 		builder.setPositiveButton(R.string.alarmclock_snooze,
 				new DialogInterface.OnClickListener()
-		{
-			public void onClick(DialogInterface dialog, int which)
-			{
-				mBluetoothDeviceAlarmManager.delay();
-				dialog.dismiss();
-				finish();
-			}
-		});
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						mBluetoothDeviceAlarmManager.delay();
+						dialog.dismiss();
+						finish();
+					}
+				});
 		builder.setNegativeButton(R.string.alarmclock_turnoff,
 				new DialogInterface.OnClickListener()
 				{
@@ -254,7 +262,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		AlertDialog dg = builder.create();
 		return dg;
 	}
-	
+
 	private BluetoothDeviceAlarmEntity creatNewAlarmEntry()
 	{
 		boolean isHolded;
@@ -262,7 +270,8 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		for (int i = 1; i < 256; i++)
 		{
 			isHolded = false;
-			for (BluetoothDeviceAlarmEntity entry : mBluetoothDeviceAlarmManager.getCurrentAlarmList())
+			for (BluetoothDeviceAlarmEntity entry : mBluetoothDeviceAlarmManager
+					.getCurrentAlarmList())
 			{
 				if (entry.index == i)
 				{
@@ -278,7 +287,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			}
 		}
 		BluetoothDeviceAlarmEntity entry = new BluetoothDeviceAlarmEntity();
-		entry.title =getString(R.string.alarm_clock_title);//闹钟
+		entry.title = getString(R.string.alarm_clock_title);// 闹钟
 		entry.index = index;
 		entry.ringType = 0;
 		Calendar calendar = Calendar.getInstance();
@@ -286,11 +295,11 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		entry.minute = calendar.get(Calendar.MINUTE);
 		return entry;
 	}
-	
-	//跳转编辑闹钟界面
+
+	// 跳转编辑闹钟界面
 	private void changeToAlarmSetting(BluetoothDeviceAlarmEntity entry)
 	{
-		Intent intent = new Intent(this,TimeDeviceLightSettingActivity.class);
+		Intent intent = new Intent(this, TimeDeviceLightSettingActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(IPCKey.ALARM_ENTRY, entry);
 		intent.putExtras(bundle);
@@ -300,6 +309,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	private class AlarmClockNode {
 
 		public BluetoothDeviceAlarmEntity alarmEntry;
+
 		AlarmClockNode(BluetoothDeviceAlarmEntity alarmEntry)
 		{
 			this.alarmEntry = alarmEntry;
@@ -330,7 +340,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		{
 			return position;
 		}
-		
+
 		final class ViewHolder {
 			TextView time;
 			CheckBox off;
@@ -352,61 +362,68 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 						.findViewById(R.id.tv_alarm_time);
 				holder.off = (CheckBox) convertView
 						.findViewById(R.id.cb_toggle);
-				holder.rl = (RelativeLayout)convertView.findViewById(R.id.relativelayout);
+				holder.rl = (RelativeLayout) convertView
+						.findViewById(R.id.relativelayout);
 				convertView.setTag(holder);
 			} else
 			{
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String minute = getItem(position).alarmEntry.minute+"";
-			if(minute.length() == 1)
+			String minute = getItem(position).alarmEntry.minute + "";
+			if (minute.length() == 1)
 			{
-				minute = "0"+minute;
+				minute = "0" + minute;
 			}
-			String time = getItem(position).alarmEntry.hour+":" + minute;
+			String time = getItem(position).alarmEntry.hour + ":" + minute;
 			holder.time.setText(time);
 			holder.off.setChecked(getItem(position).alarmEntry.state);
 			holder.rl.setOnClickListener(new OnClickListener()
 			{
-				
+
 				@Override
 				public void onClick(View v)
 				{
-					if(mListener != null){
-						mListener.onItemClick((AdapterView<?>) parent, v, position, v.getId());
+					if (mListener != null)
+					{
+						mListener.onItemClick((AdapterView<?>) parent, v,
+								position, v.getId());
 					}
 				}
 			});
 			final ViewHolder holder2 = holder;
 			holder.off.setOnClickListener(new OnClickListener()
 			{
-				
+
 				@Override
 				public void onClick(View v)
 				{
-					//如果是打开的话，点击后就会关闭所以，state ＝ true;
-					if(holder2.off.isChecked())
+					// 如果是打开的话，点击后就会关闭所以，state ＝ true;
+					if (holder2.off.isChecked())
 					{
 						getItem(position).alarmEntry.state = true;
-					}else
+					} else
 					{
 						getItem(position).alarmEntry.state = false;
 					}
-					mBluetoothDeviceAlarmManager.remove(getItem(position).alarmEntry);
-					mBluetoothDeviceAlarmManager.set(getItem(position).alarmEntry);
+					mBluetoothDeviceAlarmManager
+							.remove(getItem(position).alarmEntry);
+					mBluetoothDeviceAlarmManager
+							.set(getItem(position).alarmEntry);
 				}
 			});
 			return convertView;
 		}
 	}
-	
+
 	private OnItemClickListener mListener;
-	public void setOnItemClickListener(OnItemClickListener listener) {
+
+	public void setOnItemClickListener(OnItemClickListener listener)
+	{
 		mListener = listener;
 	}
-	
+
 	public static class IPCKey {
 		public static final String ALARM_ENTRY = "alarm.entry";
 	}
-	
+
 }
