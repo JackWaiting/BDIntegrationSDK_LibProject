@@ -98,6 +98,7 @@
     <string name="exception_exit">sorry, the program is abnormal, will exit.</string>
     <string name="about">About</string>
     <string name="reach_max_alarm_reminder">10 alarms at most, Can\'t add more!</string>
+    <string name="reach_max_device_alarm_reminder">4 alarms at most, Can\'t add more!</string>
     <string name="conn_ble">Please connect to Bluetooth</string>
     <string name="music_rhythm">Music rhythm</string>
     <string name="no_play_content">No play content!</string>

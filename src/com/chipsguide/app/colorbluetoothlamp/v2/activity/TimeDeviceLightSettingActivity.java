@@ -68,7 +68,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	{
 		CustomApplication.addActivity(this);
 		week = getResources().getStringArray(R.array.week);
-		repeatDays = getResources().getStringArray(R.array.repeat_days);
+		repeatDays = getResources().getStringArray(R.array.repeat_device_days);
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
 		if (bundle != null)
@@ -362,6 +362,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			colorSelectLayout.checkColor(-1);
 			break;
 		case 2:
+			//返回颜色对比
 			int colors = Color.rgb(r, g, b);
 			switch (colors)
 			{

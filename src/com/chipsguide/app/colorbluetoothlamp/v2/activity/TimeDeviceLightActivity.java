@@ -135,7 +135,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		case R.id.right_btn:
 			if (maxSize)
 			{
-				titleView.setToastText(R.string.reach_max_alarm_reminder);
+				titleView.setToastText(R.string.reach_max_device_alarm_reminder);
 			} else
 			{
 				changeToAlarmSetting(creatNewAlarmEntry());
@@ -155,6 +155,10 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		super.onResume();
 		refreshAlarmEntries();
 		notifyDataChanged();
+		if( mBluetoothDeviceAlarmManager != null && mManagerProxy.getBluetoothManagerMode() != BluetoothDeviceManager.Mode.ALARM)
+		{
+			finish();
+		}
 	}
 
 	// 刷新闹钟个数
@@ -404,5 +408,5 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	public static class IPCKey {
 		public static final String ALARM_ENTRY = "alarm.entry";
 	}
-
+	
 }

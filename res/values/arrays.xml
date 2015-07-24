@@ -74,6 +74,16 @@
         <item >SU</item>
     </string-array>
     
+    <string-array name="repeat_device_days">
+        <item >SU</item>
+        <item >M</item>
+        <item >TU</item>
+        <item >W</item>
+        <item >TH</item>
+        <item >F</item>
+        <item >SA</item>
+    </string-array>
+    
     <string-array name="sleep_time">
         <item >10min</item>
         <item >20min</item>
