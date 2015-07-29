@@ -163,4 +163,11 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		startLightSettingActivity(alarm);
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
+
 }

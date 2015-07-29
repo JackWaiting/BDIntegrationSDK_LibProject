@@ -67,6 +67,7 @@
         </activity>
         <activity
             android:name=".activity.TimeDeviceLightActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity

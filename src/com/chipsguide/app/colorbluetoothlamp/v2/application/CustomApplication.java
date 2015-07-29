@@ -31,6 +31,13 @@ public class CustomApplication extends Application {
 	private static int mMode = -1;
 	private static Activity mActivity;
 	private static List<Activity> activityList = new LinkedList<Activity>();
+	
+	/**
+	 * 判断是否退出闹钟模式，如果退出闹钟模式，则手动切换为用户操作的最后一个模式,返回上一个界面。
+	 */
+	public static boolean isExitAlarmMode;
+	public static boolean isUsedAlarmActivity;//闹钟开关
+	public static boolean isAlarmRing;//闹钟是否响起来了
 
 	@Override
 	public void onCreate()

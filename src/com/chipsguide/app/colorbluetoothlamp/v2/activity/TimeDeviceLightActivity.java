@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +52,8 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	private BluetoothDeviceAlarmManager mBluetoothDeviceAlarmManager;
 
 	private List<AlarmClockNode> mAlarmEntriesList = new ArrayList<AlarmClockNode>();
+	
+	private AlertDialog mAlarmDialog = null;
 
 	@Override
 	public int getLayoutId()
@@ -60,6 +65,12 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	public void initBase()
 	{
 		CustomApplication.addActivity(this);
+		
+		CustomApplication.isUsedAlarmActivity=true;
+		if (CustomApplication.isAlarmRing) {//若闹钟想起就弹出提示框
+			showDialog(createAlarmDialog());
+		}
+		
 		formatStr = getResources().getString(R.string.text_loading);
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 		mManagerProxy.changeToAlarm();
@@ -210,7 +221,6 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	{
 		if(mBluetoothDeviceAlarmManager != null)
 		{
-			final AlertDialog dialog = createAlarmDialog();
 			mBluetoothDeviceAlarmManager
 			.setOnBluetoothDeviceAlarmUIChangedListener(new OnBluetoothDeviceAlarmUIChangedListener()
 			{
@@ -218,21 +228,47 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 				// 蓝牙闹钟的状态
 				public void onBluetoothDeviceAlarmUIChanged(int state)
 				{
-					flog.e((CustomApplication.getActivity() instanceof TimeDeviceLightActivity));
-					if((CustomApplication.getActivity() instanceof TimeDeviceLightActivity))
+					if (state == 1)
 					{
-						if (state == 1)
-						{
-							// showAlarmDialog(createAlarmDialog());
-							dialog.show();
-						} else
-						{
-							// dismissAlarmDialog();
-							dialog.dismiss();
+						//TODO
+						if (CustomApplication.isUsedAlarmActivity) {
+							ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+							ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+							System.out.println("闹钟-----"+cn.getClassName().substring(37));
+
+
+							CustomApplication.isAlarmRing=true;
+							CustomApplication.isExitAlarmMode=false;
+							mSubject.noticeAlarm(cn.getClassName().substring(37));
+							//						showAlarmDialog(createAlarmDialog());
+						}else {
+							CustomApplication.isExitAlarmMode=false;
+							CustomApplication.isAlarmRing=true;
+
 						}
+					} else
+					{
+						dismissDialog();
 					}
 				}
 			});
+		}
+	}
+	private void showDialog(AlertDialog adg){
+
+		mAlarmDialog = adg;
+		if (mAlarmDialog != null)
+		{
+			mAlarmDialog.show();
+		}
+	}
+	//解除弹出框
+	public void dismissDialog()
+	{
+		if (mAlarmDialog != null && mAlarmDialog.isShowing())
+		{
+			mAlarmDialog.dismiss();
+			Log.e("mAlarmDialog", "mAlarmDialog : close");
 		}
 	}
 
@@ -247,6 +283,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 					{
 						mBluetoothDeviceAlarmManager.delay();
 						dialog.dismiss();
+						CustomApplication.isExitAlarmMode=true;
 						finish();
 					}
 				});
@@ -256,6 +293,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 					public void onClick(DialogInterface dialog, int which)
 					{
 						mBluetoothDeviceAlarmManager.turnOff();
+						CustomApplication.isExitAlarmMode=true;
 						dialog.dismiss();
 					}
 				});
@@ -424,6 +462,25 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 
 	public static class IPCKey {
 		public static final String ALARM_ENTRY = "alarm.entry";
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		CustomApplication.isAlarmRing=false;
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
+	@Override
+	public void updateAlarming() {
+		// TODO Auto-generated method stub
+		super.updateAlarming();
+		showDialog(createAlarmDialog());
 	}
 
 }

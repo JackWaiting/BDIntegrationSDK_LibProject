@@ -16,7 +16,7 @@ public class AboutActivity extends BaseActivity {
 	public int getLayoutId() {
 		return R.layout.activity_about;
 	}
-
+	
 	@Override
 	public void initBase() {
 		CustomApplication.addActivity(this);
@@ -37,7 +37,6 @@ public class AboutActivity extends BaseActivity {
 	public void initListener() {
 		findViewById(R.id.item_version_update).setOnClickListener(this);
 	}
-
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -69,4 +68,11 @@ public class AboutActivity extends BaseActivity {
 			return false;
 		}
 	};
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
+
 }

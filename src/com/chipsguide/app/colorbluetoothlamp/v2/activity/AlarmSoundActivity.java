@@ -91,5 +91,12 @@ public class AlarmSoundActivity extends BaseActivity {
 		setResult(RESULT_OK, intent);
 		super.finish();
 	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
+
 
 }

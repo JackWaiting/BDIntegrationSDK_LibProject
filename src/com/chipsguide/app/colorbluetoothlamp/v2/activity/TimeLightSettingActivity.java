@@ -260,4 +260,10 @@ public class TimeLightSettingActivity extends BaseActivity {
 	private void delAlarm() {
 		alarms.delete(alarm);
 	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mSubject.deleteach(this);
+	}
 }

@@ -394,9 +394,11 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	{
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		mSubject.deleteach(this);
 		if(mLampManager != null)
 		{
 			mLampManager.removeOnBluetoothDeviceLampAlarmListener(this);
 		}
 	}
+
 }
