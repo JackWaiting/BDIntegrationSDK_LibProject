@@ -22,7 +22,6 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 		preferenceUtil = PreferenceUtil.getIntance(getApplicationContext());
 	}
 
@@ -50,6 +49,13 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initListener() {
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
+	}
 
 	@Override
 	public void onClick(View v)
@@ -57,6 +63,29 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 		super.onClick(v);
 		preferenceUtil.saveShakeOption(v.getId());
 		finish();
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 	
 }

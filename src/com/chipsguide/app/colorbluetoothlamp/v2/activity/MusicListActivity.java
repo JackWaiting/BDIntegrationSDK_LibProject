@@ -34,7 +34,6 @@ public class MusicListActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 		manager = PlayerManager.getInstance(getApplicationContext());
 		mAlbum = (Album) getIntent().getSerializableExtra(EXTRA_ALBUM);
 		title = mAlbum.getName();
@@ -80,12 +79,36 @@ public class MusicListActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		CustomApplication.addActivity(this);
 		hasUpdate = false;
 		initPlayListener();
 	}
 	
 	public void initPlayListener(){
 		manager.setPlayListener(new MyPlayListener(this), PlayType.Net, false);
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 	
 	private boolean hasUpdate;

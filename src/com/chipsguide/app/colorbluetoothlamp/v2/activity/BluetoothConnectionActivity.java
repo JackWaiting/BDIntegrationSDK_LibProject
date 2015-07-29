@@ -58,7 +58,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	@Override
 	public void initBase()
 	{
-		CustomApplication.addActivity(this);
 		application = (CustomApplication) getApplication();
 		mBluetoothDeviceManager = application.getBluetoothDeviceManager();
 		mBluetoothDeviceManager.setOnBluetoothDeviceDiscoveryListener(this);
@@ -108,6 +107,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
+		CustomApplication.addActivity(this);
 		background = false;
 		connectBluetoothDevices = dao.selectAll();
 		if (mBluetoothDeviceManager != null)
@@ -424,6 +424,29 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			} else
 			{
 				showToast(R.string.bluetooth_not_available);
+			}
+		}
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
 			}
 		}
 	}

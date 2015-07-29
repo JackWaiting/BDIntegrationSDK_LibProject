@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
@@ -32,12 +31,7 @@ public class CustomApplication extends Application {
 	private static Activity mActivity;
 	private static List<Activity> activityList = new LinkedList<Activity>();
 	
-	/**
-	 * 判断是否退出闹钟模式，如果退出闹钟模式，则手动切换为用户操作的最后一个模式,返回上一个界面。
-	 */
-	public static boolean isExitAlarmMode;
-	public static boolean isUsedAlarmActivity;//闹钟开关
-	public static boolean isAlarmRing;//闹钟是否响起来了
+	public static boolean isClickAlarm = false;
 
 	@Override
 	public void onCreate()

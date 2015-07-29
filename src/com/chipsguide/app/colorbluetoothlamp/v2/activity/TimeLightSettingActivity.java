@@ -56,7 +56,6 @@ public class TimeLightSettingActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 		week = getResources().getStringArray(R.array.week);
 		repeatDays = getResources().getStringArray(R.array.repeat_days);
 		alarms = Alarms.getInstance(getApplicationContext());
@@ -149,6 +148,13 @@ public class TimeLightSettingActivity extends BaseActivity {
 			RadioButton rb = (RadioButton) selectedDaysLayout.getChildAt(i);
 			rb.setChecked(selected[i]);
 		}
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -260,6 +266,17 @@ public class TimeLightSettingActivity extends BaseActivity {
 	private void delAlarm() {
 		alarms.delete(alarm);
 	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+	}
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

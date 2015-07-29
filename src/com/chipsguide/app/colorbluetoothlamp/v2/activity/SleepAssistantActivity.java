@@ -69,7 +69,6 @@ public class SleepAssistantActivity extends BaseActivity implements
 	@Override
 	public void initBase()
 	{
-		CustomApplication.addActivity(this);
 		mColorTextDown = getResources().getColor(R.color.color_blue);
 		mColorTextNor = getResources().getColor(R.color.white);
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -144,6 +143,13 @@ public class SleepAssistantActivity extends BaseActivity implements
 				
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -328,6 +334,29 @@ public class SleepAssistantActivity extends BaseActivity implements
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		return true;
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 
 	// 屏蔽返回键

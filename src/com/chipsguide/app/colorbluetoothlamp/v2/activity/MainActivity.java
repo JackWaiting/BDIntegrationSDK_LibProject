@@ -232,6 +232,7 @@ public class MainActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
+		CustomApplication.addActivity(this);
 		if (this.mBluetoothDeviceManager != null)
 		{
 			this.mBluetoothDeviceManager.setForeground(true);
@@ -260,6 +261,29 @@ public class MainActivity extends BaseActivity implements
        // 请求开启 Bluetooth
        this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
     }
+    
+    @Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
+	}
     
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)

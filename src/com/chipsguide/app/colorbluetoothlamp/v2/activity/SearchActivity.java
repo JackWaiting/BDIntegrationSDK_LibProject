@@ -46,7 +46,6 @@ public class SearchActivity extends BaseActivity implements
 	public void initBase() {
 		fragments.add(new AlbumListFragment());
 		fragments.add(new NetMusicListFrag());
-		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -106,6 +105,13 @@ public class SearchActivity extends BaseActivity implements
 	@Override
 	public void initListener() {
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
+	}
 
 	private class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -150,5 +156,28 @@ public class SearchActivity extends BaseActivity implements
 	@Override
 	public void onPageSelected(int arg0) {
 		navRg.check(arg0 == 0 ? R.id.rb_album : R.id.rb_music);
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 }

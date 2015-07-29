@@ -14,9 +14,6 @@ public class MySubject implements Subject{
 
 	private List<Activity> mActivityObservers;//观察者集合
 	private String mConnectStateString;
-	private int mBattery=5;
-	private int mVolume=0;
-	private boolean mMute;
 	
 	private static MySubject mSubject;
 	public static MySubject getSubject()
@@ -44,26 +41,6 @@ public class MySubject implements Subject{
 	      return mConnectStateString;
 	}
 	
-	public int getBattery() {
-		return mBattery;
-	}
-	public void setBattery(int battery) {
-		this.mBattery = battery;
-		noticeBattery();
-	}
-	
-	public int getVolume() {
-		return mVolume;
-	}
-	public boolean getMute(){
-		return mMute;
-	}
-	public void setVolume(int volume,boolean mute) {
-		this.mVolume = volume;
-		this.mMute=mute;
-		noticeVolume();
-	}
-	
 	@Override
 	public void attach(Observer observer) {
 		// TODO Auto-generated method stub
@@ -75,18 +52,7 @@ public class MySubject implements Subject{
 		// TODO Auto-generated method stub
 		mActivityObservers.remove(observer);
 	}
-	@Override
-	public void noticeVolume() {
-		// TODO Auto-generated method stub
-		for(int i=0;i<mActivityObservers.size();i++)
-		       ((Observer)mActivityObservers.get(i)).updateVolume();
-	}
-	@Override
-	public void noticeBattery() {
-		// TODO Auto-generated method stub
-		for(int i=0;i<mActivityObservers.size();i++)
-		       ((Observer)mActivityObservers.get(i)).updateBattery();
-	}
+	
 	@Override
 	public void noticeConnectState() {
 		// TODO Auto-generated method stub
@@ -95,16 +61,12 @@ public class MySubject implements Subject{
 		}
 	}
 
-	public void noticeAlarm(String activity){
-		for(Activity mTempActivity:mActivityObservers){
-			System.out.println(mTempActivity.getLocalClassName().toString());
-			if(mTempActivity.getLocalClassName().toString().equals(activity)){
-				((Observer)mTempActivity).updateAlarming();
-		    	return;
-		    }
+	public void noticeAlarm(int state)
+	{
+		for(Activity mTempActivity:mActivityObservers)
+		{
+			((Observer)mTempActivity).updateAlarm(state);
 		}
-	
 	}
-
 
 }

@@ -35,6 +35,12 @@ public class IntroductoryActivity extends BaseActivity{
 
 	@Override
 	public void initBase() {
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
 		CustomApplication.addActivity(this);
 	}
 
@@ -90,6 +96,29 @@ public class IntroductoryActivity extends BaseActivity{
 		public Object instantiateItem(ViewGroup container, int position) {
 			container.addView(viewList.get(position));
 			return viewList.get(position);
+		}
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
 		}
 	}
 }

@@ -17,7 +17,6 @@ public class AlarmDeviceSoundActivity extends BaseActivity {
 
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 		soundPath = getIntent().getIntExtra(EXTRA_SOUND_PATH,0);
 	}
 
@@ -34,6 +33,13 @@ public class AlarmDeviceSoundActivity extends BaseActivity {
 	public void initListener() {
 		findViewById(R.id.text_silent).setOnClickListener(this);
 		findViewById(R.id.text_select).setOnClickListener(this);
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
 	}
 	
 	@Override
@@ -58,6 +64,31 @@ public class AlarmDeviceSoundActivity extends BaseActivity {
 		setResult(RESULT_OK, intent);
 		super.finish();
 	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
+			
+	}
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

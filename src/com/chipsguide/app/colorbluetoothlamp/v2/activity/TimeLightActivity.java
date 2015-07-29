@@ -46,7 +46,6 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 		preference = PreferenceUtil.getIntance(getApplicationContext());
 		alarms = Alarms.getInstance(getApplicationContext());
 		alarmListAdapter = new AlarmListAdapter(this);
@@ -140,6 +139,7 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		CustomApplication.addActivity(this);
 		List<Alarm> list = alarms.getAllAlarm();
 		alarmListAdapter.setAlarms(list);
 		if(list.size() == 0)
@@ -168,6 +168,16 @@ public class TimeLightActivity extends BaseActivity implements OnItemClickListen
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mSubject.deleteach(this);
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
 	}
 
 }

@@ -4,10 +4,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,26 +15,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
+import com.chipsguide.app.colorbluetoothlamp.v2.listeners.MySubject;
 import com.chipsguide.app.colorbluetoothlamp.v2.listeners.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.NetworkState;
+import com.chipsguide.app.colorbluetoothlamp.v2.view.AlarmToastDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ConnectDialog;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
 import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SlidingFragmentActivity implements 
-					OnClickListener{
+					OnClickListener,Observer{
 	private Toast mToast;
 	MyLogger flog = MyLogger.fLog();
 	protected ConnectDialog mConnectpd = null;
-	private AlertDialog mAlarmDialog = null;
+	protected AlarmToastDialog mAlarmToast = null;
+	protected MySubject mSubject;//被观察者
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,8 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 		setContentView(getLayoutId());
 		setBehindContentView(R.layout.menu_frame);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		mSubject=MySubject.getSubject();
+		mSubject.attach(this);//加入观察者
 		initBase();
 		initUI();
 		initData();
@@ -257,21 +258,40 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 		}
 	}
 	
-	public void showAlarmDialog(AlertDialog adg)
+	public void createAlarmToast()
 	{
-		mAlarmDialog = adg;
-		if (mAlarmDialog != null)
+		if (mAlarmToast == null)
 		{
-			mAlarmDialog.show();
+			if (this.getParent() != null)
+			{
+				mAlarmToast = new AlarmToastDialog(this.getParent(),
+						R.style.Dialog_Fullscreen);
+			} else
+			{
+				mAlarmToast = new AlarmToastDialog(this, R.style.Dialog_Fullscreen);
+			}
+			showAlarmDialog();
+		}else
+		{
+			showAlarmDialog();
+		}
+	}
+	
+	
+	private void showAlarmDialog()
+	{
+		if (mAlarmToast != null && !mAlarmToast.isShowing())
+		{
+			mAlarmToast.show();
 		}
 	}
 
 	public void dismissAlarmDialog()
 	{
-		if (mAlarmDialog != null && mAlarmDialog.isShowing())
+		if (mAlarmToast != null && mAlarmToast.isShowing())
 		{
-			mAlarmDialog.dismiss();
-			flog.d("mAlarmDialog close");
+			mAlarmToast.dismiss();
+			mAlarmToast = null;
 		}
 	}
 	

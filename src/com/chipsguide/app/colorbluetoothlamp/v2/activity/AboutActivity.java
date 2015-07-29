@@ -19,7 +19,6 @@ public class AboutActivity extends BaseActivity {
 	
 	@Override
 	public void initBase() {
-		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -37,6 +36,14 @@ public class AboutActivity extends BaseActivity {
 	public void initListener() {
 		findViewById(R.id.item_version_update).setOnClickListener(this);
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -68,6 +75,31 @@ public class AboutActivity extends BaseActivity {
 			return false;
 		}
 	};
+
+	@Override
+	public void updateConnectState()
+	{
+		
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
+	}
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

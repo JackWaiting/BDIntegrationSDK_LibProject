@@ -95,7 +95,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		mAdapter = new SimpleMusicListAdapter(this);
 		registBroadcase();
 		
-		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -489,6 +488,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	@Override
 	protected void onResume() {
 		super.onResume();
+		CustomApplication.addActivity(this);
 		playerManager.setPlayListener(new MyPlayListener(this),
 				PlayerManager.getPlayType(), true);
 		if(LampManager.THYHM == BluetoothDeviceColorLampManager.Effect.RHYTHM)
@@ -639,6 +639,29 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	public void LampSupportColdAndWhite(boolean filament) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 
 }

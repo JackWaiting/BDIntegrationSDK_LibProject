@@ -85,6 +85,13 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 	@Override
 	public void initListener() {
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
+	}
 
 	private class MyPagerAdapter extends FragmentPagerAdapter {
 		private List<Fragment> fragments = new ArrayList<Fragment>();
@@ -160,6 +167,29 @@ public class AlarmSoundSelectActivity extends BaseActivity implements
 			break;
 		default:
 			break;
+		}
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
 		}
 	}
 }

@@ -6,14 +6,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.listeners.MySubject;
-import com.chipsguide.app.colorbluetoothlamp.v2.listeners.Observer;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class SlidingFragmentActivity extends FragmentActivity implements SlidingActivityBase ,Observer{
+public class SlidingFragmentActivity extends FragmentActivity implements SlidingActivityBase{
 
 	private SlidingActivityHelper mHelper;
-	protected MySubject mSubject;//被观察者
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -23,8 +20,6 @@ public class SlidingFragmentActivity extends FragmentActivity implements Sliding
 		super.onCreate(savedInstanceState);
 		mHelper = new SlidingActivityHelper(this);
 		mHelper.onCreate(savedInstanceState);
-		mSubject=MySubject.getSubject();
-		mSubject.attach(SlidingFragmentActivity.this);//加入观察者
 	}
 
 	/* (non-Javadoc)
@@ -152,30 +147,6 @@ public class SlidingFragmentActivity extends FragmentActivity implements Sliding
 		boolean b = mHelper.onKeyUp(keyCode, event);
 		if (b) return b;
 		return super.onKeyUp(keyCode, event);
-	}
-
-	@Override
-	public void updateVolume() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateBattery() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateConnectState() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateAlarming() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

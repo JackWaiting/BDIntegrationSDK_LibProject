@@ -4,13 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.ActivityManager;
-import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,17 +21,17 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.listeners.Observer;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.CustomDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceAlarmManagerReadyListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager.OnBluetoothDeviceAlarmUIChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class TimeDeviceLightActivity extends BaseActivity implements
-		OnItemClickListener {
+		OnItemClickListener , Observer{
 	private AlarmClockAdapter mAlarmClockAdapter;// 闹钟适配器
 	private View addBtn;
 	private TitleView titleView;
@@ -53,8 +48,6 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 
 	private List<AlarmClockNode> mAlarmEntriesList = new ArrayList<AlarmClockNode>();
 	
-	private AlertDialog mAlarmDialog = null;
-
 	@Override
 	public int getLayoutId()
 	{
@@ -64,18 +57,13 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	@Override
 	public void initBase()
 	{
-		CustomApplication.addActivity(this);
-		
-		CustomApplication.isUsedAlarmActivity=true;
-		if (CustomApplication.isAlarmRing) {//若闹钟想起就弹出提示框
-			showDialog(createAlarmDialog());
-		}
-		
+		CustomApplication.isClickAlarm = false;
 		formatStr = getResources().getString(R.string.text_loading);
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
 		mManagerProxy.changeToAlarm();
 		mBluetoothDeviceManager = ((CustomApplication) getApplication())
 				.getBluetoothDeviceManager();
+		mBluetoothDeviceAlarmManager = mBluetoothDeviceManager.getBluetoothDeviceAlarmManager();
 		showLoadingMusicDialog();
 	}
 
@@ -119,6 +107,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	@Override
 	public void initListener()
 	{
+		initAlarmUiListener();
 	}
 
 	@Override
@@ -127,7 +116,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 		switch (v.getId())
 		{
 		case R.id.left_btn:
-			finish();
+			finish(); 
 			break;
 		case R.id.right_btn:
 			if (maxSize)
@@ -153,24 +142,9 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	protected void onResume()
 	{
 		super.onResume();
+		CustomApplication.addActivity(this);
 		refreshAlarmEntries();
 		notifyDataChanged();
-		if (mBluetoothDeviceManager != null)
-		{
-			mBluetoothDeviceManager
-					.setOnBluetoothDeviceAlarmManagerReadyListener(new OnBluetoothDeviceAlarmManagerReadyListener()
-					{
-						@Override
-						public void onBluetoothDeviceAlarmManagerReady()
-						{
-							mBluetoothDeviceAlarmManager = mBluetoothDeviceManager
-									.getBluetoothDeviceAlarmManager();
-							initAlarmUiListener();
-							refreshAlarmEntries();
-							notifyDataChanged();
-						}
-					});
-		}
 		if (mBluetoothDeviceAlarmManager != null
 				&& mManagerProxy.getBluetoothManagerMode() != BluetoothDeviceManager.Mode.ALARM)
 		{
@@ -228,77 +202,10 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 				// 蓝牙闹钟的状态
 				public void onBluetoothDeviceAlarmUIChanged(int state)
 				{
-					if (state == 1)
-					{
-						//TODO
-						if (CustomApplication.isUsedAlarmActivity) {
-							ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-							ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
-							System.out.println("闹钟-----"+cn.getClassName().substring(37));
-
-
-							CustomApplication.isAlarmRing=true;
-							CustomApplication.isExitAlarmMode=false;
-							mSubject.noticeAlarm(cn.getClassName().substring(37));
-							//						showAlarmDialog(createAlarmDialog());
-						}else {
-							CustomApplication.isExitAlarmMode=false;
-							CustomApplication.isAlarmRing=true;
-
-						}
-					} else
-					{
-						dismissDialog();
-					}
+					mSubject.noticeAlarm(state);
 				}
 			});
 		}
-	}
-	private void showDialog(AlertDialog adg){
-
-		mAlarmDialog = adg;
-		if (mAlarmDialog != null)
-		{
-			mAlarmDialog.show();
-		}
-	}
-	//解除弹出框
-	public void dismissDialog()
-	{
-		if (mAlarmDialog != null && mAlarmDialog.isShowing())
-		{
-			mAlarmDialog.dismiss();
-			Log.e("mAlarmDialog", "mAlarmDialog : close");
-		}
-	}
-
-	private AlertDialog createAlarmDialog()
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.alarmclock);
-		builder.setPositiveButton(R.string.alarmclock_snooze,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int which)
-					{
-						mBluetoothDeviceAlarmManager.delay();
-						dialog.dismiss();
-						CustomApplication.isExitAlarmMode=true;
-						finish();
-					}
-				});
-		builder.setNegativeButton(R.string.alarmclock_turnoff,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int which)
-					{
-						mBluetoothDeviceAlarmManager.turnOff();
-						CustomApplication.isExitAlarmMode=true;
-						dialog.dismiss();
-					}
-				});
-		AlertDialog dg = builder.create();
-		return dg;
 	}
 
 	private BluetoothDeviceAlarmEntity creatNewAlarmEntry()
@@ -465,22 +372,34 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		CustomApplication.isAlarmRing=false;
-	}
-	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mSubject.deleteach(this);
 	}
+	
 	@Override
-	public void updateAlarming() {
-		// TODO Auto-generated method stub
-		super.updateAlarming();
-		showDialog(createAlarmDialog());
+	public void updateConnectState()
+	{
+		
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
+		}
 	}
 
 }

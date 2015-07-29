@@ -66,7 +66,6 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	@Override
 	public void initBase()
 	{
-		CustomApplication.addActivity(this);
 		week = getResources().getStringArray(R.array.week);
 		repeatDays = getResources().getStringArray(R.array.repeat_device_days);
 		Intent intent = getIntent();
@@ -179,6 +178,13 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			RadioButton rb = (RadioButton) selectedDaysLayout.getChildAt(i);
 			rb.setChecked(selected[i]);
 		}
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		CustomApplication.addActivity(this);
 	}
 
 	@Override
@@ -398,6 +404,29 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		if(mLampManager != null)
 		{
 			mLampManager.removeOnBluetoothDeviceLampAlarmListener(this);
+		}
+	}
+	
+	@Override
+	public void updateConnectState()
+	{
+	}
+
+	@Override
+	public void updateAlarm(int state)
+	{
+		if(CustomApplication.getActivity() == this)
+		{
+			if(state == 1)
+			{
+				createAlarmToast();
+			}else if(state == 0)
+			{
+				dismissAlarmDialog();
+			}else
+			{
+				dismissAlarmDialog();
+			}
 		}
 	}
 
