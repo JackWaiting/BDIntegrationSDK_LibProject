@@ -68,6 +68,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	private int color = -1;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
 	private boolean isTouch = false;//是否处理色盘滑动中
+	private boolean isConnect = false;
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
@@ -403,11 +404,13 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		// 连接
 		case BluetoothDeviceManager.ConnectionState.CONNECTED:
 			flog.d("CONNECTED  连接成功");
+			isConnect = true;
 			dialogcancel();
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
 			flog.d("DISCONNECTED  断开连接");
+			isConnect = false;
 			mColorPicker.setSecondProgressVisibility(false);
 			break;
 		}
@@ -427,7 +430,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	
 	private void dialogShow()
 	{
-		if(!bluzProxy.isConnected())
+		if(!isConnect)
 		{
 			toastDialog.show();
 			return;
