@@ -3,6 +3,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -52,7 +53,19 @@ public class AlarmToastDialog extends Dialog implements android.view.View.OnClic
 		alarmManager = proxy.getBluetoothDeviceManager().getBluetoothDeviceAlarmManager();
 	}
 	
-	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+			if(alarmManager != null)
+			{
+				alarmManager.delay();
+			}
+            return false;
+        }
+		return true;
+	}
 
 	@Override
 	public void onClick(View v)

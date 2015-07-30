@@ -385,12 +385,12 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		if(!fromUser){
 			return;
 		}	
-		mSeekBarNum=progress;
+		mSeekBarNum=(255-progress);
 
 	}
 	// 刷新冷暖白条
 	private void refresh(int mSeekBarNum) {	
-		mColorPicker.setSecondProgress(mSeekBarNum);
+		mColorPicker.setSecondProgress((255-mSeekBarNum));
 	}
 	
 	@Override
