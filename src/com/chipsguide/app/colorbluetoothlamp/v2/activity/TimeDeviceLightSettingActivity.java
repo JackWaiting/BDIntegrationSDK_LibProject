@@ -66,7 +66,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	@Override
 	public void initBase()
 	{
-		week = getResources().getStringArray(R.array.week);
+		week = getResources().getStringArray(R.array.device_week);
 		repeatDays = getResources().getStringArray(R.array.repeat_device_days);
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
