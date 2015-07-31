@@ -67,7 +67,7 @@ public class NavFrag extends BaseFragment {
 			startActivity(BluetoothConnectionActivity.class);
 			break;
 		case 1:
-			if(!bluzProxy.isConnected())
+			if(!CustomApplication.isConnect)
 			{
 				showToast(R.string.conn_ble);
 				return;
@@ -82,7 +82,7 @@ public class NavFrag extends BaseFragment {
 			}
 			break;
 		case 2:
-			if(!bluzProxy.isConnected())
+			if(!CustomApplication.isConnect)
 			{
 				showToast(R.string.conn_ble);
 				return;

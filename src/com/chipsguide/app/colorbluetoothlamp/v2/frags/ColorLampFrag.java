@@ -68,7 +68,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	private int color = -1;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
 	private boolean isTouch = false;//是否处理色盘滑动中
-	private boolean isConnect = false;
 	// 是白色吗
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
@@ -82,6 +81,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		mLampManager.init();//蓝牙连接准备
 		mLampManager.addOnBluetoothDeviceLampListener(this);//灯效监听状态
 		toastDialog = new ToastIsConnectDialog( getActivity() );
+		mLampManager.getStatus();
 
 	}
 
@@ -345,6 +345,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	//设置灯的颜色
 	@Override
 	public void onLampColor(final int red, final int green, final int blue) {
+		flog.e("red ->" + red +" green : ->" + green + " blue-->" + blue);
 		if(!isTouch)
 		{
 			mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
@@ -404,13 +405,13 @@ OnBluetoothDeviceConnectionStateChangedListener{
 		// 连接
 		case BluetoothDeviceManager.ConnectionState.CONNECTED:
 			flog.d("CONNECTED  连接成功");
-			isConnect = true;
+			CustomApplication.isConnect = true;
 			dialogcancel();
 			break;
 		// 断开
 		case BluetoothDeviceManager.ConnectionState.DISCONNECTED:
 			flog.d("DISCONNECTED  断开连接");
-			isConnect = false;
+			CustomApplication.isConnect = false;
 			mColorPicker.setSecondProgressVisibility(false);
 			break;
 		}
@@ -430,7 +431,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	
 	private void dialogShow()
 	{
-		if(!isConnect)
+		if(!CustomApplication.isConnect)
 		{
 			toastDialog.show();
 			return;

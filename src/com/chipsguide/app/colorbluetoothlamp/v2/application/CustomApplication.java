@@ -32,6 +32,7 @@ public class CustomApplication extends Application {
 	private static List<Activity> activityList = new LinkedList<Activity>();
 	
 	public static boolean isClickAlarm = false;
+	public static boolean isConnect = false; 
 
 	@Override
 	public void onCreate()
