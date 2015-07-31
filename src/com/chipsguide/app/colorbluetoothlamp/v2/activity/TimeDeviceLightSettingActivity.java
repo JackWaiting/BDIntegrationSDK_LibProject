@@ -223,7 +223,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			{
 				soundPath = data.getIntExtra(
 						AlarmSoundActivity.EXTRA_SOUND_PATH, 0);
-				flog.e("soundPath" +soundPath);
+				flog.d("soundPath" +soundPath);
 				updateMusicName();
 			}
 		}

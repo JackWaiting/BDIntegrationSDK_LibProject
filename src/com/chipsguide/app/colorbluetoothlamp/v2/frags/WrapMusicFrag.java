@@ -61,10 +61,10 @@ public class WrapMusicFrag extends BaseFragment implements
 				int newMode = intent.getIntExtra(BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
 				if(newMode == BluetoothDeviceManager.Mode.CARD){
 					musicFrag.setCurrentItem(1);
-					flog.e("卡播放");
+					flog.d("卡播放");
 				} else if(newMode == BluetoothDeviceManager.Mode.A2DP)
 				{
-					flog.e("蓝牙播放");
+					flog.d("蓝牙播放");
 					if(CustomApplication.pageItem == 2)
 					{
 						musicFrag.setCurrentItem(2);

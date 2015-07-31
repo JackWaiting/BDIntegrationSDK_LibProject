@@ -192,7 +192,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		if(viewPager != null)
 		{
 			viewPager.setCurrentItem(item);
-			flog.e("setCurrentItem--->" + item);
+			flog.d("setCurrentItem--->" + item);
 		}
 	}
 
@@ -341,7 +341,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		}
 		topNavRg.check(item);
 		viewPager.setCurrentItem(item);
-		flog.e("item-->" + item);
+		flog.d("item-->" + item);
 
 	}
 

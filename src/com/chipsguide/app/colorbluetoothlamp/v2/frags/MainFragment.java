@@ -153,7 +153,7 @@ public class MainFragment extends BaseFragment implements
 	@Override
 	public void onModeChanged(int newMode)
 	{
-		flog.e("newMode----》" + newMode);
+		flog.d("newMode----》" + newMode);
 		if (newMode == BluetoothDeviceManager.Mode.CARD || newMode == BluetoothDeviceManager.Mode.A2DP)
 		{
 			viewPager.setCurrentItem(1, false);

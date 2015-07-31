@@ -345,7 +345,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	//设置灯的颜色
 	@Override
 	public void onLampColor(final int red, final int green, final int blue) {
-		flog.e("red ->" + red +" green : ->" + green + " blue-->" + blue);
+		flog.d("red ->" + red +" green : ->" + green + " blue-->" + blue);
 		if(!isTouch)
 		{
 			mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));

@@ -597,7 +597,7 @@ public class BluetoothDeviceManagerProxy {
 		@Override
 		public void onBluetoothDeviceModeChanged(int mode)
 		{
-			flog.e(">>>mode change: mode == " + mode);
+			flog.d(">>>mode change: mode == " + mode);
 			CustomApplication.setMode(mode);
 			connected = true;
 			switch (mode)
