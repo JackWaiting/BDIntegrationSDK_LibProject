@@ -86,5 +86,15 @@ public class AlarmToastDialog extends Dialog implements android.view.View.OnClic
 			break;
 		}
 	}
+	
+	@Override
+	public void dismiss()
+	{
+		super.dismiss();
+		if(alarmManager != null)
+		{
+			alarmManager.turnOff();
+		}
+	}
 
 }

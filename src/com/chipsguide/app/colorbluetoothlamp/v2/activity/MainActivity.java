@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity implements
 	private TextSwitcherTitleView titleView;//自定义字体
 	private PlayerManager playerManager;
 	
+	
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;
@@ -102,9 +103,18 @@ public class MainActivity extends BaseActivity implements
 		titleView.setOnClickListener(this);
 		titleView.setTitleText(R.string.color_lamp);
 		titleView.setShowToastTv(true);
+		
 		MainFragment mainFrag = new MainFragment();//右边替换布局的Fragment
 		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
 				.commit();
+		
+		if(mManagerProxy.getBluetoothManagerMode() == BluetoothDeviceManager.Mode.LINE_IN)
+		{
+			titleView.setRightBtnVisibility(false);
+		}else
+		{
+			titleView.setRightBtnVisibility(true);
+		}
 	}
 
 	@Override
@@ -275,9 +285,6 @@ public class MainActivity extends BaseActivity implements
 			if(state == 1)
 			{
 				createAlarmToast();
-			}else if(state == 0)
-			{
-				dismissAlarmDialog();
 			}else
 			{
 				dismissAlarmDialog();

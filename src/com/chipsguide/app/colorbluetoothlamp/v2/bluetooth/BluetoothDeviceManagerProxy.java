@@ -351,7 +351,7 @@ public class BluetoothDeviceManagerProxy {
 	};
 
 	/**
-	 * 获取设备音乐的模式
+	 * 获取设备的模式
 	 * 
 	 * @return
 	 */

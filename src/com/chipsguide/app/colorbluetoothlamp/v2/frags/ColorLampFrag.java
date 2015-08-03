@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
-import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -287,7 +286,6 @@ OnBluetoothDeviceConnectionStateChangedListener{
 
 	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff) {
-		MyLog.i(TAG,"colorstate " + colorState + " OnorOff " + OnorOff);
 		backChange(colorState, OnorOff, true);
 	}
 	@Override
@@ -302,6 +300,7 @@ OnBluetoothDeviceConnectionStateChangedListener{
 	 */
 	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite) {
 		if (mLampCheckBox != null && mLampOnCheckBox != null) {
+			MyLog.i(TAG,"colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
 			if (!colorState) {//非彩灯

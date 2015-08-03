@@ -265,10 +265,10 @@ public abstract class BaseActivity extends SlidingFragmentActivity implements
 			if (this.getParent() != null)
 			{
 				mAlarmToast = new AlarmToastDialog(this.getParent(),
-						R.style.Dialog_Fullscreen);
+						R.style.Dialog_Fullscreen2);
 			} else
 			{
-				mAlarmToast = new AlarmToastDialog(this, R.style.Dialog_Fullscreen);
+				mAlarmToast = new AlarmToastDialog(this, R.style.Dialog_Fullscreen2);
 			}
 			showAlarmDialog();
 		}else

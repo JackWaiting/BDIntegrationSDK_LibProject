@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         app:leftImg="@drawable/selector_btn_back"
         app:rightImg="@drawable/selector_btn_player"
+        app:rightBtnVisibility="false"
         app:text="@string/bluetooth_conn" >
     </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
  
