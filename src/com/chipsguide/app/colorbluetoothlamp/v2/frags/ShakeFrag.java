@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.ShakeSettingActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ShakeManager.OnShakeListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeListener{
 	
@@ -27,6 +29,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 	private ImageView shakeIv;
 	private TextView currentSetTv;
 	private int currentSetId;
+	private BluetoothDeviceManagerProxy bluzDeviceManProxy;
 	
 	@Override
 	protected void initBase() {
@@ -36,6 +39,7 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 		shakeUtil.setOnShakeListener(this);
 		playerManager = PlayerManager.getInstance(context);
 		mLampManager = LampManager.getInstance(getActivity());
+		bluzDeviceManProxy = BluetoothDeviceManagerProxy.getInstance(context);
 	}
 
 	@Override
@@ -75,7 +79,13 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 				shakeUtil.start();
 			}
 			currentSetId = PreferenceUtil.getIntance(getActivity()).getShakeOption();
-			currentSetTv.setText(getTextFromId(currentSetId));
+			if(bluzDeviceManProxy.getBluetoothManagerMode() == BluetoothDeviceManager.Mode.LINE_IN)
+			{
+				currentSetTv.setText(lineInText(currentSetId));
+			}else
+			{
+				currentSetTv.setText(getTextFromId(currentSetId));
+			}
 		}else{
 			if(shakeUtil != null){
 				shakeUtil.stop();
@@ -161,6 +171,21 @@ public class ShakeFrag extends BaseFragment implements OnClickListener, OnShakeL
 			break;
 		case R.id.rb_next_song:
 			resId = R.string.next_song;
+			break;
+		}
+		return getString(resId);
+	}
+	
+	private String lineInText(int id) {
+		int shakeId = R.id.rb_random_color;
+		int resId = R.string.random_color;
+		switch(id){
+		case R.id.rb_light_toggle:
+			resId = R.string.toggle_light;
+			break;
+		case R.id.rb_player_toggle:
+		case R.id.rb_next_song:
+			PreferenceUtil.getIntance(getActivity()).saveShakeOption(shakeId);
 			break;
 		}
 		return getString(resId);

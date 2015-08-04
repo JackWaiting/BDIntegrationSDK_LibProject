@@ -14,6 +14,7 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnDeviceConnectedStateChangedListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnModeChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.MainFragment.OnMainPageChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.frags.NavFrag;
@@ -31,7 +32,7 @@ import com.platomix.lib.update.listener.OnCheckUpdateListener;
 
 public class MainActivity extends BaseActivity implements
 		OnNavItemClickListener, OnMainPageChangeListener,
-		DialogInterface.OnClickListener{
+		DialogInterface.OnClickListener,OnModeChangedListener{
 	private FragmentManager fragManager;
 	private NavFrag navFrag;
 	private Intent alarmAlertService;
@@ -94,6 +95,7 @@ public class MainActivity extends BaseActivity implements
 		playerManager = PlayerManager.getInstance(getApplicationContext());
 		
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(this);
+		mManagerProxy.addOnModeChangedListener(this);
 		CustomApplication.addActivity(this);
 	}
 
@@ -107,18 +109,11 @@ public class MainActivity extends BaseActivity implements
 		MainFragment mainFrag = new MainFragment();//右边替换布局的Fragment
 		fragManager.beginTransaction().replace(R.id.content_layout, mainFrag)
 				.commit();
-		
-		if(mManagerProxy.getBluetoothManagerMode() == BluetoothDeviceManager.Mode.LINE_IN)
-		{
-			titleView.setRightBtnVisibility(false);
-		}else
-		{
-			titleView.setRightBtnVisibility(true);
-		}
 	}
 
 	@Override
 	public void initData() {
+		mode2Linein(mManagerProxy.getBluetoothManagerMode());
 	}
 
 	@Override
@@ -173,7 +168,8 @@ public class MainActivity extends BaseActivity implements
 		stopService(alarmAlertService);
 		alarms.cancel(true);
 		LampManager.getInstance(this).destory();
-		BluetoothDeviceManagerProxy.getInstance(this).destory();
+		mManagerProxy.removeOnModeChangedListener(this);
+		mManagerProxy.destory();
 	}
 
 	private boolean forceUpdate;
@@ -314,6 +310,23 @@ public class MainActivity extends BaseActivity implements
 			}
 				break;
 			}
+		}
+	}
+
+	@Override
+	public void onModeChanged(int mode)
+	{
+		mode2Linein(mode);
+	}
+
+	private void mode2Linein(int mode)
+	{
+		if(mode == BluetoothDeviceManager.Mode.LINE_IN)
+		{
+			titleView.setRightBtnVisibility(false);
+		}else
+		{
+			titleView.setRightBtnVisibility(true);
 		}
 	}
 	

@@ -89,6 +89,16 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	 */
 	private void initBluetoothEnviroment()
 	{
+		bluetoothDeviceConnected = mBluetoothDeviceManager
+				.getBluetoothDeviceConnectedSpp();//保持蓝牙连接
+		if (bluetoothDeviceConnected.getAddress().startsWith(
+				CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
+		{
+			if(dao != null)
+			{
+				dao.insert(bluetoothDeviceConnected);
+			}
+		}
 		// 从数据库中获取已经连接成功的蓝牙列表
 		connectBluetoothDevices = dao.selectAll();
 		mAdapter = new BluetoothDeivcesListAdapter(

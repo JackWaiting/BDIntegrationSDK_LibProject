@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnModeChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -50,7 +49,7 @@ public class MainFragment extends BaseFragment implements
 		fragments.add(new WrapMusicFrag());
 		fragments.add(new ShakeFrag());
 		mManagerProxy = BluetoothDeviceManagerProxy.getInstance(getActivity());
-		mManagerProxy.setOnModeChangedListener(this);
+		mManagerProxy.addOnModeChangedListener(this);
 	}
 
 	@Override
@@ -74,21 +73,6 @@ public class MainFragment extends BaseFragment implements
 	@Override
 	protected void initData()
 	{
-		setViewPage(CustomApplication.getMode());
-	}
-
-	public void setViewPage(int mode)
-	{
-		switch (mode)
-		{
-		case BluetoothDeviceManager.Mode.CARD:
-		case BluetoothDeviceManager.Mode.USB:
-		case BluetoothDeviceManager.Mode.A2DP:
-			bottomNavRg.check(R.id.rb_music);
-			break;
-		case BluetoothDeviceManager.Mode.LINE_IN:
-			break;
-		}
 	}
 
 	private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -153,16 +137,19 @@ public class MainFragment extends BaseFragment implements
 	@Override
 	public void onModeChanged(int newMode)
 	{
-		flog.d("newMode----》" + newMode);
-		if (newMode == BluetoothDeviceManager.Mode.CARD || newMode == BluetoothDeviceManager.Mode.A2DP)
-		{
-			viewPager.setCurrentItem(1, false);
-			bottomNavRg.check(R.id.rb_music);
-		} else if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
+		flog.e("新模式为：---》" + newMode);
+		if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
 		{
 			viewPager.setCurrentItem(0, false);
 			bottomNavRg.check(R.id.rb_light);
 		}
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		mManagerProxy.removeOnModeChangedListener(this);
 	}
 
 }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -61,17 +60,6 @@ public class WrapMusicFrag extends BaseFragment implements
 				int newMode = intent.getIntExtra(BluetoothDeviceManagerProxy.EXTRA_NEW_MODE, -1);
 				if(newMode == BluetoothDeviceManager.Mode.CARD){
 					musicFrag.setCurrentItem(1);
-					flog.d("卡播放");
-				} else if(newMode == BluetoothDeviceManager.Mode.A2DP)
-				{
-					flog.d("蓝牙播放");
-					if(CustomApplication.pageItem == 2)
-					{
-						musicFrag.setCurrentItem(2);
-					}else
-					{
-						musicFrag.setCurrentItem(0);
-					}
 				}
 			} else {
 				plugTFCard = intent.getBooleanExtra(

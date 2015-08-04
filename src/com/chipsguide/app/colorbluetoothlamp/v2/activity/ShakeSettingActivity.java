@@ -7,14 +7,19 @@ import android.widget.RadioGroup;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy.OnModeChangedListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
-public class ShakeSettingActivity extends BaseActivity implements OnClickListener{
+public class ShakeSettingActivity extends BaseActivity implements OnClickListener,OnModeChangedListener{
 	private PreferenceUtil preferenceUtil;
 	private RadioButton mRandomColor;
 	private RadioButton mLightToggle;
 	private RadioButton mPlayerToggle;
 	private RadioButton mNextSong;
+	private View lin01,lin02;
+	private BluetoothDeviceManagerProxy bluzDeviceManProxy;
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_shake_setting;
@@ -23,6 +28,8 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initBase() {
 		preferenceUtil = PreferenceUtil.getIntance(getApplicationContext());
+		bluzDeviceManProxy = BluetoothDeviceManagerProxy.getInstance(this);
+		bluzDeviceManProxy.addOnModeChangedListener(this);
 	}
 
 	@Override
@@ -33,6 +40,8 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 		mLightToggle = (RadioButton)findViewById(R.id.rb_light_toggle);
 		mPlayerToggle = (RadioButton)findViewById(R.id.rb_player_toggle);
 		mNextSong = (RadioButton)findViewById(R.id.rb_next_song);
+		lin01 = (View)findViewById(R.id.lin_01);
+		lin02 = (View)findViewById(R.id.lin_02);
 		int id = preferenceUtil.getShakeOption();
 		shakeOptionsRg.check(id);
 		
@@ -55,6 +64,7 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 	{
 		super.onResume();
 		CustomApplication.addActivity(this);
+		mode2Linein(bluzDeviceManProxy.getBluetoothManagerMode());
 	}
 
 	@Override
@@ -86,6 +96,36 @@ public class ShakeSettingActivity extends BaseActivity implements OnClickListene
 				dismissAlarmDialog();
 			}
 		}
+	}
+
+	@Override
+	public void onModeChanged(int mode)
+	{
+		mode2Linein(mode);
+	}
+
+	private void mode2Linein(int mode)
+	{
+		if(mode == BluetoothDeviceManager.Mode.LINE_IN)
+		{
+			mPlayerToggle.setVisibility(View.INVISIBLE);
+			mNextSong.setVisibility(View.INVISIBLE);
+			lin01.setVisibility(View.INVISIBLE);
+			lin02.setVisibility(View.INVISIBLE);
+		}else
+		{
+			mPlayerToggle.setVisibility(View.VISIBLE);
+			mNextSong.setVisibility(View.VISIBLE);
+			lin01.setVisibility(View.VISIBLE);
+			lin02.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		bluzDeviceManProxy.removeOnModeChangedListener(this);
 	}
 	
 }
