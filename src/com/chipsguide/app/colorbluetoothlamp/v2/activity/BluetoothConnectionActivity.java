@@ -91,7 +91,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	{
 		bluetoothDeviceConnected = mBluetoothDeviceManager
 				.getBluetoothDeviceConnectedSpp();//保持蓝牙连接
-		if (bluetoothDeviceConnected.getAddress().startsWith(
+		if (bluetoothDeviceConnected != null && bluetoothDeviceConnected.getAddress().startsWith(
 				CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
 		{
 			if(dao != null)

@@ -19,7 +19,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:paddingLeft="100dip"
+        android:paddingLeft="20dip"
         android:text="@string/restting_name"
         android:textSize="20sp"
         android:background="@color/white" />
@@ -30,7 +30,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:paddingLeft="100dp"
+        android:paddingLeft="20dp"
         android:text="@string/cancl_pair2"
         android:textColor="@color/color_red"
         android:textSize="20sp"

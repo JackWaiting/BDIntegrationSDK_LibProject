@@ -15,20 +15,21 @@
     <color name="color_dialog_bag">#f0f0f0</color>
     <color name="color_red">#ff0010</color>
     
-    <color name="color_orange">#f39801</color>
-    <color name="color_pink">#ff7d96</color>
-    <color name="color_purple">#b861ff</color>
-    <color name="color_green">#009a64</color>
-    <color name="color_ching">#3dc4f6</color>
-    <color name="color_blue2">#0d45c8</color>
+    <color name="color_orange">#ffb500</color>
+    <color name="color_pink">#e03d7f</color>
+    <color name="color_purple">#b03de0</color>
+    <color name="color_green">#3de067</color>
+    <color name="color_ching">#14b9d7</color>
+    <color name="color_blue2">#1265ee</color>
     
     <color name="press_blue">#DDF0FE</color>
     
     <color name="color_round">#88000000</color>
     
-    <color name="color_r">#c30d23</color>
-    <color name="color_g">#007800</color>
-    <color name="color_b">#0000dc</color>
-    <color name="color_y">#ffff01</color>
+<!--      <color name="color_r">#c30d23</color>	-->
+    <color name="color_r">#fd1403</color>
+    <color name="color_g">#00fe00</color>
+    <color name="color_b">#072afd</color>
+    <color name="color_y">#fdfd00</color>
     <color name="color_c8">#719098</color>
 </resources>

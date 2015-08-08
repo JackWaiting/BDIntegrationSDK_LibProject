@@ -338,7 +338,7 @@ public class ColorPicker extends View {
 		if(mSecondArcChangeListener != null){
 			mSecondArcChangeListener.onArcChanged(this, getSecondProgress(), fromUser);
 		}
-		postInvalidate();//跟新iew
+		postInvalidate();//更新view
 	}
 
 	private int centerX, centerY;

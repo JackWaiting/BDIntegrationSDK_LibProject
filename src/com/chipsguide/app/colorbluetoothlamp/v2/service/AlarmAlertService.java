@@ -29,7 +29,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.OnDeviceMusicManagerRe
 import com.chipsguide.app.colorbluetoothlamp.v2.db.AlarmLightColorDAO;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager.PlayType;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
@@ -128,7 +127,8 @@ public class AlarmAlertService extends AlarmService{
 	private void onAlert(List<Alarm> list) {
 		Alarm alarm = list.get(0);
 		AlarmLightColor lightcolor = lightColorDao.query(alarm.getId() + "");
-		int color = ColorUtil.Color2Color(this,lightcolor.getColor());
+//		int color = ColorUtil.Color2Color(this,lightcolor.getColor());
+		int color = Color.parseColor(lightcolor.getColor());
 		int red = Color.red(color);
 		int green = Color.green(color);
 		int blue = Color.blue(color);

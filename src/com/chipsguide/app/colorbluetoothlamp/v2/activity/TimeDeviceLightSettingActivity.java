@@ -20,7 +20,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity.IPCKey;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.AlarmLightColor;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampAlarmListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout;
@@ -29,8 +28,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmRingEntity;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager.RingSource;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class TimeDeviceLightSettingActivity extends BaseActivity implements LampAlarmListener{
 	public static final String EXTRA_ALARM = "alarm";
@@ -323,10 +322,11 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			isMute = false;
 			break;
 		}
-		int alarmColor = ColorUtil.Color2Color(this, color);
-		int red = Color.red(alarmColor);
-		int green = Color.green(alarmColor);
-		int blue = Color.blue(alarmColor);
+		int checkedColor = Color.parseColor(color);
+//		int alarmColor = ColorUtil.Color2Color(this, color);
+		int red = Color.red(checkedColor);
+		int green = Color.green(checkedColor);
+		int blue = Color.blue(checkedColor);
 		if(red == green && green == blue)
 		{
 			mLampManager.setAlarmWithCommonLight(mAlarmEntry.index, 16, 0, isMute);
@@ -368,29 +368,6 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			colorSelectLayout.checkColor(-1);
 			break;
 		case 2:
-			//返回颜色对比
-			int colors = Color.rgb(r, g, b);
-			switch (colors)
-			{
-			case -56302:
-				colorSelectLayout.checkColor(-813055);
-				break;
-			case -1962234:
-				colorSelectLayout.checkColor(-33386);
-				break;
-			case -65358:
-				colorSelectLayout.checkColor(-4693505);
-				break;
-			case -7799040:
-				colorSelectLayout.checkColor(-16737692);
-				break;
-			case -15129019:
-				colorSelectLayout.checkColor(-12729098);
-				break;
-			case -16754177:
-				colorSelectLayout.checkColor(-15907384);
-				break;
-			}
 			break;
 		}
 	}

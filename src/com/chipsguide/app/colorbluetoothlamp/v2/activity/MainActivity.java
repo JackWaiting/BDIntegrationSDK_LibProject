@@ -215,6 +215,7 @@ public class MainActivity extends BaseActivity implements
 		}else{
 			cancelToast();
 			super.onBackPressed();
+			System.exit(0);
 		}
 	}
 	/**
