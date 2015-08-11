@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -329,7 +331,8 @@ public class ColorLampFrag extends BaseFragment implements
 	 */
 	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite)
 	{
-		if (mLampCheckBox != null && mLampOnCheckBox != null)
+		if (mLampCheckBox != null 
+				&& mLampOnCheckBox != null)
 		{
 			MyLog.i(TAG, "colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);

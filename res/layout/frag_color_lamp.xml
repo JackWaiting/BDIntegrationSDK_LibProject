@@ -68,7 +68,7 @@
             android:layout_height="0dp"
             android:layout_weight="4.8"
             layout="@layout/layout_colorpicker" />
-
+    
         <LinearLayout
             android:id="@+id/lyout_cb_lamp"
             android:layout_width="match_parent"
