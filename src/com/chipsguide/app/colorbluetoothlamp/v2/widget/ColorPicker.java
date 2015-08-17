@@ -16,6 +16,8 @@
 
 package com.chipsguide.app.colorbluetoothlamp.v2.widget;
 
+import java.math.BigDecimal;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,6 +38,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -237,14 +240,14 @@ public class ColorPicker extends View {
 		// drawing color wheel pointer
 
 		float hueAngle = 185.3f-(float) Math.toRadians(colorHSV[0]);
-		int colorPointX = (int) (-Math.cos(hueAngle) * colorHSV[1] * colorWheelRadius)
+		float colorPointX = (float) (-Math.cos(hueAngle) * colorHSV[1] * colorWheelRadius)
 				+ centerX;
-		int colorPointY = (int) (-Math.sin(hueAngle) * colorHSV[1] * colorWheelRadius)
+		float colorPointY = (float) (-Math.sin(hueAngle) * colorHSV[1] * colorWheelRadius)
 				+ centerY;
 
 		float pointerRadius = 0.1f * colorWheelRadius;
-		int pointerX = (int) (colorPointX - pointerRadius / 2);
-		int pointerY = (int) (colorPointY - pointerRadius / 2);
+		float pointerX = (colorPointX - pointerRadius / 2);
+		float pointerY = (colorPointY - pointerRadius / 2);
 
 		colorPointerCoords.set(pointerX, pointerY, pointerX + pointerRadius,
 				pointerY + pointerRadius);
@@ -497,6 +500,10 @@ public class ColorPicker extends View {
 				downOnWheel = false;
 				if (mColorChangelistener != null) {
 					int color = Color.HSVToColor(colorHSV);
+					Log.d("", "before s = " + colorHSV[1]);
+					BigDecimal bigDecimal = new BigDecimal(colorHSV[1]);
+					colorHSV[1] = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+					Log.d("", "after s = " + colorHSV[1]);
 					//int alpha = Color.alpha(color);
 					int red = (color & 0xff0000) >> 16;
 					int green = (color & 0x00ff00) >> 8;
@@ -595,6 +602,8 @@ public class ColorPicker extends View {
 	 */
 	public void setColor(int color) {
 		Color.colorToHSV(color, colorHSV);
+		BigDecimal bigDecimal = new BigDecimal(colorHSV[1]);
+		colorHSV[1] = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 		updateThumbPosition();
 		invalidate();
 	}
