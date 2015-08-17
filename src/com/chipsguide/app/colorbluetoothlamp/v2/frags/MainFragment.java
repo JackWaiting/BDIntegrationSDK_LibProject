@@ -138,7 +138,11 @@ public class MainFragment extends BaseFragment implements
 	public void onModeChanged(int newMode)
 	{
 		flog.d("新模式为：---》" + newMode);
-		if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
+		if (newMode == BluetoothDeviceManager.Mode.CARD || newMode == BluetoothDeviceManager.Mode.A2DP)
+		{
+			viewPager.setCurrentItem(1, false);
+			bottomNavRg.check(R.id.rb_music);
+		} else if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
 		{
 			viewPager.setCurrentItem(0, false);
 			bottomNavRg.check(R.id.rb_light);
