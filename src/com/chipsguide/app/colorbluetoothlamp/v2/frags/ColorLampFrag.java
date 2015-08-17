@@ -319,7 +319,7 @@ public class ColorLampFrag extends BaseFragment implements
 		if (mLampCheckBox != null 
 				&& mLampOnCheckBox != null)
 		{
-			MyLog.i(TAG, "colorstate " + colorState + " OnorOff " + OnorOff);
+			flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
 			if (!colorState)
