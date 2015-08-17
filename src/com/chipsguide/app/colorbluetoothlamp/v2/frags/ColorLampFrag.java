@@ -250,7 +250,8 @@ public class ColorLampFrag extends BaseFragment implements
 			return;
 		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
-		{ // 说明为白色
+		{ 
+			// 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
 			// TODO 调节等级
