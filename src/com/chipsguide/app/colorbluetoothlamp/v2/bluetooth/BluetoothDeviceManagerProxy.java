@@ -605,12 +605,10 @@ public class BluetoothDeviceManagerProxy {
 			case BluetoothDeviceManager.Mode.CARD:
 				bluzDeviceMan// 卡模式管理类准备监听
 						.setOnBluetoothDeviceCardMusicManagerReadyListener(cardMusicReadyListener);
-				mLampManager.effect2normal(true);
 				break;
 			case BluetoothDeviceManager.Mode.USB:
 				bluzDeviceMan
 						.setOnBluetoothDeviceUsbMusicManagerReadyListener(usbMusicManagerReadyListener);
-				mLampManager.effect2normal(true);
 				break;
 			case BluetoothDeviceManager.Mode.A2DP:
 				deviceMusicManager = null;
@@ -621,7 +619,6 @@ public class BluetoothDeviceManagerProxy {
 				{
 					playerManager.pause();
 				}
-				mLampManager.effect2normal(true);
 				mode2view();
 				break;
 			case BluetoothDeviceManager.Mode.ALARM:

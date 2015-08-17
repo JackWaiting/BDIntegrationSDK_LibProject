@@ -137,7 +137,7 @@ public class MainFragment extends BaseFragment implements
 	@Override
 	public void onModeChanged(int newMode)
 	{
-		flog.e("新模式为：---》" + newMode);
+		flog.d("新模式为：---》" + newMode);
 		if (newMode == BluetoothDeviceManager.Mode.LINE_IN)
 		{
 			viewPager.setCurrentItem(0, false);

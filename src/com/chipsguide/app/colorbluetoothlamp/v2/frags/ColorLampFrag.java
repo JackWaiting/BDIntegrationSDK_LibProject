@@ -229,21 +229,6 @@ public class ColorLampFrag extends BaseFragment implements
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
-		// if (colorHSV[0] == 0 && colorHSV[1] == 0) { // 说明为白色
-		// float value = colorHSV[2];
-		// int rank = (int) (value * 16); // 等级1-16
-		// // TODO 调节等级
-		// // 白灯等级为1-16
-		// if (rank >= 16) {
-		// rank = 15;
-		// }
-		// hmcolor = true;
-		// isWhiteFlag = true;//是白灯
-		// mLampManager.setBrightness(rank + 1);//亮度
-		// } else {
-		// mLampManager.setColor(red, green, blue);
-		// }
-		// isTouch = true;
 	}
 
 	@Override

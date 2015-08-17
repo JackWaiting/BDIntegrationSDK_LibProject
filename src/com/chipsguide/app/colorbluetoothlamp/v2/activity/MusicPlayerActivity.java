@@ -432,10 +432,10 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 		case R.id.cb_music_rhythm:
 			if(musicRhythmCb.isChecked())
 			{
-				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
+//				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.RHYTHM);
 			}else
 			{
-				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
+//				mLampManager.setLampEffect(BluetoothDeviceColorLampManager.Effect.NORMAL);
 			}
 			break;
 		case R.id.linearlayout_rhythm:
