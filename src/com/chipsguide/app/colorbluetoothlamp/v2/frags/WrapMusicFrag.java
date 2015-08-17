@@ -66,6 +66,9 @@ public class WrapMusicFrag extends BaseFragment implements
 					if(CustomApplication.pageItem == 2)
 					{
 						musicFrag.setCurrentItem(2);
+					}else
+					{
+						musicFrag.setCurrentItem(0);
 					}
 				}
 			} else {
