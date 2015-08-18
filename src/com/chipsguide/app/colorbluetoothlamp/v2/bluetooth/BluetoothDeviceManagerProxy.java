@@ -13,7 +13,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceAlarmManagerReadyListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
@@ -71,7 +70,6 @@ public class BluetoothDeviceManagerProxy {
 	 * 已连接的蓝牙设备
 	 */
 	private BluetoothDevice connectedDevice;
-	private LampManager mLampManager;
 	/**
 	 * 连接状态监听集合
 	 */
@@ -107,7 +105,6 @@ public class BluetoothDeviceManagerProxy {
 		getBluetoothDeviceManager();// 获取蓝牙管理类
 		conStateListeners = new ArrayList<OnBluetoothDeviceConnectionStateChangedListener>();// 初始化连接状态监听的集合
 		playerManager = PlayerManager.getInstance(context);
-		mLampManager = LampManager.getInstance(context);
 	}
 
 	// 单列
@@ -598,6 +595,11 @@ public class BluetoothDeviceManagerProxy {
 		public void onBluetoothDeviceModeChanged(int mode)
 		{
 			flog.d(">>>mode change: mode == " + mode);
+			if(!CustomApplication.changedMode)
+			{
+				CustomApplication.changedMode = true;
+				return;
+			}
 			CustomApplication.setMode(mode);
 			connected = true;
 			switch (mode)
@@ -805,6 +807,7 @@ public class BluetoothDeviceManagerProxy {
 		disconnected();
 		deviceMusicManager = null;
 		proxy = null;
+		CustomApplication.changedMode = false;
 		if (bluzDeviceMan != null)
 		{
 			if (bluzDeviceMan.isDiscovering())
@@ -816,6 +819,7 @@ public class BluetoothDeviceManagerProxy {
 			bluzDeviceMan.setOnBluetoothDeviceGlobalUIChangedListener(null);
 			bluzDeviceMan.release();
 		}
+		
 	}
 	
 	private void notifyModeChangedListener(int mode)
