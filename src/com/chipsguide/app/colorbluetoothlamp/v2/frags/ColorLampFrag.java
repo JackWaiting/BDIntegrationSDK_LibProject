@@ -30,7 +30,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChangeListener;
-import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnSecondArcChangeListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnProgressChangeListener;
+import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.ProgressType;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
@@ -40,7 +41,7 @@ import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 @SuppressWarnings("unused")
 public class ColorLampFrag extends BaseFragment implements
 		OnColorChangeListener, LampListener, OnClickListener,
-		OnSecondArcChangeListener,
+		OnProgressChangeListener,
 		OnBluetoothDeviceConnectionStateChangedListener {
 	private LampManager mLampManager;
 	private String TAG = "ColorLampFrag";
@@ -99,7 +100,7 @@ public class ColorLampFrag extends BaseFragment implements
 	{
 		mColorPicker = (ColorPicker) findViewById(R.id.colorPicker);// 色盘。亮度
 		mColorPicker.setOnColorChangeListener(this);// 颜色变化的监听
-		mColorPicker.setOnSecondArcListener(this);// 冷暖白的进度条的监听
+		mColorPicker.setOnProgressChangeListener(this);// 冷暖白的进度条的监听
 
 		mButtonGroupRhythm = (RadioGroup) root
 				.findViewById(R.id.radiogroup_rhythm_effect);
@@ -404,23 +405,31 @@ public class ColorLampFrag extends BaseFragment implements
 
 	@Override
 	// 停止拖动
-	public void onStopTrackingTouch(ColorPicker picker)
+	public void onStopTrackingTouch(ColorPicker picker, int type)
 	{
-		MyLog.i(TAG, "冷暖白灯的停止拖动mSeekBarNum-->" + mSeekBarNum);
-		mLampManager.setColdAndWarmWhite(mSeekBarNum);
-
+		if(type == ProgressType.SECOND_PROGRESS){
+			MyLog.i(TAG, "冷暖白灯的停止拖动mSeekBarNum-->" + mSeekBarNum);
+			mLampManager.setColdAndWarmWhite(mSeekBarNum);
+		}else{
+			// TODO 手指停止滑动顶部进度条时的处理
+			
+		}
 	}
 
 	@Override
 	// 拖动中
-	public void onArcChanged(ColorPicker picker, int progress, boolean fromUser)
+	public void onProgressChanged(ColorPicker picker, int type, int progress, boolean fromUser)
 	{
 		if (!fromUser)
 		{
 			return;
 		}
-		mSeekBarNum = (255 - progress);
-
+		if(type == ProgressType.SECOND_PROGRESS){
+			mSeekBarNum = (255 - progress);
+		}else{
+			// TODO 手指滑动顶部进度条的逻辑
+			
+		}
 	}
 
 	// 刷新冷暖白条

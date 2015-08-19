@@ -122,6 +122,8 @@ public class ColorPicker extends View {
 	private static double MIN_RADIANS;
 	private int offset; //弧形两侧的图片距离弧形底部的距离
 	private void init() {
+		firstProgressUnit = 1f / firstMaxProgress;
+		
 		MAX_RADIANS = Math.toRadians(SECOND_ARC_START_ANGLE + SECOND_ARC_SWEEP_ANGLE);
 		MIN_RADIANS = Math.toRadians(SECOND_ARC_START_ANGLE);
 		offset = PixelUtil.dp2px(25, getContext());
@@ -305,12 +307,15 @@ public class ColorPicker extends View {
 		}
 	}
 
-	private void updateThumbPosition() {
-		double thumbAngle = (colorHSV[2]) * Math.PI;
+	private void updateThumbPosition(boolean fromUser) {
+		double thumbAngle = (1 - firstProgressRatio) * Math.PI;
 		double tipAngleX = Math.cos(thumbAngle) * thumbRadius;
 		double tipAngleY = Math.sin(thumbAngle) * thumbRadius;
 		mThumbXPos = (int) tipAngleX;
 		mThumbYPos = (int) tipAngleY;
+		if(progressChangeListener != null){
+			progressChangeListener.onProgressChanged(this, ProgressType.FIRST_PROGRESS, getFirstProgress(), fromUser);
+		}
 	}
 	/**
 	 * 更新底部进度条位置
@@ -338,8 +343,8 @@ public class ColorPicker extends View {
 		double tipAngleY = Math.sin(radians) * thumbRadius;
 		secondThumbXPos = (int) tipAngleX;
 		secondThumbYPos = (int) tipAngleY;
-		if(mSecondArcChangeListener != null){
-			mSecondArcChangeListener.onArcChanged(this, getSecondProgress(), fromUser);
+		if(progressChangeListener != null){
+			progressChangeListener.onProgressChanged(this, ProgressType.SECOND_PROGRESS, getSecondProgress(), fromUser);
 		}
 		postInvalidate();//更新view
 	}
@@ -495,25 +500,26 @@ public class ColorPicker extends View {
 
 			break;
 		case MotionEvent.ACTION_UP:
-			if(downOnArc || downOnWheel){
-				downOnArc = false;
+			if(downOnWheel){
 				downOnWheel = false;
 				if (mColorChangelistener != null) {
 					int color = Color.HSVToColor(colorHSV);
-					Log.d("", "before s = " + colorHSV[1]);
 					BigDecimal bigDecimal = new BigDecimal(colorHSV[1]);
 					colorHSV[1] = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
-					Log.d("", "after s = " + colorHSV[1]);
-					//int alpha = Color.alpha(color);
-					int red = (color & 0xff0000) >> 16;
-					int green = (color & 0x00ff00) >> 8;
-					int blue = (color & 0x0000ff);
+					int red = Color.red(color);
+					int green = Color.green(color);
+					int blue = Color.blue(color);
 					mColorChangelistener.onColorChangeEnd(red, green, blue);
 				}
 			}else if(downOnSecondArc){
 				downOnSecondArc = false;
-				if(mSecondArcChangeListener != null){
-					mSecondArcChangeListener.onStopTrackingTouch(this);
+				if(progressChangeListener != null){
+					progressChangeListener.onStopTrackingTouch(this, ProgressType.SECOND_PROGRESS);
+				}
+			}else if(downOnArc){
+				downOnArc = false;
+				if(progressChangeListener != null){
+					progressChangeListener.onStopTrackingTouch(this, ProgressType.FIRST_PROGRESS);
 				}
 			}
 			
@@ -546,9 +552,10 @@ public class ColorPicker extends View {
 		int cy = y - getHeight() / 2;
 		cy = Math.min(0, cy);
 		cy = Math.abs(cy);
-		colorHSV[2] = (float) Math.max(0,
+		firstProgressRatio = 1 - (float) Math.max(0,
 				Math.min(1, 1 - Math.atan2(cy, cx) / Math.PI));
-		updateThumbPosition();
+		firstProgressRatio = firstProgressUnit*(int)(firstProgressRatio / firstProgressUnit + 0.5f);
+		updateThumbPosition(true);
 		invalidate();
 	}
 
@@ -604,7 +611,6 @@ public class ColorPicker extends View {
 		Color.colorToHSV(color, colorHSV);
 		BigDecimal bigDecimal = new BigDecimal(colorHSV[1]);
 		colorHSV[1] = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
-		updateThumbPosition();
 		invalidate();
 	}
 
@@ -617,16 +623,36 @@ public class ColorPicker extends View {
 	}
 	
 	/**
-	 * 设置亮度0-1
 	 * @param brightness
 	 */
-	public void setBrightness(float brightness,float max) {
+	@Deprecated
+	public void setBrightness(float brightness, float max) {
 		float[] colorHSV = new float[] { 0f, 0f, 1f };
 		colorHSV[2] = brightness / max;
 		int color = Color.HSVToColor(colorHSV);
 		setColor(color);
 	}
+	
+	private int firstMaxProgress = 16;
+	private float firstProgressUnit;
+	public void setFirstMaxProgress(int max){
+		firstMaxProgress = max;
+		firstProgressUnit = 1f / firstMaxProgress;
+	}
 
+	private float firstProgressRatio;
+	public void setFirstProgress(int progress){
+		progress = Math.min(progress, firstMaxProgress);
+		progress = Math.max(0, progress);
+		firstProgressRatio = (float)progress / firstMaxProgress;
+		updateThumbPosition(false);
+		invalidate();
+	}
+
+	public int getFirstProgress() {
+		return (int)(firstProgressRatio * firstMaxProgress);
+	}
+	
 	private int mMax = MAX;
 	/**
 	 * 设置底部进度条的最大值
@@ -640,8 +666,6 @@ public class ColorPicker extends View {
 	 * 更新底部进度条
 	 */
 	public void setSecondProgress(int progress) {
-		
-		System.out.println("更新底部进度条progress-----="+progress);
 		progress = Math.min(progress, mMax);
 		progress = Math.max(progress, 0);
 		float ratio = (float)progress / mMax;
@@ -660,7 +684,6 @@ public class ColorPicker extends View {
 	 * 冷暖灯是否可见
 	 */
 	public void setSecondProgressVisibility(boolean visible){
-		MyLog.i(TAG, "冷暖灯是否可见+++---="+visible);
 		isSecondProgressVisible = visible;
 		invalidate();
 	}
@@ -705,13 +728,13 @@ public class ColorPicker extends View {
 		mColorChangelistener = listener;
 	}
 	
-	private OnSecondArcChangeListener mSecondArcChangeListener;
+	private OnProgressChangeListener progressChangeListener;
 	/**
 	 * 设置底部进度条进度监听
 	 * @param listener
 	 */
-	public void setOnSecondArcListener(OnSecondArcChangeListener listener) {
-		mSecondArcChangeListener = listener;
+	public void setOnProgressChangeListener(OnProgressChangeListener listener) {
+		progressChangeListener = listener;
 	}
 
 	public interface OnColorChangeListener {
@@ -737,19 +760,25 @@ public class ColorPicker extends View {
 	 * @author chiemy
 	 *
 	 */
-	public interface OnSecondArcChangeListener{
+	public interface OnProgressChangeListener{
 		/**
 		 * 停止调节
 		 * @param picker
 		 */
-		void onStopTrackingTouch(ColorPicker picker);
+		void onStopTrackingTouch(ColorPicker picker, int type);
 		/**
 		 * 进度变化
 		 * @param picker
+		 * @param type 进度条类型 {@link ProgressType}
 		 * @param progress 进度
 		 * @param fromUser 是否为用户点击引起的变化
 		 */
-		void onArcChanged(ColorPicker picker, int progress, boolean fromUser);
+		void onProgressChanged(ColorPicker picker, int type, int progress, boolean fromUser);
+	}
+	
+	public static final class ProgressType{
+		public static final int FIRST_PROGRESS = 1;
+		public static final int SECOND_PROGRESS = 2;
 	}
 
 }
