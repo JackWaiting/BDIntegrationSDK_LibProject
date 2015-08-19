@@ -1025,12 +1025,13 @@ public class PlayerManager {
 			switch (state) {
 			case BluetoothDeviceCardMusicManager.PlayState.PLAYING:
 				if (mPlayListener != null) {
-					mPlayListener.onMusicStart(music.getPath());
+					mPlayListener.onMusicPause(music.getPath());
+					
 				}
 				break;
 			case BluetoothDeviceCardMusicManager.PlayState.PAUSED:
 				if (mPlayListener != null) {
-					mPlayListener.onMusicPause(music.getPath());
+					mPlayListener.onMusicStart(music.getPath());
 				}
 				break;
 			case BluetoothDeviceCardMusicManager.PlayState.WAITING:
