@@ -334,6 +334,7 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 			if (!tf) {
 				item = 1;
 			}
+			CustomApplication.pageItem = item;
 			break;
 		}
 		topNavRg.check(item);

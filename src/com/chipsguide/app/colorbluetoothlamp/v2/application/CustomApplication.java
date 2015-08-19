@@ -25,6 +25,7 @@ public class CustomApplication extends Application {
 	//连接第一次是否更新色盘  以后都不更新色盘
 	public static boolean isUpdateColor = true;
 	public static float lampMax = 16f;// 白灯亮度最大值
+	public static boolean changedMode = false;//连接后不切换模式
 	
 	public static int pageItem = 0;//跳转到对应的page页面
 

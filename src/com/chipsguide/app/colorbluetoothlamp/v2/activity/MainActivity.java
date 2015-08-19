@@ -320,14 +320,25 @@ public class MainActivity extends BaseActivity implements
 		mode2Linein(mode);
 	}
 
+	private boolean linein2alarm = false;
 	private void mode2Linein(int mode)
 	{
-		if(mode == BluetoothDeviceManager.Mode.LINE_IN)
+		switch (mode)
 		{
+		case BluetoothDeviceManager.Mode.LINE_IN:
+			linein2alarm = true;
 			titleView.setRightBtnVisibility(false);
-		}else
-		{
+			break;
+		case BluetoothDeviceManager.Mode.ALARM:
+			if(linein2alarm)
+			{
+				titleView.setRightBtnVisibility(false);
+			}
+			break;
+		default:
+			linein2alarm = false;
 			titleView.setRightBtnVisibility(true);
+			break;
 		}
 	}
 	

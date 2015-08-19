@@ -251,7 +251,8 @@ public class ColorLampFrag extends BaseFragment implements
 			return;
 		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0)
-		{ // 说明为白色
+		{ 
+			// 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
 			// TODO 调节等级
@@ -320,7 +321,7 @@ public class ColorLampFrag extends BaseFragment implements
 		if (mLampCheckBox != null 
 				&& mLampOnCheckBox != null)
 		{
-			MyLog.i(TAG, "colorstate " + colorState + " OnorOff " + OnorOff);
+			flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);
 			mLampOnCheckBox.setChecked(OnorOff);
 			if (!colorState)
