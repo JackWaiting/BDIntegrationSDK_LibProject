@@ -781,4 +781,12 @@ public class ColorPicker extends View {
 		public static final int SECOND_PROGRESS = 2;
 	}
 
+	public int getFirstProgressColor(){
+		float[] colorHSV = new float[3];
+		Color.colorToHSV(getColor(), colorHSV);
+		colorHSV[2] = 1 - firstProgressRatio;
+		//colorHSV[2] = firstProgressRatio;
+		return Color.HSVToColor(colorHSV);
+	}
+	
 }

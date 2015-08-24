@@ -63,9 +63,11 @@ public class MainActivity extends BaseActivity implements
 		}
 		navFrag.setOnItemClickListener(this);
 	}
+	
 	//设置滑动的样式效果
 	private void initBehindSlidingMenu() {
 		SlidingMenu sm = getSlidingMenu();
+		
 		sm.setFadeEnabled(false);
 		sm.setBehindOffset(getResources().getDisplayMetrics().widthPixels / 7 * 2);
 		sm.setBehindScrollScale(0.25f);
