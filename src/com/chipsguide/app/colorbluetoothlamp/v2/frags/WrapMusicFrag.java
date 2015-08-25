@@ -24,6 +24,7 @@ public class WrapMusicFrag extends BaseFragment implements
 	protected void initBase() {
 		btDeviceManProxy = BluetoothDeviceManagerProxy
 				.getInstance(getActivity().getApplicationContext());
+		btDeviceManProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
 		registBroadcase();
 	}
 

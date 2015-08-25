@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
