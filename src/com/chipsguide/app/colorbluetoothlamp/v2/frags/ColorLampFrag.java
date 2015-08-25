@@ -1,33 +1,21 @@
 package com.chipsguide.app.colorbluetoothlamp.v2.frags;
 
-import java.util.logging.Logger;
-
 import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
-import android.nfc.Tag;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
-import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager.LampListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLog;
-import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ToastIsConnectDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker;
@@ -35,8 +23,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnColorChange
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.OnProgressChangeListener;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorPicker.ProgressType;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
-import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager;
-import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceCommonLampManager.OnBluetoothDeviceColdAndWarmWhiteChangedListener;
 import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 

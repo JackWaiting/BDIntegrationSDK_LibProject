@@ -561,6 +561,7 @@ public class BluetoothDeviceManagerProxy {
 				deviceMusicManager = null;// 卡音乐管理为空
 				firstModeChange = true;// 是否为第一次（连接成功后）模式变化
 				volumeFirstCallback = true;// 音量第一次的回调
+				CustomApplication.changedMode = false;
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
@@ -595,11 +596,6 @@ public class BluetoothDeviceManagerProxy {
 		public void onBluetoothDeviceModeChanged(int mode)
 		{
 			flog.d(">>>mode change: mode == " + mode);
-			if(!CustomApplication.changedMode)
-			{
-				CustomApplication.changedMode = true;
-				return;
-			}
 			CustomApplication.setMode(mode);
 			connected = true;
 			switch (mode)
@@ -614,6 +610,11 @@ public class BluetoothDeviceManagerProxy {
 				break;
 			case BluetoothDeviceManager.Mode.A2DP:
 				deviceMusicManager = null;
+				if(!CustomApplication.changedMode)
+				{
+					CustomApplication.changedMode = true;
+					return;
+				}
 				break;
 			case BluetoothDeviceManager.Mode.LINE_IN:
 				deviceMusicManager = null;
