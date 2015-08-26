@@ -9,8 +9,11 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -141,15 +144,19 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (id) {
 		case R.id.color_r:
 			mLampManager.setColor(getResources().getColor(R.color.color_r));
+			setMaxProgress();
 			break;
 		case R.id.color_g:
 			mLampManager.setColor(getResources().getColor(R.color.color_g));
+			setMaxProgress();
 			break;
 		case R.id.color_b:
 			mLampManager.setColor(getResources().getColor(R.color.color_b));
+			setMaxProgress();
 			break;
 		case R.id.color_y:
 			mLampManager.setColor(getResources().getColor(R.color.color_y));
+			setMaxProgress();
 			break;
 		}
 	}
@@ -210,7 +217,6 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	// 颜色变化end
 	public void onColorChangeEnd(int red, int green, int blue) {
-		MyLog.i(TAG, "==-----===--走了颜色变化end的方法---====-----==--");
 		dialogShow();
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
@@ -286,6 +292,7 @@ public class ColorLampFrag extends BaseFragment implements
 	 * @param isWhite是否打开白灯
 	 */
 	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite) {
+		flog.d("color state " + colorState + "   onoroff " + OnorOff);
 		if (mLampCheckBox != null && mLampOnCheckBox != null) {
 			flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);
