@@ -38,12 +38,5 @@ public class MyMusicFrag extends SimpleMusicFrag {
 		playerManager.loadLocalMusic(this, false);
 		
 	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		playerManager.play();
-	}
 
 }
