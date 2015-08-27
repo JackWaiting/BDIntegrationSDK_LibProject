@@ -9,11 +9,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
-import com.chipsguide.app.colorbluetoothlamp.v2.activity.BaseActivity;
-import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.ColorUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.LampManager;
@@ -386,7 +383,7 @@ public class ColorLampFrag extends BaseFragment implements
 				Color.RGBToHSV(red, green, blue, colorHSV);
 				if ((red == green) && (green == blue) && (red == 0)) {
 					if (mLampManager.isColorLamp()) {
-						mLampManager.setColor(this.red, this.green, this.blue);
+						mLampManager.setColor(red, green, blue);
 					} else {
 						mLampManager.setBrightness(1);// 亮度
 					}

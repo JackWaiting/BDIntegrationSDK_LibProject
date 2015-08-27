@@ -368,6 +368,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 			colorSelectLayout.checkColor(-1);
 			break;
 		case 2:
+			colorSelectLayout.checkColor(Color.rgb(r, g, b));
 			break;
 		}
 	}
