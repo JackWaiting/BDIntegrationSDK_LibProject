@@ -6,9 +6,13 @@ import java.util.List;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.MusicPlayerActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.adapter.SimpleMusicListAdapter;
 import com.chipsguide.app.colorbluetoothlamp.v2.bean.Music;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
@@ -145,12 +149,23 @@ public class TFCardMusicFrag extends SimpleMusicFrag implements SimpleMusicPlayL
 		}
 	}
 	
-	
 	/**
 	 * 分页加载
 	 */
 	private void loadBlzMusic(int startPosi, int expectSize) {
 		playerManager.loadBluetoothDeviceMusic(startPosi, expectSize, bluzMusicmanager, this, getActivity());
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		bluzDeviceManProxy.changeToCARD();
+		playerManager.setMusicList(adapter.getMusicList(), position,
+				getPlayType());
+		Intent intent = new Intent(getActivity(), MusicPlayerActivity.class);
+		intent.putExtra(MusicPlayerActivity.EXTRA_MODE_TO_BE,
+				getPlayType() == PlayType.Local ? 0 : 1);
+		startActivity(MusicPlayerActivity.class);
 	}
 	
 }

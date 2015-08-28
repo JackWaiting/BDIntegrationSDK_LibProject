@@ -374,7 +374,7 @@ public class BluetoothDeviceManagerProxy {
 	}
 
 	/**
-	 * 改为
+	 * 改为alarm
 	 */
 	public void changeToAlarm()
 	{
@@ -384,6 +384,23 @@ public class BluetoothDeviceManagerProxy {
 			bluzDeviceMan = getBluetoothDeviceManager();
 		}
 		bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.ALARM);
+	}
+	
+	/**
+	 * 改为CARD模式
+	 */
+	public void changeToCARD()
+	{
+		if (bluzDeviceMan == null)
+		{
+			bluzDeviceMan = getBluetoothDeviceManager();
+		}
+		if (bluzDeviceMan != null
+				&& deviceManagerMode != BluetoothDeviceManager.Mode.CARD)
+		{
+			bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.CARD);
+		}
+		
 	}
 
 	public interface OnDeviceUiChangedListener {
