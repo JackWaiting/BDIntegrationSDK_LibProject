@@ -47,8 +47,8 @@ import com.chipsguide.app.colorbluetoothlamp.v2.widget.CirclePageIndicator;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc;
 import com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer;
 import com.chipsguide.lib.bluetooth.extend.devices.BluetoothDeviceColorLampManager;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceConnectionStateChangedListener;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 
 public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDeviceConnectionStateChangedListener,LampListener{

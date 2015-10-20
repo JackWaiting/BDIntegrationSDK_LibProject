@@ -17,12 +17,12 @@ import com.chipsguide.app.colorbluetoothlamp.v2.bean.RecentPlayMusic;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.PreferenceUtil;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceMusicSongEntity;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicLoopModeChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicPlayStateChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicSongChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceMusicSongListListener;
-import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.IBluetoothDeviceMusicManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.OnBluetoothDeviceMusicLoopModeChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.OnBluetoothDeviceMusicPlayStateChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.OnBluetoothDeviceMusicSongChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.OnBluetoothDeviceMusicSongListChangedListener;
 import com.platomix.lib.playerengine.api.PlaybackMode;
 import com.platomix.lib.playerengine.api.Playlist;
 import com.platomix.lib.playerengine.core.PlayerListener;
@@ -510,17 +510,25 @@ public class PlayerManager {
 		return musics;
 	}
 	
-	private class WrapBluetoothDeviceMusicSongListListener implements OnBluetoothDeviceMusicSongListListener{
+	private class WrapBluetoothDeviceMusicSongListListener implements OnBluetoothDeviceMusicSongChangedListener, OnBluetoothDeviceMusicSongListChangedListener{
 		private int tag;
 		public WrapBluetoothDeviceMusicSongListListener(int tag){
 			this.tag = tag;
 		}
 		
+
 		@Override
-		public void onBluetoothDeviceMusicSongList(
-				List<BluetoothDeviceMusicSongEntity> songs) {
+		public void onBluetoothDeviceMusicSongChanged(
+				BluetoothDeviceMusicSongEntity arg0) {
+			
+		}
+
+
+		@Override
+		public void onBluetoothDeviceMusicSongListChanged(
+				List<BluetoothDeviceMusicSongEntity> arg0) {
 			if (PlayerManager.this.tag == this.tag) {
-				mPlistEntitys.addAll(songs);
+				mPlistEntitys.addAll(arg0);
 				deviceMusicListhandler.post(runnable);
 			}
 		}

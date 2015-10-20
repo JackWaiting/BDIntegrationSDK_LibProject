@@ -24,9 +24,9 @@ import com.chipsguide.app.colorbluetoothlamp.v2.connect.StringUtil;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.DisconnectBluetoothDialog;
 import com.chipsguide.app.colorbluetoothlamp.v2.view.ErrorToastDialog;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceDiscoveryListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceConnectionStateChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceDiscoveryListener;
 //蓝牙连接
 public class BluetoothConnectionActivity extends BaseActivity implements
 		OnItemClickListener, OnBluetoothDeviceDiscoveryListener,OnBluetoothDeviceConnectionStateChangedListener {
@@ -89,10 +89,11 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	 */
 	private void initBluetoothEnviroment()
 	{
-		bluetoothDeviceConnected = mBluetoothDeviceManager
-				.getBluetoothDeviceConnectedSpp();//保持蓝牙连接
-		if (bluetoothDeviceConnected != null && bluetoothDeviceConnected.getAddress().startsWith(
-				CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
+		bluetoothDeviceConnected = mBluetoothDeviceManager.
+				getBluetoothDeviceConnected();//保持蓝牙连接
+		if (bluetoothDeviceConnected != null && (bluetoothDeviceConnected.getAddress().startsWith(
+				CustomApplication.MAC_ADDRESS_FILTER_PREFIX)||bluetoothDeviceConnected.getAddress().startsWith(
+						CustomApplication.MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE)))
 		{
 			if(dao != null)
 			{
@@ -124,7 +125,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		{
 			this.mBluetoothDeviceManager.setForeground(true);
 			bluetoothDeviceConnected = mBluetoothDeviceManager
-					.getBluetoothDeviceConnectedSpp();//保持蓝牙连接
+					.getBluetoothDeviceConnected();//保持蓝牙连接
 			mAdapter.setBluetooth(bluetoothDeviceConnected);
 		}
 		mAdapter.setList(StringUtil.getListConnectMessage(
@@ -239,8 +240,9 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			flog.d("CONNECTED  连接成功");
 			bluetoothDeviceConnected = bluetoothDevice;
 			// //如果连接了蓝牙设备，且匹配不了，就不添加到数据库
-			if (bluetoothDevice.getAddress().startsWith(
-					CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
+			if ((bluetoothDeviceConnected.getAddress().startsWith(
+					CustomApplication.MAC_ADDRESS_FILTER_PREFIX)||bluetoothDeviceConnected.getAddress().startsWith(
+							CustomApplication.MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE)))
 			{
 				if(dao != null)
 				{
@@ -279,7 +281,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			}
 			dismissConnectPD();
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
-		case BluetoothDeviceManager.ConnectionState.CAN_NOT_CONNECT_INSIDE_APP:
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();
 			ErrorToastDialog toastDialog = new ErrorToastDialog(this,
@@ -394,7 +395,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 					.getAddress()))
 			{
 				BluetoothDevice deviceConnected = mBluetoothDeviceManager
-						.getBluetoothDeviceConnectedSpp();
+						.getBluetoothDeviceConnected();
 				if (deviceConnected != null)
 				{
 					if (bluetoothDevice.getAddress().equals(

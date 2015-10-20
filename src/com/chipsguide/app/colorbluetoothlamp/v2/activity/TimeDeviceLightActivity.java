@@ -218,7 +218,7 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			for (BluetoothDeviceAlarmEntity entry : mBluetoothDeviceAlarmManager
 					.getCurrentAlarmList())
 			{
-				if (entry.index == i)
+				if (entry.getIndex() == i)
 				{
 					isHolded = true;
 					break;
@@ -232,12 +232,12 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			}
 		}
 		BluetoothDeviceAlarmEntity entry = new BluetoothDeviceAlarmEntity();
-		entry.title = getString(R.string.alarm_clock_title);// 闹钟
-		entry.index = index;
-		entry.ringType = 0;
+		entry.setTitle(getString(R.string.alarm_clock_title));// 闹钟
+		entry.setIndex(index);
+		entry.setRingType(0);
 		Calendar calendar = Calendar.getInstance();
-		entry.hour = calendar.get(Calendar.HOUR_OF_DAY);
-		entry.minute = calendar.get(Calendar.MINUTE);
+		entry.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+		entry.setMinute(calendar.get(Calendar.MINUTE));
 		return entry;
 	}
 
@@ -314,14 +314,14 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 			{
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String minute = getItem(position).alarmEntry.minute + "";
+			String minute = getItem(position).alarmEntry.getMinute() + "";
 			if (minute.length() == 1)
 			{
 				minute = "0" + minute;
 			}
-			String time = getItem(position).alarmEntry.hour + ":" + minute;
+			String time = getItem(position).alarmEntry.getHour() + ":" + minute;
 			holder.time.setText(time);
-			holder.off.setChecked(getItem(position).alarmEntry.state);
+			holder.off.setChecked(getItem(position).alarmEntry.isState());
 			holder.rl.setOnClickListener(new OnClickListener()
 			{
 
@@ -345,10 +345,10 @@ public class TimeDeviceLightActivity extends BaseActivity implements
 					// 如果是打开的话，点击后就会关闭所以，state ＝ true;
 					if (holder2.off.isChecked())
 					{
-						getItem(position).alarmEntry.state = true;
+						getItem(position).alarmEntry.setState(true);
 					} else
 					{
-						getItem(position).alarmEntry.state = false;
+						getItem(position).alarmEntry.setState(false);
 					}
 					mBluetoothDeviceAlarmManager
 							.remove(getItem(position).alarmEntry);

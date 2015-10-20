@@ -16,7 +16,7 @@ public class StringUtil
 	{
 		if (mac != null)
 		{
-			if (mac.startsWith(CustomApplication.MAC_ADDRESS_FILTER_PREFIX))
+			if (mac.startsWith(CustomApplication.MAC_ADDRESS_FILTER_PREFIX) ||mac.startsWith(CustomApplication.MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE))
 			{
 				return true;
 			}

@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.utils.CrashHandler;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
@@ -15,6 +14,7 @@ public class CustomApplication extends Application {
 	 * 蓝牙地址过滤C9:7
 	 */
 	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
+	public static final String MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE = "C9:80:01";
 	/**
 	 * 蓝牙设备管理类
 	 */
@@ -54,13 +54,11 @@ public class CustomApplication extends Application {
 		{
 			bluzDeviceMan = BluetoothDeviceManager
 					.getInstance(this.getApplicationContext())
-					.setBluetoothDevice(
-							BluetoothDeviceManager.Device.LAMP_COLOR)
-					.setBluetoothDeviceSub(
-							BluetoothDeviceManager.Device.LAMP_COMMON)
-
-					.setBluetoothDeviceMacAddressFilterPrefix(
-							MAC_ADDRESS_FILTER_PREFIX).build();
+					.setDeviceType(
+                            BluetoothDeviceManager.DeviceType.LAMP_COMMON,
+                            BluetoothDeviceManager.DeviceType.LAMP_COLOR)
+					.setMacAddressFilterPrefix(
+							MAC_ADDRESS_FILTER_PREFIX,MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE).build();
 		}
 		return bluzDeviceMan;
 	}

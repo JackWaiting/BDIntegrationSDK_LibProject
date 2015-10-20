@@ -9,8 +9,8 @@ import android.content.IntentFilter;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceConnectionStateChangedListener;
 
 public class WrapMusicFrag extends BaseFragment implements
 		OnBluetoothDeviceConnectionStateChangedListener {
