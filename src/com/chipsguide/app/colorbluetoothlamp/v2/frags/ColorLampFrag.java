@@ -141,15 +141,19 @@ public class ColorLampFrag extends BaseFragment implements
 		switch (id) {
 		case R.id.color_r:
 			mLampManager.setColor(getResources().getColor(R.color.color_r));
+			setMaxProgress();
 			break;
 		case R.id.color_g:
 			mLampManager.setColor(getResources().getColor(R.color.color_g));
+			setMaxProgress();
 			break;
 		case R.id.color_b:
 			mLampManager.setColor(getResources().getColor(R.color.color_b));
+			setMaxProgress();
 			break;
 		case R.id.color_y:
 			mLampManager.setColor(getResources().getColor(R.color.color_y));
+			setMaxProgress();
 			break;
 		}
 	}
@@ -210,7 +214,6 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	// 颜色变化end
 	public void onColorChangeEnd(int red, int green, int blue) {
-		MyLog.i(TAG, "==-----===--走了颜色变化end的方法---====-----==--");
 		dialogShow();
 		color = Color.rgb(red, green, blue);
 		Color.RGBToHSV(red, green, blue, colorHSV);
@@ -223,7 +226,6 @@ public class ColorLampFrag extends BaseFragment implements
 			return;
 		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0) {
-			MyLog.i(TAG, "==-----===--走了颜色成的方法---====-----==--");
 			// 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
@@ -236,12 +238,16 @@ public class ColorLampFrag extends BaseFragment implements
 			isWhiteFlag = true;// 是白灯
 			mLampManager.setBrightness(rank + 1);// 亮度
 		} else {
-			for (int i = 0; i < 500000; i++) {
-
-			}
 			mLampManager.setColor(red, green, blue);
+			setMaxProgress();
 		}
 		isTouch = false;
+	}
+	
+	private void setMaxProgress()
+	{
+		//这个应该写的有些问题。最大值不应该传0。待确认问题。
+		mColorPicker.setFirstProgress(0);
 	}
 
 	private void checkedbox(int id) {
@@ -252,6 +258,7 @@ public class ColorLampFrag extends BaseFragment implements
 			} else {
 				mLampManager.turnCommonOn();// 未选中普通灯开 色值白色
 				mColorPicker.setColor(getResources().getColor(R.color.white));
+				setMaxProgress();
 			}
 			break;
 		case R.id.cb_lamp_on: // 灯的开关
@@ -282,6 +289,7 @@ public class ColorLampFrag extends BaseFragment implements
 	 * @param isWhite是否打开白灯
 	 */
 	private void backChange(boolean colorState, boolean OnorOff, boolean isWhite) {
+		flog.d("color state " + colorState + "   onoroff " + OnorOff);
 		if (mLampCheckBox != null && mLampOnCheckBox != null) {
 			flog.d("colorstate " + colorState + " OnorOff " + OnorOff);
 			mLampCheckBox.setChecked(colorState);
@@ -361,22 +369,41 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	// 停止拖动
 	public void onStopTrackingTouch(ColorPicker picker, int type) {
-		MyLog.i(TAG, "走了onStopTrackingTouch方法" + picker.getFirstProgressColor());
 		if (type == ProgressType.SECOND_PROGRESS) {
-			MyLog.i("走了SECOND_PROGRESS", red + "--" + green + "--" + blue);
 			mLampManager.setColdAndWarmWhite(mSeekBarNum);
 		} else {
-			if (mLampManager != null) {/*
-										 * int color = picker.getColor(); int
-										 * red = (color & 0xff0000) >> 16; int
-										 * green = (color & 0x00ff00) >> 8; int
-										 * blue = (color & 0x0000ff);
-										 * MyLog.i("走了color",
-										 * red+"--"+green+"--"+blue);
-										 * mLampManager.setColor(red, green,
-										 * blue);
-										 */
-				mLampManager.setColor(picker.getFirstProgressColor());
+			if (mLampManager != null)
+			{	
+				dialogShow();
+				int color = picker.getFirstProgressColor();
+				int red = (color & 0xff0000) >> 16;
+				int green = (color & 0x00ff00) >> 8;
+				int blue = (color & 0x0000ff);
+				color = Color.rgb(red, green, blue);
+				Color.RGBToHSV(red, green, blue, colorHSV);
+				if ((red == green) && (green == blue) && (red == 0)) {
+					if (mLampManager.isColorLamp()) {
+						mLampManager.setColor(red, green, blue);
+					} else {
+						mLampManager.setBrightness(1);// 亮度
+					}
+					return;
+				}
+				if (colorHSV[0] == 0 && colorHSV[1] == 0) {
+					// 说明为白色
+					float value = colorHSV[2];
+					int rank = (int) (value * 16); // 等级1-16
+					// TODO 调节等级
+					// 白灯等级为1-16
+					if (rank >= 16) {
+						rank = 15;
+					}
+					hmcolor = true;
+					isWhiteFlag = true;// 是白灯
+					mLampManager.setBrightness(rank + 1);// 亮度
+				} else {
+					mLampManager.setColor(red, green, blue);
+				}
 			}
 		}
 	}

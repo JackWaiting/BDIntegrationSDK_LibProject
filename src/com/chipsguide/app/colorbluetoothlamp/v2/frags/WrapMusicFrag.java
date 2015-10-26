@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.bluetooth.BluetoothDeviceManagerProxy;
+import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceConnectionStateChangedListener;
 
@@ -17,6 +18,7 @@ public class WrapMusicFrag extends BaseFragment implements
 	private BluetoothDeviceManagerProxy btDeviceManProxy;
 	private boolean plugTFCard;
 	private int currentConState;
+	private PlayerManager playerManager;
 	
 	private MusicFrag musicFrag;
 
@@ -24,6 +26,8 @@ public class WrapMusicFrag extends BaseFragment implements
 	protected void initBase() {
 		btDeviceManProxy = BluetoothDeviceManagerProxy
 				.getInstance(getActivity().getApplicationContext());
+		btDeviceManProxy.addOnBluetoothDeviceConnectionStateChangedListener(this);
+		playerManager = PlayerManager.getInstance(getActivity().getApplicationContext());
 		registBroadcase();
 	}
 

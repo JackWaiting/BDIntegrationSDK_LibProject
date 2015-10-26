@@ -370,7 +370,7 @@ public class BluetoothDeviceManagerProxy {
 	}
 
 	/**
-	 * 改为
+	 * 改为alarm
 	 */
 	public void changeToAlarm()
 	{
@@ -380,6 +380,23 @@ public class BluetoothDeviceManagerProxy {
 			bluzDeviceMan = getBluetoothDeviceManager();
 		}
 		bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.ALARM);
+	}
+	
+	/**
+	 * 改为CARD模式
+	 */
+	public void changeToCARD()
+	{
+		if (bluzDeviceMan == null)
+		{
+			bluzDeviceMan = getBluetoothDeviceManager();
+		}
+		if (bluzDeviceMan != null
+				&& deviceManagerMode != BluetoothDeviceManager.Mode.CARD)
+		{
+			bluzDeviceMan.setMode(BluetoothDeviceManager.Mode.CARD);
+		}
+		
 	}
 
 	public interface OnDeviceUiChangedListener {
@@ -557,6 +574,7 @@ public class BluetoothDeviceManagerProxy {
 				deviceMusicManager = null;// 卡音乐管理为空
 				firstModeChange = true;// 是否为第一次（连接成功后）模式变化
 				volumeFirstCallback = true;// 音量第一次的回调
+				CustomApplication.changedMode = false;
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
@@ -591,11 +609,6 @@ public class BluetoothDeviceManagerProxy {
 		public void onBluetoothDeviceModeChanged(int mode)
 		{
 			flog.d(">>>mode change: mode == " + mode);
-			if(!CustomApplication.changedMode)
-			{
-				CustomApplication.changedMode = true;
-				return;
-			}
 			CustomApplication.setMode(mode);
 			connected = true;
 			switch (mode)
@@ -610,6 +623,11 @@ public class BluetoothDeviceManagerProxy {
 				break;
 			case BluetoothDeviceManager.Mode.A2DP:
 				deviceMusicManager = null;
+				if(!CustomApplication.changedMode)
+				{
+					CustomApplication.changedMode = true;
+					return;
+				}
 				break;
 			case BluetoothDeviceManager.Mode.LINE_IN:
 				deviceMusicManager = null;
