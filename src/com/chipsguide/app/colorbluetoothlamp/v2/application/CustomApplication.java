@@ -55,8 +55,9 @@ public class CustomApplication extends Application {
 			bluzDeviceMan = BluetoothDeviceManager
 					.getInstance(this.getApplicationContext())
 					.setDeviceType(
-                            BluetoothDeviceManager.DeviceType.LAMP_COMMON,
-                            BluetoothDeviceManager.DeviceType.LAMP_COLOR)
+							BluetoothDeviceManager.DeviceType.LAMP_COMMON,
+							BluetoothDeviceManager.DeviceType.LAMP_COLOR
+                            )
 					.setMacAddressFilterPrefix(
 							MAC_ADDRESS_FILTER_PREFIX,MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE).build();
 		}

@@ -137,9 +137,7 @@ public class BluetoothDeviceManagerProxy {
 			// 若获取蓝牙和灯的颜色，普通灯都为空就返回
 			if (bluzDeviceMan == null
 					|| bluzDeviceMan
-							.setDeviceType(BluetoothDeviceManager.DeviceType.LAMP_COLOR) == null
-					|| bluzDeviceMan
-							.setDeviceType(BluetoothDeviceManager.DeviceType.LAMP_COMMON) == null)
+							.setDeviceType(BluetoothDeviceManager.DeviceType.LAMP_COMMON,BluetoothDeviceManager.DeviceType.LAMP_COLOR) == null)
 			{
 				return null;
 			}
