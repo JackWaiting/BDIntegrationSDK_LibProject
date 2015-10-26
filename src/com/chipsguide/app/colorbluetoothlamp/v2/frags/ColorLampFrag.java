@@ -247,7 +247,7 @@ public class ColorLampFrag extends BaseFragment implements
 	private void setMaxProgress()
 	{
 		//这个应该写的有些问题。最大值不应该传0。待确认问题。
-		mColorPicker.setFirstProgress(0);
+		mColorPicker.setFirstProgress(16);
 	}
 
 	private void checkedbox(int id) {
