@@ -642,13 +642,13 @@ public class ColorPicker extends View {
 	public void setFirstProgress(int progress){
 		progress = Math.min(progress, firstMaxProgress);
 		progress = Math.max(0, progress);
-		firstProgressRatio = (float)progress / firstMaxProgress;
+		firstProgressRatio = 1-(float)progress / firstMaxProgress;
 		updateThumbPosition(false);
 		invalidate();
 	}
 
 	public int getFirstProgress() {
-		return (int)(firstProgressRatio * firstMaxProgress);
+		return (int)((1-firstProgressRatio) * firstMaxProgress);
 	}
 	
 	private int mMax = MAX;
@@ -783,7 +783,6 @@ public class ColorPicker extends View {
 		float[] colorHSV = new float[3];
 		Color.colorToHSV(getColor(), colorHSV);
 		colorHSV[2] = 1 - firstProgressRatio;
-		//colorHSV[2] = firstProgressRatio;
 		return Color.HSVToColor(colorHSV);
 	}
 	
