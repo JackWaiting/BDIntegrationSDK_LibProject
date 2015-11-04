@@ -53,7 +53,9 @@ public class ColorLampFrag extends BaseFragment implements
 	private int red = 0;
 	private int green = 0;
 	private int blue = 0;
-
+	private int colorred = 0;
+	private int colorgreen = 0;
+	private int colorblue = 0;
 	private int mEffect = 0;// 当前的灯效
 	private int color = -1;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
@@ -208,7 +210,7 @@ public class ColorLampFrag extends BaseFragment implements
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
-
+		
 	}
 
 	@Override
@@ -219,7 +221,11 @@ public class ColorLampFrag extends BaseFragment implements
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if ((red == green) && (green == blue) && (red == 0)) {
 			if (mLampManager.isColorLamp()) {
+				colorred = red;
+				colorgreen = green;
+				colorblue = blue;
 				mLampManager.setColor(this.red, this.green, this.blue);
+				setMaxProgress();
 			} else {
 				mLampManager.setBrightness(1);// 亮度
 			}
@@ -238,15 +244,26 @@ public class ColorLampFrag extends BaseFragment implements
 			isWhiteFlag = true;// 是白灯
 			mLampManager.setBrightness(rank + 1);// 亮度
 		} else {
+			colorred = red;
+			colorgreen = green;
+			colorblue = blue;
 			mLampManager.setColor(red, green, blue);
 			setMaxProgress();
+			if (mLampManager != null) {
+				if (mLampManager.isColorLamp()) {
+					int color = mColorPicker.getFirstProgressColor();
+					int reds = (color & 0xff0000) >> 16;
+					int greens = (color & 0x00ff00) >> 8;
+					int blues = (color & 0x0000ff);
+					mLampManager.setColor(reds, greens, blues);
+				}
+			}
 		}
 		isTouch = false;
 	}
-	
-	private void setMaxProgress()
-	{
-		//这个应该写的有些问题。最大值不应该传0。待确认问题。
+
+	private void setMaxProgress() {
+		// 这个应该写的有些问题。最大值不应该传0。待确认问题。
 		mColorPicker.setFirstProgress(16);
 	}
 
@@ -255,6 +272,19 @@ public class ColorLampFrag extends BaseFragment implements
 		case R.id.cb_lamp_active:
 			if (mLampCheckBox.isChecked()) {
 				mLampManager.turnColorOn();// 选中彩灯开
+				mLampManager.setColor(colorred, colorgreen, colorblue);
+				if (mLampManager != null) {
+					setMaxProgress();
+					if (mLampManager.isColorLamp()) {
+						int color = mColorPicker.getFirstProgressColor();
+						int reds = (color & 0xff0000) >> 16;
+						int greens = (color & 0x00ff00) >> 8;
+						int blues = (color & 0x0000ff);
+						mLampManager.setColor(reds, greens, blues);
+					}
+					
+				}
+				
 			} else {
 				mLampManager.turnCommonOn();// 未选中普通灯开 色值白色
 				mColorPicker.setColor(getResources().getColor(R.color.white));
@@ -372,8 +402,7 @@ public class ColorLampFrag extends BaseFragment implements
 		if (type == ProgressType.SECOND_PROGRESS) {
 			mLampManager.setColdAndWarmWhite(mSeekBarNum);
 		} else {
-			if (mLampManager != null)
-			{	
+			if (mLampManager != null) {
 				dialogShow();
 				int color = picker.getFirstProgressColor();
 				int red = (color & 0xff0000) >> 16;

@@ -280,6 +280,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				mPlayerManager.pause();
 			}
 			dismissConnectPD();
+			
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();

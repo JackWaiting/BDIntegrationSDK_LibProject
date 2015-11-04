@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
@@ -545,7 +546,6 @@ public class BluetoothDeviceManagerProxy {
 			bluzDeviceMan.disconnect(connectedDevice);
 		}
 	}
-
 	/**
 	 * 蓝牙连接状态改变监听
 	 */
@@ -575,6 +575,7 @@ public class BluetoothDeviceManagerProxy {
 				firstModeChange = true;// 是否为第一次（连接成功后）模式变化
 				volumeFirstCallback = true;// 音量第一次的回调
 				CustomApplication.changedMode = false;
+				context.startActivity(new Intent(context,BluetoothConnectionActivity.class));
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
