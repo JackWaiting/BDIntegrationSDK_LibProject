@@ -60,7 +60,7 @@
 	    android:layout_alignParentBottom="true"
 	    />
     
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,9 +70,9 @@
         app:marque="true"
         app:showToastTv="true"
         >
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+    </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView>
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.SlidingLayer
         android:id="@+id/playlist_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,6 +84,6 @@
             android:layout_height="match_parent"
             layout="@layout/layout_playlist"
             />
-    </com.chipsguide.app.colorbluetoothlamp.v2.widget.SlidingLayer>
+    </com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.SlidingLayer>
 
 </RelativeLayout>

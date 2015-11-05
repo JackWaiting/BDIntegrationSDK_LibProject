@@ -17,7 +17,7 @@
         android:background="@drawable/selector_btn_simple"
         android:padding="10dp" >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/text_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_btn_simple" >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/text_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:text="@string/light"
             android:textSize="@dimen/text_size_medium" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.ColorSelectLayout
             android:id="@+id/rg_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:orientation="horizontal"
            	android:gravity="center"
              >
-        </com.chipsguide.app.colorbluetoothlamp.v2.view.ColorSelectLayout>
+        </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.ColorSelectLayout>
         
     </RelativeLayout>
 
@@ -80,7 +80,7 @@
         android:background="@drawable/selector_btn_simple"
         android:padding="5dp" >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/myTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:text="@string/music"
             android:textSize="@dimen/text_size_medium" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/tv_music_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

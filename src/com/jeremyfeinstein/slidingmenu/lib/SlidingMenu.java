@@ -27,7 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.brunton.R;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove.OnPageChangeListener;
 
 public class SlidingMenu extends RelativeLayout {

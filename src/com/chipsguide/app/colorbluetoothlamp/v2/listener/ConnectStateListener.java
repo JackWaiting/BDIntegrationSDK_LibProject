@@ -1,1 +1,0 @@
-package com.chipsguide.app.colorbluetoothlamp.v2.listener;import android.bluetooth.BluetoothDevice;public interface ConnectStateListener {	void onBluetoothDeviceConnectionState(BluetoothDevice bluetoothDevice, int state);}

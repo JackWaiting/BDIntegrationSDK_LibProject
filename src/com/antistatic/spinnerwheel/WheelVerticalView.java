@@ -35,7 +35,7 @@ import android.view.MotionEvent;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.brunton.R;
 
 /**
  * Spinner wheel vertical view.

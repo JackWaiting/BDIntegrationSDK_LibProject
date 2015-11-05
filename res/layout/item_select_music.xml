@@ -12,7 +12,7 @@
         android:paddingLeft="10dp"
         android:paddingTop="8dp" >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/song_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textSize="16sp"
              />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/artist_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:text="歌手"
             android:textColor="@color/color_dark_gray" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/duration_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

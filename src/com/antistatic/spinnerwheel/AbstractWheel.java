@@ -39,7 +39,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.antistatic.spinnerwheel.adapter.WheelViewAdapter;
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.brunton.R;
 
 /**
  * Abstract spinner spinnerwheel view.

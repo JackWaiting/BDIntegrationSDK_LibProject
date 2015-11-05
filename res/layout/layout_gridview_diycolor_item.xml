@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.ColorImageView
         android:id="@+id/color_iamgeview"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -17,6 +17,6 @@
             android:paddingLeft="32dp"
             android:visibility="gone"
             android:src="@drawable/ic_color_delete" />
-    </com.chipsguide.app.colorbluetoothlamp.v2.widget.ColorImageView>
+    </com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.ColorImageView>
 
 </RelativeLayout>

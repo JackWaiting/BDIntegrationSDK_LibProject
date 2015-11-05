@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:seekarc="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2"
+    xmlns:seekarc="http://schemas.android.com/apk/res/com.chipsguide.app.colorbluetoothlamp.v2.brunton"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -13,7 +13,7 @@
         android:padding="@dimen/progress_padding"
          >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.widget.SeekArc
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.SeekArc
             android:id="@+id/seekArc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,7 +40,7 @@
             android:layout_margin="30dp"
             android:src="@drawable/bg_record" />
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.widget.CircleImageView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.CircleImageView
             android:id="@+id/iv_music_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,7 +61,7 @@
 
     </RelativeLayout>
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
         android:id="@+id/tv_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

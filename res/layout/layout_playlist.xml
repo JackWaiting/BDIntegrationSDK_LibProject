@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/color_title_bg" >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             style="@style/text_marquee_forever"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

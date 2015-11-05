@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chipsguide.app.colorbluetoothlamp.v2"
+    package="com.chipsguide.app.colorbluetoothlamp.v2.brunton"
     android:versionCode="125"
     android:versionName="1.25" >
 
@@ -129,7 +129,7 @@
         <receiver android:name="com.platomix.lib.playerengine.core.local.MediaButtonIntentReceiver"></receiver>
         
         <service android:name="com.platomix.lib.update.core.UpdateService"></service>
-        <service android:name="com.chipsguide.app.colorbluetoothlamp.v2.service.AlarmAlertService"></service>
+        <service android:name="com.chipsguide.app.colorbluetoothlamp.v2.brunton.service.AlarmAlertService"></service>
         
         <receiver android:name="com.chipsguide.lib.timer.Alarms$AlarmServiceBroadcastReciever"></receiver>
     </application>

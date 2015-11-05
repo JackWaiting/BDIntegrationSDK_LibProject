@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
-import com.chipsguide.app.colorbluetoothlamp.v2.R;
+import com.chipsguide.app.colorbluetoothlamp.v2.brunton.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class SlidingActivityHelper {

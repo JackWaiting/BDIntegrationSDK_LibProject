@@ -11,7 +11,7 @@
         android:layout_height="20dp"
         android:layout_centerVertical="true" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
         android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="30dp"

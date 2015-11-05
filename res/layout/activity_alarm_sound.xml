@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/color_gray" >
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImg="@drawable/selector_btn_back"
         app:rightBtnVisibility="false"
         app:text="@string/ringtone" >
-    </com.chipsguide.app.colorbluetoothlamp.v2.view.TitleView>
+    </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView>
 
     <View
         android:id="@+id/line1"
@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/color_divider_line" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
         android:id="@+id/text_silent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:layout_below="@+id/text_silent"
         android:background="@color/color_divider_line" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
         android:id="@+id/text_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:layout_below="@+id/text_custom"
         android:background="@color/color_divider_line" />
 
-    <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+    <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
         android:id="@+id/text_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         android:visibility="invisible"
         >
 
-        <com.chipsguide.app.colorbluetoothlamp.v2.view.MyTextView
+        <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/tv_sound_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
