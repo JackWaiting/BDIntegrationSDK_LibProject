@@ -129,7 +129,7 @@ public class WheelVerticalView extends AbstractWheelView {
         if (mVisibleItems == 2) {
             int c1 = Math.round( c1f ) << 24;
             int c2 = Math.round( z ) << 24;
-            int[] colors =      {c2, c1, 0xff000000, 0xff000000, c1, c2};
+            int[] colors =      {c2, c1, 0xffffffff, 0xffffffff, c1, c2};
             float[] positions = { 0, p1,     p1,         p2,     p2,  1};
             shader = new LinearGradient(0, 0, 0, h, colors, positions, Shader.TileMode.CLAMP);
         } else {
@@ -145,11 +145,11 @@ public class WheelVerticalView extends AbstractWheelView {
             int c3 = Math.round( c3f ) << 24;
 
           //添加
-            c1 = 0x33000000;
-            c2 = 0x33000000;
-            c3 = 0x33000000;
+            c1 = 0xffffffff;
+            c2 = 0xffffffff;
+            c3 = 0xffffffff;
             
-            int[] colors =      {0, c3, c2, c1, 0xff000000, 0xff000000, c1, c2, c3, 0};
+            int[] colors =      {0, c3, c2, c1, 0xfffbe100, 0xfffbe100, c1, c2, c3, 0};
             //int[] colors =      {0, c3, c2, c1, Color.parseColor("#FFFAFA"), Color.parseColor("#FFFAFA"), c1, c2, c3, 0};
             float[] positions = {0, p3, p3, p1,     p1,         p2,     p2, p4, p4, 1};
             shader = new LinearGradient(0, 0, 0, h, colors, positions, Shader.TileMode.CLAMP);

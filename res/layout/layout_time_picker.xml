@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:selectionDivider="@drawable/divider_dark_gradient_horizontal"
         app:selectionDividerHeight="1px"
+        
         app:visibleItems="5" />
 
     <com.antistatic.spinnerwheel.WheelVerticalView

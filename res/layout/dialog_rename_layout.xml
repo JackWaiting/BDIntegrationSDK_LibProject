@@ -4,13 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/corners_bg">
+    android:background="#000000">
    
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
+        android:textColor="@color/white"
         android:text="@string/restting_name"
         android:textSize="20dp"/>
     <RelativeLayout 

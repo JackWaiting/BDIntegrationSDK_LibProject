@@ -22,7 +22,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="歌曲名称"
-            android:textColor="#363636"
+           android:textColor="@android:color/white" 
             android:textSize="16sp"
              />
 
@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="歌手"
-            android:textColor="@color/color_dark_gray" />
+            android:textColor="@android:color/white"  />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/duration_tv"

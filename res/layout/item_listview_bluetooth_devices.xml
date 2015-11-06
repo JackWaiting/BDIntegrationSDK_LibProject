@@ -12,6 +12,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
+        android:textColor="@color/white"
         android:textSize="16dp" />
 
 </RelativeLayout>

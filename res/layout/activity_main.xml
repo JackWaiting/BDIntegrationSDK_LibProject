@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleView"
+        android:background="#00000000"
         android:orientation="vertical" >
     </LinearLayout>
 
@@ -18,7 +19,8 @@
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" 
+        android:layout_alignParentTop="true"
+          android:background="#00000000" 
         android:clipChildren="false"
         >
     </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TextSwitcherTitleView>

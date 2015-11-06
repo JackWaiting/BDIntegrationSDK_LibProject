@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_main"
     android:orientation="vertical" >
 
     <View
@@ -14,7 +14,7 @@
         android:id="@+id/repeate_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_btn_simple"
+        android:background="#00000000"
         android:padding="10dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeate"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium" />
 
         <LinearLayout
@@ -31,7 +32,8 @@
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/text_repeat"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:textColor="@color/white" >
         </LinearLayout>
     </RelativeLayout>
 
@@ -44,7 +46,7 @@
         android:id="@+id/light_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_btn_simple" >
+        android:background="#00000000" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
             android:id="@+id/text_light"
@@ -52,6 +54,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/light"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.ColorSelectLayout
@@ -61,11 +64,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text_light"
-            android:orientation="horizontal"
-           	android:gravity="center"
-             >
+            android:gravity="center"
+            android:orientation="horizontal" >
         </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.ColorSelectLayout>
-        
     </RelativeLayout>
 
     <View
@@ -77,7 +78,7 @@
         android:id="@+id/music_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_btn_simple"
+        android:background="#00000000"
         android:padding="5dp" >
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
@@ -87,6 +88,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="5dp"
             android:text="@string/music"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium" />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView
@@ -99,7 +101,7 @@
             android:drawableRight="@drawable/ic_more"
             android:gravity="right|center_vertical"
             android:text="@string/music"
-            android:textColor="@color/color_dark_gray"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_secondary" />
     </RelativeLayout>
 

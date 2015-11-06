@@ -61,8 +61,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/title_layout"
         android:cacheColorHint="@android:color/transparent"
-        android:divider="@color/color_divider_line"
+            android:divider="@android:color/black"
         android:dividerHeight="1dp"
+          android:background="@drawable/bg_main"
         android:listSelector="@android:color/transparent" >
     </ListView>
 

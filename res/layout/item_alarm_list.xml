@@ -3,7 +3,7 @@
     android:id="@+id/relativelayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="#00000000"
     >
     <View 
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
         android:padding="10dp"
         android:textSize="@dimen/text_size_first"
         android:text="00:00"
+        android:textColor="@color/white"
         android:gravity="center_vertical"
         />
 

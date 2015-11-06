@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_title_bg">#0A1C2A</color>
+    <color name="color_title_bg">#000000</color>
     <color name="color_gray">#f0f0f0</color>
-    <color name="color_blue">#177efb</color>
+    <color name="color_blue">#fbe100</color>
     <color name="color_dark_gray">#cccccc</color>
     <color name="first_text_color">#ffffff</color>
     <color name="secondary_text_color">#cccccc</color>

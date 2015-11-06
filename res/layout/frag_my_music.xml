@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+      android:background="@drawable/bg_main" >
 
     <ListView
         android:id="@+id/lv_musiclist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
-        android:divider="@color/color_divider_line"
+        android:background="@drawable/bg_main"
+        android:divider="@android:color/black"
        	android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent" >
     </ListView>

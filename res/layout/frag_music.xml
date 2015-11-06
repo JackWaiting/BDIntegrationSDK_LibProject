@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_gray"
+    android:background="@drawable/bg_main"
     android:orientation="vertical" >
 
     <RadioGroup
@@ -12,6 +12,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal" 
         android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
         >
         
     </RadioGroup>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/selector_list_item"
+  
      >
     
     <ImageView
@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:text="歌曲名称"
             android:textSize="16sp"
-            android:textColor="#363636"
+              android:textColor="#70ffffff"
             />
 
         <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.MyTextView 
@@ -49,7 +49,7 @@
             android:layout_toLeftOf="@+id/duration_tv"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
-            android:textColor="@color/color_dark_gray"
+              android:textColor="#70ffffff"
             android:text="歌手"
             />
 
@@ -60,7 +60,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="00:00"
-            android:textColor="@android:color/white"
+            android:textColor="#70ffffff"
              />
         
     </RelativeLayout>
