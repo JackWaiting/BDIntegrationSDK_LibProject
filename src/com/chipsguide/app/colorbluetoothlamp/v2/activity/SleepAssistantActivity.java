@@ -230,7 +230,7 @@ public class SleepAssistantActivity extends BaseActivity implements
 		switch (checkedId)
 		{
 		case R.id.readioButton_button_10:
-			time = 10;
+			time = 1;
 			mButton10ReadioButton.setTextColor(mColorTextDown);
 			break;
 		case R.id.readioButton_button_20:

@@ -91,7 +91,7 @@
         <item>六</item>
     </string-array>
     <string-array name="sleep_time">
-        <item>10分钟</item>
+        <item>1分钟</item>
         <item>20分钟</item>
         <item>30分钟</item>
         <item>60分钟</item>
