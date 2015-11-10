@@ -9,6 +9,7 @@
     android:dividerHeight="10dp"
     android:listSelector="#00000000"
     android:paddingBottom="10dp"
+    android:background="@drawable/bg_main"
     android:paddingTop="10dp" >
 
 </ListView>

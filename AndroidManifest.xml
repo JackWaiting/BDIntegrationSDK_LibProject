@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-        <meta-data android:value="54fa7245fd98c5586f000625" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="5637398767e58e76a90034dc" android:name="UMENG_APPKEY"></meta-data>
         <meta-data android:value="own" android:name="UMENG_CHANNEL"/>
         
         <activity

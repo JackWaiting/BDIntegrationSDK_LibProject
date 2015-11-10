@@ -3,6 +3,7 @@ package com.chipsguide.app.colorbluetoothlamp.v2.brunton.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,17 +24,18 @@ import com.chipsguide.app.colorbluetoothlamp.v2.brunton.utils.PixelUtil;
 public class TextSwitcherTitleView extends FrameLayout implements ViewFactory{
 	private ImageView rightBtn,leftBtn;
 	private TextView toastTv;
-	private TextSwitcher titleTv;
+	private ImageView titleTv;
 	
 	public TextSwitcherTitleView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.common_switch_title_layout, this);
 		rightBtn = (ImageView) findViewById(R.id.right_btn);
 		leftBtn = (ImageView) findViewById(R.id.left_btn);
-		titleTv = (TextSwitcher) findViewById(R.id.title_tv);
-		titleTv.setFactory(this);
+		titleTv = (ImageView) findViewById(R.id.title_tv);
+		/*titleTv.setFactory(this);
+		
 		titleTv.setInAnimation(context, R.anim.top_in);
-		titleTv.setOutAnimation(context, R.anim.bottom_out);
+		titleTv.setOutAnimation(context, R.anim.bottom_out);*/
 		
 		TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.TitleView);
 		int leftImgRes = a.getResourceId(R.styleable.TitleView_leftImg, R.drawable.selector_btn_nav);
@@ -71,12 +73,22 @@ public class TextSwitcherTitleView extends FrameLayout implements ViewFactory{
 			return;
 		}
 		this.text = text;
-		titleTv.setText(text);
+		//titleTv.setText(text);
 	}
 	
 	public void setTitleText(int resId){
 		String text = getContext().getResources().getString(resId);
 		setTitleText(text);
+	}
+	
+	public void setTitleDrawable(int resId){
+		Drawable text = getContext().getResources().getDrawable(resId);
+		setTitleDrawable(text);
+	}
+	
+	public void setTitleDrawable(Drawable background){
+
+		//titleTv.setBackground(background);
 	}
 	
 	@Override

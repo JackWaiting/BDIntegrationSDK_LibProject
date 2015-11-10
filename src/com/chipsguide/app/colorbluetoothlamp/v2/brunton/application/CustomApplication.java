@@ -9,11 +9,11 @@ import android.app.Application;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class CustomApplication extends Application {
-	public static final String APP_SIGN = "ColorBluetoothLamp_V2";// 标识
+	public static final String APP_SIGN = "ColorBluetoothLamp_V2_Brunton";// 标识
 	/**
 	 * 蓝牙地址过滤C9:7
 	 */
-	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";
+	public static final String MAC_ADDRESS_FILTER_PREFIX = "C9:7";  //C9：70：08
 	/**
 	 * 蓝牙设备管理类
 	 */

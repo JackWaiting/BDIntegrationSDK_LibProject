@@ -5,13 +5,15 @@
     android:background="@color/color_title_bg"
     >
     
-    <TextSwitcher
+    <ImageView
         android:id="@+id/title_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+		android:src="@drawable/img_sidebar_title"
+		android:scaleType="centerInside"
         >
-    </TextSwitcher>
+    </ImageView>
 
     <ImageView
         android:id="@+id/left_btn"

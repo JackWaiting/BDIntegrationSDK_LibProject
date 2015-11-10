@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_gray" >
+    android:background="@drawable/bg_main" >
 
     <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView
         android:id="@+id/titleView"
@@ -28,8 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line1"
         android:padding="10dp"
+        android:background="#30000000"
         android:text="@string/silent"
-        android:background="@drawable/selector_btn_simple"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium"
          />
 
@@ -47,6 +48,7 @@
         android:layout_below="@+id/line2"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
+        android:textColor="@color/white"
         android:text="@string/custom_sound"
         android:textSize="@dimen/text_size_secondary" />
 
@@ -62,8 +64,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line3"
-        android:background="@drawable/selector_btn_simple"
+        android:background="#30000000"
         android:padding="10dp"
+        android:textColor="@color/white"
         android:text="@string/select_alarm_device_sound"
         android:textSize="@dimen/text_size_medium"
         android:gravity="center_vertical"

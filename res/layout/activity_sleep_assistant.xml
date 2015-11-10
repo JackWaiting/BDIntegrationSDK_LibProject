@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/select_time"
-            android:textColor="@color/white"
+            android:textColor="@color/color_blue"
             android:textSize="16dp" />
 
         <View

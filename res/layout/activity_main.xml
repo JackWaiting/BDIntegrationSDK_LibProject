@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main"
-    android:clipChildren="false"
-     >
+    android:clipChildren="false" >
 
     <LinearLayout
         android:id="@+id/content_layout"
@@ -20,9 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-          android:background="#00000000" 
-        android:clipChildren="false"
-        >
+        android:background="#00000000"
+        android:clipChildren="false" >
     </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TextSwitcherTitleView>
-    
+
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">iLight</string>
+    <string name="app_name">B-SYNC</string>
     <string name="language">eu</string>
     <string name="no_network">No network!</string>
     <string name="bluetooth_conn">Bluetooth Connect</string>

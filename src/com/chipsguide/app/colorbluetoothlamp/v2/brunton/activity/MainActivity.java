@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity implements
 	public void initUI() {
 		titleView = (TextSwitcherTitleView) findViewById(R.id.titleView);
 		titleView.setOnClickListener(this);
-		titleView.setTitleText(R.string.color_lamp);
+		titleView.setTitleDrawable(R.drawable.img_sidebar_title);
 		titleView.setShowToastTv(true);
 		
 		MainFragment mainFrag = new MainFragment();//右边替换布局的Fragment

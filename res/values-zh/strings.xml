@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">iLight</string>
+    <string name="app_name">B-SYNC</string>
     <string name="language">zh</string>
     <string name="no_network">无网络连接!</string>
     

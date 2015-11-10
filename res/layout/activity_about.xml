@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@color/color_gray"
+    android:background="@drawable/bg_main"
     >
 
     <com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView
@@ -16,11 +16,20 @@
         app:text="@string/about" >
     </com.chipsguide.app.colorbluetoothlamp.v2.brunton.view.TitleView>
 
+     <ImageView
+         android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/img_sidebar_title" />
+    
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleView"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:src="@drawable/ic_launcher" />
@@ -32,7 +41,18 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_margin="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/white"
         android:text="" />
+    
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_app_version"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:textColor="@color/white"
+        android:text="BRUNTON.COM" />
 
     <RelativeLayout
         android:id="@+id/item_version_update"
@@ -43,6 +63,7 @@
         android:padding="10dp"
         android:layout_marginLeft="-1dp"
         android:layout_marginRight="-1dp"
+        android:visibility="gone"
         >
 
         <TextView
