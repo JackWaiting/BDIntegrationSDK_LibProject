@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.actions.ibluz.manager.BluzManagerData.RingSource;
 import com.chipsguide.app.colorbluetoothlamp.v2.R;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity.IPCKey;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
@@ -28,7 +29,6 @@ import com.chipsguide.app.colorbluetoothlamp.v2.view.MyTimePickerView;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmEntity;
 import com.chipsguide.lib.bluetooth.entities.BluetoothDeviceAlarmRingEntity;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceAlarmManager.RingSource;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
 
 public class TimeDeviceLightSettingActivity extends BaseActivity implements LampAlarmListener{
@@ -79,7 +79,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		mBluetoothDeviceAlarmManager = mBluetoothDeviceManager
 				.getBluetoothDeviceAlarmManager();
 		mLampManager = LampManager.getInstance(this);
-		mLampManager.getAlarmWithLight(mAlarmEntry.index);
+		mLampManager.getAlarmWithLight(mAlarmEntry.getIndex());
 		mLampManager.addOnBluetoothDeviceLampAlarmListener(this);
 	}
 
@@ -150,11 +150,11 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		int minute = mAlarmEntry.getMinute();
 		timePicker.setHour(hour);
 		timePicker.setMinute(minute);
-		int size = mAlarmEntry.repeat.length;
+		int size = mAlarmEntry.getRepeat().length;
 		checkedItems = new boolean[7];
 		for (int i = 0; i < size; i++)
 		{
-			checkedItems[i] = mAlarmEntry.repeat[i];
+			checkedItems[i] = mAlarmEntry.getRepeat()[i];
 		}
 		newCheckedItems = checkedItems.clone();
 		updateSelectedDayLayout(checkedItems);
@@ -267,16 +267,16 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 
 	private void saveAlarm()
 	{
-		mAlarmEntry.hour = timePicker.getHour();
-		mAlarmEntry.minute = timePicker.getMinute();
+		mAlarmEntry.setHour(timePicker.getHour());
+		mAlarmEntry.setMinute(timePicker.getMinute());
 
 		for (int i = 0; i < newCheckedItems.length; i++)
 		{
-			mAlarmEntry.repeat[i] = newCheckedItems[i];
+			mAlarmEntry.getRepeat()[i] = newCheckedItems[i];
 		}
-		mAlarmEntry.state = true;
-		mAlarmEntry.ringType = RingSource.INTERNAL;
-		mAlarmEntry.ringId = ringsong();
+		mAlarmEntry.setState(true);
+		mAlarmEntry.setRingType(RingSource.INTERNAL);
+		mAlarmEntry.setRingId(ringsong());
 		if (mBluetoothDeviceAlarmManager != null)
 		{
 			mBluetoothDeviceAlarmManager.remove(mAlarmEntry);
@@ -292,7 +292,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		{
 			for (BluetoothDeviceAlarmRingEntity entry : mBluetoothDeviceAlarmManager.getSupportRingList())
 			{
-				if (entry.source == RingSource.INTERNAL)
+				if (entry.getSource() == RingSource.INTERNAL)
 				{
 					mInternalEntries.add(entry);
 				}
@@ -300,7 +300,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		}
 		if(mAlarmEntry != null && mInternalEntries.size() != 0)
 		{
-			return mInternalEntries.get(0).id;
+			return mInternalEntries.get(0).getId();
 		}
 		return 0;
 	}
@@ -329,10 +329,10 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 		int blue = Color.blue(checkedColor);
 		if(red == green && green == blue)
 		{
-			mLampManager.setAlarmWithCommonLight(mAlarmEntry.index, 16, 0, isMute);
+			mLampManager.setAlarmWithCommonLight(mAlarmEntry.getIndex(), 16, 0, isMute);
 		}else
 		{
-			mLampManager.setAlarmWithColorLight(mAlarmEntry.index, 0, 0, isMute, red,
+			mLampManager.setAlarmWithColorLight(mAlarmEntry.getIndex(), 0, 0, isMute, red,
 					green, blue);
 		}
 	}
@@ -346,7 +346,7 @@ public class TimeDeviceLightSettingActivity extends BaseActivity implements Lamp
 	public void onLampAlarm(int alarmIndex, boolean isMute)
 	{
 		flog.d("alarmIndex-->" + alarmIndex+ "isMute-->"+ isMute);
-		if(alarmIndex == mAlarmEntry.index)
+		if(alarmIndex == mAlarmEntry.getIndex())
 		{
 			if(isMute)
 			{

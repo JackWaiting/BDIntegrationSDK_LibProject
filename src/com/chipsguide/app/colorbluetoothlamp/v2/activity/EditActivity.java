@@ -139,26 +139,26 @@ public class EditActivity extends BaseActivity implements OnClickListener {
 							if (sBluetoothDeviceManager != null)
 							{
 								if (sBluetoothDeviceManager
-										.getBluetoothDeviceConnectedSpp() == null)
+										.getBluetoothDeviceConnected() == null)
 								{
 
 								} else if (address
 										.equals(sBluetoothDeviceManager
-												.getBluetoothDeviceConnectedSpp()
+												.getBluetoothDeviceConnected()
 												.getAddress()))
 								{
 									if (sBluetoothDeviceManager != null)
 									{
 										sBluetoothDeviceManager
 												.disconnect(sBluetoothDeviceManager
-														.getBluetoothDeviceConnectedSpp());
+														.getBluetoothDeviceConnected());
 									} else
 									{
 										sBluetoothDeviceManager = ((CustomApplication) getApplicationContext())
 												.getBluetoothDeviceManager();
 										sBluetoothDeviceManager
 												.disconnect(sBluetoothDeviceManager
-														.getBluetoothDeviceConnectedSpp());
+														.getBluetoothDeviceConnected());
 									}
 								}
 							}

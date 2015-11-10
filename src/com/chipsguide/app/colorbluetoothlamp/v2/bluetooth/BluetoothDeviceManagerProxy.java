@@ -9,22 +9,24 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import com.chipsguide.app.colorbluetoothlamp.v2.activity.BluetoothConnectionActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.MainActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.activity.TimeDeviceLightActivity;
 import com.chipsguide.app.colorbluetoothlamp.v2.application.CustomApplication;
 import com.chipsguide.app.colorbluetoothlamp.v2.media.PlayerManager;
 import com.chipsguide.app.colorbluetoothlamp.v2.utils.MyLogger;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceAlarmManagerReadyListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceCardMusicManagerReadyListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceConnectionStateChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceGlobalUIChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceHotplugChangedListener;
-import com.chipsguide.lib.bluetooth.interfaces.callbacks.OnBluetoothDeviceUsbMusicManagerReadyListener;
-import com.chipsguide.lib.bluetooth.interfaces.templets.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceCardMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager;
-import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePlugglable;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.DevicePlugin;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceAlarmManagerReadyListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceCardMusicManagerReadyListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceConnectionStateChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceGlobalUIChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceHotplugChangedListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceManager.OnBluetoothDeviceUsbMusicManagerReadyListener;
+import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceMusicManager.IBluetoothDeviceMusicManager;
 import com.chipsguide.lib.bluetooth.managers.BluetoothDeviceUsbMusicManager;
+
 
 public class BluetoothDeviceManagerProxy {
 
@@ -77,7 +79,7 @@ public class BluetoothDeviceManagerProxy {
 
 	/**
 	 * 蓝牙设备卡音乐管理类
-	 */
+	 */     
 	private IBluetoothDeviceMusicManager deviceMusicManager;
 
 	private static int deviceManagerMode = -1;
@@ -136,15 +138,13 @@ public class BluetoothDeviceManagerProxy {
 			// 若获取蓝牙和灯的颜色，普通灯都为空就返回
 			if (bluzDeviceMan == null
 					|| bluzDeviceMan
-							.setBluetoothDevice(BluetoothDeviceManager.Device.LAMP_COLOR) == null
-					|| bluzDeviceMan
-							.setBluetoothDeviceSub(BluetoothDeviceManager.Device.LAMP_COMMON) == null)
+							.setDeviceType(BluetoothDeviceManager.DeviceType.LAMP_COMMON,BluetoothDeviceManager.DeviceType.LAMP_COLOR) == null)
 			{
 				return null;
 			}
 			bluzDeviceMan.build();// 创建
 			bluzDeviceMan// 蓝牙地址过滤
-					.setBluetoothDeviceMacAddressFilterPrefix(CustomApplication.MAC_ADDRESS_FILTER_PREFIX);
+					.setMacAddressFilterPrefix(CustomApplication.MAC_ADDRESS_FILTER_PREFIX,CustomApplication.MAC_ADDRESS_FILTER_PREFIX_SNAILLOVE);
 			bluzDeviceMan// 连接状态监听
 					.setOnBluetoothDeviceConnectionStateChangedListener(connStateChangeListener);
 			bluzDeviceMan// UI改变监听
@@ -169,7 +169,7 @@ public class BluetoothDeviceManagerProxy {
 			Log.d(TAG, "bluzDeviceMan == null");
 			return false;
 		}
-		return bluzDeviceMan.isPlugIn(DevicePlugglable.CARD) && isConnected();
+		return bluzDeviceMan.isDevicePlugIn(DevicePlugin.CARD) && isConnected();
 	}
 
 	/**
@@ -198,8 +198,7 @@ public class BluetoothDeviceManagerProxy {
 				&& isMusicManagerMode(deviceManagerMode))
 		{
 			// 自定义蓝牙设备音乐准备回调监听 音乐管理准备好的
-			localMusicManagerlistener.onMusicManagerReady(deviceMusicManager,
-					deviceManagerMode);
+			localMusicManagerlistener.onMusicManagerReady(deviceMusicManager,deviceManagerMode);
 		} else
 		{
 			bluzDeviceMan = getBluetoothDeviceManager();// 获取蓝牙管理类
@@ -214,14 +213,14 @@ public class BluetoothDeviceManagerProxy {
 					bluzDeviceMan.setMode(deviceManagerMode);
 				} else
 				{
-					if (bluzDeviceMan.isPlugIn(DevicePlugglable.USB))
+					if (bluzDeviceMan.isDevicePlugIn(DevicePlugin.USB))
 					{
 						priorityMode = BluetoothDeviceManager.Mode.USB;
 						if (bluzDeviceMan != null)
 						{
 							bluzDeviceMan.setMode(priorityMode);
 						}
-					} else if (bluzDeviceMan.isPlugIn(DevicePlugglable.CARD))
+					} else if (bluzDeviceMan.isDevicePlugIn(DevicePlugin.CARD))
 					{
 						priorityMode = BluetoothDeviceManager.Mode.CARD;
 						if (bluzDeviceMan != null)
@@ -263,7 +262,7 @@ public class BluetoothDeviceManagerProxy {
 		switch (cardMusicManagerMode)
 		{
 		case BluetoothDeviceManager.Mode.CARD: // 是否能设置卡模式
-			if (!bluzDeviceMan.isPlugIn(DevicePlugglable.CARD))
+			if (!bluzDeviceMan.isDevicePlugIn(DevicePlugin.CARD))
 			{
 				localMusicManagerlistener // 自定义蓝牙设备音乐准备回调监听设置失败
 						.onMusicManagerReadyFailed(cardMusicManagerMode);
@@ -271,7 +270,7 @@ public class BluetoothDeviceManagerProxy {
 			}
 			break;
 		case BluetoothDeviceManager.Mode.USB: // 是否能设置usb模式
-			if (!bluzDeviceMan.isPlugIn(DevicePlugglable.USB))
+			if (!bluzDeviceMan.isDevicePlugIn(DevicePlugin.USB))
 			{
 				localMusicManagerlistener
 						.onMusicManagerReadyFailed(cardMusicManagerMode);
@@ -295,8 +294,7 @@ public class BluetoothDeviceManagerProxy {
 			}
 			if (ready)
 			{// 为true 设置音乐管理类准备好
-				localMusicManagerlistener.onMusicManagerReady(
-						deviceMusicManager, deviceManagerMode);
+				localMusicManagerlistener.onMusicManagerReady(deviceMusicManager, deviceManagerMode);
 				return;
 			}
 		}
@@ -331,8 +329,7 @@ public class BluetoothDeviceManagerProxy {
 		{
 			if (remoteMusicManagerReadyListener != null)
 			{
-				remoteMusicManagerReadyListener.onMusicManagerReady(manager,
-						mode);
+				remoteMusicManagerReadyListener.onMusicManagerReady(manager, mode);
 			}
 		}
 
@@ -549,7 +546,6 @@ public class BluetoothDeviceManagerProxy {
 			bluzDeviceMan.disconnect(connectedDevice);
 		}
 	}
-
 	/**
 	 * 蓝牙连接状态改变监听
 	 */
@@ -579,6 +575,7 @@ public class BluetoothDeviceManagerProxy {
 				firstModeChange = true;// 是否为第一次（连接成功后）模式变化
 				volumeFirstCallback = true;// 音量第一次的回调
 				CustomApplication.changedMode = false;
+				context.startActivity(new Intent(context,BluetoothConnectionActivity.class));
 				break;
 			}
 			notifyConntectionStateChanged(device, state);
@@ -596,7 +593,7 @@ public class BluetoothDeviceManagerProxy {
 	 * 
 	 */
 	// 全局IU跟新的监听
-	private OnBluetoothDeviceGlobalUIChangedListener globalUiChangedListener = new OnBluetoothDeviceGlobalUIChangedListener()
+	private OnBluetoothDeviceGlobalUIChangedListener globalUiChangedListener = new  OnBluetoothDeviceGlobalUIChangedListener()
 	{
 
 		@Override
@@ -695,6 +692,24 @@ public class BluetoothDeviceManagerProxy {
 						volume, on);
 			}
 		}
+
+		@Override
+		public void onBluetoothDeviceFeedBackCommand(byte[] arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onBluetoothDeviceNameChanged(boolean arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onBluetoothDeviceNameChanged(int arg0, boolean arg1) {
+			// TODO Auto-generated method stub
+			
+		}
 	};
 
 	private void sendModeChangeBroadcast(int newMode, int oldMode)
@@ -734,11 +749,6 @@ public class BluetoothDeviceManagerProxy {
 			}
 		}
 
-		@Override
-		public void onBluetoothDeviceLineinPlugChanged(boolean arg0)
-		{
-			// TODO line in插入、拔出时的相应操作
-		}
 
 		@Override
 		public void onBluetoothDeviceUhostPlugChanged(boolean arg0)
@@ -755,6 +765,12 @@ public class BluetoothDeviceManagerProxy {
 			Intent intent = new Intent(ACTION_USB_PLUG_CHANGED);
 			intent.putExtra(EXTRA_PLUG_IN, arg0);
 			context.sendOrderedBroadcast(intent, null);
+		}
+
+		@Override
+		public void onBluetoothDeviceLineInPlugChanged(boolean arg0) {
+			// TODO line in插入、拔出时的相应操作
+			
 		}
 	};
 
@@ -809,7 +825,7 @@ public class BluetoothDeviceManagerProxy {
 			deviceMusicManager = bluzDeviceMan
 					.getBluetoothDeviceUsbMusicManager();
 			localMusicManagerlistener.onMusicManagerReady(deviceMusicManager,
-					deviceManagerMode);
+deviceManagerMode);
 		}
 	};
 
