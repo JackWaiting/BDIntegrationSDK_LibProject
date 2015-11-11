@@ -834,10 +834,10 @@ deviceManagerMode);
 	 */
 	public void destory()
 	{
-		changeToA2DPMode();
 		conStateListeners.clear();
+		modeList.clear();
+		changeToA2DPMode();
 		removeDeviceUiChangedListener();
-		bluzDeviceMan = null;
 		disconnected();
 		deviceMusicManager = null;
 		proxy = null;
