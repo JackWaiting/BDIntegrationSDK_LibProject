@@ -365,24 +365,28 @@ public class PlayerManager {
 	 */
 	public void getLocalMusics(final MusicCallback callback) {
 		LocalPlayer player = LocalPlayer.getInstance(mContext);
-		player.getLocalPlaylist(2000, new LoadMusicCallback() {
-			@Override
-			public void onLoadMusic(List<PlaylistEntity> list) {
-				List<Music> mList = new ArrayList<Music>();
-				for (int i = 0; i < list.size(); i++) {
-					PlaylistEntity entity = list.get(i);
-					Music music = new Music();
-					music.setId(entity.getUrl());
-					music.setClassname(entity.getArtist());
-					music.setDuration(entity.getDuration());
-					music.setName(entity.getTitle());
-					music.setLocalPath(entity.getUrl());
-					music.setPath(entity.getUrl());
-					mList.add(music);
+		if(player != null)
+		{
+			player.getLocalPlaylist(2000, new LoadMusicCallback() {
+				@Override
+				public void onLoadMusic(List<PlaylistEntity> list) {
+					List<Music> mList = new ArrayList<Music>();
+					for (int i = 0; i < list.size(); i++) {
+						PlaylistEntity entity = list.get(i);
+						Music music = new Music();
+						music.setId(entity.getUrl());
+						music.setClassname(entity.getArtist());
+						music.setDuration(entity.getDuration());
+						music.setName(entity.getTitle());
+						music.setLocalPath(entity.getUrl());
+						music.setPath(entity.getUrl());
+						mList.add(music);
+					}
+					callback.onLoadMusic(mList, -1);
 				}
-				callback.onLoadMusic(mList, -1);
-			}
-		});
+			});
+		}
+		
 	}
 	
 	/**

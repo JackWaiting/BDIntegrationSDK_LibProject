@@ -60,7 +60,7 @@ public class ColorLampFrag extends BaseFragment implements
 	private int color = -1;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
 	private boolean isTouch = false;// 是否处理色盘滑动中
-	// 是白色吗
+	// 白色
 	private boolean isWhiteFlag = false;// 滑动的时候不在更新ui，只有在遥控器操作的时候才更新ui
 
 	private int mSeekBarNum;
@@ -213,25 +213,30 @@ public class ColorLampFrag extends BaseFragment implements
 		
 	}
 
-	@Override
 	// 颜色变化end
+	@Override
 	public void onColorChangeEnd(int red, int green, int blue) {
 		dialogShow();
-		color = Color.rgb(red, green, blue);
+		flog.e("color - >");
+		color = Color.rgb(red, green, blue);		
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if ((red == green) && (green == blue) && (red == 0)) {
+			
 			if (mLampManager.isColorLamp()) {
+				flog.e("color - >2");
 				colorred = red;
 				colorgreen = green;
 				colorblue = blue;
 				mLampManager.setColor(this.red, this.green, this.blue);
 				setMaxProgress();
 			} else {
+				flog.e("color - >3");
 				mLampManager.setBrightness(1);// 亮度
 			}
 			return;
 		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0) {
+			flog.e("color - >4");
 			// 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
@@ -244,6 +249,7 @@ public class ColorLampFrag extends BaseFragment implements
 			isWhiteFlag = true;// 是白灯
 			mLampManager.setBrightness(rank + 1);// 亮度
 		} else {
+			flog.e("color - >5");
 			colorred = red;
 			colorgreen = green;
 			colorblue = blue;
@@ -302,7 +308,6 @@ public class ColorLampFrag extends BaseFragment implements
 	}
 
 	// 查询 和回调
-
 	@Override
 	public void onLampStateInqiryBackChange(boolean colorState, boolean OnorOff) {
 		backChange(colorState, OnorOff, true);
@@ -379,25 +384,26 @@ public class ColorLampFrag extends BaseFragment implements
 	// 设置灯的亮度
 	@Override
 	public void onLampBrightness(int brightness) {
-		MyLog.i(TAG, "灯的亮度值----+++---" + brightness);
+		flog.i("灯的亮度值->" + brightness);
 		// 转化为颜色会有一些误差的存在
 		if (!isWhiteFlag) {
 			if (!mLampManager.isColorLamp()) {
+				flog.i("bai" + brightness);
 				if (brightness == 1) {
-					mColorPicker.setBrightness(0, CustomApplication.lampMax);
+					mColorPicker.setFirstProgress(0);
 					return;
 				}
-				mColorPicker.setBrightness(brightness,
-						CustomApplication.lampMax);
+				mColorPicker.setFirstProgress(brightness);
 			}
 
 		} else {
+			flog.i("cai->" + brightness);
 			isWhiteFlag = false;
 		}
 	}
 
-	@Override
 	// 停止拖动
+	@Override
 	public void onStopTrackingTouch(ColorPicker picker, int type) {
 		if (type == ProgressType.SECOND_PROGRESS) {
 			mLampManager.setColdAndWarmWhite(mSeekBarNum);
@@ -437,8 +443,8 @@ public class ColorLampFrag extends BaseFragment implements
 		}
 	}
 
-	@Override
 	// 拖动中
+	@Override
 	public void onProgressChanged(ColorPicker picker, int type, int progress,
 			boolean fromUser) {
 		// MyLog.i(TAG, "走了onProgressChanged方法" + mSeekBarNum);

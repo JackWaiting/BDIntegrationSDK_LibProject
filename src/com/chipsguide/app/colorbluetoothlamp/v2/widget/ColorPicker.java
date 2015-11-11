@@ -640,6 +640,7 @@ public class ColorPicker extends View {
 
 	private float firstProgressRatio;
 	public void setFirstProgress(int progress){
+		flog.e("progress " + progress);
 		progress = Math.min(progress, firstMaxProgress);
 		progress = Math.max(0, progress);
 		firstProgressRatio = 1-(float)progress / firstMaxProgress;
