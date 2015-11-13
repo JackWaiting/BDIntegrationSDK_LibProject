@@ -233,7 +233,6 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 			flog.d("SPP_FAILURE  spp连接失败");
 			dismissConnectPD();
 			break;
-
 			
 		// 连接
 		case BluetoothDeviceManager.ConnectionState.CONNECTED:

@@ -57,7 +57,7 @@ public class ColorLampFrag extends BaseFragment implements
 	private int colorgreen = 0;
 	private int colorblue = 0;
 	private int mEffect = 0;// 当前的灯效
-	private int color = -1;
+	private int color = Color.WHITE;
 	private boolean hmcolor = false;// 是否是手动控制颜色的变化。
 	private boolean isTouch = false;// 是否处理色盘滑动中
 	// 白色
@@ -217,26 +217,22 @@ public class ColorLampFrag extends BaseFragment implements
 	@Override
 	public void onColorChangeEnd(int red, int green, int blue) {
 		dialogShow();
-		flog.e("color - >");
 		color = Color.rgb(red, green, blue);		
 		Color.RGBToHSV(red, green, blue, colorHSV);
 		if ((red == green) && (green == blue) && (red == 0)) {
 			
 			if (mLampManager.isColorLamp()) {
-				flog.e("color - >2");
 				colorred = red;
 				colorgreen = green;
 				colorblue = blue;
 				mLampManager.setColor(this.red, this.green, this.blue);
 				setMaxProgress();
 			} else {
-				flog.e("color - >3");
 				mLampManager.setBrightness(1);// 亮度
 			}
 			return;
 		}
 		if (colorHSV[0] == 0 && colorHSV[1] == 0) {
-			flog.e("color - >4");
 			// 说明为白色
 			float value = colorHSV[2];
 			int rank = (int) (value * 16); // 等级1-16
@@ -249,7 +245,6 @@ public class ColorLampFrag extends BaseFragment implements
 			isWhiteFlag = true;// 是白灯
 			mLampManager.setBrightness(rank + 1);// 亮度
 		} else {
-			flog.e("color - >5");
 			colorred = red;
 			colorgreen = green;
 			colorblue = blue;
@@ -376,7 +371,14 @@ public class ColorLampFrag extends BaseFragment implements
 			if ((red == green) && (red == blue) && (red == 0)) {
 
 			} else {
-				mColorPicker.setColor(ColorUtil.int2Color(red, green, blue));
+				color = ColorUtil.int2Color(red, green, blue);
+				int r = Color.red(color);
+				int g = Color.green(color);
+				int b = Color.blue(color);
+				//获取rgb最大值
+				int max = Math.max(Math.max(r, g),b);
+				mColorPicker.setColor(color);
+				mColorPicker.setFirstProgress((max+1)/16);
 			}
 		}
 	}
@@ -388,7 +390,6 @@ public class ColorLampFrag extends BaseFragment implements
 		// 转化为颜色会有一些误差的存在
 		if (!isWhiteFlag) {
 			if (!mLampManager.isColorLamp()) {
-				flog.i("bai" + brightness);
 				if (brightness == 1) {
 					mColorPicker.setFirstProgress(0);
 					return;
@@ -397,7 +398,6 @@ public class ColorLampFrag extends BaseFragment implements
 			}
 
 		} else {
-			flog.i("cai->" + brightness);
 			isWhiteFlag = false;
 		}
 	}
