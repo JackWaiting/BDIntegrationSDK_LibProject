@@ -185,6 +185,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		
 		// a2dp连接中
 		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTING:
+			createConnPD();
 			setText(R.string.audio_connectioning);
 			flog.d("A2DP_CONNECTING  a2dp连接中");
 			break;
@@ -192,7 +193,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// a2dp连接失败
 		case BluetoothDeviceManager.ConnectionState.A2DP_FAILURE:
 			flog.d("A2DP_FAILURE  a2dp连接失败");
-			dismissConnectPD();
+//			dismissConnectPD();
 			break;
 
 		// a2dp配对
@@ -202,6 +203,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 
 		// a2dp连接
 		case BluetoothDeviceManager.ConnectionState.A2DP_CONNECTED:
+			createConnPD();
 			flog.d("A2DP_CONNECTED  a2dp连接成功");
 			setText(R.string.audio_connectionend);
 			break;
@@ -231,7 +233,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 		// spp连接失败
 		case BluetoothDeviceManager.ConnectionState.SPP_FAILURE:
 			flog.d("SPP_FAILURE  spp连接失败");
-			dismissConnectPD();
+//			dismissConnectPD();
 			break;
 			
 		// 连接
@@ -279,7 +281,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 				mPlayerManager.pause();
 			}
 			dismissConnectPD();
-			
+			break;
 		case BluetoothDeviceManager.ConnectionState.TIMEOUT:
 			flog.d("CAN_NOT_CONNECT_INSIDE_APP 未连接成功");
 			dismissConnectPD();
@@ -466,6 +468,7 @@ public class BluetoothConnectionActivity extends BaseActivity implements
 	{
 		super.onDestroy();
 		dismissConnectPD();
-		mManagerProxy.removeDeviceConnectedStateChangedListener();
+		mManagerProxy.removeOnBluetoothDeviceConnectionStateChangedListener(this);
+		
 	}
 }

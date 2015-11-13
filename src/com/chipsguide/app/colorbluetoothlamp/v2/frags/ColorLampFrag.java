@@ -54,7 +54,7 @@ public class ColorLampFrag extends BaseFragment implements
 	private int green = 0;
 	private int blue = 0;
 	private int colorred = 0;
-	private int colorgreen = 0;
+	private int colorgreen = 255;
 	private int colorblue = 0;
 	private int mEffect = 0;// 当前的灯效
 	private int color = Color.WHITE;
@@ -273,19 +273,6 @@ public class ColorLampFrag extends BaseFragment implements
 		case R.id.cb_lamp_active:
 			if (mLampCheckBox.isChecked()) {
 				mLampManager.turnColorOn();// 选中彩灯开
-				mLampManager.setColor(colorred, colorgreen, colorblue);
-				if (mLampManager != null) {
-					setMaxProgress();
-					if (mLampManager.isColorLamp()) {
-						int color = mColorPicker.getFirstProgressColor();
-						int reds = (color & 0xff0000) >> 16;
-						int greens = (color & 0x00ff00) >> 8;
-						int blues = (color & 0x0000ff);
-						mLampManager.setColor(reds, greens, blues);
-					}
-					
-				}
-				
 			} else {
 				mLampManager.turnCommonOn();// 未选中普通灯开 色值白色
 				mColorPicker.setColor(getResources().getColor(R.color.white));
