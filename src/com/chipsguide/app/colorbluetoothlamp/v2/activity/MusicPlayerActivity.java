@@ -167,6 +167,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	private void initVolume() {
 		if(!blzDeviceProxy.isConnected()){
 			findViewById(R.id.volume_layout).setVisibility(View.INVISIBLE);
+			finish();
 			return;
 		}
 		findViewById(R.id.volume_layout).setVisibility(View.VISIBLE);
@@ -572,7 +573,7 @@ public class MusicPlayerActivity extends BaseActivity implements OnBluetoothDevi
 	}
 
 	@Override
-	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice arg0,
+	public void onBluetoothDeviceConnectionStateChanged(BluetoothDevice device,
 			int state) {
 		initVolume();
 	}

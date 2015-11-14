@@ -1042,6 +1042,7 @@ public class PlayerManager {
 				}
 				break;
 			case BluetoothDeviceCardMusicManager.PlayState.PAUSED:
+				//tf卡切换到linein，再拔卡，音箱会开启静音模式
 				if (mPlayListener != null) {
 					mPlayListener.onMusicStart(music.getPath());
 				}
