@@ -6,7 +6,7 @@
         android:top="2dp"
         >
         <shape >
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/color_blue"/>
             <size 
                 android:width="2dp"
                 android:height="13dp"/>
@@ -19,7 +19,7 @@
         android:top="4dp"
         >
         <shape >
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/color_blue"/>
             <size 
                 android:width="2dp"
                 android:height="11dp"/>
@@ -32,7 +32,7 @@
         android:left="8dp"
         >
         <shape >
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/color_blue"/>
             <size 
                 android:width="2dp"
                 android:height="6dp"/>
@@ -45,7 +45,7 @@
         android:left="12dp"
         >
         <shape >
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/color_blue"/>
             <size 
                 android:width="2dp"
                 android:height="8dp"/>

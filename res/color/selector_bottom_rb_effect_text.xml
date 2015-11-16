@@ -6,6 +6,6 @@
         />
     
     <item 
-        android:color="@color/color_c8"
+        android:color="#40ffffff"
         />
 </selector>

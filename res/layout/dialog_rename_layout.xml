@@ -21,6 +21,7 @@
 		    android:id="@+id/edittext_tag"
 		    android:layout_width="match_parent"
 		    android:layout_height="50dp"
+		    android:textColor="@color/white"
 		    android:maxLength="10"/>
         <ImageView 
             android:id="@+id/iamgeview_tag_btn"

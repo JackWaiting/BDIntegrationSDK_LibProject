@@ -76,9 +76,9 @@ public class MusicFrag extends BaseFragment implements OnPageChangeListener,
 		if (tf) {
 			fragments.add(new TFCardMusicFrag());
 		}
-		if (zh) {
+		/*if (zh) {
 			fragments.add(new CloudMusicFrag());
-		}
+		}*/
 
 		adapter = new MyPagerAdapter(getChildFragmentManager());
 		adapter.setList(fragments);

@@ -95,11 +95,11 @@
     </string-array>
     
     <string-array name="sleep_time">
-        <item >10min</item>
-        <item >20min</item>
-        <item >30min</item>
-        <item >60min</item>
-        <item >90min</item>
+        <item >10MINS</item>
+        <item >20MINS</item>
+        <item >30MINS</item>
+        <item >60MINS</item>
+        <item >90MINS</item>
     </string-array>
     
     <string-array name="colors">

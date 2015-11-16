@@ -42,8 +42,6 @@ public class MainActivity extends BaseActivity implements
 
 	private TextSwitcherTitleView titleView;//自定义字体
 	private PlayerManager playerManager;
-	
-	
 	@Override
 	public int getLayoutId() {
 		return R.layout.activity_main;

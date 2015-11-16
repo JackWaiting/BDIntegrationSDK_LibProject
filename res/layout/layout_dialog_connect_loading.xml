@@ -41,17 +41,15 @@
             android:id="@+id/textview_connect"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_weight="2"
-            android:gravity="center|right"
+            android:gravity="center"
             android:text=""
-            android:textColor="#767676" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textview_connect_anmin"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_weight="3"
-            android:gravity="center|left" />
+            android:gravity="center" />
     </LinearLayout>
 
 </RelativeLayout>

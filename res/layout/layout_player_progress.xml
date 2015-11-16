@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:padding="25dp"
-            seekarc:arcColor="@color/color_dark_gray"
+            seekarc:arcColor="#70000000"
             seekarc:arcWidth="3dp"
             seekarc:clockwise="true"
             seekarc:max="1000"

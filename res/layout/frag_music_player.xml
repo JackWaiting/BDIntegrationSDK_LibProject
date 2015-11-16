@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/pageIndicator"
         android:gravity="center_horizontal"
+        android:textColor="@color/white"
         android:text="00:00/00:00" />
 
     <com.chipsguide.app.colorbluetoothlamp.v2.brunton.widget.CirclePageIndicator
@@ -28,7 +29,7 @@
         android:padding="5dp"
         android:visibility="invisible"
         app:fillColor="@color/color_blue"
-        app:pageColor="@color/color_dark_gray" />
+        app:pageColor="#30000000" />
 
     <RelativeLayout
         android:id="@+id/info_layout"
@@ -80,7 +81,8 @@
                 android:drawablePadding="5dp"
                 android:padding="5dp"
                 android:text="@string/music_rhythm"
-                android:textColor="@color/selector_music_rhythm_cb_text" />
+                android:textSize="10sp"
+                android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>
 

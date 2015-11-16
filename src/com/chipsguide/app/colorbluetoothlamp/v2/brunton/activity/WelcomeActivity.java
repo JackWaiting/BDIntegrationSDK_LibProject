@@ -13,6 +13,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class WelcomeActivity extends Activity {
 	private PreferenceUtil preference;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,11 +41,7 @@ public class WelcomeActivity extends Activity {
 			@Override
 			public void run() {
 				Intent intent = new Intent();
-				if(preference.isFirstLaunch()){
-					intent.setClass(WelcomeActivity.this, IntroductoryActivity.class);
-				}else{
-					intent.setClass(WelcomeActivity.this, MainActivity.class);
-				}
+				intent.setClass(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}

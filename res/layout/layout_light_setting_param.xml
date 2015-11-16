@@ -32,7 +32,7 @@
             android:layout_toRightOf="@+id/text_repeat"
             android:gravity="center"
             android:orientation="horizontal"
-            android:textColor="@color/white" >
+            android:textColor="@color/repeat_days" >
         </LinearLayout>
     </RelativeLayout>
 
