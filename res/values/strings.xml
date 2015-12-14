@@ -13,7 +13,7 @@
     <string name="color_lamp">LIGHT</string>
     <string name="shake">SHAKE</string>
     <string name="music">SOUND</string>
-    <string name="shake_setting">Settings</string>
+    <string name="shake_setting">SETTINGS</string>
     <string name="my_music">Local Music</string>
     <string name="tf_card_music">TF Music</string>
     <string name="cloud_music">Cloud Music</string>
@@ -34,7 +34,7 @@
     <string name="voice_result">Sings</string>
     <string name="shake_default">Default</string>
     <string name="other_options">Other</string>
-    <string name="random_color">Random Colors</string>
+    <string name="random_color">Random Color</string>
     <string name="toggle_light">On/Off Light</string>
     <string name="play_pause">Play/Stop</string>
     <string name="next_song">Next Song</string>
@@ -64,7 +64,7 @@
     <string name="confirmation_cancel">Cancel</string>
     <string name="check_new_version">Checking for new version……</string>
     <string name="no_newversion">No new version!</string>
-    <string name="light_setting">Light-timer Setting</string>
+    <string name="light_setting">ALARM SETTINGS</string>
     <string name="repeate">Repeat</string>
     <string name="light">Light</string>
     <string name="delete">Delete</string>
@@ -91,7 +91,7 @@
     <string name="connect_toast">More functions will be available after activating light control</string>
     <string name="discon_connect">Do you want to disconnect？</string>
     <string name="bluetooth_discon_hint">The operation will disconnect with the remote device.</string>
-    <string name="sleep_countdown">Counting-down&#8230;</string>
+    <string name="sleep_countdown">Sleep Timer</string>
     <string name="bluetooth_disconnect">Bluetooth disconnected</string>
     
     <string name="buffering">Buffering&#8230;</string>

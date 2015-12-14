@@ -166,7 +166,8 @@ public class ColorLampFrag extends BaseFragment implements
 			mLampManager.setColor(getResources().getColor(R.color.color_b));
 			break;
 		case R.id.color_y:
-			mLampManager.setColor(getResources().getColor(R.color.color_y));
+			//getResources().getColor(R.color.color_y)
+			mLampManager.setColor(Color.rgb(255, 123, 2));
 			break;
 		}
 	}
